@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: short-drama-research
+    runtime: python
+    plan: free
+    buildCommand: python -m compileall app.py
+    startCommand: python app.py --host 0.0.0.0 --no-open
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.15
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
