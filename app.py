@@ -22,6 +22,7 @@ DB_PATH = DATA_DIR / "short_drama.sqlite3"
 BASE_DATA = json.loads((ROOT / "data.json").read_text(encoding="utf-8"))
 INDEX_HTML = (ROOT / "index.html").read_text(encoding="utf-8")
 REVIEW_HTML = (ROOT / "review.html").read_text(encoding="utf-8")
+COLLECT_HTML = (ROOT / "collect.html").read_text(encoding="utf-8")
 PLATFORM_ORDER = ["NetShort", "DramaWave", "MoboReels", "ReelShort"]
 EDITABLE_FIELDS = {
     "genre", "lane", "audience", "storyCore", "storySkin", "conflict",
@@ -200,6 +201,11 @@ class Handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path == "/":
             self.send_bytes(INDEX_HTML.encode("utf-8"), "text/html; charset=utf-8")
+                    elif path in ("/collect", "/collect.html"):
+            self.send_bytes(
+                COLLECT_HTML.encode("utf-8"),
+                "text/html; charset=utf-8"
+            )
         elif path == "/review":
             if not self.authorized():
                 return
