@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>短剧榜单采集中心</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f6f2;
+    color: #173c3c;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        sans-serif;
+}
+
+.wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 18px 60px;
+}
+
+.back {
+    text-decoration: none;
+    color: #46625e;
+    font-size: 15px;
+}
+
+h1 {
+    margin: 24px 0 6px;
+    font-size: 30px;
+}
+
+.sub {
+    color: #71807b;
+    margin-bottom: 26px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #dfe4dd;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-weight: 650;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border: 1px solid #d7ddd7;
+    border-radius: 10px;
+    background: white;
+}
+
+button {
+    width: 100%;
+    margin-top: 24px;
+    padding: 15px;
+    border: 0;
+    border-radius: 10px;
+    background: #163f3c;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.tip {
+    background: #f2f5f0;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 10px;
+    color: #65746f;
+    line-height: 1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<a href="/" class="back">← 返回今日榜单</a>
+
+<h1>📥 今日榜单采集</h1>
+
+<div class="sub">
+直接从手机相册上传各短剧平台 Ranking 截图。
+</div>
+
+<div class="card">
+
+<label>采集日期</label>
+
+<input id="date" type="date">
+
+
+<label>平台</label>
+
+<select id="platform">
+    <option>ReelShort</option>
+    <option>DramaWave</option>
+    <option>MoboReels</option>
+    <option>NetShort</option>
+</select>
+
+
+<label>榜单截图</label>
+
+<input
+    type="file"
+    accept="image/*"
+    multiple
+>
+
+
+<button type="button">
+    上传并识别
+</button>
+
+
+<div class="tip">
+当前为 V1.1 采集入口测试版。<br>
+下一步接入图片上传、OCR识别和确认入库。
+</div>
+
+</div>
+</div>
+
+<script>
+const today = new Date();
+
+document.getElementById("date").value =
+    today.getFullYear() + "-" +
+    String(today.getMonth() + 1).padStart(2, "0") + "-" +
+    String(today.getDate()).padStart(2, "0");
+</script>
+
+</body>
+</html>
