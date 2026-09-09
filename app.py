@@ -21,6 +21,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 from analysis_pipeline import analyze_batch, configured as analysis_configured, model_name as analysis_model_name
+from live_observations import merge_analysis_records, build_live_summary
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -228,7 +229,10 @@ def public_data():
     records=[]
     for base in BASE_DATA['records']:
         r=dict(base); r.update(overrides.get(r.get('id'),{})); r['laneTerms']=split_lane(r.get('lane')); records.append(r)
-    return {'records':records,'summary':build_summary(records)}
+    # Fact publication is independent from deep research: every latest complete
+    # screenshot analysis becomes a live ranking observation immediately.
+    records=merge_analysis_records(records, connect, normalize_title, split_lane)
+    return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
 
 
 def known_titles():
