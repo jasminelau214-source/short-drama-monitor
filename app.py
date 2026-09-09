@@ -19,6 +19,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
+from analysis_pipeline import analyze_batch, configured as analysis_configured, model_name as analysis_model_name
+
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -27,6 +29,8 @@ UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 DB_PATH = DATA_DIR / 'short_drama.sqlite3'
 PLATFORM_ORDER = ['NetShort','DramaWave','MoboReels','ReelShort']
 EDITABLE_FIELDS = {'synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff','openingSummary','openingType','payEpisode','paywallSummary','paywallType','localizationLevel','localizationJudgment','mismatch'}
+ANALYSIS_TIMERS: dict[str, threading.Timer] = {}
+ANALYSIS_TIMER_LOCK = threading.Lock()
 
 
 def clean(value, limit=6000):
@@ -38,6 +42,10 @@ def split_lane(value):
     for sep in ['/', '、', ',', '，', ';', '；', '|']:
         s = s.replace(sep, '\n')
     return [x.strip() for x in s.splitlines() if x.strip()]
+
+
+def normalize_title(value):
+    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
 
 
 def load_base_data():
@@ -108,6 +116,11 @@ def connect():
       filename TEXT NOT NULL, mime_type TEXT NOT NULL, storage_path TEXT NOT NULL,
       sha256 TEXT NOT NULL, status TEXT NOT NULL, created_at TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS analysis_runs(
+      id TEXT PRIMARY KEY, collection_date TEXT NOT NULL, platform TEXT NOT NULL,
+      upload_ids_json TEXT NOT NULL, status TEXT NOT NULL, result_json TEXT NOT NULL,
+      error TEXT NOT NULL, model TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+    );
     ''')
     c.commit()
     return c
@@ -158,6 +171,55 @@ def public_data():
     return {'records':records,'summary':build_summary(records)}
 
 
+def known_titles():
+    return sorted({clean(r.get('title'), 500) for r in public_data()['records'] if clean(r.get('title'), 500)})
+
+
+def run_analysis_batch(collection_date, platform):
+    now=datetime.now(timezone.utc).isoformat(); run_id=uuid.uuid4().hex
+    with connect() as c:
+        rows=c.execute('SELECT * FROM collection_uploads WHERE collection_date=? AND platform=? ORDER BY created_at ASC',(collection_date,platform)).fetchall()
+        rows=[r for r in rows if Path(r['storage_path']).is_file()]
+        if not rows:
+            print(f'[analysis] no readable uploads for {collection_date} {platform}')
+            return
+        upload_ids=[r['id'] for r in rows]
+        c.execute('INSERT INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),'分析中','{}','',analysis_model_name(),now,now))
+        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[('分析中',x) for x in upload_ids]); c.commit()
+    try:
+        result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=[dict(r) for r in rows],known_titles=known_titles())
+        existing={normalize_title(t):t for t in known_titles()}
+        for item in result.get('rows') or []:
+            norm=normalize_title(item.get('title'))
+            if norm and norm in existing:
+                item['newness']='old'; item['matchedExistingTitle']=existing[norm]
+        status='已分析'; error=''
+    except Exception as exc:
+        result={}; status='分析失败'; error=clean(exc,4000)
+        print(f'[analysis] failed {collection_date} {platform}: {error}')
+    updated=datetime.now(timezone.utc).isoformat()
+    with connect() as c:
+        c.execute('UPDATE analysis_runs SET status=?,result_json=?,error=?,updated_at=? WHERE id=?',(status,json.dumps(result,ensure_ascii=False),error,updated,run_id))
+        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[(status,x) for x in upload_ids]); c.commit()
+    print(f'[analysis] {status} {collection_date} {platform} run={run_id}')
+
+
+def schedule_analysis(collection_date, platform, delay=8):
+    key=f'{collection_date}|{platform}'
+    if not analysis_configured():
+        with connect() as c:
+            c.execute("UPDATE collection_uploads SET status='待配置分析API' WHERE collection_date=? AND platform=? AND status='待分析'",(collection_date,platform)); c.commit()
+        return False
+    def fire():
+        with ANALYSIS_TIMER_LOCK: ANALYSIS_TIMERS.pop(key,None)
+        run_analysis_batch(collection_date,platform)
+    with ANALYSIS_TIMER_LOCK:
+        old=ANALYSIS_TIMERS.pop(key,None)
+        if old: old.cancel()
+        timer=threading.Timer(delay,fire); timer.daemon=True; ANALYSIS_TIMERS[key]=timer; timer.start()
+    return True
+
+
 def render_index_html():
     data=public_data()
     payload=json.dumps(data,ensure_ascii=False,separators=(',',':')).replace('</script>','<\\/script>')
@@ -172,7 +234,7 @@ def render_index_html():
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version='ShortDramaResearch/1.2.1'
+    server_version='ShortDramaResearch/1.3-dev'
     def send_bytes(self,body,content_type,status=200,headers=None):
         self.send_response(status); self.send_header('Content-Type',content_type); self.send_header('Content-Length',str(len(body))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff')
         for k,v in (headers or {}).items(): self.send_header(k,v)
@@ -199,6 +261,13 @@ class Handler(BaseHTTPRequestHandler):
         return f"/analysis/uploads/{row['id']}?exp={exp}&sig={sig}"
     def upload_payload(self,row):
         d=dict(row); path=Path(d.get('storage_path') or ''); d['available']=path.is_file(); d['analysisUrl']=self.analysis_link(d) if d['available'] else ''; d.pop('storage_path',None); d.pop('sha256',None); d.pop('mime_type',None); return d
+    def analysis_run_payload(self,row):
+        d=dict(row)
+        try:d['result']=json.loads(d.pop('result_json') or '{}')
+        except json.JSONDecodeError:d['result']={}; d.pop('result_json',None)
+        try:d['uploadIds']=json.loads(d.pop('upload_ids_json') or '[]')
+        except json.JSONDecodeError:d['uploadIds']=[]; d.pop('upload_ids_json',None)
+        return d
     def serve_analysis_upload(self,upload_id,query):
         if not re.fullmatch(r'[0-9a-f]{32}',upload_id): self.send_json({'error':'无效的分析链接'},400); return
         try: exp=int((query.get('exp') or ['0'])[0]); sig=(query.get('sig') or [''])[0]
@@ -226,16 +295,30 @@ class Handler(BaseHTTPRequestHandler):
         elif path=='/api/admin/uploads':
             if self.authorized():
                 with connect() as c: rows=c.execute('SELECT * FROM collection_uploads ORDER BY created_at DESC LIMIT 100').fetchall()
-                self.send_json({'uploads':[self.upload_payload(r) for r in rows]})
+                self.send_json({'uploads':[self.upload_payload(r) for r in rows],'analysisConfigured':analysis_configured()})
+        elif path=='/api/admin/analysis-runs':
+            if self.authorized():
+                with connect() as c: rows=c.execute('SELECT * FROM analysis_runs ORDER BY created_at DESC LIMIT 30').fetchall()
+                self.send_json({'runs':[self.analysis_run_payload(r) for r in rows],'analysisConfigured':analysis_configured(),'model':analysis_model_name()})
         elif path.startswith('/analysis/uploads/'): self.serve_analysis_upload(path.rsplit('/',1)[-1],parse_qs(parsed.query))
         elif path=='/health':
             d=public_data()
             with connect() as c:
-                upload_count=c.execute('SELECT COUNT(*) FROM collection_uploads').fetchone()[0]; available_count=sum(1 for r in c.execute('SELECT storage_path FROM collection_uploads').fetchall() if Path(r['storage_path']).is_file())
-            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'version':'1.2.1-beta'})
+                upload_count=c.execute('SELECT COUNT(*) FROM collection_uploads').fetchone()[0]; available_count=sum(1 for r in c.execute('SELECT storage_path FROM collection_uploads').fetchall() if Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
+            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'version':'1.3-dev'})
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
+        if path=='/api/admin/analyze':
+            if not self.authorized(): return
+            try:
+                p=self.read_json(50_000); platform=clean(p.get('platform'),40); date=clean(p.get('date'),20)
+                if platform not in PLATFORM_ORDER: raise ValueError('平台不正确')
+                if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',date): raise ValueError('采集日期不正确')
+                if not analysis_configured(): self.send_json({'error':'OPENAI_API_KEY_NOT_CONFIGURED'},503); return
+                schedule_analysis(date,platform,delay=0.2); self.send_json({'scheduled':True,'date':date,'platform':platform,'model':analysis_model_name()},202)
+            except (ValueError,json.JSONDecodeError) as e:self.send_json({'error':str(e)},400)
+            return
         if path!='/api/admin/uploads': self.send_json({'error':'页面不存在'},404); return
         if not self.authorized(): return
         try:
@@ -248,7 +331,9 @@ class Handler(BaseHTTPRequestHandler):
             uid=uuid.uuid4().hex; ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[mime]; target=UPLOAD_DIR/f'{date}_{platform.lower()}_{uid}{ext}'; target.write_bytes(raw); now=datetime.now(timezone.utc).isoformat(); sha=hashlib.sha256(raw).hexdigest()
             with connect() as c:
                 c.execute('INSERT INTO collection_uploads VALUES(?,?,?,?,?,?,?,?,?)',(uid,date,platform,filename,mime,str(target),sha,'待分析',now)); c.commit(); row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(uid,)).fetchone()
-            payload=self.upload_payload(row); self.send_json({'uploaded':True,'id':uid,'status':'待分析','analysisUrl':payload.get('analysisUrl'),'note':'截图已保存，可通过采集中心复制24小时分析链接。'},201)
+            scheduled=schedule_analysis(date,platform); payload=self.upload_payload(row)
+            note='截图已保存；系统将在最后一张上传约8秒后自动合并同日同平台截图进行分析。' if scheduled else '截图已保存；自动分析尚未配置 OPENAI_API_KEY。'
+            self.send_json({'uploaded':True,'id':uid,'status':'待分析' if scheduled else '待配置分析API','analysisUrl':payload.get('analysisUrl'),'autoAnalysisScheduled':scheduled,'note':note},201)
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
     def do_PUT(self):
         path=urlparse(self.path).path; prefix='/api/reviews/'
@@ -265,7 +350,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.2.1 Beta：'+url)
+    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.3 Dev：'+url); print(f'自动分析配置：{analysis_configured()} model={analysis_model_name()}')
     if not args.no_open: threading.Timer(.5,lambda:webbrowser.open(url)).start()
     try: server.serve_forever()
     except KeyboardInterrupt: pass
