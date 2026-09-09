@@ -11,6 +11,7 @@ import re
 import sqlite3
 import threading
 import time
+import urllib.request
 import uuid
 import webbrowser
 from collections import Counter
@@ -20,6 +21,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, unquote, urlparse
 
 from analysis_pipeline import analyze_batch, configured as analysis_configured, model_name as analysis_model_name
+import persistence
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
@@ -126,6 +128,64 @@ def connect():
     return c
 
 
+def sync_persistent_cache():
+    if not persistence.configured():
+        print('[persistence] not configured; local cache only')
+        return
+    try:
+        uploads = persistence.list_uploads(500)
+        runs = persistence.list_analysis_runs(200)
+        overrides = persistence.list_overrides()
+        with connect() as c:
+            for row in uploads:
+                c.execute(
+                    '''INSERT OR REPLACE INTO collection_uploads
+                       (id,collection_date,platform,filename,mime_type,storage_path,sha256,status,created_at)
+                       VALUES(?,?,?,?,?,?,?,?,?)''',
+                    (
+                        row.get('id',''), row.get('collection_date',''), row.get('platform',''), row.get('filename',''),
+                        row.get('mime_type',''), 'supabase:' + str(row.get('storage_path','')), row.get('sha256',''),
+                        row.get('status','待分析'), row.get('created_at',''),
+                    ),
+                )
+            for row in runs:
+                c.execute(
+                    '''INSERT OR REPLACE INTO analysis_runs
+                       (id,collection_date,platform,upload_ids_json,status,result_json,error,model,created_at,updated_at)
+                       VALUES(?,?,?,?,?,?,?,?,?,?)''',
+                    (
+                        row.get('id',''), row.get('collection_date',''), row.get('platform',''),
+                        json.dumps(row.get('upload_ids') or []), row.get('status',''),
+                        json.dumps(row.get('result_json') or {}, ensure_ascii=False), row.get('error',''),
+                        row.get('model',''), row.get('created_at',''), row.get('updated_at',''),
+                    ),
+                )
+            for row in overrides:
+                c.execute(
+                    'INSERT OR REPLACE INTO drama_overrides(drama_id,fields_json,updated_at) VALUES(?,?,?)',
+                    (row.get('drama_id',''), json.dumps(row.get('fields_json') or {}, ensure_ascii=False), row.get('updated_at','')),
+                )
+            c.commit()
+        print(f'[persistence] synced uploads={len(uploads)} runs={len(runs)} overrides={len(overrides)}')
+    except Exception as exc:
+        print(f'[persistence] sync failed: {exc}')
+
+
+def materialize_persistent_batch(collection_date, platform):
+    rows = persistence.get_batch(collection_date, platform)
+    out=[]
+    for row in rows:
+        signed=row.get('signed_url') or ''
+        if not signed:
+            continue
+        ext={'image/png':'.png','image/webp':'.webp','image/jpeg':'.jpg'}.get(row.get('mime_type'),'.jpg')
+        target=UPLOAD_DIR/f"remote_{row.get('id')}{ext}"
+        with urllib.request.urlopen(signed, timeout=120) as resp:
+            target.write_bytes(resp.read())
+        d=dict(row); d['storage_path']=str(target); out.append(d)
+    return out
+
+
 def count_by(records, field):
     counts = Counter(clean(r.get(field)) for r in records)
     counts.pop('', None); counts.pop('未采集', None)
@@ -177,17 +237,24 @@ def known_titles():
 
 def run_analysis_batch(collection_date, platform):
     now=datetime.now(timezone.utc).isoformat(); run_id=uuid.uuid4().hex
+    if persistence.configured():
+        rows=materialize_persistent_batch(collection_date, platform)
+    else:
+        with connect() as c:
+            local=c.execute('SELECT * FROM collection_uploads WHERE collection_date=? AND platform=? ORDER BY created_at ASC',(collection_date,platform)).fetchall()
+            rows=[dict(r) for r in local if Path(r['storage_path']).is_file()]
+    if not rows:
+        print(f'[analysis] no readable uploads for {collection_date} {platform}')
+        return
+    upload_ids=[r['id'] for r in rows]
     with connect() as c:
-        rows=c.execute('SELECT * FROM collection_uploads WHERE collection_date=? AND platform=? ORDER BY created_at ASC',(collection_date,platform)).fetchall()
-        rows=[r for r in rows if Path(r['storage_path']).is_file()]
-        if not rows:
-            print(f'[analysis] no readable uploads for {collection_date} {platform}')
-            return
-        upload_ids=[r['id'] for r in rows]
-        c.execute('INSERT INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),'分析中','{}','',analysis_model_name(),now,now))
+        c.execute('INSERT OR REPLACE INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),'分析中','{}','',analysis_model_name(),now,now))
         c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[('分析中',x) for x in upload_ids]); c.commit()
+    if persistence.configured():
+        persistence.update_upload_status(upload_ids,'分析中')
+        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status='分析中',result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
     try:
-        result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=[dict(r) for r in rows],known_titles=known_titles())
+        result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=rows,known_titles=known_titles())
         existing={normalize_title(t):t for t in known_titles()}
         for item in result.get('rows') or []:
             norm=normalize_title(item.get('title'))
@@ -202,6 +269,9 @@ def run_analysis_batch(collection_date, platform):
     with connect() as c:
         c.execute('UPDATE analysis_runs SET status=?,result_json=?,error=?,updated_at=? WHERE id=?',(status,json.dumps(result,ensure_ascii=False),error,updated,run_id))
         c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[(status,x) for x in upload_ids]); c.commit()
+    if persistence.configured():
+        persistence.update_upload_status(upload_ids,status)
+        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=status,result=result,error=error,model=analysis_model_name(),created_at=now,updated_at=updated)
     print(f'[analysis] {status} {collection_date} {platform} run={run_id}')
 
 
@@ -235,7 +305,7 @@ def render_index_html():
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version='ShortDramaMonitor/1.3-dev'
+    server_version='ShortDramaMonitor/1.3-persistent'
     def send_bytes(self,body,content_type,status=200,headers=None):
         self.send_response(status); self.send_header('Content-Type',content_type); self.send_header('Content-Length',str(len(body))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff')
         for k,v in (headers or {}).items(): self.send_header(k,v)
@@ -256,12 +326,18 @@ class Handler(BaseHTTPRequestHandler):
         if n<=0 or n>limit: raise ValueError('提交内容大小不正确')
         return json.loads(self.rfile.read(n).decode())
     def analysis_link(self,row,ttl=86400):
+        storage=str(row['storage_path'] or '')
+        if storage.startswith('supabase:'): return ''
         secret=os.environ.get('ADMIN_PASSWORD','').strip()
         if not secret:return ''
         exp=int(time.time())+ttl; msg=f"{row['id']}|{row['sha256']}|{exp}".encode(); sig=hmac.new(secret.encode(),msg,hashlib.sha256).hexdigest()
         return f"/analysis/uploads/{row['id']}?exp={exp}&sig={sig}"
     def upload_payload(self,row):
-        d=dict(row); path=Path(d.get('storage_path') or ''); d['available']=path.is_file(); d['analysisUrl']=self.analysis_link(d) if d['available'] else ''; d.pop('storage_path',None); d.pop('sha256',None); d.pop('mime_type',None); return d
+        d=dict(row); storage=str(d.get('storage_path') or '')
+        d['available']=storage.startswith('supabase:') or Path(storage).is_file()
+        d['analysisUrl']=self.analysis_link(d) if d['available'] else ''
+        d['persistent']=storage.startswith('supabase:') or persistence.configured()
+        d.pop('storage_path',None); d.pop('sha256',None); d.pop('mime_type',None); return d
     def analysis_run_payload(self,row):
         d=dict(row)
         try:d['result']=json.loads(d.pop('result_json') or '{}')
@@ -276,6 +352,8 @@ class Handler(BaseHTTPRequestHandler):
         if exp<int(time.time()): self.send_json({'error':'分析链接已过期，请在采集中心重新复制'},410); return
         with connect() as c: row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(upload_id,)).fetchone()
         if not row: self.send_json({'error':'截图记录不存在'},404); return
+        if str(row['storage_path'] or '').startswith('supabase:'):
+            self.send_json({'error':'持久化截图请由后台分析引擎读取','status':'persistent-storage'},409); return
         secret=os.environ.get('ADMIN_PASSWORD','').strip()
         if not secret: self.send_json({'error':'管理员入口尚未配置密码'},503); return
         expected=hmac.new(secret.encode(),f"{row['id']}|{row['sha256']}|{exp}".encode(),hashlib.sha256).hexdigest()
@@ -296,17 +374,17 @@ class Handler(BaseHTTPRequestHandler):
         elif path=='/api/admin/uploads':
             if self.authorized():
                 with connect() as c: rows=c.execute('SELECT * FROM collection_uploads ORDER BY created_at DESC LIMIT 100').fetchall()
-                self.send_json({'uploads':[self.upload_payload(r) for r in rows],'analysisConfigured':analysis_configured()})
+                self.send_json({'uploads':[self.upload_payload(r) for r in rows],'analysisConfigured':analysis_configured(),'persistenceConfigured':persistence.configured()})
         elif path=='/api/admin/analysis-runs':
             if self.authorized():
                 with connect() as c: rows=c.execute('SELECT * FROM analysis_runs ORDER BY created_at DESC LIMIT 30').fetchall()
-                self.send_json({'runs':[self.analysis_run_payload(r) for r in rows],'analysisConfigured':analysis_configured(),'model':analysis_model_name()})
+                self.send_json({'runs':[self.analysis_run_payload(r) for r in rows],'analysisConfigured':analysis_configured(),'model':analysis_model_name(),'persistenceConfigured':persistence.configured()})
         elif path.startswith('/analysis/uploads/'): self.serve_analysis_upload(path.rsplit('/',1)[-1],parse_qs(parsed.query))
         elif path=='/health':
             d=public_data()
             with connect() as c:
-                upload_count=c.execute('SELECT COUNT(*) FROM collection_uploads').fetchone()[0]; available_count=sum(1 for r in c.execute('SELECT storage_path FROM collection_uploads').fetchall() if Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
-            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'version':'1.3-dev'})
+                upload_rows=c.execute('SELECT storage_path FROM collection_uploads').fetchall(); upload_count=len(upload_rows); available_count=sum(1 for r in upload_rows if str(r['storage_path']).startswith('supabase:') or Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
+            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'version':'1.3-persistent'})
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
@@ -317,7 +395,7 @@ class Handler(BaseHTTPRequestHandler):
                 if platform not in PLATFORM_ORDER: raise ValueError('平台不正确')
                 if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',date): raise ValueError('采集日期不正确')
                 if not analysis_configured(): self.send_json({'error':'GEMINI_API_KEY_NOT_CONFIGURED'},503); return
-                schedule_analysis(date,platform,delay=0.2); self.send_json({'scheduled':True,'date':date,'platform':platform,'model':analysis_model_name()},202)
+                schedule_analysis(date,platform,delay=0.2); self.send_json({'scheduled':True,'date':date,'platform':platform,'model':analysis_model_name(),'persistent':persistence.configured()},202)
             except (ValueError,json.JSONDecodeError) as e:self.send_json({'error':str(e)},400)
             return
         if path!='/api/admin/uploads': self.send_json({'error':'页面不存在'},404); return
@@ -332,10 +410,13 @@ class Handler(BaseHTTPRequestHandler):
             uid=uuid.uuid4().hex; ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[mime]; target=UPLOAD_DIR/f'{date}_{platform.lower()}_{uid}{ext}'; target.write_bytes(raw); now=datetime.now(timezone.utc).isoformat(); sha=hashlib.sha256(raw).hexdigest()
             with connect() as c:
                 c.execute('INSERT INTO collection_uploads VALUES(?,?,?,?,?,?,?,?,?)',(uid,date,platform,filename,mime,str(target),sha,'待分析',now)); c.commit(); row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(uid,)).fetchone()
+            if persistence.configured():
+                persistence.persist_upload(upload_id=uid,collection_date=date,platform=platform,filename=filename,mime_type=mime,raw=raw,sha256=sha,status='待分析',created_at=now)
             scheduled=schedule_analysis(date,platform); payload=self.upload_payload(row)
-            note='截图已保存；系统将在最后一张上传约8秒后自动合并同日同平台截图进行分析。' if scheduled else '截图已保存；自动分析尚未配置 GEMINI_API_KEY。'
-            self.send_json({'uploaded':True,'id':uid,'status':'待分析' if scheduled else '待配置分析API','analysisUrl':payload.get('analysisUrl'),'autoAnalysisScheduled':scheduled,'note':note},201)
+            note='截图已保存到持久化存储；系统将在最后一张上传约8秒后自动合并同日同平台截图进行分析。' if scheduled and persistence.configured() else ('截图已保存；系统将在最后一张上传约8秒后自动分析。' if scheduled else '截图已保存；自动分析尚未配置 GEMINI_API_KEY。')
+            self.send_json({'uploaded':True,'id':uid,'status':'待分析' if scheduled else '待配置分析API','analysisUrl':payload.get('analysisUrl'),'autoAnalysisScheduled':scheduled,'persistent':persistence.configured(),'note':note},201)
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
+        except Exception as e: self.send_json({'error':'持久化存储失败：'+clean(e,2000)},502)
     def do_PUT(self):
         path=urlparse(self.path).path; prefix='/api/reviews/'
         if not path.startswith(prefix): self.send_json({'error':'页面不存在'},404); return
@@ -345,13 +426,15 @@ class Handler(BaseHTTPRequestHandler):
             if not fields: raise ValueError('没有可保存的字段')
             with connect() as c:
                 old=c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone(); merged=json.loads(old['fields_json']) if old else {}; merged.update(fields); now=datetime.now(timezone.utc).isoformat(); c.execute('INSERT INTO drama_overrides VALUES(?,?,?) ON CONFLICT(drama_id) DO UPDATE SET fields_json=excluded.fields_json,updated_at=excluded.updated_at',(drama_id,json.dumps(merged,ensure_ascii=False),now)); c.commit()
-            self.send_json({'saved':True,'dramaId':drama_id,'fields':fields,'updatedAt':now})
+            if persistence.configured(): persistence.save_override(drama_id, merged)
+            self.send_json({'saved':True,'dramaId':drama_id,'fields':fields,'updatedAt':now,'persistent':persistence.configured()})
         except (ValueError,json.JSONDecodeError) as e: self.send_json({'error':str(e)},400)
-    def log_message(self,fmt,*args): print('[%s] %s'%(self.log_date_time_string(),fmt%args))
+        except Exception as e:self.send_json({'error':'持久化保存失败：'+clean(e,2000)},502)
+    def log_message(self,fmt,*args): print('[%s] %s'%(self.log_date_time_string(),fmt%args), flush=True)
 
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.3 Dev：'+url); print(f'自动分析配置：{analysis_configured()} model={analysis_model_name()}')
+    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); sync_persistent_cache(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.3 Persistent：'+url, flush=True); print(f'自动分析配置：{analysis_configured()} model={analysis_model_name()} persistence={persistence.configured()}', flush=True)
     if not args.no_open: threading.Timer(.5,lambda:webbrowser.open(url)).start()
     try: server.serve_forever()
     except KeyboardInterrupt: pass
