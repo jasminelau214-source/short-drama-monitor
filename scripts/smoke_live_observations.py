@@ -1,9 +1,11 @@
 import json
 import re
 import sqlite3
+import sys
 import tempfile
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from live_observations import merge_analysis_records, build_live_summary
 
 
