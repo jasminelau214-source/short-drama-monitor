@@ -91,3 +91,24 @@ def save_override(drama_id: str, fields: dict):
 
 def list_overrides():
     return (_call('list_overrides').get('rows') or [])
+
+
+def list_research_tasks(*, limit: int = 100, statuses: list[str] | None = None):
+    return (_call('list_research_tasks', limit=limit, statuses=statuses or []).get('rows') or [])
+
+
+def claim_research_tasks(limit: int = 1):
+    return (_call('claim_research_tasks', limit=max(1, min(int(limit), 10))).get('rows') or [])
+
+
+def update_research_task(task_id: str, *, status: str, research: dict | None = None, sources: list | None = None, confidence: str = '', missing_fields: list[str] | None = None, error: str = ''):
+    return _call(
+        'update_research_task',
+        id=task_id,
+        status=status,
+        research=research or {},
+        sources=sources or [],
+        confidence=confidence,
+        missingFields=missing_fields or [],
+        error=error,
+    )
