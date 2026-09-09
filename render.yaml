@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: short-drama-research
+    name: short-drama-monitor
     runtime: python
     plan: free
     buildCommand: python -m compileall app.py
