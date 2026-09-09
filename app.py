@@ -193,7 +193,8 @@ def run_analysis_batch(collection_date, platform):
             norm=normalize_title(item.get('title'))
             if norm and norm in existing:
                 item['newness']='old'; item['matchedExistingTitle']=existing[norm]
-        status='已分析'; error=''
+        needs_research=any((x.get('newness') in {'new','uncertain'} or x.get('pendingChecks')) for x in (result.get('rows') or []))
+        status='已识别-待深研' if needs_research else '已分析'; error=''
     except Exception as exc:
         result={}; status='分析失败'; error=clean(exc,4000)
         print(f'[analysis] failed {collection_date} {platform}: {error}')
@@ -234,7 +235,7 @@ def render_index_html():
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version='ShortDramaResearch/1.3-dev'
+    server_version='ShortDramaMonitor/1.3-dev'
     def send_bytes(self,body,content_type,status=200,headers=None):
         self.send_response(status); self.send_header('Content-Type',content_type); self.send_header('Content-Length',str(len(body))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff')
         for k,v in (headers or {}).items(): self.send_header(k,v)
@@ -315,7 +316,7 @@ class Handler(BaseHTTPRequestHandler):
                 p=self.read_json(50_000); platform=clean(p.get('platform'),40); date=clean(p.get('date'),20)
                 if platform not in PLATFORM_ORDER: raise ValueError('平台不正确')
                 if not re.fullmatch(r'\d{4}-\d{2}-\d{2}',date): raise ValueError('采集日期不正确')
-                if not analysis_configured(): self.send_json({'error':'OPENAI_API_KEY_NOT_CONFIGURED'},503); return
+                if not analysis_configured(): self.send_json({'error':'GEMINI_API_KEY_NOT_CONFIGURED'},503); return
                 schedule_analysis(date,platform,delay=0.2); self.send_json({'scheduled':True,'date':date,'platform':platform,'model':analysis_model_name()},202)
             except (ValueError,json.JSONDecodeError) as e:self.send_json({'error':str(e)},400)
             return
@@ -332,7 +333,7 @@ class Handler(BaseHTTPRequestHandler):
             with connect() as c:
                 c.execute('INSERT INTO collection_uploads VALUES(?,?,?,?,?,?,?,?,?)',(uid,date,platform,filename,mime,str(target),sha,'待分析',now)); c.commit(); row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(uid,)).fetchone()
             scheduled=schedule_analysis(date,platform); payload=self.upload_payload(row)
-            note='截图已保存；系统将在最后一张上传约8秒后自动合并同日同平台截图进行分析。' if scheduled else '截图已保存；自动分析尚未配置 OPENAI_API_KEY。'
+            note='截图已保存；系统将在最后一张上传约8秒后自动合并同日同平台截图进行分析。' if scheduled else '截图已保存；自动分析尚未配置 GEMINI_API_KEY。'
             self.send_json({'uploaded':True,'id':uid,'status':'待分析' if scheduled else '待配置分析API','analysisUrl':payload.get('analysisUrl'),'autoAnalysisScheduled':scheduled,'note':note},201)
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
     def do_PUT(self):
