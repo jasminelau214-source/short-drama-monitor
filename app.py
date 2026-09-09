@@ -10,13 +10,14 @@ import os
 import re
 import sqlite3
 import threading
+import time
 import uuid
 import webbrowser
 from collections import Counter
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
@@ -171,7 +172,7 @@ def render_index_html():
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version='ShortDramaResearch/1.2'
+    server_version='ShortDramaResearch/1.2.1'
     def send_bytes(self,body,content_type,status=200,headers=None):
         self.send_response(status); self.send_header('Content-Type',content_type); self.send_header('Content-Length',str(len(body))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff')
         for k,v in (headers or {}).items(): self.send_header(k,v)
@@ -191,8 +192,29 @@ class Handler(BaseHTTPRequestHandler):
         n=int(self.headers.get('Content-Length','0'))
         if n<=0 or n>limit: raise ValueError('提交内容大小不正确')
         return json.loads(self.rfile.read(n).decode())
+    def analysis_link(self,row,ttl=86400):
+        secret=os.environ.get('ADMIN_PASSWORD','').strip()
+        if not secret:return ''
+        exp=int(time.time())+ttl; msg=f"{row['id']}|{row['sha256']}|{exp}".encode(); sig=hmac.new(secret.encode(),msg,hashlib.sha256).hexdigest()
+        return f"/analysis/uploads/{row['id']}?exp={exp}&sig={sig}"
+    def upload_payload(self,row):
+        d=dict(row); path=Path(d.get('storage_path') or ''); d['available']=path.is_file(); d['analysisUrl']=self.analysis_link(d) if d['available'] else ''; d.pop('storage_path',None); d.pop('sha256',None); d.pop('mime_type',None); return d
+    def serve_analysis_upload(self,upload_id,query):
+        if not re.fullmatch(r'[0-9a-f]{32}',upload_id): self.send_json({'error':'无效的分析链接'},400); return
+        try: exp=int((query.get('exp') or ['0'])[0]); sig=(query.get('sig') or [''])[0]
+        except (TypeError,ValueError): self.send_json({'error':'无效的分析链接'},400); return
+        if exp<int(time.time()): self.send_json({'error':'分析链接已过期，请在采集中心重新复制'},410); return
+        with connect() as c: row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(upload_id,)).fetchone()
+        if not row: self.send_json({'error':'截图记录不存在'},404); return
+        secret=os.environ.get('ADMIN_PASSWORD','').strip()
+        if not secret: self.send_json({'error':'管理员入口尚未配置密码'},503); return
+        expected=hmac.new(secret.encode(),f"{row['id']}|{row['sha256']}|{exp}".encode(),hashlib.sha256).hexdigest()
+        if not sig or not hmac.compare_digest(sig,expected): self.send_json({'error':'分析链接签名无效'},403); return
+        target=Path(row['storage_path'])
+        if not target.is_file(): self.send_json({'error':'截图原文件已失效，请重新上传','status':'expired-storage'},410); return
+        self.send_bytes(target.read_bytes(),row['mime_type'])
     def do_GET(self):
-        path=urlparse(self.path).path
+        parsed=urlparse(self.path); path=parsed.path
         if path=='/': self.send_bytes(render_index_html().encode(),'text/html; charset=utf-8')
         elif path in ('/collect','/collect.html'):
             if self.authorized(): self.send_bytes(COLLECT_HTML.encode(),'text/html; charset=utf-8')
@@ -203,10 +225,14 @@ class Handler(BaseHTTPRequestHandler):
             if self.authorized(): self.send_json({**public_data(),'researchMeta':RESEARCH_META,'accountEmail':'管理员'})
         elif path=='/api/admin/uploads':
             if self.authorized():
-                with connect() as c: rows=c.execute('SELECT id,collection_date,platform,filename,status,created_at FROM collection_uploads ORDER BY created_at DESC LIMIT 100').fetchall()
-                self.send_json({'uploads':[dict(r) for r in rows]})
+                with connect() as c: rows=c.execute('SELECT * FROM collection_uploads ORDER BY created_at DESC LIMIT 100').fetchall()
+                self.send_json({'uploads':[self.upload_payload(r) for r in rows]})
+        elif path.startswith('/analysis/uploads/'): self.serve_analysis_upload(path.rsplit('/',1)[-1],parse_qs(parsed.query))
         elif path=='/health':
-            d=public_data(); self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'version':'1.2-beta'})
+            d=public_data()
+            with connect() as c:
+                upload_count=c.execute('SELECT COUNT(*) FROM collection_uploads').fetchone()[0]; available_count=sum(1 for r in c.execute('SELECT storage_path FROM collection_uploads').fetchall() if Path(r['storage_path']).is_file())
+            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'version':'1.2.1-beta'})
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
@@ -219,10 +245,10 @@ class Handler(BaseHTTPRequestHandler):
             if mime not in {'image/jpeg','image/png','image/webp'}: raise ValueError('仅支持JPG、PNG或WebP截图')
             raw=base64.b64decode(clean(p.get('dataBase64'),31_000_000),validate=True)
             if not raw or len(raw)>15*1024*1024: raise ValueError('截图为空或超过15MB')
-            uid=uuid.uuid4().hex; ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[mime]; target=UPLOAD_DIR/f'{date}_{platform.lower()}_{uid}{ext}'; target.write_bytes(raw); now=datetime.now(timezone.utc).isoformat()
+            uid=uuid.uuid4().hex; ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[mime]; target=UPLOAD_DIR/f'{date}_{platform.lower()}_{uid}{ext}'; target.write_bytes(raw); now=datetime.now(timezone.utc).isoformat(); sha=hashlib.sha256(raw).hexdigest()
             with connect() as c:
-                c.execute('INSERT INTO collection_uploads VALUES(?,?,?,?,?,?,?,?,?)',(uid,date,platform,filename,mime,str(target),hashlib.sha256(raw).hexdigest(),'待分析',now)); c.commit()
-            self.send_json({'uploaded':True,'id':uid,'status':'待分析','note':'截图已保存；当前自动OCR/新剧研究仍由ChatGPT人工链路执行。'},201)
+                c.execute('INSERT INTO collection_uploads VALUES(?,?,?,?,?,?,?,?,?)',(uid,date,platform,filename,mime,str(target),sha,'待分析',now)); c.commit(); row=c.execute('SELECT * FROM collection_uploads WHERE id=?',(uid,)).fetchone()
+            payload=self.upload_payload(row); self.send_json({'uploaded':True,'id':uid,'status':'待分析','analysisUrl':payload.get('analysisUrl'),'note':'截图已保存，可通过采集中心复制24小时分析链接。'},201)
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
     def do_PUT(self):
         path=urlparse(self.path).path; prefix='/api/reviews/'
@@ -239,7 +265,7 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.2 Beta：'+url)
+    parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.2.1 Beta：'+url)
     if not args.no_open: threading.Timer(.5,lambda:webbrowser.open(url)).start()
     try: server.serve_forever()
     except KeyboardInterrupt: pass
