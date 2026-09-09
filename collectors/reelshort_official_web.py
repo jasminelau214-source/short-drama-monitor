@@ -65,7 +65,7 @@ def _fetch(url: str, timeout: int = 30) -> tuple[int, str, bytes]:
 
 def _candidate_titles_from_json(value, out: list[str]) -> None:
     if isinstance(value, dict):
-        for key in ("title", "name", "bookName", "book_name", "videoName", "seriesName"):
+        for key in ("title", "name", "bookName", "book_name", "videoName", "seriesName", "book_title"):
             v = value.get(key)
             if isinstance(v, str):
                 t = re.sub(r"\s+", " ", html.unescape(v)).strip()
@@ -93,19 +93,36 @@ def _extract_json_scripts(text: str) -> list[str]:
     return titles
 
 
+def _extract_embedded_key_values(text: str) -> list[str]:
+    titles: list[str] = []
+    key_pattern = r'(?:title|name|bookName|book_name|videoName|seriesName|book_title)'
+    for match in re.finditer(rf'["\']{key_pattern}["\']\s*:\s*["\']((?:\\.|[^"\']){{3,220}}?)["\']', text, flags=re.I):
+        value = match.group(1)
+        try:
+            value = bytes(value, "utf-8").decode("unicode_escape")
+        except Exception:
+            pass
+        value = re.sub(r"\\u0026", "&", value)
+        value = re.sub(r"\\/", "/", value)
+        titles.append(html.unescape(value))
+    return titles
+
+
 def _clean_titles(values: list[str]) -> list[str]:
     banned = {
         "top verticals", "top short dramas / tv series", "reelshort", "home", "movies",
-        "categories", "topics", "about", "support", "download",
+        "categories", "topics", "about", "support", "download", "top", "trending", "hot", "new",
     }
     out: list[str] = []
     seen: set[str] = set()
     for value in values:
-        title = re.sub(r"\s+", " ", value).strip()
+        title = re.sub(r"\s+", " ", value).strip().strip("\"'")
         key = title.casefold()
         if not title or key in banned:
             continue
         if len(title) < 3 or len(title) > 180:
+            continue
+        if title.startswith("http") or "reelshort.com" in key:
             continue
         if key in seen:
             continue
@@ -122,9 +139,23 @@ def collect(url: str = DEFAULT_URL) -> dict:
         parser.feed(text)
     except Exception:
         pass
-    titles = _clean_titles(parser.headings + _extract_json_scripts(text))
 
+    sources = {
+        "headings": parser.headings,
+        "json_scripts": _extract_json_scripts(text),
+        "embedded_key_values": _extract_embedded_key_values(text),
+    }
+    titles = _clean_titles(sources["headings"] + sources["json_scripts"] + sources["embedded_key_values"])
     top10 = titles[:10]
+
+    markers = {
+        "has_next_data": "__NEXT_DATA__" in text,
+        "has_nuxt": "__NUXT__" in text or "__NUXT_DATA__" in text,
+        "has_react_flight": "self.__next_f.push" in text,
+        "has_altarboy": "Altarboy" in text,
+        "script_count": len(re.findall(r"<script\b", text, flags=re.I)),
+    }
+
     warnings: list[str] = []
     if status != 200:
         warnings.append(f"HTTP_{status}")
@@ -145,6 +176,8 @@ def collect(url: str = DEFAULT_URL) -> dict:
         "raw_sha256": hashlib.sha256(raw).hexdigest(),
         "candidate_titles": top10,
         "candidate_count": len(top10),
+        "extraction_counts": {k: len(v) for k, v in sources.items()},
+        "markers": markers,
         "batch_complete": len(top10) == 10,
         "warnings": warnings,
         "production_ready": False,
