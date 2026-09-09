@@ -43,7 +43,13 @@ def _latest_complete_runs(connect) -> list[dict]:
 
 
 def merge_analysis_records(base_records: list[dict], connect, normalize_title, split_lane) -> list[dict]:
-    """Publish screenshot-confirmed facts immediately, independent of deep research completion."""
+    """Publish screenshot-confirmed facts immediately, independent of deep research completion.
+
+    The screenshot model may emit provisional genre/lane/audience classifications. Those are
+    deliberately NOT promoted into official research fields for a brand-new title. They remain
+    available in analysis_runs for audit, while the public record stays blank until inherited
+    historical research or the deep-research worker supplies controlled fields.
+    """
     records = _copy_records(base_records)
     by_platform_title: dict[tuple[str, str], dict] = {}
     by_title: dict[str, dict] = {}
@@ -83,9 +89,6 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 # keep the ranking observation as a separate platform-specific record.
                 template = by_title.get(norm)
                 inherited = {field: (template.get(field, '') if template else '') for field in research_fields}
-                if not template:
-                    for field in ('genre', 'lane', 'audience'):
-                        inherited[field] = str(item.get(field) or '').strip()
                 record = {
                     'id': _stable_id(platform, title, normalize_title),
                     'title': title,
