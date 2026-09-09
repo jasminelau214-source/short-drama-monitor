@@ -22,6 +22,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 from analysis_pipeline import analyze_batch, configured as analysis_configured, model_name as analysis_model_name
 from live_observations import merge_analysis_records, build_live_summary
+from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -232,11 +233,41 @@ def public_data():
     # Fact publication is independent from deep research: every latest complete
     # screenshot analysis becomes a live ranking observation immediately.
     records=merge_analysis_records(records, connect, normalize_title, split_lane)
+    # Dynamic records are created after the first override pass, so apply overrides
+    # again to make completed research visible without requiring a restart.
+    for r in records:
+        r.update(overrides.get(r.get('id'),{})); r['laneTerms']=split_lane(r.get('lane'))
     return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
 
 
-def known_titles():
-    return sorted({clean(r.get('title'), 500) for r in public_data()['records'] if clean(r.get('title'), 500)})
+def known_titles(before_date=''):
+    titles=set()
+    for r in public_data()['records']:
+        title=clean(r.get('title'),500)
+        if not title: continue
+        if before_date:
+            prior=any(clean(h.get('date'),20) < before_date for h in (r.get('history') or []) if clean(h.get('date'),20))
+            if not prior: continue
+        titles.add(title)
+    return sorted(titles)
+
+
+def apply_research_result(task, research):
+    title=clean(task.get('title'),500); platform=clean(task.get('platform'),40); norm=normalize_title(title)
+    data=public_data(); candidates=[r for r in data['records'] if normalize_title(r.get('title'))==norm]
+    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None) or (candidates[0] if candidates else None)
+    if not record or not record.get('id'):
+        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND: {platform} {title}')
+    fields={k:clean(research.get(k),6000) for k in EDITABLE_FIELDS if clean(research.get(k),6000)}
+    fields['researchStatus']='已研究'
+    fields['researchConfidence']=clean(research.get('confidence'),30)
+    fields['researchSources']=[clean(x,1000) for x in (research.get('sourceUrls') or []) if clean(x,1000)]
+    drama_id=record['id']
+    with connect() as c:
+        old=c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone()
+        merged=json.loads(old['fields_json']) if old else {}; merged.update(fields); now=datetime.now(timezone.utc).isoformat()
+        c.execute('INSERT INTO drama_overrides VALUES(?,?,?) ON CONFLICT(drama_id) DO UPDATE SET fields_json=excluded.fields_json,updated_at=excluded.updated_at',(drama_id,json.dumps(merged,ensure_ascii=False),now)); c.commit()
+    if persistence.configured(): persistence.save_override(drama_id, merged)
 
 
 def run_analysis_batch(collection_date, platform):
@@ -258,8 +289,8 @@ def run_analysis_batch(collection_date, platform):
         persistence.update_upload_status(upload_ids,'分析中')
         persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status='分析中',result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
     try:
-        result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=rows,known_titles=known_titles())
-        existing={normalize_title(t):t for t in known_titles()}
+        result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=rows,known_titles=known_titles(collection_date))
+        existing={normalize_title(t):t for t in known_titles(collection_date)}
         for item in result.get('rows') or []:
             norm=normalize_title(item.get('title'))
             if norm and norm in existing:
@@ -276,6 +307,8 @@ def run_analysis_batch(collection_date, platform):
     if persistence.configured():
         persistence.update_upload_status(upload_ids,status)
         persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=status,result=result,error=error,model=analysis_model_name(),created_at=now,updated_at=updated)
+    if status=='已识别-待深研':
+        schedule_research_worker(apply_research=apply_research_result, delay=0.5)
     print(f'[analysis] {status} {collection_date} {platform} run={run_id}')
 
 
@@ -383,6 +416,12 @@ class Handler(BaseHTTPRequestHandler):
             if self.authorized():
                 with connect() as c: rows=c.execute('SELECT * FROM analysis_runs ORDER BY created_at DESC LIMIT 30').fetchall()
                 self.send_json({'runs':[self.analysis_run_payload(r) for r in rows],'analysisConfigured':analysis_configured(),'model':analysis_model_name(),'persistenceConfigured':persistence.configured()})
+        elif path=='/api/admin/research-tasks':
+            if self.authorized():
+                try:
+                    tasks=persistence.list_research_tasks(limit=100) if persistence.configured() else []
+                    self.send_json({'tasks':tasks,'researchConfigured':research_configured(),'researchRunning':research_running()})
+                except Exception as e:self.send_json({'error':'研究队列读取失败：'+clean(e,2000)},502)
         elif path.startswith('/analysis/uploads/'): self.serve_analysis_upload(path.rsplit('/',1)[-1],parse_qs(parsed.query))
         elif path=='/health':
             d=public_data()
@@ -392,6 +431,11 @@ class Handler(BaseHTTPRequestHandler):
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
+        if path=='/api/admin/research':
+            if not self.authorized(): return
+            if not research_configured(): self.send_json({'error':'TAVILY_API_KEY_NOT_CONFIGURED'},503); return
+            scheduled=schedule_research_worker(apply_research=apply_research_result,delay=0.1)
+            self.send_json({'scheduled':scheduled,'researchConfigured':research_configured()},202); return
         if path=='/api/admin/analyze':
             if not self.authorized(): return
             try:
@@ -439,6 +483,8 @@ class Handler(BaseHTTPRequestHandler):
 
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--host',default='127.0.0.1'); parser.add_argument('--port',type=int,default=int(os.environ.get('PORT','4173'))); parser.add_argument('--no-open',action='store_true'); args=parser.parse_args(); connect().close(); sync_persistent_cache(); server=ThreadingHTTPServer((args.host,args.port),Handler); url=f'http://127.0.0.1:{args.port}/'; print('短剧研究工具 V1.3 Persistent：'+url, flush=True); print(f'自动分析配置：{analysis_configured()} model={analysis_model_name()} persistence={persistence.configured()}', flush=True)
+    print(f'自动深研配置：{research_configured()} running={research_running()}', flush=True)
+    schedule_research_worker(apply_research=apply_research_result,delay=1.0)
     if not args.no_open: threading.Timer(.5,lambda:webbrowser.open(url)).start()
     try: server.serve_forever()
     except KeyboardInterrupt: pass
