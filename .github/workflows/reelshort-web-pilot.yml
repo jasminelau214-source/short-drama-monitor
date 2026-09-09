@@ -1,0 +1,26 @@
+name: ReelShort web collector pilot
+on:
+  push:
+    branches:
+      - dev/reelshort-web-collector
+    paths:
+      - 'collectors/**'
+      - '.github/workflows/reelshort-web-pilot.yml'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Compile collector
+        run: python -m py_compile collectors/reelshort_official_web.py
+      - name: Probe ReelShort official TOP page
+        run: python collectors/reelshort_official_web.py | tee reelshort_web_pilot.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reelshort-web-pilot
+          path: reelshort_web_pilot.json
