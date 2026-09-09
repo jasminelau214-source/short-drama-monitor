@@ -99,17 +99,17 @@ def _response_text(payload: dict) -> str:
 
 def _request(body: dict, api_key: str) -> dict:
     endpoint = GEMINI_ENDPOINT.format(model=model_name())
-    request = urllib.request.Request(
-        endpoint,
-        data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
-        headers={
-            "x-goog-api-key": api_key,
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
     waits = [2, 5, 10]
     for attempt in range(4):
+        request = urllib.request.Request(
+            endpoint,
+            data=json.dumps(body, ensure_ascii=False).encode("utf-8"),
+            headers={
+                "x-goog-api-key": api_key,
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
         try:
             with urllib.request.urlopen(request, timeout=180) as response:
                 return json.loads(response.read().decode("utf-8"))
@@ -219,23 +219,23 @@ def analyze_batch(*, collection_date: str, platform: str, image_rows: list[dict]
             }
         })
 
+    # Gemini 3.5 Flash-Lite currently rejects the newer responseFormat REST shape
+    # even though model docs list structured-output support. Use the stable
+    # GenerateContent JSON-mode fields instead: responseMimeType + responseJsonSchema.
     body = {
         "contents": [{"role": "user", "parts": parts}],
         "generationConfig": {
             "temperature": 0.1,
-            "responseFormat": {
-                "text": {
-                    "mimeType": "application/json",
-                    "schema": _schema(),
-                }
-            },
+            "responseMimeType": "application/json",
+            "responseJsonSchema": _schema(),
         },
     }
     payload = _request(body, api_key)
+    raw_text = _response_text(payload)
     try:
-        result = json.loads(_response_text(payload))
+        result = json.loads(raw_text)
     except json.JSONDecodeError as exc:
-        raise RuntimeError(f"GEMINI_INVALID_JSON: {_response_text(payload)[:2000]}") from exc
+        raise RuntimeError(f"GEMINI_INVALID_JSON: {raw_text[:2000]}") from exc
     result = _normalize_result(result, collection_date=collection_date, platform=platform)
     usage = payload.get("usageMetadata") or {}
     result["usage"] = {
