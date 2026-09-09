@@ -1,0 +1,32 @@
+name: Auto research worker dev check
+on:
+  push:
+    branches:
+      - dev/auto-research-worker
+permissions:
+  contents: write
+jobs:
+  test-and-patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dev/auto-research-worker
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Patch app integration
+        run: python scripts/patch_research_worker.py
+      - name: Compile
+        run: python -m py_compile app.py analysis_pipeline.py persistence.py live_observations.py research_pipeline.py research_worker.py
+      - name: Smoke test research pipeline
+        run: python scripts/smoke_research_pipeline.py
+      - name: Commit generated app patch if needed
+        run: |
+          if ! git diff --quiet -- app.py; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add app.py
+            git commit -m "Wire automatic deep research queue into app"
+            git push origin HEAD:dev/auto-research-worker
+          fi
