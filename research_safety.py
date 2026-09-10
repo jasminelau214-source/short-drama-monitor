@@ -78,13 +78,15 @@ def validate_search_identity(title: str, platform: str) -> tuple[str, str]:
 
 def safe_public_url(value: str) -> str:
     raw = str(value or '').strip()
-    if not raw or len(raw) > 2048 or _contains_sensitive(raw):
+    if not raw or len(raw) > 2048:
         return ''
     try:
         parsed = urlparse(raw)
     except Exception:
         return ''
     if parsed.scheme not in {'http','https'} or not parsed.hostname:
+        return ''
+    if _contains_sensitive(parsed.netloc + parsed.path + parsed.params):
         return ''
     host = parsed.hostname.strip('.').casefold()
     if host in {'localhost','localhost.localdomain'} or host.endswith('.local'):
