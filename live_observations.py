@@ -2,7 +2,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from collections import Counter
+
+
+_RANKING_BADGE_PATTERNS = [
+    re.compile(r'^\s*(?:up|down)\s+by\s+\d+\s*$', re.I),
+    re.compile(r'^\s*latest\s+on\s+the\s+list\s*$', re.I),
+    re.compile(r'^\s*new\s+on\s+(?:the\s+)?list\s*$', re.I),
+    re.compile(r'^\s*(?:latest|new)\s*$', re.I),
+]
 
 
 def _copy_records(records: list[dict]) -> list[dict]:
@@ -14,6 +23,22 @@ def _stable_id(platform: str, title: str, normalize_title) -> str:
     digest = hashlib.sha1(norm.encode('utf-8')).hexdigest()[:12]
     slug = ''.join(ch.lower() if ch.isalnum() else '-' for ch in platform).strip('-') or 'platform'
     return f'auto-{slug}-{digest}'
+
+
+def _content_tags_and_badges(values) -> tuple[list[str], list[str]]:
+    """Separate semantic content tags from ranking/status badges misread from screenshots."""
+    if isinstance(values, str):
+        raw_values = [x.strip() for x in re.split(r'[,，;；|]', values) if x.strip()]
+    else:
+        raw_values = [str(x).strip() for x in (values or []) if str(x).strip()]
+    tags: list[str] = []
+    badges: list[str] = []
+    for value in raw_values:
+        if any(pattern.fullmatch(value) for pattern in _RANKING_BADGE_PATTERNS):
+            badges.append(value)
+        else:
+            tags.append(value)
+    return tags, badges
 
 
 def _latest_complete_runs(connect) -> list[dict]:
@@ -83,6 +108,9 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
             if not norm:
                 continue
 
+            content_tags, ranking_badges = _content_tags_and_badges(item.get('tags') or [])
+            clean_tags = ', '.join(content_tags)
+
             record = by_platform_title.get((platform, norm))
             if record is None:
                 # If the same title was researched on another platform, inherit content research only;
@@ -101,7 +129,8 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                     'highestRank': rank,
                     'firstDate': date,
                     'lastDate': date,
-                    'tags': ', '.join(str(x).strip() for x in (item.get('tags') or []) if str(x).strip()),
+                    'tags': clean_tags,
+                    'rankingBadges': ranking_badges,
                     **inherited,
                     'history': [],
                     'platformMetrics': {},
@@ -111,13 +140,13 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 by_title.setdefault(norm, record)
 
             metrics = item.get('metrics') if isinstance(item.get('metrics'), dict) else {}
-            tags = ', '.join(str(x).strip() for x in (item.get('tags') or []) if str(x).strip())
             event = {
                 'date': date,
                 'app': platform,
                 'rank': rank,
                 'heat': str(item.get('heat') or '').strip(),
-                'tags': tags,
+                'tags': clean_tags,
+                'rankingBadges': ranking_badges,
                 'metrics': {k: str(metrics.get(k) or '').strip() for k in ('collect', 'like', 'followers') if str(metrics.get(k) or '').strip()},
                 'source': f"analysis_run:{run['id']}",
             }
@@ -139,6 +168,7 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 'rank': int(latest_event.get('rank') or rank),
                 'heat': str(latest_event.get('heat') or ''),
                 'tags': str(latest_event.get('tags') or ''),
+                'rankingBadges': latest_event.get('rankingBadges') if isinstance(latest_event.get('rankingBadges'), list) else [],
                 'platformMetrics': latest_event.get('metrics') if isinstance(latest_event.get('metrics'), dict) else {},
                 'history': history,
                 'recordedDates': dates,
@@ -172,6 +202,7 @@ def build_live_summary(records: list[dict], platform_order: list[str], clean, sp
                 'rank': h.get('rank', r.get('rank', 0)),
                 'heat': h.get('heat') or '',
                 'tags': h.get('tags', r.get('tags', '')),
+                'rankingBadges': h.get('rankingBadges', r.get('rankingBadges', [])),
                 'platformMetrics': h.get('metrics') or {},
             })
             current.append(x)
