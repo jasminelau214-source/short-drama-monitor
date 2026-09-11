@@ -277,7 +277,8 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
             latest_event = max(history, key=lambda h: (str(h.get('date') or ''), str(h.get('app') or '')))
 
             pending = [str(x).strip() for x in (item.get('pendingChecks') or []) if str(x).strip()]
-            needs_research = item.get('newness') in {'new', 'uncertain'} or bool(pending)
+            meaningful_pending = [x for x in pending if not (item.get('newness') == 'old' and x == '待深度研究')]
+            needs_research = item.get('newness') in {'new', 'uncertain'} or bool(meaningful_pending)
             record.update({
                 'app': latest_event.get('app') or platform,
                 'date': latest_event.get('date') or date,
