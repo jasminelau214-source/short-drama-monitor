@@ -3,8 +3,8 @@ services:
     name: short-drama-monitor
     runtime: python
     plan: free
-    buildCommand: python -m compileall app.py
-    startCommand: python app.py --host 0.0.0.0 --no-open
+    buildCommand: python -m compileall app.py server.py collector_import.py
+    startCommand: python server.py --host 0.0.0.0 --no-open
     healthCheckPath: /health
     autoDeploy: true
     envVars:
