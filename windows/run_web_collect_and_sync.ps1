@@ -21,15 +21,26 @@ try {
 
     Write-Host "Step 1/2  Collecting configured official-web targets..." -ForegroundColor Cyan
     & $PythonCommand $collector --date $CollectionDate --root $Root
-    if ($LASTEXITCODE -ne 0) { throw "OFFICIAL_WEB_COLLECTION_FAILED: exit=$LASTEXITCODE" }
+    $collectExit = $LASTEXITCODE
+    if ($collectExit -ne 0) {
+        Write-Host "One or more web targets failed collection. Complete targets will still be synced." -ForegroundColor Yellow
+    }
 
     Write-Host ""
     Write-Host "Step 2/2  Syncing all complete platform + ranking targets..." -ForegroundColor Cyan
     & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $sync -CollectionDate $CollectionDate -Root $Root
-    if ($LASTEXITCODE -ne 0) { throw "COLLECTOR_SYNC_FAILED: exit=$LASTEXITCODE" }
+    $syncExit = $LASTEXITCODE
+    if ($syncExit -ne 0) { throw "COLLECTOR_SYNC_FAILED: exit=$syncExit" }
 
     Write-Host ""
-    Write-Host "WEB COLLECTION + SYNC COMPLETE" -ForegroundColor Green
+    if ($collectExit -eq 0) {
+        Write-Host "WEB COLLECTION + SYNC COMPLETE" -ForegroundColor Green
+        exit 0
+    }
+
+    Write-Host "WEB SYNC COMPLETE WITH COLLECTION FAILURES" -ForegroundColor Yellow
+    Write-Host "Successful targets were preserved and synced. Failed targets can be retried independently." -ForegroundColor Yellow
+    exit 2
 }
 catch {
     Write-Host ""
