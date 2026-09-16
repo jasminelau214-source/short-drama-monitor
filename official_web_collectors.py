@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 import urllib.request
 from datetime import datetime, timezone
@@ -37,6 +38,18 @@ def _attr(attrs, key: str) -> str:
         if name == key:
             return str(value or '')
     return ''
+
+
+def _unique_text(values) -> list[str]:
+    out: list[str] = []
+    seen = set()
+    for value in values or []:
+        text = _clean(value, 160)
+        if not text or text.casefold() in seen:
+            continue
+        seen.add(text.casefold())
+        out.append(text)
+    return out
 
 
 class ShortMaxSectionParser(HTMLParser):
@@ -105,7 +118,6 @@ class ShortMaxSectionParser(HTMLParser):
                 self._tag_span_depth += 1
 
     def handle_startendtag(self, tag, attrs):
-        # Void/self-closing nodes can still carry links or attributes but must not affect nesting.
         self.handle_starttag(tag, attrs)
 
     def handle_data(self, data):
@@ -158,11 +170,50 @@ class ShortMaxSectionParser(HTMLParser):
                 self._section_title_buf = []
 
 
+class NextDataParser(HTMLParser):
+    """Extract a Next.js __NEXT_DATA__ JSON script without brittle regex over HTML."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self._capturing = False
+        self._buf: list[str] = []
+        self.value = ''
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'script' and _attr(attrs, 'id') == '__NEXT_DATA__':
+            self._capturing = True
+            self._buf = []
+
+    def handle_data(self, data):
+        if self._capturing:
+            self._buf.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == 'script' and self._capturing:
+            self._capturing = False
+            self.value = ''.join(self._buf).strip()
+
+
 def parse_shortmax_sections(document: str, base_url: str = 'https://www.shorttv.live/') -> dict[str, list[dict]]:
     parser = ShortMaxSectionParser(base_url)
     parser.feed(document or '')
     parser.close()
     return parser.sections
+
+
+def parse_next_data(document: str) -> dict:
+    parser = NextDataParser()
+    parser.feed(document or '')
+    parser.close()
+    if not parser.value:
+        raise OfficialWebCollectorError('NEXT_DATA_NOT_FOUND')
+    try:
+        value = json.loads(parser.value)
+    except json.JSONDecodeError as exc:
+        raise OfficialWebCollectorError(f'NEXT_DATA_INVALID_JSON: {exc}') from exc
+    if not isinstance(value, dict):
+        raise OfficialWebCollectorError('NEXT_DATA_NOT_OBJECT')
+    return value
 
 
 def fetch_html(url: str, timeout: int = 25) -> str:
@@ -206,11 +257,7 @@ def collect_shortmax(
     top_n: int | None = None,
     document: str | None = None,
 ) -> dict:
-    """Collect a ShortMax official-web section into the generic collector schema.
-
-    Returned facts are OFFICIAL_WEB and must stay separate from App ranking history
-    unless a later audit proves the web section is equivalent to an App ranking.
-    """
+    """Collect a ShortMax official-web section into the generic collector schema."""
     if document is None:
         document = fetch_html(url)
     sections = parse_shortmax_sections(document, url)
@@ -233,7 +280,14 @@ def collect_shortmax(
     if collection_date is None:
         collection_date = datetime.now(timezone.utc).date().isoformat()
 
-    target_slug = re.sub(r'[^a-z0-9]+', '_', _section_key(section_name)).strip('_') or 'section'
+    section_slug = re.sub(r'[^a-z0-9]+', '_', _section_key(section_name)).strip('_') or 'section'
+    if _section_key(section_name).startswith('most popular'):
+        target_key = 'web_most_popular_all'
+        category = 'All'
+    else:
+        target_key = f'web_category_{section_slug}'
+        category = section_name
+
     rows = []
     for index, card in enumerate(selected, start=1):
         row = {
@@ -254,9 +308,9 @@ def collect_shortmax(
         'platform': 'ShortMax',
         'source_type': 'OFFICIAL_WEB',
         'source_id': 'officialweb_shortmax',
-        'target_key': f'web_{target_slug}',
+        'target_key': target_key,
         'ranking_type': section_name,
-        'category': 'All' if _section_key(section_name).startswith('most popular') else section_name,
+        'category': category,
         'collection_method': 'WEB_SCRAPE',
         'collection_date': collection_date,
         'top_n': top_n,
@@ -265,11 +319,117 @@ def collect_shortmax(
         'collector_version': 'shortmax-web-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
         'locale': 'en-US',
-        'evidence': {
-            'url': url,
-            'section': section_name,
-            'row_count': len(rows),
-        },
+        'evidence': {'url': url, 'section': section_name, 'row_count': len(rows)},
         'evidence_persistence': 'URL_AND_PARSED_FACTS',
         'provider': 'official-web-stdlib',
+    }
+
+
+def collect_dramabox_channel(
+    *,
+    channel: str = 'trending',
+    url: str | None = None,
+    collection_date: str | None = None,
+    top_n: int | None = None,
+    document: str | None = None,
+) -> dict:
+    """Collect one DramaBox official web channel from its server-rendered Next.js data.
+
+    The channel route exposes ordered items plus platform-native synopsis, tags,
+    F-Drama/M-Drama type, view count, rating and episode count. This is web-channel
+    evidence and is not automatically treated as equivalent to the App ranking.
+    """
+    channel_slug = re.sub(r'[^a-z0-9]+', '-', str(channel or '').casefold()).strip('-')
+    if not channel_slug:
+        raise OfficialWebCollectorError('INVALID_CHANNEL')
+    if url is None:
+        url = f'https://www.dramaboxdb.com/channel/{channel_slug}'
+    if document is None:
+        document = fetch_html(url)
+
+    next_data = parse_next_data(document)
+    try:
+        page_props = next_data['props']['pageProps']
+        more_data = page_props['moreData']
+        items = more_data['items']
+    except (KeyError, TypeError) as exc:
+        raise OfficialWebCollectorError('DRAMABOX_MORE_DATA_NOT_FOUND') from exc
+    if not isinstance(items, list) or not items:
+        raise OfficialWebCollectorError('DRAMABOX_CHANNEL_EMPTY')
+
+    if top_n is None:
+        top_n = len(items)
+    try:
+        top_n = int(top_n)
+    except (TypeError, ValueError) as exc:
+        raise OfficialWebCollectorError(f'INVALID_TOP_N: {top_n!r}') from exc
+    if not 1 <= top_n <= 100:
+        raise OfficialWebCollectorError(f'INVALID_TOP_N: {top_n}')
+    if len(items) < top_n:
+        raise OfficialWebCollectorError(f'INCOMPLETE_CHANNEL: {channel_slug}: expected={top_n} actual={len(items)}')
+
+    if collection_date is None:
+        collection_date = datetime.now(timezone.utc).date().isoformat()
+
+    rows = []
+    for index, item in enumerate(items[:top_n], start=1):
+        if not isinstance(item, dict):
+            raise OfficialWebCollectorError(f'DRAMABOX_INVALID_ITEM: #{index}')
+        title = _clean(item.get('bookName') or item.get('name'), 500)
+        if not title:
+            raise OfficialWebCollectorError(f'DRAMABOX_MISSING_TITLE: #{index}')
+        book_id = _clean(item.get('bookId') or item.get('action'), 80)
+        lower = _clean(item.get('bookNameLower'), 300)
+        source_url = f'https://www.dramaboxdb.com/movie/{book_id}/{lower}' if book_id and lower else url
+        tags = _unique_text(
+            list(item.get('typeOneNames') or [])
+            + list(item.get('typeTwoNames') or [])
+            + list(item.get('tags') or [])
+        )
+        metrics = {}
+        for key, value in (
+            ('views', item.get('viewCount')),
+            ('views_display', item.get('viewCountDisplay')),
+            ('rating', item.get('ratings')),
+            ('episode_count', item.get('chapterCount')),
+        ):
+            if value not in (None, ''):
+                metrics[key] = str(value)
+        rows.append({
+            'rank': index,
+            'title': title,
+            'tags': tags,
+            'synopsis': _clean(item.get('introduction'), 3000),
+            'source_url': source_url,
+            'metrics': metrics,
+        })
+
+    display_name = _clean(more_data.get('name'), 120) or channel_slug.replace('-', ' ').title()
+    ranking_type = {'当前热播': 'Trending', '必看好剧': 'Must-sees', '精彩剧集': 'Hidden Gems'}.get(display_name, display_name)
+    target_slug = channel_slug.replace('-', '_')
+    return {
+        'platform': 'DramaBox',
+        'source_type': 'OFFICIAL_WEB',
+        'source_id': 'officialweb_dramabox',
+        'target_key': f'web_{target_slug}_all',
+        'ranking_type': ranking_type,
+        'category': 'All',
+        'collection_method': 'WEB_SCRAPE',
+        'collection_date': collection_date,
+        'top_n': top_n,
+        'batch_complete': len(rows) == top_n,
+        'rows': rows,
+        'collector_version': 'dramabox-nextdata-v1',
+        'collected_at': datetime.now(timezone.utc).isoformat(),
+        'locale': _clean(page_props.get('locale'), 40) or 'en',
+        'evidence': {
+            'url': url,
+            'channel': channel_slug,
+            'page': page_props.get('pageNo', 1),
+            'pages': page_props.get('pages'),
+            'row_count': len(rows),
+            'next_build_id': _clean(next_data.get('buildId'), 120),
+        },
+        'evidence_persistence': 'URL_AND_PARSED_FACTS',
+        'provider': 'official-web-nextdata',
     }
