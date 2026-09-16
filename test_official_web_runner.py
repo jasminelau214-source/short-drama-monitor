@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from run_official_web_collect import audit_payload, write_payload
+from run_official_web_collect import TARGETS, audit_payload, write_payload
 
 
 class OfficialWebRunnerTests(unittest.TestCase):
@@ -29,6 +29,7 @@ class OfficialWebRunnerTests(unittest.TestCase):
         self.assertEqual(result['topN'], 2)
         self.assertEqual(result['rowCount'], 2)
         self.assertEqual(result['status'], '已采集')
+        self.assertEqual(result['newTitleCount'], 0)
 
     def test_write_payload_uses_shared_date_platform_spool(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -40,6 +41,15 @@ class OfficialWebRunnerTests(unittest.TestCase):
             saved = json.loads(path.read_text(encoding='utf-8'))
             self.assertEqual(saved['target_key'], 'web_most_popular_all')
             self.assertEqual(len(saved['rows']), 2)
+
+    def test_default_web_plan_contains_multi_target_shortmax_and_dramabox(self):
+        self.assertEqual(len(TARGETS), 6)
+        self.assertEqual(TARGETS['shortmax_most_popular']['target_key'], 'web_most_popular_all')
+        self.assertEqual(TARGETS['shortmax_war_god']['target_key'], 'web_category_war_god')
+        self.assertEqual(TARGETS['shortmax_tycoon_life']['target_key'], 'web_category_tycoon_life')
+        self.assertEqual(TARGETS['shortmax_apocalypse']['target_key'], 'web_category_apocalypse')
+        self.assertEqual(TARGETS['shortmax_dragon_clan']['target_key'], 'web_category_dragon_clan')
+        self.assertEqual(TARGETS['dramabox_trending']['target_key'], 'web_trending_all')
 
 
 if __name__ == '__main__':
