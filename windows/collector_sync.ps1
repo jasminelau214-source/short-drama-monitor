@@ -11,36 +11,40 @@ function Get-CollectorJsonFiles {
     $dateDir = Join-Path $Root $CollectionDate
     if (-not (Test-Path $dateDir)) { throw "COLLECTOR_DATE_DIR_NOT_FOUND: $dateDir" }
 
-    $candidates = @()
+    $allValid = @()
     Get-ChildItem -Path $dateDir -Directory | ForEach-Object {
         $platformDir = $_
-        $valid = @()
-        Get-ChildItem -Path $platformDir.FullName -Filter "*.json" -File |
-            Sort-Object LastWriteTime -Descending |
-            ForEach-Object {
-                try {
-                    $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
-                    if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
-                        $valid += [PSCustomObject]@{
-                            File = $_
-                            Platform = [string]$parsed.platform
-                            RowCount = [int]$parsed.rows.Count
-                            TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
-                            TargetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
-                        }
+        Get-ChildItem -Path $platformDir.FullName -Filter "*.json" -File | ForEach-Object {
+            try {
+                $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
+                if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
+                    $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                    $allValid += [PSCustomObject]@{
+                        File = $_
+                        Platform = [string]$parsed.platform
+                        RowCount = [int]$parsed.rows.Count
+                        TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                        TargetKey = $targetKey
+                        SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
+                        LastWriteTime = $_.LastWriteTime
                     }
                 }
-                catch {
-                    Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
-                }
             }
-        if ($valid.Count -gt 0) {
-            $candidates += $valid | Select-Object -First 1
+            catch {
+                Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+            }
         }
     }
 
-    if ($candidates.Count -eq 0) { throw "NO_COMPLETE_COLLECTOR_JSON: $dateDir" }
-    return @($candidates | Sort-Object Platform)
+    if ($allValid.Count -eq 0) { throw "NO_COMPLETE_COLLECTOR_JSON: $dateDir" }
+
+    # Keep the latest complete file for every platform + target pair.
+    # This lets one platform carry several ranking lists without one file overwriting another.
+    $selected = @()
+    $allValid | Group-Object Platform, TargetKey | ForEach-Object {
+        $selected += $_.Group | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    }
+    return @($selected | Sort-Object Platform, TargetKey)
 }
 
 function Convert-SecureStringToPlain([Security.SecureString]$Secure) {
@@ -60,8 +64,9 @@ function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
 
     $headers = @{ Authorization = $AuthHeader }
     $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+    $sourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
     Write-Host ""
-    Write-Host ("Importing {0} / {1}: {2}" -f $parsed.platform, $targetKey, $File.Name) -ForegroundColor Cyan
+    Write-Host ("Importing {0} / {1} / {2}: {3}" -f $parsed.platform, $targetKey, $sourceType, $File.Name) -ForegroundColor Cyan
 
     $response = Invoke-RestMethod `
         -Uri ($BaseUrl.TrimEnd("/") + "/api/admin/collector-import") `
@@ -71,15 +76,23 @@ function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
         -Body $raw `
         -TimeoutSec 180
 
-    Write-Host ("PASS {0}: rows={1}, new={2}, status={3}" -f $response.platform, $response.rows, $response.newTitleCount, $response.status) -ForegroundColor Green
-    if ($response.newTitles -and $response.newTitles.Count -gt 0) {
+    Write-Host ("PASS {0} / {1}: rows={2}, new={3}, status={4}" -f $response.platform, $targetKey, $response.rows, $response.newTitleCount, $response.status) -ForegroundColor Green
+    if ($response.newTitles -and $response.newTitles.Count -gt 0 -and $sourceType -eq "SHORT_DRAMA_APP") {
         Write-Host ("New titles: " + ($response.newTitles -join " | ")) -ForegroundColor Yellow
     }
-    return $response
+    return [PSCustomObject]@{
+        Platform = [string]$response.platform
+        TargetKey = $targetKey
+        SourceType = $sourceType
+        Rows = [int]$response.rows
+        NewTitleCount = [int]$response.newTitleCount
+        Status = [string]$response.status
+        FactPublished = [bool]$response.factPublished
+    }
 }
 
 try {
-    Write-Host "Short Drama Collector -> Backend Sync V3 Multi-Platform" -ForegroundColor Cyan
+    Write-Host "Short Drama Collector -> Backend Sync V4 Multi-Platform Multi-Ranking" -ForegroundColor Cyan
     Write-Host "Date: $CollectionDate"
     Write-Host "Backend: $BaseUrl"
     Write-Host ""
@@ -87,9 +100,10 @@ try {
     Write-Host "Step 1/3  Discovering complete collector JSON files..." -ForegroundColor Cyan
     $collectorFiles = Get-CollectorJsonFiles
     $collectorFiles | ForEach-Object {
-        Write-Host ("{0}: {1} rows / Top{2} / {3}" -f $_.Platform, $_.RowCount, $_.TopN, $_.File.FullName) -ForegroundColor Green
+        Write-Host ("{0} / {1} / {2}: {3} rows / Top{4} / {5}" -f $_.Platform, $_.TargetKey, $_.SourceType, $_.RowCount, $_.TopN, $_.File.FullName) -ForegroundColor Green
     }
-    Write-Host ("Discovered platforms: " + $collectorFiles.Count) -ForegroundColor Green
+    $platformCount = @($collectorFiles | Select-Object -ExpandProperty Platform -Unique).Count
+    Write-Host ("Discovered targets: {0} across platforms: {1}" -f $collectorFiles.Count, $platformCount) -ForegroundColor Green
     Write-Host ""
 
     Write-Host "Step 2/3  Backend login" -ForegroundColor Cyan
@@ -117,7 +131,7 @@ try {
     Write-Host "SYNC COMPLETE" -ForegroundColor Green
     Write-Host "==============================" -ForegroundColor Cyan
     $results | ForEach-Object {
-        Write-Host ("{0}: rows={1}, new={2}, factPublished={3}" -f $_.platform, $_.rows, $_.newTitleCount, $_.factPublished)
+        Write-Host ("{0} / {1}: rows={2}, new={3}, status={4}, factPublished={5}" -f $_.Platform, $_.TargetKey, $_.Rows, $_.NewTitleCount, $_.Status, $_.FactPublished)
     }
     Write-Host ""
     Write-Host ("Check: " + $BaseUrl.TrimEnd("/") + "/") -ForegroundColor Cyan
