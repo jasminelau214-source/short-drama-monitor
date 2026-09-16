@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import datetime, timezone
 
 from official_web_collectors import OfficialWebCollectorError, collect_dramabox_channel
@@ -11,6 +12,10 @@ def _page_url(channel: str, page: int) -> str:
         raise OfficialWebCollectorError('INVALID_CHANNEL')
     base = f'https://www.dramaboxdb.com/channel/{slug}'
     return base if page == 1 else f'{base}/{page}'
+
+
+def _title_key(value: str) -> str:
+    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
 
 
 def collect_dramabox_channel_all_pages(
@@ -76,7 +81,8 @@ def collect_dramabox_channel_all_pages(
         page_payloads.append(payload)
 
     combined_rows = []
-    seen_keys = set()
+    seen_urls = set()
+    seen_titles = set()
     page_counts = []
     page_urls = []
     for page, payload in enumerate(page_payloads, start=1):
@@ -88,14 +94,18 @@ def collect_dramabox_channel_all_pages(
         for item in rows:
             source_url = str(item.get('source_url') or '').strip()
             title = str(item.get('title') or '').strip()
-            key = source_url.casefold() if source_url else title.casefold()
-            if not key:
+            url_key = source_url.casefold()
+            title_key = _title_key(title)
+            if not url_key and not title_key:
                 raise OfficialWebCollectorError(f'DRAMABOX_EMPTY_ITEM_KEY: page={page}')
-            if key in seen_keys:
+            if (url_key and url_key in seen_urls) or (title_key and title_key in seen_titles):
                 raise OfficialWebCollectorError(
                     f'DRAMABOX_DUPLICATE_ACROSS_PAGES: page={page} title={title}'
                 )
-            seen_keys.add(key)
+            if url_key:
+                seen_urls.add(url_key)
+            if title_key:
+                seen_titles.add(title_key)
             row = dict(item)
             row['rank'] = len(combined_rows) + 1
             row['source_page'] = page
