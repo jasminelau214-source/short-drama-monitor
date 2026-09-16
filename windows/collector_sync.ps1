@@ -7,14 +7,40 @@ param(
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-function Get-LatestCollectorJson([string]$Platform, [string]$Prefix) {
-    $dir = Join-Path (Join-Path $Root $CollectionDate) $Platform
-    if (-not (Test-Path $dir)) { throw "COLLECTOR_DIR_NOT_FOUND: $dir" }
-    $file = Get-ChildItem -Path $dir -Filter "${Prefix}_*.json" -File |
-        Sort-Object LastWriteTime -Descending |
-        Select-Object -First 1
-    if (-not $file) { throw "COLLECTOR_JSON_NOT_FOUND: $dir\${Prefix}_*.json" }
-    return $file
+function Get-CollectorJsonFiles {
+    $dateDir = Join-Path $Root $CollectionDate
+    if (-not (Test-Path $dateDir)) { throw "COLLECTOR_DATE_DIR_NOT_FOUND: $dateDir" }
+
+    $candidates = @()
+    Get-ChildItem -Path $dateDir -Directory | ForEach-Object {
+        $platformDir = $_
+        $valid = @()
+        Get-ChildItem -Path $platformDir.FullName -Filter "*.json" -File |
+            Sort-Object LastWriteTime -Descending |
+            ForEach-Object {
+                try {
+                    $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
+                    if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
+                        $valid += [PSCustomObject]@{
+                            File = $_
+                            Platform = [string]$parsed.platform
+                            RowCount = [int]$parsed.rows.Count
+                            TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                            TargetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                        }
+                    }
+                }
+                catch {
+                    Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+                }
+            }
+        if ($valid.Count -gt 0) {
+            $candidates += $valid | Select-Object -First 1
+        }
+    }
+
+    if ($candidates.Count -eq 0) { throw "NO_COMPLETE_COLLECTOR_JSON: $dateDir" }
+    return @($candidates | Sort-Object Platform)
 }
 
 function Convert-SecureStringToPlain([Security.SecureString]$Secure) {
@@ -34,7 +60,7 @@ function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
 
     $headers = @{ Authorization = $AuthHeader }
     Write-Host ""
-    Write-Host "Importing $($parsed.platform): $($File.Name)" -ForegroundColor Cyan
+    Write-Host ("Importing {0} / {1}: {2}" -f $parsed.platform, ($parsed.target_key ?? "daily_top_all"), $File.Name) -ForegroundColor Cyan
 
     $response = Invoke-RestMethod `
         -Uri ($BaseUrl.TrimEnd("/") + "/api/admin/collector-import") `
@@ -52,16 +78,17 @@ function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
 }
 
 try {
-    Write-Host "Short Drama Collector -> Backend Sync V2" -ForegroundColor Cyan
+    Write-Host "Short Drama Collector -> Backend Sync V3 Multi-Platform" -ForegroundColor Cyan
     Write-Host "Date: $CollectionDate"
     Write-Host "Backend: $BaseUrl"
     Write-Host ""
 
-    Write-Host "Step 1/3  Checking local collector files..." -ForegroundColor Cyan
-    $netshort = Get-LatestCollectorJson "NetShort" "netshort_top10"
-    $moboreels = Get-LatestCollectorJson "MoboReels" "moboreels_top10"
-    Write-Host ("NetShort : " + $netshort.FullName) -ForegroundColor Green
-    Write-Host ("MoboReels: " + $moboreels.FullName) -ForegroundColor Green
+    Write-Host "Step 1/3  Discovering complete collector JSON files..." -ForegroundColor Cyan
+    $collectorFiles = Get-CollectorJsonFiles
+    $collectorFiles | ForEach-Object {
+        Write-Host ("{0}: {1} rows / Top{2} / {3}" -f $_.Platform, $_.RowCount, $_.TopN, $_.File.FullName) -ForegroundColor Green
+    }
+    Write-Host ("Discovered platforms: " + $collectorFiles.Count) -ForegroundColor Green
     Write-Host ""
 
     Write-Host "Step 2/3  Backend login" -ForegroundColor Cyan
@@ -78,10 +105,11 @@ try {
     Write-Host "Password received." -ForegroundColor Green
 
     Write-Host ""
-    Write-Host "Step 3/3  Syncing Top10 JSON to backend..." -ForegroundColor Cyan
+    Write-Host "Step 3/3  Syncing discovered ranking JSON to backend..." -ForegroundColor Cyan
     $results = @()
-    $results += Import-CollectorJson $netshort $authHeader
-    $results += Import-CollectorJson $moboreels $authHeader
+    foreach ($entry in $collectorFiles) {
+        $results += Import-CollectorJson $entry.File $authHeader
+    }
 
     Write-Host ""
     Write-Host "==============================" -ForegroundColor Cyan
