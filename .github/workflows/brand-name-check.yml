@@ -1,0 +1,28 @@
+name: System brand name check
+on:
+  push:
+    branches:
+      - main
+permissions:
+  contents: write
+jobs:
+  rename-brand:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Apply system name
+        run: python scripts/rename_system_brand.py
+      - name: Commit brand surfaces if needed
+        run: |
+          if ! git diff --quiet -- index.html review.html collect.html "短剧热播榜研究工具_离线版.html"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html review.html collect.html "短剧热播榜研究工具_离线版.html"
+            git commit -m "Rename system to JSM AI drama intelligence"
+            git push origin HEAD:main
+          fi
