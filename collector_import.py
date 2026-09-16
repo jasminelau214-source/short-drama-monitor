@@ -200,10 +200,18 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         badges = _list_text(raw.get('badges'), 120)
         metrics = _clean_metrics(raw)
 
-        is_old = norm in known_norm
-        newness = 'old' if is_old else 'new'
-        if not is_old:
-            new_titles.append(title)
+        if source_type == 'SHORT_DRAMA_APP':
+            is_old = norm in known_norm
+            newness = 'old' if is_old else 'new'
+            if not is_old:
+                new_titles.append(title)
+            pending_checks = [] if is_old else ['待深度研究']
+        else:
+            # Secondary evidence layers are observations, not authoritative "new drama" signals.
+            # This keeps web/social/data-monitoring imports from triggering the App deep-research queue.
+            is_old = norm in known_norm
+            newness = 'observed'
+            pending_checks = []
 
         item = {
             'rank': rank,
@@ -213,7 +221,7 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
             'rankingBadges': badges,
             'metrics': metrics,
             'newness': newness,
-            'pendingChecks': ([] if source_type != 'SHORT_DRAMA_APP' or is_old else ['待深度研究']),
+            'pendingChecks': pending_checks,
             'confidence': _clean(raw.get('confidence'), 80) or 'collector-verified',
         }
 
