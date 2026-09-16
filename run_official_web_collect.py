@@ -25,6 +25,42 @@ TARGETS = {
             top_n=8,
         ),
     },
+    'shortmax_war_god': {
+        'platform': 'ShortMax',
+        'target_key': 'web_category_war_god',
+        'collect': lambda date: collect_shortmax(
+            collection_date=date,
+            section='War God',
+            top_n=8,
+        ),
+    },
+    'shortmax_tycoon_life': {
+        'platform': 'ShortMax',
+        'target_key': 'web_category_tycoon_life',
+        'collect': lambda date: collect_shortmax(
+            collection_date=date,
+            section='Tycoon Life',
+            top_n=8,
+        ),
+    },
+    'shortmax_apocalypse': {
+        'platform': 'ShortMax',
+        'target_key': 'web_category_apocalypse',
+        'collect': lambda date: collect_shortmax(
+            collection_date=date,
+            section='Apocalypse',
+            top_n=8,
+        ),
+    },
+    'shortmax_dragon_clan': {
+        'platform': 'ShortMax',
+        'target_key': 'web_category_dragon_clan',
+        'collect': lambda date: collect_shortmax(
+            collection_date=date,
+            section='Dragon Clan',
+            top_n=3,
+        ),
+    },
     'dramabox_trending': {
         'platform': 'DramaBox',
         'target_key': 'web_trending_all',
@@ -78,6 +114,7 @@ def collect_target(name: str, collection_date: str, root: Path) -> dict:
         'platform': payload['platform'],
         'targetKey': payload['target_key'],
         'rankingType': payload.get('ranking_type', ''),
+        'category': payload.get('category', ''),
         'rows': normalized['rowCount'],
         'topN': normalized['topN'],
         'status': normalized['status'],
@@ -116,7 +153,7 @@ def main(argv=None) -> int:
     results = []
     failures = []
 
-    print('Official Web Collector V1')
+    print('Official Web Collector V2 Multi-Target')
     print(f'Date: {args.date}')
     print(f'Root: {root}')
     print(f'Targets: {", ".join(targets)}')
@@ -139,6 +176,7 @@ def main(argv=None) -> int:
         'ok': not failures,
         'date': args.date,
         'root': str(root),
+        'targetCount': len(targets),
         'succeeded': results,
         'failed': failures,
     }
