@@ -59,8 +59,9 @@ function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
     if (-not $parsed.batch_complete) { throw "LOCAL_AUDIT_FAILED: $($File.FullName)" }
 
     $headers = @{ Authorization = $AuthHeader }
+    $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
     Write-Host ""
-    Write-Host ("Importing {0} / {1}: {2}" -f $parsed.platform, ($parsed.target_key ?? "daily_top_all"), $File.Name) -ForegroundColor Cyan
+    Write-Host ("Importing {0} / {1}: {2}" -f $parsed.platform, $targetKey, $File.Name) -ForegroundColor Cyan
 
     $response = Invoke-RestMethod `
         -Uri ($BaseUrl.TrimEnd("/") + "/api/admin/collector-import") `
