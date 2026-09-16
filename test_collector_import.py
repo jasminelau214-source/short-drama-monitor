@@ -88,7 +88,7 @@ class CollectorImportTests(unittest.TestCase):
         with self.assertRaises(CollectorImportError):
             validate_and_normalize(payload, set())
 
-    def test_official_web_source_is_distinct(self):
+    def test_official_web_source_is_distinct_and_keeps_urls(self):
         payload = make_payload('ReelShort')
         payload.update({
             'source_type': 'OFFICIAL_WEB',
@@ -97,11 +97,18 @@ class CollectorImportTests(unittest.TestCase):
             'collection_method': 'WEB_SCRAPE',
             'locale': 'en-US',
         })
+        payload['rows'][0]['source_url'] = 'https://example.com/drama/title-1'
+        payload['rows'][0]['episode_url'] = 'https://example.com/episode/title-1-1'
         result = validate_and_normalize(payload, set())
         collector = result['result']['collector']
+        first = result['result']['rows'][0]
         self.assertEqual(collector['sourceId'], 'officialweb_reelshort')
         self.assertEqual(collector['sourceType'], 'OFFICIAL_WEB')
         self.assertEqual(collector['locale'], 'en-US')
+        self.assertEqual(result['status'], '已采集')
+        self.assertEqual(first['pendingChecks'], [])
+        self.assertEqual(first['sourceUrl'], 'https://example.com/drama/title-1')
+        self.assertEqual(first['episodeUrl'], 'https://example.com/episode/title-1-1')
 
 
 if __name__ == '__main__':
