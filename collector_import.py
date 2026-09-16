@@ -213,13 +213,19 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
             'rankingBadges': badges,
             'metrics': metrics,
             'newness': newness,
-            'pendingChecks': [] if is_old else ['待深度研究'],
+            'pendingChecks': ([] if source_type != 'SHORT_DRAMA_APP' or is_old else ['待深度研究']),
             'confidence': _clean(raw.get('confidence'), 80) or 'collector-verified',
         }
 
         source_synopsis = _clean(raw.get('synopsis'), 3000)
         if source_synopsis:
             item['sourceSynopsis'] = source_synopsis
+        source_url = _clean(raw.get('source_url') or raw.get('sourceUrl'), 1200)
+        if source_url:
+            item['sourceUrl'] = source_url
+        episode_url = _clean(raw.get('episode_url') or raw.get('episodeUrl'), 1200)
+        if episode_url:
+            item['episodeUrl'] = episode_url
         rows.append(item)
 
     expected_ranks = set(range(1, top_n + 1))
@@ -241,6 +247,7 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
                 'heat': x['heat'],
                 'tags': x['tags'],
                 'metrics': x['metrics'],
+                'sourceUrl': x.get('sourceUrl', ''),
             }
             for x in rows
         ],
@@ -283,7 +290,7 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         'collector': collector_meta,
         'importedAt': datetime.now(timezone.utc).isoformat(),
     }
-    status = '已识别-待深研' if new_titles else '已分析'
+    status = ('已采集' if source_type != 'SHORT_DRAMA_APP' else ('已识别-待深研' if new_titles else '已分析'))
     return {
         'runId': run_id,
         'collectionDate': collection_date,
