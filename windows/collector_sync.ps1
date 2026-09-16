@@ -57,6 +57,19 @@ function Convert-SecureStringToPlain([Security.SecureString]$Secure) {
     }
 }
 
+function Get-AdminPasswordPlain {
+    $envPassword = [string]$env:SHORT_DRAMA_ADMIN_PASSWORD
+    if ($envPassword -and $envPassword.Trim().Length -gt 0) {
+        Write-Host "Admin password loaded from SHORT_DRAMA_ADMIN_PASSWORD for unattended sync." -ForegroundColor Green
+        return $envPassword
+    }
+
+    Write-Host "Admin password (type here; the password will not be shown):" -ForegroundColor Yellow
+    $securePassword = Read-Host -AsSecureString
+    if (-not $securePassword -or $securePassword.Length -eq 0) { throw "ADMIN_PASSWORD_EMPTY" }
+    return Convert-SecureStringToPlain $securePassword
+}
+
 function Import-CollectorJson([System.IO.FileInfo]$File, [string]$AuthHeader) {
     $raw = Get-Content -Raw -Encoding UTF8 $File.FullName
     $parsed = $raw | ConvertFrom-Json
@@ -108,10 +121,7 @@ try {
 
     Write-Host "Step 2/3  Backend login" -ForegroundColor Cyan
     Write-Host "Username: admin"
-    Write-Host "Admin password (type here; the password will not be shown):" -ForegroundColor Yellow
-    $securePassword = Read-Host -AsSecureString
-    if (-not $securePassword -or $securePassword.Length -eq 0) { throw "ADMIN_PASSWORD_EMPTY" }
-    $plainPassword = Convert-SecureStringToPlain $securePassword
+    $plainPassword = Get-AdminPasswordPlain
     $pair = "admin:$plainPassword"
     $auth = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($pair))
     $authHeader = "Basic $auth"
