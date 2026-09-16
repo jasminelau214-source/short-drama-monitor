@@ -1,7 +1,9 @@
+import hashlib
 import json
 import sqlite3
 import unittest
 
+from live_observations import merge_analysis_records as merge_live_records
 from live_observations_v2 import build_live_summary, merge_analysis_records
 
 
@@ -25,6 +27,9 @@ class LiveObservationsV2Tests(unittest.TestCase):
         self.db.execute('''create table analysis_runs(
             id text primary key, collection_date text, platform text, status text,
             result_json text, updated_at text
+        )''')
+        self.db.execute('''create table drama_overrides(
+            drama_id text primary key, fields_json text not null, updated_at text not null
         )''')
 
     def connect(self):
@@ -97,6 +102,54 @@ class LiveObservationsV2Tests(unittest.TestCase):
         self.assertEqual(summary['platforms'][0]['name'], 'GoodShort')
         self.assertEqual(summary['targetCount'], 1)
         self.assertEqual(summary['targets'][0]['rows'], 3)
+
+    def test_legacy_research_override_survives_v2_id_change(self):
+        platform = 'NetShort'
+        title = "The Quarterback's Comeback"
+        result = {
+            'batchComplete': True,
+            'rows': [{
+                'rank': 1,
+                'title': title,
+                'tags': ['Rebirth'],
+                'newness': 'new',
+                'pendingChecks': ['待深度研究'],
+            }],
+            'collector': {
+                'sourceType': 'SHORT_DRAMA_APP',
+                'targetKey': 'daily_top_all',
+                'rankingType': 'Top Trending',
+                'topN': 1,
+            },
+        }
+        self.db.execute(
+            'insert into analysis_runs values(?,?,?,?,?,?)',
+            ('legacy-run', '2026-09-15', platform, '已分析', json.dumps(result), '2026-09-15T10:00:00Z'),
+        )
+        norm = normalize_title(title)
+        legacy_id = f"auto-netshort-{hashlib.sha1(norm.encode('utf-8')).hexdigest()[:12]}"
+        legacy_fields = {
+            'researchStatus': '已研究',
+            'genre': '校园青春',
+            'audience': '男频',
+            'synopsis': 'legacy research restored',
+            'lane': '逆袭',
+        }
+        self.db.execute(
+            'insert into drama_overrides values(?,?,?)',
+            (legacy_id, json.dumps(legacy_fields, ensure_ascii=False), '2026-09-15T11:00:00Z'),
+        )
+        self.db.commit()
+
+        records = merge_live_records([], self.connect, normalize_title, split_lane)
+        self.assertEqual(len(records), 1)
+        record = records[0]
+        self.assertNotEqual(record['id'], legacy_id)
+        self.assertEqual(record['researchStatus'], '已研究')
+        self.assertEqual(record['genre'], '校园青春')
+        self.assertEqual(record['audience'], '男频')
+        self.assertEqual(record['synopsis'], 'legacy research restored')
+        self.assertEqual(record['laneTerms'], ['逆袭'])
 
 
 if __name__ == '__main__':
