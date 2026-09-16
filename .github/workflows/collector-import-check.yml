@@ -15,5 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - run: python -m py_compile app.py collector_import.py live_observations.py live_observations_v2.py official_web_collectors.py dramabox_full_collector.py run_official_web_collect.py
-      - run: python -m unittest -v test_collector_import.py test_live_observations_v2.py test_official_web_collectors.py test_dramabox_full_collector.py test_official_web_runner.py
+      - run: python -m py_compile app.py collector_import.py live_observations.py live_observations_v2.py official_web_collectors.py dramabox_full_collector.py goodshort_collector.py run_official_web_collect.py
+      - run: python -m unittest -v test_collector_import.py test_live_observations_v2.py test_official_web_collectors.py test_dramabox_full_collector.py test_goodshort_collector.py test_official_web_runner.py
