@@ -12,6 +12,7 @@ DEFAULT_USER_AGENT = (
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
     'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36'
 )
+VOID_TAGS = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
 
 
 class OfficialWebCollectorError(RuntimeError):
@@ -39,13 +40,7 @@ def _attr(attrs, key: str) -> str:
 
 
 class ShortMaxSectionParser(HTMLParser):
-    """Parse the rendered/SSR ShortMax homepage into named content sections.
-
-    The site currently renders each section with `section-title`, followed by
-    `drama-card` blocks containing `card-title`, `overlay-tags` and
-    `overlay-description`. The parser intentionally keys off those semantic
-    classes rather than brittle absolute DOM paths.
-    """
+    """Parse rendered/SSR ShortMax HTML into named content sections."""
 
     def __init__(self, base_url: str = 'https://www.shorttv.live/'):
         super().__init__(convert_charrefs=True)
@@ -64,17 +59,18 @@ class ShortMaxSectionParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         classes = _class_tokens(attrs)
+        counts_depth = tag not in VOID_TAGS
 
         if 'section-title' in classes:
             self._section_title_depth = 1
             self._section_title_buf = []
-        elif self._section_title_depth:
+        elif self._section_title_depth and counts_depth:
             self._section_title_depth += 1
 
         if 'drama-card' in classes:
             self._card_depth = 1
             self._card = {'title': '', 'tags': [], 'synopsis': '', 'url': '', 'episodeUrl': ''}
-        elif self._card_depth:
+        elif self._card_depth and counts_depth:
             self._card_depth += 1
 
         if self._card is not None:
@@ -99,14 +95,18 @@ class ShortMaxSectionParser(HTMLParser):
                 self._capture_field = 'tags'
                 self._capture_depth = 1
                 self._capture_buf = []
-            elif self._capture_depth:
+            elif self._capture_depth and counts_depth:
                 self._capture_depth += 1
 
             if self._capture_field == 'tags' and tag == 'span':
                 self._tag_span_depth = 1
                 self._tag_buf = []
-            elif self._tag_span_depth:
+            elif self._tag_span_depth and counts_depth:
                 self._tag_span_depth += 1
+
+    def handle_startendtag(self, tag, attrs):
+        # Void/self-closing nodes can still carry links or attributes but must not affect nesting.
+        self.handle_starttag(tag, attrs)
 
     def handle_data(self, data):
         if self._section_title_depth:
@@ -117,6 +117,9 @@ class ShortMaxSectionParser(HTMLParser):
             self._tag_buf.append(data)
 
     def handle_endtag(self, tag):
+        if tag in VOID_TAGS:
+            return
+
         if self._tag_span_depth:
             self._tag_span_depth -= 1
             if self._tag_span_depth == 0 and self._card is not None:
@@ -203,10 +206,10 @@ def collect_shortmax(
     top_n: int | None = None,
     document: str | None = None,
 ) -> dict:
-    """Collect one ShortMax official-web section into the generic collector schema.
+    """Collect a ShortMax official-web section into the generic collector schema.
 
-    This returns OFFICIAL_WEB facts. It must stay separate from App ranking history
-    unless a later audit explicitly proves the web section is equivalent to an App ranking.
+    Returned facts are OFFICIAL_WEB and must stay separate from App ranking history
+    unless a later audit proves the web section is equivalent to an App ranking.
     """
     if document is None:
         document = fetch_html(url)
