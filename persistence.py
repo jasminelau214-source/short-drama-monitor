@@ -112,3 +112,12 @@ def update_research_task(task_id: str, *, status: str, research: dict | None = N
         missingFields=missing_fields or [],
         error=error,
     )
+
+
+def monitoring_status(collection_date: str = '') -> dict:
+    """Return registry/target/job coverage from Supabase for the operational dashboard.
+
+    This is intentionally separate from published App ranking facts. It describes
+    collection coverage and health, including provisional Official Web targets.
+    """
+    return _call('monitoring_status', collectionDate=collection_date or '')
