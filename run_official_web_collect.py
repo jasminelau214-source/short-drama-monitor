@@ -8,9 +8,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from collector_import import CollectorImportError, validate_and_normalize
+from dramabox_full_collector import collect_dramabox_channel_all_pages
 from official_web_collectors import (
     OfficialWebCollectorError,
-    collect_dramabox_channel,
     collect_shortmax,
 )
 
@@ -64,10 +64,9 @@ TARGETS = {
     'dramabox_trending': {
         'platform': 'DramaBox',
         'target_key': 'web_trending_all',
-        'collect': lambda date: collect_dramabox_channel(
+        'collect': lambda date: collect_dramabox_channel_all_pages(
             collection_date=date,
             channel='trending',
-            top_n=18,
         ),
     },
 }
