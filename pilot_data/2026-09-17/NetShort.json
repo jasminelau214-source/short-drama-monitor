@@ -10,43 +10,53 @@
   "rows": [
     {
       "rank": 1,
-      "title": "Double-marked: Luna's Revenge"
+      "title": "Double-marked: Luna's Revenge",
+      "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
     },
     {
       "rank": 2,
-      "title": "Contract Lovers"
+      "title": "My Sister’s Boyfriend Arrested Me",
+      "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
     },
     {
       "rank": 3,
-      "title": "Karma Payback"
+      "title": "Back to 95 - Her Big Comeback",
+      "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
     },
     {
       "rank": 4,
-      "title": "My Sister’s Boyfriend Arrested Me"
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
     },
     {
       "rank": 5,
-      "title": "Power Play"
+      "title": "I Woke Up With a Tribe of Beast Girls",
+      "source_url": "https://netshort.com/full-episodes/i-woke-up-with-a-tribe-of-beast-girls-2098257057250066433"
     },
     {
       "rank": 6,
-      "title": "Revenge"
+      "title": "The Quarterback's Comeback",
+      "source_url": "https://netshort.com/full-episodes/the-quarterbacks-comeback-2094669491412594689"
     },
     {
       "rank": 7,
-      "title": "Back to 95 - Her Big Comeback"
+      "title": "I Spoke Baby Dragon and Won Everyone Over!",
+      "source_url": "https://netshort.com/full-episodes/i-spoke-baby-dragon-and-won-everyone-over-2094674901238480897"
     },
     {
       "rank": 8,
-      "title": "Time Travel"
+      "title": "The Dragon Tyrant's Secret Heir",
+      "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
     },
     {
       "rank": 9,
-      "title": "Second Chance"
+      "title": "Escaping the R18 Mafia Bosses Together",
+      "source_url": "https://netshort.com/full-episodes/escaping-the-r18-mafia-bosses-together-2094250296962629634"
     },
     {
       "rank": 10,
-      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire"
+      "title": "When Housewives Turn Deadly",
+      "source_url": "https://netshort.com/full-episodes/when-housewives-turn-deadly-2087124383570907138"
     }
   ],
   "row_count": 10,
@@ -65,18 +75,12 @@
     "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
     "pageUrl": "https://netshort.com/",
     "documentLang": "en-US",
-    "matchedHeading": "Trending Now",
-    "candidateSections": [
-      {
-        "heading": "Trending Now",
-        "rowCount": 10,
-        "depth": 3
-      }
-    ],
-    "rawHtmlSha256": "70fe289dd7014f8899ad892ad7b612b40d51b73ee6be2b3ccb883f0ef6028c72",
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "92a8ca83a0c1dd6a74c2be6a2b461d5a9001b8ae5c01efb4f388dbb9a1f041a7",
     "rawHtmlFile": "pilot_evidence/2026-09-17/NetShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/NetShort.png",
-    "screenshotSha256": "518dc2a7b8d919b9cbb5be036f02243857782b2f5d3f5bd70bb64b1c1369110d"
+    "screenshotSha256": "0c0eda94e53b72acf05b12607d806bcd27ddb849ec510f4fdaf0f905d29cd363"
   },
   "error": "",
   "production_write": false

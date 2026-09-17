@@ -65,18 +65,13 @@
     "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
     "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
     "documentLang": "en",
-    "matchedHeading": "TOP Verticals",
-    "candidateSections": [
-      {
-        "heading": "TOP Verticals",
-        "rowCount": 10,
-        "depth": 3
-      }
-    ],
-    "rawHtmlSha256": "0de35b502ad7130128c34a946c8b28994f1bc9827f46e48632b64edaacdf284d",
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "7fcca547c13c706f2121521bc185d2f39a8d3c6aadf7f2416c496fa630cc9541",
     "rawHtmlFile": "pilot_evidence/2026-09-17/ReelShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/ReelShort.png",
-    "screenshotSha256": "06fc1ca49ee771f7f61d717ff606178700b58e10a5a553105fabff85cb7c127f"
+    "screenshotSha256": "9a0a45d5deec2ce0818892f07133bfdd33666d39723b6399a53dd5b80ccbe944"
   },
   "error": "",
   "production_write": false

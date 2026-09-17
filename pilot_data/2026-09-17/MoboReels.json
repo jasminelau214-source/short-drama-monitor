@@ -14,39 +14,39 @@
     },
     {
       "rank": 2,
-      "title": "Western Fantasy"
-    },
-    {
-      "rank": 3,
-      "title": "Comeback"
-    },
-    {
-      "rank": 4,
-      "title": "Cross-dressing"
-    },
-    {
-      "rank": 5,
-      "title": "Slave"
-    },
-    {
-      "rank": 6,
-      "title": "Redemption"
-    },
-    {
-      "rank": 7,
       "title": "Came Back Hotter With Lord's Twins"
     },
     {
+      "rank": 3,
+      "title": "Mated To My Boyfriend's Brother"
+    },
+    {
+      "rank": 4,
+      "title": "The Chauffeur She Cheated On Was A Billionaire"
+    },
+    {
+      "rank": 5,
+      "title": "Left at the Altar, Married Power"
+    },
+    {
+      "rank": 6,
+      "title": "Their War, Our Fate"
+    },
+    {
+      "rank": 7,
+      "title": "His Secretary By Day, His Secret By Night"
+    },
+    {
       "rank": 8,
-      "title": "One-night stand"
+      "title": "Omega and Alpha: Fatal or Fated?"
     },
     {
       "rank": 9,
-      "title": "Babies"
+      "title": "The Abandoned God Of Olympus"
     },
     {
       "rank": 10,
-      "title": "Sweetness"
+      "title": "The CEO Didn't Know He Was Daddy"
     }
   ],
   "row_count": 10,
@@ -65,14 +65,8 @@
     "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
     "pageUrl": "https://www.moboreels.com/",
     "documentLang": "en",
-    "matchedHeading": "Popular Series",
-    "candidateSections": [
-      {
-        "heading": "Popular Series",
-        "rowCount": 10,
-        "depth": 1
-      }
-    ],
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
     "rawHtmlSha256": "4e40645ff2157f6da3b2e7f41c25f36bdd4cf9f0c38fa6625ff98ce0fb167c5d",
     "rawHtmlFile": "pilot_evidence/2026-09-17/MoboReels.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/MoboReels.png",

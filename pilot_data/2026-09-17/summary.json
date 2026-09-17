@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-17",
-  "generated_at": "2026-09-17T18:38:55.014276+08:00",
+  "generated_at": "2026-09-17T18:45:39.586597+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -39,7 +39,7 @@
         "consecutiveValidRuns": 0,
         "pathStable": false
       },
-      "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden"
+      "error": "RecursionError: maximum recursion depth exceeded"
     },
     {
       "platform": "DramaWave",
@@ -98,25 +98,36 @@
     },
     {
       "platform": "GoodShort",
-      "status": "PASS_VERIFIED",
-      "row_count": 10,
+      "status": "NEEDS_ADAPTER",
+      "row_count": 0,
       "audit": {
-        "batchComplete": true,
+        "batchComplete": false,
         "expectedRows": 10,
-        "actualRows": 10,
-        "missingRanks": [],
+        "actualRows": 0,
+        "missingRanks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
         "duplicateRanks": [],
         "duplicateTitles": [],
         "emptyTitles": 0
       },
       "stability": {
         "lastThree": [
-          "PASS_VERIFIED"
+          "NEEDS_ADAPTER"
         ],
-        "consecutiveValidRuns": 1,
+        "consecutiveValidRuns": 0,
         "pathStable": false
       },
-      "error": ""
+      "error": "RecursionError: maximum recursion depth exceeded"
     },
     {
       "platform": "MoboReels",
@@ -186,25 +197,28 @@
     },
     {
       "platform": "ShortMax",
-      "status": "PASS_CANDIDATE",
-      "row_count": 10,
+      "status": "PARTIAL",
+      "row_count": 8,
       "audit": {
-        "batchComplete": true,
+        "batchComplete": false,
         "expectedRows": 10,
-        "actualRows": 10,
-        "missingRanks": [],
+        "actualRows": 8,
+        "missingRanks": [
+          9,
+          10
+        ],
         "duplicateRanks": [],
         "duplicateTitles": [],
         "emptyTitles": 0
       },
       "stability": {
         "lastThree": [
-          "PASS_CANDIDATE"
+          "PARTIAL"
         ],
-        "consecutiveValidRuns": 1,
+        "consecutiveValidRuns": 0,
         "pathStable": false
       },
-      "error": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8"
+      "error": ""
     }
   ]
 }

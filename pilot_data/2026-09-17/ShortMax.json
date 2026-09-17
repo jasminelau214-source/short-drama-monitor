@@ -5,79 +5,81 @@
   "target_key": "web_pilot_most_popular_top10",
   "ranking_type": "Most Popular",
   "source_url": "https://www.shorttv.live/",
-  "strategy": "verified_parser+browser_fallback",
+  "strategy": "verified_parser",
   "top_n": 10,
   "rows": [
     {
       "rank": 1,
-      "title": "My Catfish Victim Is Actually My Bestie’s Brother"
+      "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
     },
     {
       "rank": 2,
-      "title": "Loved Twice by the Hockey Star"
+      "title": "Loved Twice by the Hockey Star",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
     },
     {
       "rank": 3,
-      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR"
+      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
     },
     {
       "rank": 4,
-      "title": "My Crush Lost Me to His Rival"
+      "title": "My Crush Lost Me to His Rival",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
     },
     {
       "rank": 5,
-      "title": "Done Being a Lady. Time to Shoot."
+      "title": "Done Being a Lady. Time to Shoot.",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
     },
     {
       "rank": 6,
-      "title": "My Groom Chose My Best Friend"
+      "title": "My Groom Chose My Best Friend",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
     },
     {
       "rank": 7,
-      "title": "Dumped My Ex, Married the Mafia Don"
+      "title": "Dumped My Ex, Married the Mafia Don",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
     },
     {
       "rank": 8,
-      "title": "North Dragon Rise After Rejection"
-    },
-    {
-      "rank": 9,
-      "title": "This Beggar is a Dragon God"
-    },
-    {
-      "rank": 10,
-      "title": "The Priest Is Actually A Seraph"
+      "title": "Don, Your Regret Can’t Keep Me",
+      "tags": [],
+      "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
     }
   ],
-  "row_count": 10,
-  "status": "PASS_CANDIDATE",
+  "row_count": 8,
+  "status": "PARTIAL",
   "audit": {
-    "batchComplete": true,
+    "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 10,
-    "missingRanks": [],
+    "actualRows": 8,
+    "missingRanks": [
+      9,
+      10
+    ],
     "duplicateRanks": [],
     "duplicateTitles": [],
     "emptyTitles": 0
   },
   "evidence": {
-    "parserFallbackError": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8",
-    "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
-    "pageUrl": "https://www.shorttv.live/",
-    "documentLang": "",
-    "matchedHeading": "Most Popular 🔥",
-    "candidateSections": [
-      {
-        "heading": "Most Popular 🔥",
-        "rowCount": 10,
-        "depth": 3
-      }
-    ],
-    "rawHtmlSha256": "b2c767b2f09caa065f47a5d6af387e48b732e9117ad6366167f2933e02fb3a64",
-    "rawHtmlFile": "pilot_evidence/2026-09-17/ShortMax.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-17/ShortMax.png",
-    "screenshotSha256": "1056cbcf34dc8667e2e37c7033619475d419cbd8bab36e4d2b4cb3b85f173268"
+    "collectorVersion": "shortmax-web-v1",
+    "collectedAt": "2026-09-17T10:45:39.548142+00:00",
+    "payloadEvidence": {
+      "url": "https://www.shorttv.live/",
+      "section": "Most Popular 🔥",
+      "row_count": 8
+    }
   },
-  "error": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8",
+  "error": "",
   "production_write": false
 }

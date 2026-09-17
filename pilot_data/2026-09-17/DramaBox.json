@@ -31,17 +31,17 @@
     "emptyTitles": 0
   },
   "evidence": {
-    "parserFallbackError": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+    "parserFallbackError": "RecursionError: maximum recursion depth exceeded",
     "pageTitle": "ERROR: The request could not be satisfied",
     "pageUrl": "https://www.dramaboxdb.com/channel/trending",
     "documentLang": "",
-    "matchedHeading": "",
-    "candidateSections": [],
-    "rawHtmlSha256": "09f0f2e30919176ffe69319b90c69c76a764614e7192153d31fcee861f6251b7",
+    "structuredData": "DramaBox browser parse failed",
+    "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
+    "rawHtmlSha256": "39a57929a780a3b060f81eeb527f7419bc7a1b5bfd776acd4fe34db0d154d62f",
     "rawHtmlFile": "pilot_evidence/2026-09-17/DramaBox.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/DramaBox.png",
-    "screenshotSha256": "79ceb3aa8f09c59eaf3dd6f880b58e64e76c5bfbef03f93e771de5f3af77393e"
+    "screenshotSha256": "6fd77313ee08f26ff84db9d79b124aa7c0e603124045fe764af87e2e8b7c6835"
   },
-  "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+  "error": "RecursionError: maximum recursion depth exceeded",
   "production_write": false
 }

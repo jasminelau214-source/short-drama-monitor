@@ -10,43 +10,53 @@
   "rows": [
     {
       "rank": 1,
-      "title": "The Veteran’s Promise Watch Short Drama Online"
+      "title": "The Veteran’s Promise",
+      "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
     },
     {
       "rank": 2,
-      "title": "Loving You in My Final Days Watch Short Drama Online"
+      "title": "Loving You in My Final Days",
+      "source_url": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
     },
     {
       "rank": 3,
-      "title": "Mr. Williams! Madame Is Dying Watch Short Drama Online"
+      "title": "Mr. Williams! Madame Is Dying",
+      "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
     },
     {
       "rank": 4,
-      "title": "(DUBBED)The Tiny Tyrant of Go Watch Short Drama Online"
+      "title": "(DUBBED)The Tiny Tyrant of Go",
+      "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
     },
     {
       "rank": 5,
-      "title": "Betrayed at the Alter, She Married a CEO Instead Watch Short Drama Online"
+      "title": "Betrayed at the Alter, She Married a CEO Instead",
+      "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
     },
     {
       "rank": 6,
-      "title": "My Three Brothers Finally Chose Me Watch Short Drama Online"
+      "title": "My Three Brothers Finally Chose Me",
+      "source_url": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
     },
     {
       "rank": 7,
-      "title": "I Secretly Gave Birth to God's Five Babies Watch Short Drama Online"
+      "title": "I Secretly Gave Birth to God's Five Babies",
+      "source_url": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
     },
     {
       "rank": 8,
-      "title": "Runaway Billionaire Becomes My Groom Watch Short Drama Online"
+      "title": "Runaway Billionaire Becomes My Groom",
+      "source_url": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
     },
     {
       "rank": 9,
-      "title": "A Flash Marriage With The Billionaire Tycoon Watch Short Drama Online"
+      "title": "A Flash Marriage With The Billionaire Tycoon",
+      "source_url": "https://www.flextv.cc/movie/a-flash-marriage-with-the-billionaire-tycoon-jGnvm37zky"
     },
     {
       "rank": 10,
-      "title": "(DUBBED)Justice in Blood Watch Short Drama Online"
+      "title": "(DUBBED)Justice in Blood",
+      "source_url": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
     }
   ],
   "row_count": 10,
@@ -65,23 +75,12 @@
     "pageTitle": "Top in FlexTV Short Dramas Online | Watch Full Episodes in HD - FlexTV",
     "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
     "documentLang": "en",
-    "matchedHeading": "Watch Top in FlexTV short dramas online free on FlexTV, featuring trending vertical dramas and short-form series updated regularly. Popular titles include The Veteran’s Promise, Loving You in My Final",
-    "candidateSections": [
-      {
-        "heading": "Watch Top in FlexTV short dramas online free on FlexTV, featuring trending vertical dramas and short-form series updated regularly. Popular titles include The Veteran’s Promise, Loving You in My Final",
-        "rowCount": 10,
-        "depth": 2
-      },
-      {
-        "heading": "Top in FlexTV Verticals",
-        "rowCount": 10,
-        "depth": 3
-      }
-    ],
-    "rawHtmlSha256": "319a01773425d015232635a0aa99f33cc988333d493b56c35bd73b15c2fe5387",
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "",
+    "rawHtmlSha256": "3ff927ebc53f5846b572f1a19a5af57a63828268e511c0d3b2cde3bab08910ce",
     "rawHtmlFile": "pilot_evidence/2026-09-17/FlexTV.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/FlexTV.png",
-    "screenshotSha256": "2facdefe71f8a40960ac423751ba86b53c7558feaf18d36d19102e7946a915b2"
+    "screenshotSha256": "6f929b469d6be1fe8e411d887e9f59dcb683a43415b1506f7e2c0d99c49840b6"
   },
   "error": "",
   "production_write": false
