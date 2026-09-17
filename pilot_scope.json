@@ -21,11 +21,11 @@
     },
     {
       "platform": "DramaWave",
-      "url": "https://mydramawave.com/",
-      "target_key": "web_pilot_main_top10",
-      "ranking_type": "Main Web Shelf",
+      "url": "https://m.mydramawave.com/",
+      "target_key": "web_pilot_most_trending_top10",
+      "ranking_type": "Most Trending",
       "strategy": "browser_probe",
-      "heading_keywords": ["Popular", "Trending", "Top"]
+      "heading_keywords": ["Popular Choices", "Most Trending"]
     },
     {
       "platform": "FlexTV",
