@@ -1,0 +1,83 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Double-marked: Luna's Revenge"
+    },
+    {
+      "rank": 2,
+      "title": "Contract Lovers"
+    },
+    {
+      "rank": 3,
+      "title": "Karma Payback"
+    },
+    {
+      "rank": 4,
+      "title": "My Sister’s Boyfriend Arrested Me"
+    },
+    {
+      "rank": 5,
+      "title": "Power Play"
+    },
+    {
+      "rank": 6,
+      "title": "Revenge"
+    },
+    {
+      "rank": 7,
+      "title": "Back to 95 - Her Big Comeback"
+    },
+    {
+      "rank": 8,
+      "title": "Time Travel"
+    },
+    {
+      "rank": 9,
+      "title": "Second Chance"
+    },
+    {
+      "rank": 10,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "matchedHeading": "Trending Now",
+    "candidateSections": [
+      {
+        "heading": "Trending Now",
+        "rowCount": 10,
+        "depth": 3
+      }
+    ],
+    "rawHtmlSha256": "70fe289dd7014f8899ad892ad7b612b40d51b73ee6be2b3ccb883f0ef6028c72",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/NetShort.png",
+    "screenshotSha256": "518dc2a7b8d919b9cbb5be036f02243857782b2f5d3f5bd70bb64b1c1369110d"
+  },
+  "error": "",
+  "production_write": false
+}

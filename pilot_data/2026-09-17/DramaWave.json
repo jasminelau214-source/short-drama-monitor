@@ -1,0 +1,47 @@
+{
+  "platform": "DramaWave",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_main_top10",
+  "ranking_type": "Main Web Shelf",
+  "source_url": "https://mydramawave.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [],
+  "row_count": 0,
+  "status": "NEEDS_ADAPTER",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 0,
+    "missingRanks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "DramaWave",
+    "pageUrl": "https://mydramawave.com/",
+    "documentLang": "en",
+    "matchedHeading": "",
+    "candidateSections": [],
+    "rawHtmlSha256": "60215a01e4b2c4779bc02918ca15af23de3ff9a64aee62de201e0146d78f9d3c",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/DramaWave.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/DramaWave.png",
+    "screenshotSha256": "8187322fc846b1afd23cb880e3929a85e0990a391746d4641194f20ae860cf0e"
+  },
+  "error": "",
+  "production_write": false
+}

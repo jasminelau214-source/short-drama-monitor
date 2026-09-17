@@ -1,0 +1,210 @@
+{
+  "pilot": "web-top10-8platform",
+  "collection_date": "2026-09-17",
+  "generated_at": "2026-09-17T18:38:55.014276+08:00",
+  "top_n": 10,
+  "scope_count": 8,
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "promotion_state": "PILOT_RUNNING",
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "status": "NEEDS_ADAPTER",
+      "row_count": 0,
+      "audit": {
+        "batchComplete": false,
+        "expectedRows": 10,
+        "actualRows": 0,
+        "missingRanks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "NEEDS_ADAPTER"
+        ],
+        "consecutiveValidRuns": 0,
+        "pathStable": false
+      },
+      "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden"
+    },
+    {
+      "platform": "DramaWave",
+      "status": "NEEDS_ADAPTER",
+      "row_count": 0,
+      "audit": {
+        "batchComplete": false,
+        "expectedRows": 10,
+        "actualRows": 0,
+        "missingRanks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "NEEDS_ADAPTER"
+        ],
+        "consecutiveValidRuns": 0,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "FlexTV",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "GoodShort",
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_VERIFIED"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "MoboReels",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "NetShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "ReelShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "ShortMax",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "platform": "FlexTV",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_in_flextv_top10",
+  "ranking_type": "Top in FlexTV",
+  "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Veteran’s Promise Watch Short Drama Online"
+    },
+    {
+      "rank": 2,
+      "title": "Loving You in My Final Days Watch Short Drama Online"
+    },
+    {
+      "rank": 3,
+      "title": "Mr. Williams! Madame Is Dying Watch Short Drama Online"
+    },
+    {
+      "rank": 4,
+      "title": "(DUBBED)The Tiny Tyrant of Go Watch Short Drama Online"
+    },
+    {
+      "rank": 5,
+      "title": "Betrayed at the Alter, She Married a CEO Instead Watch Short Drama Online"
+    },
+    {
+      "rank": 6,
+      "title": "My Three Brothers Finally Chose Me Watch Short Drama Online"
+    },
+    {
+      "rank": 7,
+      "title": "I Secretly Gave Birth to God's Five Babies Watch Short Drama Online"
+    },
+    {
+      "rank": 8,
+      "title": "Runaway Billionaire Becomes My Groom Watch Short Drama Online"
+    },
+    {
+      "rank": 9,
+      "title": "A Flash Marriage With The Billionaire Tycoon Watch Short Drama Online"
+    },
+    {
+      "rank": 10,
+      "title": "(DUBBED)Justice in Blood Watch Short Drama Online"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Top in FlexTV Short Dramas Online | Watch Full Episodes in HD - FlexTV",
+    "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+    "documentLang": "en",
+    "matchedHeading": "Watch Top in FlexTV short dramas online free on FlexTV, featuring trending vertical dramas and short-form series updated regularly. Popular titles include The Veteran’s Promise, Loving You in My Final",
+    "candidateSections": [
+      {
+        "heading": "Watch Top in FlexTV short dramas online free on FlexTV, featuring trending vertical dramas and short-form series updated regularly. Popular titles include The Veteran’s Promise, Loving You in My Final",
+        "rowCount": 10,
+        "depth": 2
+      },
+      {
+        "heading": "Top in FlexTV Verticals",
+        "rowCount": 10,
+        "depth": 3
+      }
+    ],
+    "rawHtmlSha256": "319a01773425d015232635a0aa99f33cc988333d493b56c35bd73b15c2fe5387",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/FlexTV.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/FlexTV.png",
+    "screenshotSha256": "2facdefe71f8a40960ac423751ba86b53c7558feaf18d36d19102e7946a915b2"
+  },
+  "error": "",
+  "production_write": false
+}

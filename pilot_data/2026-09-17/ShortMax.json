@@ -1,0 +1,83 @@
+{
+  "platform": "ShortMax",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_popular_top10",
+  "ranking_type": "Most Popular",
+  "source_url": "https://www.shorttv.live/",
+  "strategy": "verified_parser+browser_fallback",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "My Catfish Victim Is Actually My Bestie’s Brother"
+    },
+    {
+      "rank": 2,
+      "title": "Loved Twice by the Hockey Star"
+    },
+    {
+      "rank": 3,
+      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR"
+    },
+    {
+      "rank": 4,
+      "title": "My Crush Lost Me to His Rival"
+    },
+    {
+      "rank": 5,
+      "title": "Done Being a Lady. Time to Shoot."
+    },
+    {
+      "rank": 6,
+      "title": "My Groom Chose My Best Friend"
+    },
+    {
+      "rank": 7,
+      "title": "Dumped My Ex, Married the Mafia Don"
+    },
+    {
+      "rank": 8,
+      "title": "North Dragon Rise After Rejection"
+    },
+    {
+      "rank": 9,
+      "title": "This Beggar is a Dragon God"
+    },
+    {
+      "rank": 10,
+      "title": "The Priest Is Actually A Seraph"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8",
+    "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
+    "pageUrl": "https://www.shorttv.live/",
+    "documentLang": "",
+    "matchedHeading": "Most Popular 🔥",
+    "candidateSections": [
+      {
+        "heading": "Most Popular 🔥",
+        "rowCount": 10,
+        "depth": 3
+      }
+    ],
+    "rawHtmlSha256": "b2c767b2f09caa065f47a5d6af387e48b732e9117ad6366167f2933e02fb3a64",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/ShortMax.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/ShortMax.png",
+    "screenshotSha256": "1056cbcf34dc8667e2e37c7033619475d419cbd8bab36e4d2b4cb3b85f173268"
+  },
+  "error": "OfficialWebCollectorError: INCOMPLETE_SECTION: Most Popular 🔥: expected=10 actual=8",
+  "production_write": false
+}

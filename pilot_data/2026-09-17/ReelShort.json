@@ -1,0 +1,83 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Take Me Back to the Night We Met"
+    },
+    {
+      "rank": 2,
+      "title": "Altarboy"
+    },
+    {
+      "rank": 3,
+      "title": "You've Been Replaced, First Love"
+    },
+    {
+      "rank": 4,
+      "title": "Sweet Temptation"
+    },
+    {
+      "rank": 5,
+      "title": "The Hockey Captain That Hates Me"
+    },
+    {
+      "rank": 6,
+      "title": "Salt Kiss"
+    },
+    {
+      "rank": 7,
+      "title": "Found A Homeless Billionaire Husband for Christmas"
+    },
+    {
+      "rank": 8,
+      "title": "Cooking My Way Back to Love"
+    },
+    {
+      "rank": 9,
+      "title": "When Wife Won't Forgive"
+    },
+    {
+      "rank": 10,
+      "title": "My X-Ray Vision Sees Right Through You"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "matchedHeading": "TOP Verticals",
+    "candidateSections": [
+      {
+        "heading": "TOP Verticals",
+        "rowCount": 10,
+        "depth": 3
+      }
+    ],
+    "rawHtmlSha256": "0de35b502ad7130128c34a946c8b28994f1bc9827f46e48632b64edaacdf284d",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/ReelShort.png",
+    "screenshotSha256": "06fc1ca49ee771f7f61d717ff606178700b58e10a5a553105fabff85cb7c127f"
+  },
+  "error": "",
+  "production_write": false
+}

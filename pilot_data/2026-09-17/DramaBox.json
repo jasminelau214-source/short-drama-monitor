@@ -1,0 +1,47 @@
+{
+  "platform": "DramaBox",
+  "collection_date": "2026-09-17",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_top10",
+  "ranking_type": "Trending",
+  "source_url": "https://www.dramaboxdb.com/channel/trending",
+  "strategy": "verified_parser+browser_fallback",
+  "top_n": 10,
+  "rows": [],
+  "row_count": 0,
+  "status": "NEEDS_ADAPTER",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 0,
+    "missingRanks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+    "pageTitle": "ERROR: The request could not be satisfied",
+    "pageUrl": "https://www.dramaboxdb.com/channel/trending",
+    "documentLang": "",
+    "matchedHeading": "",
+    "candidateSections": [],
+    "rawHtmlSha256": "09f0f2e30919176ffe69319b90c69c76a764614e7192153d31fcee861f6251b7",
+    "rawHtmlFile": "pilot_evidence/2026-09-17/DramaBox.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-17/DramaBox.png",
+    "screenshotSha256": "79ceb3aa8f09c59eaf3dd6f880b58e64e76c5bfbef03f93e771de5f3af77393e"
+  },
+  "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+  "production_write": false
+}
