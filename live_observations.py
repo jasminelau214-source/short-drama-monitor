@@ -5,9 +5,9 @@ remains stable while the publication model expands from fixed Top10/four-platfor
 logic to generic TopN, dynamic platforms and target-aware ranking observations.
 
 This shim also attaches operational collection coverage from Supabase when the
-persistence connector is configured. Ranking facts and collection-health metadata
-remain separate: Official Web coverage is never silently promoted into App ranking
-history.
+persistence connector is configured. App ranking facts and Official Web evidence
+remain separate publication layers: Web observations are exposed for review and
+content analysis, but are never silently promoted into App ranking history.
 
 It also preserves historical deep-research overrides across record-ID migrations.
 V1 dynamic IDs used platform + normalized title; V2 IDs use platform + targetKey +
@@ -18,6 +18,8 @@ when the publication-layer ID format changes.
 
 import hashlib
 import json
+import re
+from collections import Counter
 
 from runtime_ui_patch import main as _apply_runtime_ui_patch
 
@@ -33,6 +35,10 @@ import persistence
 
 def _platform_slug(platform):
     return ''.join(ch.lower() if ch.isalnum() else '-' for ch in str(platform or '')).strip('-') or 'platform'
+
+
+def _norm_title(value):
+    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
 
 
 def _legacy_v1_id(platform, title, normalize_title):
@@ -100,12 +106,7 @@ def merge_analysis_records(base_records, connect, normalize_title, split_lane):
 
 
 def _coverage_status_counts(coverage, fallback):
-    """Expose target-level status counts, not raw job-run counts.
-
-    collection_jobs can contain retries/reruns for one target on the same date. The
-    dashboard describes target coverage, so its status totals must come from the
-    deduplicated daily coverage view whenever that view is available.
-    """
+    """Expose target-level status counts, not raw job-run counts."""
     if not isinstance(coverage, dict):
         return fallback if isinstance(fallback, dict) else {}
     return {
@@ -114,6 +115,162 @@ def _coverage_status_counts(coverage, fallback):
         'partial': int(coverage.get('partial_targets') or 0),
         'needsReview': int(coverage.get('review_targets') or 0),
         'other': int(coverage.get('other_targets') or 0),
+    }
+
+
+def _json_obj(value):
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+        except json.JSONDecodeError:
+            return {}
+        return parsed if isinstance(parsed, dict) else {}
+    return {}
+
+
+def _row_rank(row, index):
+    for key in ('rank', 'position'):
+        try:
+            value = int(row.get(key))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        if value > 0:
+            return value
+    return index + 1
+
+
+def _analysis_label(job_status, task_status):
+    if job_status == 'PARTIAL':
+        return '待补采/复核'
+    if job_status == 'NEEDS_REVIEW':
+        return '待质量复核'
+    if job_status != 'SUCCEEDED':
+        return '暂不进入内容分析'
+    return {
+        'PENDING': '待内容分析',
+        'RESEARCHING': '分析中',
+        'COMPLETE': '内容分析完成',
+        'NEEDS_GPT': '需GPT复核',
+        'REVIEW_REQUIRED': '需人工复核',
+        'FAILED': '分析失败',
+    }.get(task_status, '待进入内容分析')
+
+
+def _build_web_collection(monitoring):
+    """Build a separate Official Web evidence layer from each target's latest run.
+
+    This intentionally includes PARTIAL/NEEDS_REVIEW rows in the collection view so
+    the operator can see all captured evidence, while only SUCCEEDED rows are eligible
+    for content-research tasks.
+    """
+    collection_date = str(monitoring.get('collectionDate') or '')
+    targets = [
+        x for x in (monitoring.get('targetStatus') or [])
+        if str(x.get('source_group') or '') == 'OFFICIAL_WEB'
+        and (not collection_date or str(x.get('latest_collection_date') or '') == collection_date)
+    ]
+    jobs = monitoring.get('jobs') or []
+
+    task_by_key = {}
+    try:
+        tasks = persistence.list_research_tasks(limit=500)
+    except Exception:
+        tasks = []
+    for task in tasks:
+        if str(task.get('collection_date') or '') != collection_date:
+            continue
+        key = (
+            str(task.get('platform') or '').strip(),
+            _norm_title(task.get('title') or task.get('normalized_title')),
+        )
+        if key[0] and key[1]:
+            task_by_key[key] = task
+
+    rows = []
+    selected_jobs = []
+    for target in targets:
+        target_id = str(target.get('target_id') or '')
+        candidates = [
+            j for j in jobs
+            if str(j.get('target_id') or '') == target_id
+            and (not collection_date or str(j.get('collection_date') or '') == collection_date)
+        ]
+        if not candidates:
+            continue
+        job = max(candidates, key=lambda j: (str(j.get('finished_at') or ''), str(j.get('created_at') or '')))
+        selected_jobs.append(job)
+        result = _json_obj(job.get('result_json'))
+        platform = str(result.get('platform') or '').strip()
+        if not platform:
+            platform = re.sub(r'\s+Official Web$', '', str(target.get('source_name') or '').strip())
+        target_key = str(target.get('target_key') or result.get('targetKey') or '').strip()
+        ranking_type = str(target.get('ranking_type') or result.get('rankingType') or '').strip()
+        category = str(target.get('category') or result.get('category') or 'All').strip() or 'All'
+        job_status = str(job.get('status') or target.get('latest_job_status') or '')
+        raw_rows = result.get('rows') if isinstance(result.get('rows'), list) else []
+        for index, raw in enumerate(raw_rows):
+            if not isinstance(raw, dict):
+                continue
+            title = str(raw.get('title') or '').strip()
+            if not title:
+                continue
+            norm = _norm_title(title)
+            task = task_by_key.get((platform, norm)) if norm else None
+            task_status = str((task or {}).get('status') or '')
+            research = _json_obj((task or {}).get('research_json'))
+            rank = _row_rank(raw, index)
+            digest = hashlib.sha1(f'{collection_date}|{platform}|{target_key}|{title}'.encode('utf-8')).hexdigest()[:14]
+            tags = raw.get('tags')
+            if isinstance(tags, list):
+                tag_text = ', '.join(str(x).strip() for x in tags if str(x).strip())
+            else:
+                tag_text = str(tags or '').strip()
+            metrics = raw.get('metrics') if isinstance(raw.get('metrics'), dict) else {}
+            rows.append({
+                'id': f'web-{digest}',
+                'collectionDate': collection_date,
+                'sourceType': 'OFFICIAL_WEB',
+                'platform': platform,
+                'sourceName': str(target.get('source_name') or ''),
+                'targetKey': target_key,
+                'rankingType': ranking_type,
+                'category': category,
+                'configuredTopN': int(target.get('configured_top_n') or len(raw_rows) or 0),
+                'rank': rank,
+                'title': title,
+                'tags': tag_text,
+                'metrics': metrics,
+                'jobStatus': job_status,
+                'qualityStatus': {
+                    'SUCCEEDED': '采集通过',
+                    'PARTIAL': '部分采集',
+                    'NEEDS_REVIEW': '待质量复核',
+                }.get(job_status, job_status or '未知'),
+                'analysisStatus': _analysis_label(job_status, task_status),
+                'researchTaskStatus': task_status,
+                'research': research,
+                'researchConfidence': str((task or {}).get('confidence') or ''),
+                'researchSources': (task or {}).get('sources') if isinstance((task or {}).get('sources'), list) else [],
+                'provisional': bool(result.get('provisional')),
+            })
+
+    platform_names = sorted({r['platform'] for r in rows if r.get('platform')})
+    target_keys = sorted({(r['platform'], r['targetKey']) for r in rows})
+    quality_counts = Counter(r['jobStatus'] for r in rows)
+    analysis_counts = Counter(r['analysisStatus'] for r in rows)
+    return {
+        'available': bool(rows),
+        'collectionDate': collection_date,
+        'rowCount': len(rows),
+        'uniqueTitles': len({_norm_title(r['title']) for r in rows if _norm_title(r['title'])}),
+        'platformCount': len(platform_names),
+        'platforms': platform_names,
+        'targetCount': len(target_keys),
+        'qualityCounts': dict(sorted(quality_counts.items())),
+        'analysisCounts': dict(sorted(analysis_counts.items())),
+        'rows': sorted(rows, key=lambda r: (r['platform'], r['targetKey'], int(r['rank'] or 999), r['title'])),
     }
 
 
@@ -144,6 +301,18 @@ def build_live_summary(records, platform_order, clean, split_lane):
         except Exception as exc:
             monitoring['error'] = str(exc)[:1000]
     summary['monitoring'] = monitoring
+    summary['webCollection'] = _build_web_collection(monitoring) if monitoring.get('available') else {
+        'available': False,
+        'collectionDate': '',
+        'rowCount': 0,
+        'uniqueTitles': 0,
+        'platformCount': 0,
+        'platforms': [],
+        'targetCount': 0,
+        'qualityCounts': {},
+        'analysisCounts': {},
+        'rows': [],
+    }
     return summary
 
 
