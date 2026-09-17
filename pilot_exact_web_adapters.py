@@ -44,6 +44,11 @@ def _find_itemlists(value: Any) -> list[dict[str, Any]]:
     return out
 
 
+def _strip_markup(value: Any, limit: int = 500) -> str:
+    text = re.sub(r"<[^>]+>", " ", str(value or ""))
+    return base.clean(html_lib.unescape(text), limit)
+
+
 def _rows_from_itemlist(document: str, expected_name: str):
     expected = base.clean(expected_name, 200).casefold()
     candidates = []
@@ -134,6 +139,55 @@ def _rows_from_moboreels(document: str):
     return rows, {"structuredData": "MoboReels Popular Series DOM", "visibleTitles": len(titles)}, True
 
 
+def _rows_from_dramawave(document: str):
+    """Parse explicit `Nth Most Trending` cards from DramaWave Popular Choices.
+
+    The mobile official Web page renders custom x-* elements. Rank is taken only from
+    the platform's explicit Most Trending label; visual grid order is never promoted
+    into a rank and missing positions are left missing for the pilot audit to flag.
+    """
+    heading = re.search(
+        r'<x-title\b[^>]*>\s*Popular Choices\s*</x-title>',
+        document,
+        flags=re.I | re.S,
+    )
+    if not heading:
+        return [], {"structuredData": "DramaWave Popular Choices heading not found"}, False
+
+    start = heading.end()
+    next_heading = re.search(r'<x-title\b[^>]*>', document[start:], flags=re.I)
+    end = start + next_heading.start() if next_heading else min(len(document), start + 500000)
+    section = document[start:end]
+    cards = re.findall(r'<x-drama-card\b[^>]*>(.*?)</x-drama-card>', section, flags=re.I | re.S)
+
+    by_rank: dict[int, dict[str, Any]] = {}
+    duplicate_ranks: list[int] = []
+    for card in cards:
+        title_match = re.search(r'<x-drama-title\b[^>]*>(.*?)</x-drama-title>', card, flags=re.I | re.S)
+        rank_match = re.search(r'\b(\d{1,2})(?:st|nd|rd|th)\s+Most\s+Trending\b', card, flags=re.I)
+        if not title_match or not rank_match:
+            continue
+        title = _strip_markup(title_match.group(1), 500)
+        try:
+            rank = int(rank_match.group(1))
+        except (TypeError, ValueError):
+            continue
+        if not 1 <= rank <= TOP_N or not title:
+            continue
+        if rank in by_rank:
+            duplicate_ranks.append(rank)
+            continue
+        by_rank[rank] = {"rank": rank, "title": title}
+
+    rows = [by_rank[r] for r in sorted(by_rank)]
+    return rows, {
+        "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+        "cardCount": len(cards),
+        "explicitRankCount1To10": len(rows),
+        "duplicateExplicitRanks": sorted(set(duplicate_ranks)),
+    }, True
+
+
 def _rows_from_dramabox(document: str, collection_date: str):
     try:
         from official_web_collectors import collect_dramabox_channel
@@ -155,6 +209,8 @@ def _rows_from_dramabox(document: str, collection_date: str):
 def _parse_exact(platform: str, document: str, collection_date: str):
     if platform == "DramaBox":
         return _rows_from_dramabox(document, collection_date)
+    if platform == "DramaWave":
+        return _rows_from_dramawave(document)
     if platform == "FlexTV":
         return _rows_from_itemlist(document, "Top in FlexTV")
     if platform == "NetShort":
