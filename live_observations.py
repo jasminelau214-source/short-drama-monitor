@@ -19,6 +19,13 @@ when the publication-layer ID format changes.
 import hashlib
 import json
 
+from runtime_ui_patch import main as _apply_runtime_ui_patch
+
+# app.py imports this module before reading index.html, so apply the idempotent UI
+# migration here. This keeps the deployed service compatible with its existing
+# Render start command while the dashboard moves away from hard-coded Top10 copy.
+_apply_runtime_ui_patch()
+
 from live_observations_v2 import build_live_summary as _build_live_summary
 from live_observations_v2 import merge_analysis_records as _merge_analysis_records
 import persistence
