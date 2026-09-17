@@ -7,6 +7,8 @@ on:
       - pilot/web-top10-8platform
     paths:
       - pilot_web_top10.py
+      - pilot_web_top10_v2.py
+      - pilot_exact_web_adapters.py
       - pilot_scope.json
       - official_web_collectors.py
       - goodshort_collector.py
@@ -40,7 +42,7 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Run isolated eight-platform Web Top10 pilot
-        run: python pilot_web_top10.py
+        run: python pilot_web_top10_v2.py
 
       - name: Upload raw evidence artifact
         if: always()
