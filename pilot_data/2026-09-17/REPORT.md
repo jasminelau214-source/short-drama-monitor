@@ -5,9 +5,9 @@ Promotion state: **PILOT_RUNNING**
 | Platform | Status | Rows | Stable runs | Path stable |
 |---|---:|---:|---:|---:|
 | DramaBox | NEEDS_ADAPTER | 0 | 0 | NO |
-| DramaWave | NEEDS_ADAPTER | 0 | 0 | NO |
+| DramaWave | PARTIAL | 5 | 0 | NO |
 | FlexTV | PASS_CANDIDATE | 10 | 1 | NO |
-| GoodShort | PASS_VERIFIED | 10 | 1 | NO |
+| GoodShort | NEEDS_ADAPTER | 0 | 0 | NO |
 | MoboReels | PASS_CANDIDATE | 10 | 1 | NO |
 | NetShort | PASS_CANDIDATE | 10 | 1 | NO |
 | ReelShort | PASS_CANDIDATE | 10 | 1 | NO |

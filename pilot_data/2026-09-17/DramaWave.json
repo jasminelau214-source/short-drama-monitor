@@ -2,24 +2,40 @@
   "platform": "DramaWave",
   "collection_date": "2026-09-17",
   "source_type": "OFFICIAL_WEB_PILOT",
-  "target_key": "web_pilot_main_top10",
-  "ranking_type": "Main Web Shelf",
-  "source_url": "https://mydramawave.com/",
+  "target_key": "web_pilot_most_trending_top10",
+  "ranking_type": "Most Trending",
+  "source_url": "https://m.mydramawave.com/",
   "strategy": "browser_probe",
   "top_n": 10,
-  "rows": [],
-  "row_count": 0,
-  "status": "NEEDS_ADAPTER",
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Swapped Heiress by My Bestie"
+    },
+    {
+      "rank": 2,
+      "title": "Daddy's Miracle Daughter(Dubbed)"
+    },
+    {
+      "rank": 3,
+      "title": "Slowly, Then Forever"
+    },
+    {
+      "rank": 4,
+      "title": "The Alpha King's Virgin Bride"
+    },
+    {
+      "rank": 5,
+      "title": "Claimed by the Alpha, Nursing His Baby"
+    }
+  ],
+  "row_count": 5,
+  "status": "PARTIAL",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 0,
+    "actualRows": 5,
     "missingRanks": [
-      1,
-      2,
-      3,
-      4,
-      5,
       6,
       7,
       8,
@@ -33,13 +49,16 @@
   "evidence": {
     "parserFallbackError": "",
     "pageTitle": "DramaWave",
-    "pageUrl": "https://mydramawave.com/",
+    "pageUrl": "https://m.mydramawave.com/",
     "documentLang": "en",
-    "structuredData": "No exact browser adapter",
-    "rawHtmlSha256": "60215a01e4b2c4779bc02918ca15af23de3ff9a64aee62de201e0146d78f9d3c",
+    "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+    "cardCount": 20,
+    "explicitRankCount1To10": 5,
+    "duplicateExplicitRanks": [],
+    "rawHtmlSha256": "e39f2638f15c400a0d2ae83b43d14c8bc6ee845e8b0163879b723286e030996b",
     "rawHtmlFile": "pilot_evidence/2026-09-17/DramaWave.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/DramaWave.png",
-    "screenshotSha256": "8187322fc846b1afd23cb880e3929a85e0990a391746d4641194f20ae860cf0e"
+    "screenshotSha256": "8ba8783152015f5d4198b152485ca7a2da60b1dee5cbdf3af61fdad0cefc9224"
   },
   "error": "",
   "production_write": false

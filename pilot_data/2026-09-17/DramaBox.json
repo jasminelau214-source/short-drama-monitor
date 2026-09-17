@@ -37,10 +37,10 @@
     "documentLang": "",
     "structuredData": "DramaBox browser parse failed",
     "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
-    "rawHtmlSha256": "6e6e5426cc4ca5e5d637f70a6e6bf31d2479294a216f47427fcc7dcdb093d418",
+    "rawHtmlSha256": "de50d2ad1165035b571aa5995ab3f0d4aa908c3ac9306c097a365fcd73dc15f4",
     "rawHtmlFile": "pilot_evidence/2026-09-17/DramaBox.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/DramaBox.png",
-    "screenshotSha256": "56bb8f09e3ffac3ebd703feb9f3ed06898ec27c2609078b69504b70c0332eb0f"
+    "screenshotSha256": "307eb34ebc13987a8f943ab0a3764ee5ba799ab5775c4fe6e13a50809bb146be"
   },
   "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
   "production_write": false

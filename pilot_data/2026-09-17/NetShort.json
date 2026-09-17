@@ -77,10 +77,10 @@
     "documentLang": "en-US",
     "structuredData": "JSON-LD ItemList",
     "itemListName": "Trending Now",
-    "rawHtmlSha256": "33e25cc67f5141bd50c3f3a0e88cc50fa9fe1d9b4cf5eed158ad36535c4b1743",
+    "rawHtmlSha256": "db0420342a99d2e9bbe9c866c9c55d7efc9c82f4ea282ce5ffb0b8b268cb3c73",
     "rawHtmlFile": "pilot_evidence/2026-09-17/NetShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-17/NetShort.png",
-    "screenshotSha256": "0c0eda94e53b72acf05b12607d806bcd27ddb849ec510f4fdaf0f905d29cd363"
+    "screenshotSha256": "518dc2a7b8d919b9cbb5be036f02243857782b2f5d3f5bd70bb64b1c1369110d"
   },
   "error": "",
   "production_write": false
