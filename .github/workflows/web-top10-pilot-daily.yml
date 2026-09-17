@@ -33,7 +33,7 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Run isolated eight-platform Web Top10 pilot
-        run: python pilot_web_top10_v2.py
+        run: python pilot_web_top10_v3.py
 
       - name: Upload raw evidence artifact
         if: always()
