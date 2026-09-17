@@ -99,6 +99,24 @@ def merge_analysis_records(base_records, connect, normalize_title, split_lane):
     return _restore_research_overrides(records, connect, normalize_title, split_lane)
 
 
+def _coverage_status_counts(coverage, fallback):
+    """Expose target-level status counts, not raw job-run counts.
+
+    collection_jobs can contain retries/reruns for one target on the same date. The
+    dashboard describes target coverage, so its status totals must come from the
+    deduplicated daily coverage view whenever that view is available.
+    """
+    if not isinstance(coverage, dict):
+        return fallback if isinstance(fallback, dict) else {}
+    return {
+        'total': int(coverage.get('target_jobs') or 0),
+        'succeeded': int(coverage.get('succeeded_targets') or 0),
+        'partial': int(coverage.get('partial_targets') or 0),
+        'needsReview': int(coverage.get('review_targets') or 0),
+        'other': int(coverage.get('other_targets') or 0),
+    }
+
+
 def build_live_summary(records, platform_order, clean, split_lane):
     summary = _build_live_summary(records, platform_order, clean, split_lane)
     monitoring = {
@@ -113,12 +131,13 @@ def build_live_summary(records, platform_order, clean, split_lane):
     if persistence.configured():
         try:
             remote = persistence.monitoring_status()
+            coverage = remote.get('coverage')
             monitoring.update({
                 'available': True,
                 'collectionDate': str(remote.get('collectionDate') or ''),
                 'registry': remote.get('registry') or {},
-                'coverage': remote.get('coverage'),
-                'statusCounts': remote.get('statusCounts') or {},
+                'coverage': coverage,
+                'statusCounts': _coverage_status_counts(coverage, remote.get('statusCounts') or {}),
                 'targetStatus': remote.get('targetStatus') or [],
                 'jobs': remote.get('jobs') or [],
             })
