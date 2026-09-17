@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-17",
-  "generated_at": "2026-09-17T18:45:39.586597+08:00",
+  "generated_at": "2026-09-17T18:47:42.604855+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -39,7 +39,7 @@
         "consecutiveValidRuns": 0,
         "pathStable": false
       },
-      "error": "RecursionError: maximum recursion depth exceeded"
+      "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden"
     },
     {
       "platform": "DramaWave",
@@ -98,36 +98,25 @@
     },
     {
       "platform": "GoodShort",
-      "status": "NEEDS_ADAPTER",
-      "row_count": 0,
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
       "audit": {
-        "batchComplete": false,
+        "batchComplete": true,
         "expectedRows": 10,
-        "actualRows": 0,
-        "missingRanks": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10
-        ],
+        "actualRows": 10,
+        "missingRanks": [],
         "duplicateRanks": [],
         "duplicateTitles": [],
         "emptyTitles": 0
       },
       "stability": {
         "lastThree": [
-          "NEEDS_ADAPTER"
+          "PASS_VERIFIED"
         ],
-        "consecutiveValidRuns": 0,
+        "consecutiveValidRuns": 1,
         "pathStable": false
       },
-      "error": "RecursionError: maximum recursion depth exceeded"
+      "error": ""
     },
     {
       "platform": "MoboReels",
