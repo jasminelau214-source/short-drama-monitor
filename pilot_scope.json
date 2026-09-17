@@ -1,0 +1,79 @@
+{
+  "pilot": "web-top10-8platform",
+  "timezone": "Asia/Shanghai",
+  "top_n": 10,
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "excluded_from_first_pilot": [
+    {
+      "platform": "FreeReels",
+      "reason": "Current registry expansion made this the ninth app source; the user requested the original eight-platform pilot first."
+    }
+  ],
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "url": "https://www.dramaboxdb.com/channel/trending",
+      "target_key": "web_pilot_trending_top10",
+      "ranking_type": "Trending",
+      "strategy": "verified_parser",
+      "heading_keywords": ["Trending"]
+    },
+    {
+      "platform": "DramaWave",
+      "url": "https://mydramawave.com/",
+      "target_key": "web_pilot_main_top10",
+      "ranking_type": "Main Web Shelf",
+      "strategy": "browser_probe",
+      "heading_keywords": ["Popular", "Trending", "Top"]
+    },
+    {
+      "platform": "FlexTV",
+      "url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+      "target_key": "web_pilot_top_in_flextv_top10",
+      "ranking_type": "Top in FlexTV",
+      "strategy": "browser_probe",
+      "heading_keywords": ["Top in FlexTV", "Top 10 Short Dramas"]
+    },
+    {
+      "platform": "GoodShort",
+      "url": "https://www.goodshort.com/channel/Top-in-GoodShort",
+      "target_key": "web_pilot_top_in_goodshort_top10",
+      "ranking_type": "Top in GoodShort",
+      "strategy": "verified_parser",
+      "heading_keywords": ["Top in GoodShort"]
+    },
+    {
+      "platform": "MoboReels",
+      "url": "https://www.moboreels.com/",
+      "target_key": "web_pilot_popular_series_top10",
+      "ranking_type": "Popular Series",
+      "strategy": "browser_probe",
+      "heading_keywords": ["Popular Series", "Trending Series"]
+    },
+    {
+      "platform": "NetShort",
+      "url": "https://netshort.com/",
+      "target_key": "web_pilot_trending_now_top10",
+      "ranking_type": "Trending Now",
+      "strategy": "browser_probe",
+      "heading_keywords": ["Trending Now", "Top Trending"]
+    },
+    {
+      "platform": "ReelShort",
+      "url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+      "target_key": "web_pilot_top_shelf_top10",
+      "ranking_type": "TOP",
+      "strategy": "browser_probe",
+      "heading_keywords": ["TOP", "Top"]
+    },
+    {
+      "platform": "ShortMax",
+      "url": "https://www.shorttv.live/",
+      "target_key": "web_pilot_most_popular_top10",
+      "ranking_type": "Most Popular",
+      "strategy": "verified_parser",
+      "heading_keywords": ["Most Popular"]
+    }
+  ]
+}
