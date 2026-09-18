@@ -11,19 +11,28 @@
     {
       "rank": 2,
       "title": "Daddy's Miracle Daughter(Dubbed)"
+    },
+    {
+      "rank": 3,
+      "title": "Slowly, Then Forever"
+    },
+    {
+      "rank": 4,
+      "title": "The Alpha King's Virgin Bride"
+    },
+    {
+      "rank": 5,
+      "title": "Claimed by the Alpha, Nursing His Baby"
     }
   ],
-  "row_count": 1,
+  "row_count": 4,
   "status": "PARTIAL",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 1,
+    "actualRows": 4,
     "missingRanks": [
       1,
-      3,
-      4,
-      5,
       6,
       7,
       8,
@@ -44,24 +53,27 @@
     "mobileProfile": true,
     "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
     "cardCount": 20,
-    "explicitRankCount1To10": 5,
+    "explicitRankCount1To10": 4,
     "duplicateExplicitRanks": [],
-    "rankCaptureMethod": "explicit Most Trending labels accumulated while scrolling",
+    "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
     "explicitRanksSeen": [
-      2
+      2,
+      3,
+      4,
+      5
     ],
     "explicitRankConflicts": {},
     "scrollRounds": 5,
     "finalScrollMetrics": {
       "scrollTop": 0,
-      "scrollHeight": 3493,
-      "clientHeight": 3493,
+      "scrollHeight": 3510,
+      "clientHeight": 3510,
       "atBottom": true
     },
-    "rawHtmlSha256": "da20a1b605c56199e7ccba5f7c6077f5f968494112d6188ad91d44c699975d34",
+    "rawHtmlSha256": "9eef926d7742cec4ef9472bc089f14c1c54e9a1eca12fde0b33b4ce8c58e0004",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
-    "screenshotSha256": "20160d1a6fe717db3151d3368696b759f24c3b954cea24f7f39c4ba8a6c3e15c"
+    "screenshotSha256": "b77c94a59ff69451af7a3d046d35b709c0aa9ad990e355b22a04fbe9d8b6aca1"
   },
   "error": "",
   "production_write": false

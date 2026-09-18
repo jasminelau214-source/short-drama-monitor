@@ -10,18 +10,18 @@
   "rows": [
     {
       "rank": 1,
+      "title": "The Slave Who Became Dragon King",
+      "source_url": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
+    },
+    {
+      "rank": 2,
       "title": "Double-marked: Luna's Revenge",
       "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
     },
     {
-      "rank": 2,
+      "rank": 3,
       "title": "My Sister’s Boyfriend Arrested Me",
       "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
-    },
-    {
-      "rank": 3,
-      "title": "The Slave Who Became Dragon King",
-      "source_url": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
     },
     {
       "rank": 4,
@@ -45,18 +45,18 @@
     },
     {
       "rank": 8,
+      "title": "Dragons Bow To The Trash",
+      "source_url": "https://netshort.com/full-episodes/dragons-bow-to-the-trash-2098349014030798849"
+    },
+    {
+      "rank": 9,
       "title": "When Housewives Turn Deadly",
       "source_url": "https://netshort.com/full-episodes/when-housewives-turn-deadly-2087124383570907138"
     },
     {
-      "rank": 9,
-      "title": "I Spoke Baby Dragon and Won Everyone Over!",
-      "source_url": "https://netshort.com/full-episodes/i-spoke-baby-dragon-and-won-everyone-over-2094674901238480897"
-    },
-    {
       "rank": 10,
-      "title": "The Dragon Tyrant's Secret Heir",
-      "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
+      "title": "The Devil I called Father",
+      "source_url": "https://netshort.com/full-episodes/the-devil-i-called-father-2096855749602361346"
     }
   ],
   "row_count": 10,
@@ -80,10 +80,10 @@
     "mobileProfile": false,
     "structuredData": "JSON-LD ItemList",
     "itemListName": "Trending Now",
-    "rawHtmlSha256": "80e45847ce500cfe38688f65686c153b6e68afad949d4b55c1d7a7f0a2a0db37",
+    "rawHtmlSha256": "1beefb655f1264be21c4c6ec09b0599a18bdd69329d957a9651fea799e274e03",
     "rawHtmlFile": "pilot_evidence/2026-09-18/NetShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/NetShort.png",
-    "screenshotSha256": "c923a74753b6b1081cd117fd02466b4a9f75b3069b8eabf2bba2c636bf61a4a0"
+    "screenshotSha256": "169c1e425d1ad2e9a75b764a37da367530e40653b1ad835f48ffbaeef40ed856"
   },
   "error": "",
   "production_write": false
