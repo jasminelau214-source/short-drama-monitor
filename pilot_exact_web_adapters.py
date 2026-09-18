@@ -317,6 +317,7 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
 
     last_error = ""
     last_evidence: dict[str, Any] = {}
+    dramawave_profile_rank_titles: dict[int, set[str]] = {}
     for attempt, profile in enumerate(profiles, start=1):
         page = browser.new_page(
             viewport=profile["viewport"],
@@ -518,6 +519,37 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                 "screenshotFile": str(screenshot_path.relative_to(base.ROOT)),
                 "screenshotSha256": base.sha256_bytes(screenshot_path.read_bytes()),
             }
+            if platform == "DramaWave":
+                for row in rows or []:
+                    try:
+                        rank = int(row.get("rank"))
+                    except Exception:
+                        continue
+                    title = base.clean(row.get("title"), 500)
+                    if 1 <= rank <= TOP_N and title:
+                        dramawave_profile_rank_titles.setdefault(rank, set()).add(title)
+
+                profile_conflicts = {
+                    rank: sorted(titles)
+                    for rank, titles in dramawave_profile_rank_titles.items()
+                    if len(titles) > 1
+                }
+                combined_rows = [
+                    {"rank": rank, "title": next(iter(dramawave_profile_rank_titles[rank]))}
+                    for rank in sorted(dramawave_profile_rank_titles)
+                    if len(dramawave_profile_rank_titles[rank]) == 1
+                ]
+                evidence = {
+                    **evidence,
+                    "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
+                    "profileMergedRanks": [row["rank"] for row in combined_rows],
+                    "profileRankConflicts": profile_conflicts,
+                }
+                last_evidence = evidence
+                if len(combined_rows) >= TOP_N or attempt == len(profiles):
+                    return combined_rows, evidence, bool(combined_rows)
+                continue
+
             last_evidence = evidence
             if rows or (found and status_code is not None and status_code < 400):
                 return rows, evidence, found
