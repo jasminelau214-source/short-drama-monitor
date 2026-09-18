@@ -9,6 +9,7 @@ import urllib.parse
 import urllib.request
 
 from analysis_pipeline import _request as gemini_request, _response_text as gemini_response_text
+from collector_import import _norm_title as normalize_identity_title
 from research_safety import (
     build_search_query,
     reserve_search_credit,
@@ -20,9 +21,13 @@ from research_safety import (
 TAVILY_SEARCH_URL = 'https://api.tavily.com/search'
 
 PLATFORM_DOMAINS = {
-    'ReelShort': ['reelshort.com'],
+    'DramaBox': ['dramaboxdb.com'],
+    'FlexTV': ['flextv.cc'],
+    'GoodShort': ['goodshort.com'],
     'MoboReels': ['moboreels.com'],
     'NetShort': ['netshort.com'],
+    'ReelShort': ['reelshort.com'],
+    'ShortMax': ['shorttv.live'],
     'DramaWave': ['mydramawave.com', 'dramawave.tech'],
 }
 
@@ -124,11 +129,15 @@ def discover_sources(title: str, platform: str) -> tuple[list[dict], dict]:
     results = [_clean_result(x, platform) for x in (first.get('results') or []) if isinstance(x, dict)]
     results = [x for x in results if x['url'] and x['content']]
 
-    title_norm = re.sub(r'[^a-z0-9]+', '', title.casefold())
+    title_norm = normalize_identity_title(title)
 
     def relevant(x: dict) -> bool:
-        hay = re.sub(r'[^a-z0-9]+', '', (x['title'] + ' ' + x['content'][:1200]).casefold())
-        return bool(title_norm and (title_norm in hay or x['score'] >= 0.45))
+        # Search score alone is never enough to establish work identity.
+        # Require the normalized requested title to appear in the result title
+        # or a bounded evidence excerpt.
+        result_title = normalize_identity_title(x['title'])
+        result_excerpt = re.sub(r'[^a-z0-9]+', '', str(x['content'][:2400] or '').casefold())
+        return bool(title_norm and (title_norm in result_title or title_norm in result_excerpt))
 
     useful = [x for x in results if relevant(x)]
     searches = 1
@@ -254,6 +263,35 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
     return result
 
 
+def classify_research_status(*, requested_title: str, result: dict, search_meta: dict) -> tuple[str, list[str]]:
+    """Gate automatic writeback conservatively.
+
+    COMPLETE requires every core field, medium/high confidence, usable source
+    URLs, and no unresolved identity/source conflict. Human identity conflicts
+    route to REVIEW_REQUIRED; evidence insufficiency routes to NEEDS_GPT.
+    """
+    confidence = str(result.get('confidence') or 'low')
+    core_missing = [x for x in CORE_FIELDS if not str(result.get(x) or '').strip()]
+    needs_gpt = bool(result.get('needsGPT'))
+    audit_notes = [str(x) for x in (result.get('auditNotes') or []) if str(x)]
+    audit_text = ' '.join(audit_notes).casefold()
+    conflict = bool(re.search(r'conflict|ambig|same[- ]?name|identity|alias|冲突|歧义|同名|别名', audit_text))
+    identity_uncertain = str(result.get('newnessResolution') or '') == 'uncertain'
+    canonical = str(result.get('canonicalTitle') or '').strip()
+    alias_without_official = bool(
+        canonical
+        and normalize_identity_title(canonical) != normalize_identity_title(requested_title)
+        and int(search_meta.get('officialCount') or 0) == 0
+    )
+    source_urls = [str(x) for x in (result.get('sourceUrls') or []) if str(x)]
+
+    if needs_gpt or confidence == 'low' or core_missing or not source_urls:
+        return 'NEEDS_GPT', core_missing
+    if conflict or identity_uncertain or alias_without_official or int(search_meta.get('sanitizedSources') or 0) >= 2:
+        return 'REVIEW_REQUIRED', core_missing
+    return 'COMPLETE', core_missing
+
+
 def research_task(task: dict) -> dict:
     title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''))
     sources, search_meta = discover_sources(title, platform)
@@ -270,11 +308,11 @@ def research_task(task: dict) -> dict:
     result = analyze_sources(task=task, sources=sources)
     missing = [str(x) for x in (result.get('missingFields') or []) if str(x)]
     confidence = str(result.get('confidence') or 'low')
-    needs_gpt = bool(result.get('needsGPT'))
-    core_missing = [x for x in CORE_FIELDS if not str(result.get(x) or '').strip()]
-    if len(core_missing) >= 6 or search_meta.get('sanitizedSources', 0) >= 2:
-        needs_gpt = True
-    status = 'NEEDS_GPT' if needs_gpt or confidence == 'low' else 'COMPLETE'
+    status, core_missing = classify_research_status(
+        requested_title=title,
+        result=result,
+        search_meta=search_meta,
+    )
     source_rows = [
         {'url': s['url'], 'title': s['title'], 'official': s['official'], 'score': s['score'], 'safetyNotes': s.get('safetyNotes') or []}
         for s in sources
