@@ -58,6 +58,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          START_SHA="${GITHUB_SHA}"
+          git fetch origin pilot/web-top10-8platform
+          REMOTE_SHA="$(git rev-parse origin/pilot/web-top10-8platform)"
+          if [ "$REMOTE_SHA" != "$START_SHA" ]; then
+            echo "Pilot branch advanced during this run; skip stale result commit."
+            exit 0
+          fi
+
           git add pilot_data
           if git diff --cached --quiet; then
             echo "No pilot data changes"
