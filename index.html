@@ -1348,6 +1348,60 @@
       .overview-mid-grid,.overview-bottom-grid { grid-template-columns:1fr; }
       .focus-poster-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
     }
+  
+    /* UI REDESIGN V1 RANK MOVEMENT + TRENDS */
+    .daily-analysis-grid,.history-library-analysis { margin:12px 0; align-items:stretch; }
+    .movement-summary { display:grid; grid-template-columns:repeat(4,minmax(82px,1fr)); gap:8px; }
+    .movement-stat { min-height:92px; border:1px solid #eceef3; border-radius:10px; padding:12px; background:#fff; display:grid; grid-template-columns:24px 1fr; grid-template-rows:auto auto; column-gap:8px; align-items:center; }
+    .movement-stat > span { width:24px; height:24px; border-radius:7px; display:grid; place-items:center; font-size:14px; font-weight:900; }
+    .movement-stat b { color:#20263a; font-size:22px; line-height:1; }
+    .movement-stat small { grid-column:1/-1; color:#8c96a8; font-size:11px; margin-top:8px; }
+    .movement-stat.up > span { background:#fff0f2; color:#d62f3f; }
+    .movement-stat.down > span { background:#eaf2ff; color:#3673d9; }
+    .movement-stat.flat > span { background:#f2f4f7; color:#667085; }
+    .movement-stat.new > span { background:#fff3e7; color:#e57912; }
+
+    .movement-badge { display:inline-flex; min-width:42px; align-items:center; justify-content:center; gap:3px; padding:4px 7px; border-radius:999px; font-size:11px; font-weight:850; white-space:nowrap; }
+    .movement-badge b { font-size:12px; }
+    .movement-badge.up { background:#fff0f2; color:#cf263a; }
+    .movement-badge.down { background:#eaf2ff; color:#316fd6; }
+    .movement-badge.flat { background:#f2f4f7; color:#667085; }
+    .movement-badge.new { background:#fff3e7; color:#dd7816; }
+
+    .daily-focus-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .daily-focus-footer .subtle { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    .rank-spark { display:flex; align-items:center; gap:5px; min-width:105px; }
+    .rank-spark svg { width:86px; height:28px; overflow:visible; }
+    .rank-spark polyline { fill:none; stroke:#d62f3f; stroke-width:1.8; vector-effect:non-scaling-stroke; }
+    .rank-spark circle { fill:#d62f3f; stroke:#fff; stroke-width:1; vector-effect:non-scaling-stroke; }
+    .rank-spark small { color:#667085; font-size:10px; font-weight:750; }
+    .rank-spark.single { min-width:70px; }
+    .rank-spark.single > span { width:8px; height:8px; border-radius:50%; background:#dd7816; box-shadow:0 0 0 4px #fff3e7; }
+    .trend-empty { color:#98a2b3; }
+
+    .analysis-trend-chart { min-height:175px; }
+    .analysis-trend-chart svg { width:100%; height:165px; overflow:visible; }
+    .count-trend-legend { display:flex; justify-content:flex-end; gap:12px; margin:-4px 0 2px; color:#7d8798; font-size:10px; }
+    .count-trend-legend span { display:flex; align-items:center; gap:4px; }
+    .count-trend-legend i { width:7px; height:7px; border-radius:50%; }
+    .count-trend-legend .total i { background:#d62f3f; }
+    .count-trend-legend .new i { background:#f08a24; }
+    .count-trend-legend .continuing i { background:#316fd6; }
+    .count-grid line { stroke:#edf0f4; stroke-width:1; }
+    .count-grid text,.count-date-labels text { fill:#98a2b3; font-size:8.5px; }
+    .count-series polyline { fill:none; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .count-series circle { stroke:#fff; stroke-width:1.2; vector-effect:non-scaling-stroke; }
+    .count-series.total polyline,.count-series.total circle { stroke:#d62f3f; fill:#d62f3f; }
+    .count-series.new polyline,.count-series.new circle { stroke:#f08a24; fill:#f08a24; }
+    .count-series.continuing polyline,.count-series.continuing circle { stroke:#316fd6; fill:#316fd6; }
+
+    #catalog table { min-width:1320px; }
+    #history-library table { min-width:1380px; }
+    @media (max-width:1100px) {
+      .movement-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .daily-analysis-grid,.history-library-analysis { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1516,11 +1570,32 @@
           <div class="section-head">
             <div>
               <h2>今日重点剧目</h2>
-              <div class="subtle">按榜位与新剧状态快速筛出值得优先查看的剧目。</div>
+              <div class="subtle">按榜位、排名变化与新剧状态快速筛出值得优先查看的剧目。</div>
             </div>
           </div>
           <div id="dailyFocusTitles" class="daily-focus-grid"></div>
         </section>
+
+        <div class="grid-2 daily-analysis-grid">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>榜单升降分析</h2>
+                <div class="subtle">与该剧上一个真实采集点比较；新剧单独统计。</div>
+              </div>
+            </div>
+            <div id="dailyMovementSummary" class="movement-summary"></div>
+          </section>
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>市场走势（近7个采集日）</h2>
+                <div class="subtle">总剧目、新剧与继续在榜变化。</div>
+              </div>
+            </div>
+            <div id="dailyTrendChart" class="analysis-trend-chart"></div>
+          </section>
+        </div>
 
         <div class="filters" aria-label="榜单筛选">
           <div class="field">
@@ -1562,9 +1637,11 @@
             <thead>
               <tr>
                 <th>排名</th>
+                <th>较上次</th>
                 <th>剧名</th>
                 <th>平台</th>
                 <th>热度</th>
+                <th>排名走势</th>
                 <th>榜单状态</th>
                 <th>题材</th>
                 <th>细分赛道</th>
@@ -1669,6 +1746,27 @@
           </div>
           <div class="date-pill" id="historyCountPill">全部历史数据</div>
         </div>
+        <div class="grid-2 history-library-analysis">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>历史榜单走势</h2>
+                <div class="subtle">按真实采集日观察总剧目、新剧与继续在榜变化。</div>
+              </div>
+            </div>
+            <div id="historyLibraryTrend" class="analysis-trend-chart"></div>
+          </section>
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>最近一次排名变化</h2>
+                <div class="subtle">以每部剧最后两个真实采集点进行比较。</div>
+              </div>
+            </div>
+            <div id="historyMovementSummary" class="movement-summary"></div>
+          </section>
+        </div>
+
         <div class="filters history-filters" aria-label="历史剧目筛选">
           <div class="field"><label for="historySearch">剧名搜索</label><input id="historySearch" type="search" placeholder="输入中英文剧名"></div>
           <div class="field"><label for="historyAppFilter">平台</label><select id="historyAppFilter"></select></div>
@@ -1680,7 +1778,7 @@
         <div class="table-meta"><span id="historyResultCount"></span><span>点击剧名进入统一单剧详情。</span></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>剧名</th><th>平台</th><th>男女频</th><th>题材</th><th>首次上榜</th><th>最近上榜</th><th>历史最高</th><th>生命周期</th><th>状态</th></tr></thead>
+            <thead><tr><th>剧名</th><th>平台</th><th>男女频</th><th>题材</th><th>最近排名</th><th>较上次</th><th>首次上榜</th><th>最近上榜</th><th>历史最高</th><th>排名走势</th><th>状态</th></tr></thead>
             <tbody id="historyBody"></tbody>
           </table>
         </div>
@@ -1922,6 +2020,90 @@
       return previous.rank - current.rank;
     }
 
+    function latestRankMovement(item) {
+      const history = (item.history || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+      if (history.length < 2) return null;
+      return Number(history.at(-2).rank) - Number(history.at(-1).rank);
+    }
+
+    function movementBadge(move, isNew = false) {
+      if (isNew || move === null || move === undefined || Number.isNaN(Number(move))) {
+        return '<span class="movement-badge new">NEW</span>';
+      }
+      if (move > 0) return `<span class="movement-badge up"><b>↑</b>${move}</span>`;
+      if (move < 0) return `<span class="movement-badge down"><b>↓</b>${Math.abs(move)}</span>`;
+      return '<span class="movement-badge flat"><b>→</b>0</span>';
+    }
+
+    function rankSparkline(item, throughDate = '') {
+      const points = (item.history || [])
+        .filter(h => !throughDate || h.date <= throughDate)
+        .slice()
+        .sort((a,b) => a.date.localeCompare(b.date))
+        .filter(h => Number.isFinite(Number(h.rank)));
+      if (!points.length) return '<span class="trend-empty">—</span>';
+      if (points.length === 1) return `<div class="rank-spark single" title="${escapeAttr(points[0].date)} 第${points[0].rank}名"><span></span><small>#${points[0].rank}</small></div>`;
+
+      const w=112,h=34,p=4;
+      const ranks=points.map(x=>Number(x.rank));
+      const min=Math.min(...ranks),max=Math.max(...ranks);
+      const spread=Math.max(1,max-min);
+      const x=i=>p+i*(w-p*2)/(points.length-1);
+      const y=v=>p+(v-min)*(h-p*2)/spread;
+      const poly=points.map((pt,i)=>`${x(i).toFixed(1)},${y(Number(pt.rank)).toFixed(1)}`).join(' ');
+      const dots=points.map((pt,i)=>`<circle cx="${x(i)}" cy="${y(Number(pt.rank))}" r="${i===points.length-1?2.8:2}" />`).join('');
+      const tooltip=points.map(pt=>`${pt.date} #${pt.rank}`).join(' → ');
+      return `<div class="rank-spark" title="${escapeAttr(tooltip)}"><svg viewBox="0 0 ${w} ${h}" aria-label="排名走势"><polyline points="${poly}"></polyline>${dots}</svg><small>#${points.at(-1).rank}</small></div>`;
+    }
+
+    function renderCountTrend(targetSelector, dates, keys) {
+      const el=$(targetSelector);
+      if(!el) return;
+      const points=dates.map(date=>{
+        const d=summarizeDate(date);
+        return {
+          date,
+          total:d.uniqueTitles,
+          newTitles:d.newTitles,
+          continuing:d.continuingTitles,
+        };
+      });
+      if(!points.length){ el.innerHTML='<div class="subtle">暂无趋势数据。</div>'; return; }
+      const w=480,h=178,pL=30,pR=10,pT=16,pB=30;
+      const values=points.flatMap(p=>keys.map(k=>p[k.key]));
+      const max=Math.max(1,...values);
+      const x=i=>points.length===1?w/2:pL+i*(w-pL-pR)/(points.length-1);
+      const y=v=>pT+(max-v)*(h-pT-pB)/max;
+      const grid=[0,.25,.5,.75,1].map(t=>{
+        const yy=pT+t*(h-pT-pB), val=Math.round(max*(1-t));
+        return `<g><line x1="${pL}" x2="${w-pR}" y1="${yy}" y2="${yy}"></line><text x="${pL-6}" y="${yy+3}" text-anchor="end">${val}</text></g>`;
+      }).join('');
+      const series=keys.map(k=>{
+        const poly=points.map((p,i)=>`${x(i)},${y(p[k.key])}`).join(' ');
+        const dots=points.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p[k.key])}" r="2.8"></circle>`).join('');
+        return `<g class="count-series ${k.className}"><polyline points="${poly}"></polyline>${dots}</g>`;
+      }).join('');
+      const labels=points.map((p,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(p.date.slice(5))}</text>`).join('');
+      const legend=keys.map(k=>`<span class="${k.className}"><i></i>${escapeHtml(k.label)}</span>`).join('');
+      el.innerHTML=`<div class="count-trend-legend">${legend}</div><svg viewBox="0 0 ${w} ${h}"><g class="count-grid">${grid}</g>${series}<g class="count-date-labels">${labels}</g></svg>`;
+    }
+
+    function movementSummaryHtml(items, date = '') {
+      let up=0,down=0,flat=0,newCount=0;
+      items.forEach(item=>{
+        const isNew=date ? item.firstDate===date : (item.history || []).length < 2;
+        const move=date ? rankMovement(item,date) : latestRankMovement(item);
+        if(isNew || move===null){ newCount++; return; }
+        if(move>0) up++; else if(move<0) down++; else flat++;
+      });
+      return `
+        <div class="movement-stat up"><span>↑</span><b>${up}</b><small>排名上升</small></div>
+        <div class="movement-stat flat"><span>→</span><b>${flat}</b><small>排名持平</small></div>
+        <div class="movement-stat down"><span>↓</span><b>${down}</b><small>排名下降</small></div>
+        <div class="movement-stat new"><span>✦</span><b>${newCount}</b><small>新剧 / 单点</small></div>
+      `;
+    }
+
     function renderOverviewFocus(day) {
       const topGenre = day.genres[0]?.name || '';
       let items = day.items.slice();
@@ -2134,6 +2316,13 @@
       $('#dailyMetricFemale').textContent = formatNumber.format(female);
       $('#dailyMetricMale').textContent = formatNumber.format(male);
 
+      $('#dailyMovementSummary').innerHTML = movementSummaryHtml(dayItems, activeDate);
+      renderCountTrend('#dailyTrendChart', summary.dates.slice().sort().filter(d=>d<=activeDate).slice(-7), [
+        {key:'total',label:'总剧目',className:'total'},
+        {key:'newTitles',label:'新剧',className:'new'},
+        {key:'continuing',label:'继续在榜',className:'continuing'}
+      ]);
+
       const dailyNotes = [
         `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部，占比 ${newShare}%。`,
         `当前数量最多的已标注题材是「${topGenre.name}」，共 ${topGenre.value} 部。`,
@@ -2156,7 +2345,10 @@
             ${r.firstDate === activeDate ? '<span class="chip amber">新剧</span>' : '<span class="chip blue">继续在榜</span>'}
           </div>
           <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
-          <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+          <div class="daily-focus-footer">
+            <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+            ${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}
+          </div>
         </article>
       `).join('');
 
@@ -2166,9 +2358,11 @@
       $('#catalogBody').innerHTML = filtered.map(r => `
         <tr>
           <td><span class="rank">${r.rank}</span></td>
+          <td>${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}</td>
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
           <td>${escapeHtml(shown(r.heat))}</td>
+          <td>${rankSparkline(r, activeDate)}</td>
           <td>${statusChip(r)}</td>
           <td>${escapeHtml(shown(r.genre))}</td>
           <td>${escapeHtml(shown(r.lane))}</td>
@@ -2618,6 +2812,13 @@
           return b.lastDate.localeCompare(a.lastDate) || a.highestRank - b.highestRank || byText(a.title,b.title);
         });
 
+      $('#historyMovementSummary').innerHTML = movementSummaryHtml(filtered);
+      renderCountTrend('#historyLibraryTrend', summary.dates.slice().sort(), [
+        {key:'total',label:'总剧目',className:'total'},
+        {key:'newTitles',label:'新剧',className:'new'},
+        {key:'continuing',label:'继续在榜',className:'continuing'}
+      ]);
+
       $('#historyCountPill').textContent = '历史剧目 ' + records.length + ' 部';
       $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 部`;
       $('#historyBody').innerHTML = filtered.map(r => {
@@ -2627,10 +2828,12 @@
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
           <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
           <td>${escapeHtml(shown(r.genre))}</td>
+          <td><span class="rank">#${escapeHtml(String((r.history || []).slice().sort((a,b)=>a.date.localeCompare(b.date)).at(-1)?.rank || r.rank || '—'))}</span></td>
+          <td>${movementBadge(latestRankMovement(r), (r.history || []).length < 2)}</td>
           <td>${escapeHtml(shown(r.firstDate))}</td>
           <td>${escapeHtml(shown(r.lastDate))}</td>
           <td>#${escapeHtml(shown(r.highestRank))}</td>
-          <td><div class="rank-trail">${(r.history || []).map(h => `<span title="${escapeAttr(h.date)}">#${escapeHtml(String(h.rank))}</span>`).join('<i>→</i>') || '<span>—</span>'}</div></td>
+          <td>${rankSparkline(r)}</td>
           <td><span class="history-status ${active ? 'active' : ''}">${active ? '最近采集日在榜' : '历史记录'}</span></td>
         </tr>`;
       }).join('');
