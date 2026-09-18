@@ -1,0 +1,90 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Slave Who Became Dragon King",
+      "source_url": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
+    },
+    {
+      "rank": 2,
+      "title": "Double-marked: Luna's Revenge",
+      "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+    },
+    {
+      "rank": 3,
+      "title": "My Sister’s Boyfriend Arrested Me",
+      "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+    },
+    {
+      "rank": 4,
+      "title": "Back to 95 - Her Big Comeback",
+      "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+    },
+    {
+      "rank": 5,
+      "title": "Destroy My Fiancé, Marry the Shadow Don",
+      "source_url": "https://netshort.com/full-episodes/destroy-my-fianc%C3%A9-marry-the-shadow-don-2099039971508273153"
+    },
+    {
+      "rank": 6,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+    },
+    {
+      "rank": 7,
+      "title": "I Woke Up With a Tribe of Beast Girls",
+      "source_url": "https://netshort.com/full-episodes/i-woke-up-with-a-tribe-of-beast-girls-2098257057250066433"
+    },
+    {
+      "rank": 8,
+      "title": "Dragons Bow To The Trash",
+      "source_url": "https://netshort.com/full-episodes/dragons-bow-to-the-trash-2098349014030798849"
+    },
+    {
+      "rank": 9,
+      "title": "When Housewives Turn Deadly",
+      "source_url": "https://netshort.com/full-episodes/when-housewives-turn-deadly-2087124383570907138"
+    },
+    {
+      "rank": 10,
+      "title": "The Devil I called Father",
+      "source_url": "https://netshort.com/full-episodes/the-devil-i-called-father-2096855749602361346"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "477960980ee257a64be1a210a25c32b9782ec343a1e4056bf2554af1a57d1e11",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/NetShort.png",
+    "screenshotSha256": "bb46b73cccdbfe8c7db3445f467aa409766be2bea8c2a767c71d650dbd2daf68"
+  },
+  "error": "",
+  "production_write": false
+}
