@@ -54,6 +54,29 @@ def alt_history(platform: str, semantic_type: str, target: str, current_date: st
     }
 
 
+def rank_probe_history(current_date: str) -> dict:
+    entries = []
+    for path in sorted(DATA_ROOT.glob("20??-??-??/dramawave_rank_probe.json")):
+        date_key = path.parent.name
+        if date_key > current_date:
+            continue
+        payload = load_json(path, {})
+        ok = bool(payload.get("top10_complete")) and not (payload.get("rank_conflicts") or {})
+        entries.append((date_key, ok, len(payload.get("explicit_ranks") or [])))
+    consecutive = 0
+    for _, ok, _ in reversed(entries):
+        if ok:
+            consecutive += 1
+        else:
+            break
+    return {
+        "consecutive_complete_runs": consecutive,
+        "path_stable": consecutive >= 3,
+        "dates": [d for d, _, _ in entries[-3:]],
+        "explicit_counts": [n for _, _, n in entries[-3:]],
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", default=today())
@@ -63,6 +86,7 @@ def main() -> int:
     summary = load_json(day / "summary.json", {"platforms": []})
     decisions = load_json(day / "path_decisions.json", {"decisions": []})
     alternate = load_json(day / "alternate_sources.json", {"sources": []})
+    dw_probe = load_json(day / "dramawave_rank_probe.json", {})
     dmap = {str(x.get("platform")): x for x in decisions.get("decisions") or [] if isinstance(x, dict)}
     amap = {str(x.get("platform")): x for x in alternate.get("sources") or [] if isinstance(x, dict)}
 
@@ -71,6 +95,7 @@ def main() -> int:
     exact_stable = 0
     semantic_decisions = []
     unresolved = []
+
     for item in summary.get("platforms") or []:
         platform = str(item.get("platform"))
         status = str(item.get("status") or "")
@@ -81,11 +106,36 @@ def main() -> int:
 
         source_state = "WEB_INCOMPLETE"
         alt_stability = None
+        rank_probe = None
+
         if status in {"PASS_VERIFIED", "PASS_CANDIDATE"} and web_rows == 10:
             exact_valid += 1
             if stable:
                 exact_stable += 1
             source_state = "WEB_TOP10_STABLE" if stable else "WEB_TOP10_VALIDATING"
+        elif platform == "DramaWave" and dw_probe:
+            probe_complete = bool(dw_probe.get("top10_complete")) and not (dw_probe.get("rank_conflicts") or {})
+            rank_probe = {
+                "status": dw_probe.get("status"),
+                "explicit_rank_count": len(dw_probe.get("explicit_ranks") or []),
+                "top10_complete": probe_complete,
+                "missing_top10_ranks": dw_probe.get("missing_top10_ranks") or [],
+                "stability": rank_probe_history(args.date),
+            }
+            if probe_complete:
+                source_state = "OFFICIAL_H5_EXPLICIT_TOP10_SCOPE_DECISION"
+                semantic_decisions.append(platform)
+            elif int(alt.get("row_count") or 0) == 10 and alt.get("semantic_type"):
+                source_state = "ALT_TOP10_SEMANTIC_DECISION"
+                alt_stability = alt_history(
+                    platform,
+                    str(alt.get("semantic_type")),
+                    str(alt.get("target")),
+                    args.date,
+                )
+                semantic_decisions.append(platform)
+            else:
+                unresolved.append(platform)
         elif int(alt.get("row_count") or 0) == 10 and alt.get("semantic_type"):
             source_state = "ALT_TOP10_SEMANTIC_DECISION"
             alt_stability = alt_history(
@@ -104,6 +154,7 @@ def main() -> int:
             "web_rows": web_rows,
             "web_status": status,
             "web_stable": stable,
+            "rank_probe": rank_probe,
             "alternate_rows": int(alt.get("row_count") or 0),
             "alternate_target": alt.get("target"),
             "alternate_semantic_type": alt.get("semantic_type"),
@@ -128,8 +179,8 @@ def main() -> int:
         "overall_state": overall,
         "exact_web_top10_valid": exact_valid,
         "exact_web_top10_stable": exact_stable,
-        "semantic_decision_platforms": semantic_decisions,
-        "unresolved_platforms": unresolved,
+        "semantic_decision_platforms": sorted(set(semantic_decisions)),
+        "unresolved_platforms": sorted(set(unresolved)),
         "platforms": rows,
     }
     (day / "acceptance.json").write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -140,11 +191,11 @@ def main() -> int:
         f"- Overall state: **{overall}**",
         f"- Exact Web Top10 valid: **{exact_valid}/{len(rows)}**",
         f"- Exact Web Top10 stable (3 daily runs): **{exact_stable}/{len(rows)}**",
-        f"- Production write: **false**",
-        f"- Core promotion requires user confirmation: **true**",
+        "- Production write: **false**",
+        "- Core promotion requires user confirmation: **true**",
         "",
-        "| Platform | State | Web | Stable | Alternate | Decision |",
-        "|---|---|---:|---:|---|---|",
+        "| Platform | State | Web | Stable | Official rank probe | Alternate | Decision |",
+        "|---|---|---:|---:|---|---|---|",
     ]
     for x in rows:
         alt_text = "-"
@@ -154,10 +205,21 @@ def main() -> int:
                 f'{x["alternate_target"]} {x["alternate_rows"]}/10; '
                 f'alt stable={ast.get("consecutive_complete_runs", 0)}/3'
             )
+
+        probe_text = "-"
+        if x["rank_probe"]:
+            rp = x["rank_probe"]
+            rs = rp.get("stability") or {}
+            probe_text = (
+                f'explicit={rp.get("explicit_rank_count", 0)}/10; '
+                f'complete={"YES" if rp.get("top10_complete") else "NO"}; '
+                f'stable={rs.get("consecutive_complete_runs", 0)}/3'
+            )
+
         decision_text = x["next_step"] or "-"
         lines.append(
             f'| {x["platform"]} | {x["source_state"]} | {x["web_rows"]}/10 | '
-            f'{"YES" if x["web_stable"] else "NO"} | {alt_text} | {decision_text} |'
+            f'{"YES" if x["web_stable"] else "NO"} | {probe_text} | {alt_text} | {decision_text} |'
         )
 
     if semantic_decisions:
@@ -166,23 +228,27 @@ def main() -> int:
             "## Scope decisions still required before promotion",
             "",
             *[
-                f"- **{p}**: a technically complete 10-item alternate source exists, "
-                "but its meaning is not equivalent to the current Web ranking target."
-                for p in semantic_decisions
+                (
+                    f"- **{p}**: an official alternate path may provide additional evidence, "
+                    "but it is not automatically equivalent to the current Web ranking target."
+                )
+                for p in sorted(set(semantic_decisions))
             ],
         ]
+
     lines += [
         "",
         "No test result in this report is authorized for production ingestion.",
         "",
     ]
     (day / "ACCEPTANCE.md").write_text("\n".join(lines), encoding="utf-8")
+
     print(json.dumps({
         "overall_state": overall,
         "exact_web_top10_valid": exact_valid,
         "exact_web_top10_stable": exact_stable,
-        "semantic_decision_platforms": semantic_decisions,
-        "unresolved_platforms": unresolved,
+        "semantic_decision_platforms": sorted(set(semantic_decisions)),
+        "unresolved_platforms": sorted(set(unresolved)),
     }, ensure_ascii=False))
     return 0
 
