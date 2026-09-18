@@ -206,6 +206,64 @@ def _rows_from_dramabox(document: str, collection_date: str):
     return rows, {"structuredData": "DramaBox __NEXT_DATA__ browser fallback"}, True
 
 
+
+def _rows_from_goodshort(document: str):
+    try:
+        from goodshort_collector import parse_goodshort_channel
+        items = parse_goodshort_channel(document, "https://www.goodshort.com/")
+    except Exception as exc:
+        return [], {"structuredData": "GoodShort rendered DOM parse failed", "parseError": f"{type(exc).__name__}: {exc}"}, False
+
+    rows = []
+    seen = set()
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        title = base.clean(item.get("title"), 500)
+        key = base.norm_title(title)
+        if not title or not key or key in seen:
+            continue
+        seen.add(key)
+        row = {"rank": len(rows) + 1, "title": title}
+        url = base.clean(item.get("url"), 1200)
+        if url:
+            row["source_url"] = url
+        rows.append(row)
+        if len(rows) >= TOP_N:
+            break
+    return rows, {"structuredData": "GoodShort rendered channel cards", "cardCount": len(items)}, bool(items)
+
+
+def _rows_from_shortmax(document: str, collection_date: str):
+    try:
+        from official_web_collectors import collect_shortmax
+        payload = collect_shortmax(
+            collection_date=collection_date,
+            section="Most Popular",
+            top_n=None,
+            document=document,
+        )
+    except Exception as exc:
+        return [], {"structuredData": "ShortMax rendered DOM parse failed", "parseError": f"{type(exc).__name__}: {exc}"}, False
+
+    rows = []
+    for idx, item in enumerate(payload.get("rows") or [], start=1):
+        title = base.clean(item.get("title"), 500)
+        if not title:
+            continue
+        row = {"rank": int(item.get("rank") or idx), "title": title}
+        url = base.clean(item.get("source_url") or item.get("sourceUrl"), 1200)
+        if url:
+            row["source_url"] = url
+        rows.append(row)
+        if len(rows) >= TOP_N:
+            break
+    return rows, {
+        "structuredData": "ShortMax rendered Most Popular DOM",
+        "renderedCardCount": len(payload.get("rows") or []),
+    }, bool(rows)
+
+
 def _parse_exact(platform: str, document: str, collection_date: str):
     if platform == "DramaBox":
         return _rows_from_dramabox(document, collection_date)
@@ -213,42 +271,109 @@ def _parse_exact(platform: str, document: str, collection_date: str):
         return _rows_from_dramawave(document)
     if platform == "FlexTV":
         return _rows_from_itemlist(document, "Top in FlexTV")
+    if platform == "GoodShort":
+        return _rows_from_goodshort(document)
     if platform == "NetShort":
         return _rows_from_itemlist(document, "Trending Now")
     if platform == "ReelShort":
         return _rows_from_reelshort(document)
     if platform == "MoboReels":
         return _rows_from_moboreels(document)
+    if platform == "ShortMax":
+        return _rows_from_shortmax(document, collection_date)
     return [], {"structuredData": "No exact browser adapter"}, False
 
 
 def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_date: str | None = None):
     collection_date = collection_date or base.local_today()
-    page = browser.new_page(viewport={"width": 1440, "height": 1200}, locale="en-US")
-    try:
-        page.goto(cfg["url"], wait_until="domcontentloaded", timeout=70000)
-        page.wait_for_timeout(5000)
-        document = page.content()
-        raw = document.encode("utf-8", errors="replace")
-        html_path = evidence_dir / f'{cfg["platform"]}.html.gz'
-        with gzip.open(html_path, "wb", compresslevel=6) as fh:
-            fh.write(raw)
-        screenshot_path = evidence_dir / f'{cfg["platform"]}.png'
-        page.screenshot(path=str(screenshot_path), full_page=True)
-        rows, adapter_meta, found = _parse_exact(cfg["platform"], document, collection_date)
-        evidence = {
-            "pageTitle": base.clean(page.title(), 300),
-            "pageUrl": base.clean(page.url, 1200),
-            "documentLang": base.clean(page.locator("html").get_attribute("lang"), 40),
-            **adapter_meta,
-            "rawHtmlSha256": base.sha256_bytes(raw),
-            "rawHtmlFile": str(html_path.relative_to(base.ROOT)),
-            "screenshotFile": str(screenshot_path.relative_to(base.ROOT)),
-            "screenshotSha256": base.sha256_bytes(screenshot_path.read_bytes()),
-        }
-        return rows, evidence, found
-    finally:
-        page.close()
+    platform = str(cfg.get("platform") or "")
+
+    desktop_ua = (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36"
+    )
+    mobile_ua = (
+        "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Mobile Safari/537.36"
+    )
+    mobile_first = platform == "DramaWave"
+    profiles = [
+        {
+            "viewport": {"width": 390, "height": 844} if mobile_first else {"width": 1440, "height": 1200},
+            "user_agent": mobile_ua if mobile_first else desktop_ua,
+            "is_mobile": mobile_first,
+            "has_touch": mobile_first,
+        },
+        {
+            "viewport": {"width": 1440, "height": 1200} if mobile_first else {"width": 390, "height": 844},
+            "user_agent": desktop_ua if mobile_first else mobile_ua,
+            "is_mobile": not mobile_first,
+            "has_touch": not mobile_first,
+        },
+    ]
+
+    last_error = ""
+    last_evidence: dict[str, Any] = {}
+    for attempt, profile in enumerate(profiles, start=1):
+        page = browser.new_page(
+            viewport=profile["viewport"],
+            locale="en-US",
+            user_agent=profile["user_agent"],
+            is_mobile=profile["is_mobile"],
+            has_touch=profile["has_touch"],
+            extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
+        )
+        try:
+            page.add_init_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
+            )
+            response = page.goto(cfg["url"], wait_until="domcontentloaded", timeout=90000)
+            page.wait_for_timeout(4000)
+
+            # Trigger common lazy-render/carousel hydration paths without inferring ranks.
+            scroll_rounds = 10 if platform == "DramaWave" else 4
+            for _ in range(scroll_rounds):
+                page.mouse.wheel(0, 1400)
+                page.wait_for_timeout(350)
+            page.evaluate("window.scrollTo(0, 0)")
+            page.wait_for_timeout(700)
+
+            document = page.content()
+            raw = document.encode("utf-8", errors="replace")
+            suffix = "" if attempt == 1 else f"-attempt{attempt}"
+            html_path = evidence_dir / f'{cfg["platform"]}{suffix}.html.gz'
+            with gzip.open(html_path, "wb", compresslevel=6) as fh:
+                fh.write(raw)
+            screenshot_path = evidence_dir / f'{cfg["platform"]}{suffix}.png'
+            page.screenshot(path=str(screenshot_path), full_page=True)
+
+            rows, adapter_meta, found = _parse_exact(platform, document, collection_date)
+            status_code = int(response.status) if response is not None else None
+            evidence = {
+                "pageTitle": base.clean(page.title(), 300),
+                "pageUrl": base.clean(page.url, 1200),
+                "documentLang": base.clean(page.locator("html").get_attribute("lang"), 40),
+                "httpStatus": status_code,
+                "browserAttempt": attempt,
+                "mobileProfile": bool(profile["is_mobile"]),
+                **adapter_meta,
+                "rawHtmlSha256": base.sha256_bytes(raw),
+                "rawHtmlFile": str(html_path.relative_to(base.ROOT)),
+                "screenshotFile": str(screenshot_path.relative_to(base.ROOT)),
+                "screenshotSha256": base.sha256_bytes(screenshot_path.read_bytes()),
+            }
+            last_evidence = evidence
+            if rows or (found and status_code is not None and status_code < 400):
+                return rows, evidence, found
+            last_error = f"attempt={attempt} status={status_code} adapter_found={found}"
+        except Exception as exc:
+            last_error = f"attempt={attempt} {type(exc).__name__}: {exc}"
+        finally:
+            page.close()
+
+    if last_error:
+        last_evidence = {**last_evidence, "browserRetryError": last_error}
+    return [], last_evidence, False
 
 
 def run_verified_parser(cfg: dict[str, Any], collection_date: str):
