@@ -1,0 +1,26 @@
+name: DramaWave H5 API diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pilot/web-top10-8platform
+    paths:
+      - pilot_dramawave_api.py
+      - .github/workflows/pilot-dramawave-api.yml
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pilot/web-top10-8platform
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install crypto dependency
+        run: pip install pycryptodome
+      - name: Probe anonymous DramaWave H5 browse API
+        run: python pilot_dramawave_api.py
