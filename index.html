@@ -1144,6 +1144,63 @@
     @media (max-width:900px) {
       .compare-grid, .resource-grid { grid-template-columns:1fr; }
     }
+  
+    /* UI REDESIGN V1 RESEARCH */
+    .research-toolbar {
+      display:grid; grid-template-columns:repeat(3,minmax(160px,1fr)); gap:10px;
+      padding:12px; border:1px solid #eceef3; border-radius:11px; background:#fff; margin-bottom:12px;
+    }
+    .research-brief {
+      display:grid; grid-template-columns:220px 1fr; gap:20px; padding:18px 20px;
+      border:1px solid #eadfe1; border-radius:13px; background:linear-gradient(135deg,#fff9fa,#fff); margin-bottom:12px;
+    }
+    .research-insights { display:grid; gap:8px; }
+    .research-insight-item { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:start; }
+    .research-insight-item span { width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#fff0f2; color:#b42332; font-size:11px; font-weight:800; }
+    .research-insight-item p { margin:0; color:#475467; line-height:1.55; }
+    .research-analysis-grid { align-items:start; }
+    .research-elements { display:grid; gap:4px; }
+    .element-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid #f0f1f4; }
+    .element-row:last-child { border-bottom:0; }
+    .element-main { display:flex; align-items:center; gap:9px; min-width:0; }
+    .element-main strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .element-dot { width:9px; height:9px; border-radius:50%; background:#d62f3f; flex:0 0 auto; }
+    .element-dot.blue { background:#316fd6; }
+    .element-dot.amber { background:#f08a24; }
+    .element-dot.violet { background:#7d51b8; }
+    .element-meta { display:flex; gap:8px; align-items:center; color:#98a2b3; font-size:12px; }
+    .element-meta b { min-width:38px; text-align:center; padding:3px 6px; border-radius:999px; background:#f7f8fb; color:#667085; }
+    .research-patterns { display:grid; gap:10px; }
+    .pattern-card { border:1px solid #eceef3; border-radius:11px; padding:13px; background:#fff; }
+    .pattern-card > button { width:100%; border:0; background:transparent; padding:0 0 9px; text-align:left; color:#20263a; font-weight:800; line-height:1.4; border-bottom:1px solid #f0f1f4; }
+    .pattern-card > button:hover { color:#b42332; }
+    .pattern-card > div { display:grid; grid-template-columns:52px 1fr; gap:8px; margin-top:8px; align-items:start; }
+    .pattern-card span { color:#98a2b3; font-size:12px; font-weight:700; }
+    .pattern-card p { margin:0; color:#475467; font-size:13px; line-height:1.55; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .research-title-section { margin-top:12px; }
+    .research-title-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .research-title-card { border:1px solid #eceef3; border-radius:11px; background:#fff; padding:14px; min-width:0; }
+    .research-title-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+    .research-rank { margin-left:auto; color:#b42332; font-size:12px; font-weight:800; }
+    .research-title-card > button { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-weight:800; font-size:15px; line-height:1.4; }
+    .research-title-card > button:hover { color:#b42332; }
+    .research-title-card p { color:#667085; line-height:1.5; min-height:42px; margin:8px 0; }
+    .research-title-card small { color:#98a2b3; line-height:1.5; }
+    @media (max-width:1100px) {
+      .research-toolbar { grid-template-columns:1fr; }
+      .research-brief { grid-template-columns:1fr; }
+      .research-title-grid { grid-template-columns:1fr; }
+    }
+  
+    /* UI REDESIGN V1 DETAIL WORKSPACE */
+    .modal-backdrop { padding:12px; }
+    .modal { width:min(1380px,100%); max-height:calc(100vh - 24px); border-radius:14px; background:#f7f8fb; }
+    .modal-header { padding:20px 22px; background:rgba(255,255,255,.97); }
+    .modal-header h1 { max-width:900px; font-size:26px; }
+    .detail-body { padding:18px 22px 24px; }
+    .tabs { position:sticky; top:88px; z-index:3; background:#f7f8fb; padding-top:4px; }
+    .tabs button.active { background:#b42332; border-color:#b42332; }
+    .mini-metric { border-radius:10px; box-shadow:0 4px 12px rgba(22,30,55,.03); }
   </style>
 </head>
 <body>
@@ -1443,14 +1500,56 @@
         <div class="topbar">
           <div>
             <h1 id="research-title">题材 / 剧目研究</h1>
-            <div class="subtle">从题材趋势进入代表剧目，再进入统一单剧深度研究档案。</div>
+            <div class="subtle">从题材结构、受众与内容元素进入代表剧，再进入统一单剧深研档案。</div>
           </div>
-          <div class="field research-select"><label for="researchGenre">研究题材</label><select id="researchGenre"></select></div>
         </div>
+
+        <div class="research-toolbar">
+          <div class="field"><label for="researchGenre">研究题材</label><select id="researchGenre"></select></div>
+          <div class="field"><label for="researchAudience">男女频</label><select id="researchAudience"></select></div>
+          <div class="field"><label for="researchPlatform">平台</label><select id="researchPlatform"></select></div>
+        </div>
+
+        <section class="research-brief">
+          <div>
+            <div class="eyebrow">Research Snapshot</div>
+            <h2 id="researchHeadline">题材研究摘要</h2>
+          </div>
+          <div id="researchInsights" class="research-insights"></div>
+        </section>
+
         <div id="researchSummary" class="research-summary"></div>
-        <section class="section">
-          <div class="section-head"><div><h2>代表剧目</h2><div class="subtle">按历史最高排名与在榜记录排序；点击剧名进入单剧详情。</div></div></div>
-          <div id="researchTitles" class="leader-list"></div>
+
+        <div class="grid-2 research-analysis-grid">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>高频内容元素</h2>
+                <div class="subtle">来自已标注细分赛道与内容标签，不补造未标注信息。</div>
+              </div>
+            </div>
+            <div id="researchElements" class="research-elements"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>内容结构样本</h2>
+                <div class="subtle">提取样本中已有的故事核、冲突与爽点，用于横向研究。</div>
+              </div>
+            </div>
+            <div id="researchPatterns" class="research-patterns"></div>
+          </section>
+        </div>
+
+        <section class="section research-title-section">
+          <div class="section-head">
+            <div>
+              <h2>代表剧目</h2>
+              <div class="subtle">按历史最高排名与在榜记录排序；点击剧名进入统一单剧详情。</div>
+            </div>
+          </div>
+          <div id="researchTitles" class="research-title-grid"></div>
         </section>
       </section>
     </main>
@@ -2207,28 +2306,97 @@
 
     function setupResearch() {
       const genres = uniq(records.map(r => r.genre));
-      optionList($('#researchGenre'), genres, null);
-      if (genres.length) $('#researchGenre').value = genres[0];
-      $('#researchGenre').addEventListener('change', renderResearch);
+      optionList($('#researchGenre'), genres, '全部题材');
+      optionList($('#researchAudience'), uniq(records.map(r => r.audience)));
+      optionList($('#researchPlatform'), uniq(records.map(r => r.app)));
+      ['researchGenre','researchAudience','researchPlatform'].forEach(id =>
+        $('#' + id).addEventListener('change', renderResearch)
+      );
     }
 
     function renderResearch() {
       const genre = $('#researchGenre').value;
-      const items = records.filter(r => !genre || r.genre === genre);
+      const audience = $('#researchAudience').value;
+      const platform = $('#researchPlatform').value;
+      const items = records
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => !platform || r.app === platform);
+
       const female = items.filter(r => r.audience === '女频').length;
       const male = items.filter(r => r.audience === '男频').length;
       const avgDays = items.length ? (items.reduce((sum,r) => sum + Number(r.daysOnChart || 0),0) / items.length).toFixed(1) : '0';
       const ranks = items.map(r => Number(r.highestRank || 0)).filter(v => Number.isFinite(v) && v > 0);
       const bestRank = ranks.length ? Math.min(...ranks) : 0;
+      const latestCount = items.filter(r => r.lastDate === summary.collectionDate).length;
+
+      const laneCounts = countValues(items.flatMap(r => r.laneTerms?.length ? r.laneTerms : splitTerms(r.lane))).slice(0,10);
+      const topLane = laneCounts[0] || null;
+      const platformCounts = countValues(items.map(r => r.app));
+      const topPlatform = platformCounts[0] || null;
+
+      const headlineParts = [genre || '全部题材', audience || '全部受众', platform || '全部平台'];
+      $('#researchHeadline').textContent = headlineParts.join(' · ');
+
+      const insightNotes = items.length ? [
+        `当前筛选共有 ${items.length} 部历史剧目，其中最新采集日仍有 ${latestCount} 部出现。`,
+        topLane ? `最高频细分元素为「${topLane.name}」，在 ${topLane.value} 部样本中出现。` : '当前筛选尚无足够的细分元素标注。',
+        topPlatform ? `样本最多的平台为 ${topPlatform.name}（${topPlatform.value} 部）；最佳历史排名为 ${bestRank ? '#' + bestRank : '—'}。` : '当前筛选暂无平台样本。'
+      ] : ['当前筛选暂无匹配剧目。'];
+
+      $('#researchInsights').innerHTML = insightNotes.map((note,index) =>
+        `<div class="research-insight-item"><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
+      ).join('');
+
       $('#researchSummary').innerHTML = [
-        ['历史剧目', items.length, '当前题材样本量'],
+        ['历史剧目', items.length, '当前筛选样本量'],
         ['女频 / 男频', `${female} / ${male}`, '按已标注受众统计'],
-        ['平均记录采集日', avgDays, '基于现有历史快照'],
-        ['最佳历史排名', bestRank ? '#' + bestRank : '—', '代表剧目最高表现']
+        ['平均记录采集日', avgDays, '基于真实历史快照'],
+        ['最佳历史排名', bestRank ? '#' + bestRank : '—', '样本历史最高表现']
       ].map(([label,value,note]) => `<div class="metric"><div class="label">${escapeHtml(label)}</div><div class="value">${escapeHtml(String(value))}</div><div class="subtle">${escapeHtml(note)}</div></div>`).join('');
-      $('#researchTitles').innerHTML = items.slice().sort((a,b) => a.highestRank - b.highestRank || b.daysOnChart - a.daysOnChart || byText(a.title,b.title)).slice(0,12)
-        .map(r => `<div class="leader-item"><div><span class="chip neutral">${escapeHtml(r.app)}</span> <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><div class="subtle">历史最高第${escapeHtml(String(r.highestRank))}名 · 已记录${escapeHtml(String(r.daysOnChart))}个采集日 · ${escapeHtml(shown(r.lane))}</div></div>`).join('')
-        || '<div class="subtle">当前题材暂无可用剧目。</div>';
+
+      $('#researchElements').innerHTML = laneCounts.length
+        ? laneCounts.map((element,index) => {
+            const pct = items.length ? Math.round(element.value / items.length * 100) : 0;
+            const tones = ['rose','blue','amber','violet'];
+            return `<div class="element-row">
+              <div class="element-main">
+                <span class="element-dot ${tones[index % tones.length]}"></span>
+                <strong>${escapeHtml(element.name)}</strong>
+              </div>
+              <div class="element-meta"><span>${element.value} 部</span><b>${pct}%</b></div>
+            </div>`;
+          }).join('')
+        : '<div class="subtle">当前样本暂无已标注细分元素。</div>';
+
+      const patternSamples = items
+        .filter(r => !blank(r.storyCore) || !blank(r.conflict) || !blank(r.payoff))
+        .sort((a,b) => a.highestRank - b.highestRank || byText(a.title,b.title))
+        .slice(0,4);
+      $('#researchPatterns').innerHTML = patternSamples.length
+        ? patternSamples.map(r => `<article class="pattern-card">
+            <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+            <div><span>故事核</span><p>${escapeHtml(shown(r.storyCore))}</p></div>
+            <div><span>冲突</span><p>${escapeHtml(shown(r.conflict))}</p></div>
+            <div><span>爽点</span><p>${escapeHtml(shown(r.payoff))}</p></div>
+          </article>`).join('')
+        : '<div class="subtle">当前筛选样本还没有足够的深度内容标注。</div>';
+
+      $('#researchTitles').innerHTML = items
+        .slice()
+        .sort((a,b) => a.highestRank - b.highestRank || b.daysOnChart - a.daysOnChart || byText(a.title,b.title))
+        .slice(0,12)
+        .map(r => `<article class="research-title-card">
+          <div class="research-title-meta">
+            <span class="chip neutral">${escapeHtml(r.app)}</span>
+            <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span>
+            <span class="research-rank">最高 #${escapeHtml(String(r.highestRank))}</span>
+          </div>
+          <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+          <p>${escapeHtml(shown(r.lane))}</p>
+          <small>首次 ${escapeHtml(shown(r.firstDate))} · 最近 ${escapeHtml(shown(r.lastDate))} · 记录 ${escapeHtml(String(r.daysOnChart))} 个采集日</small>
+        </article>`).join('')
+        || '<div class="subtle">当前筛选暂无可用剧目。</div>';
     }
 
     async function initialize() {
