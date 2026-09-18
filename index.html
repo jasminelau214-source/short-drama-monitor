@@ -975,8 +975,8 @@
   
   
     /* UI REDESIGN V1 NAV + LIBRARY */
-    .nav-locked { display:flex; align-items:center; justify-content:space-between; opacity:.58; cursor:not-allowed !important; }
-    .nav-locked span { font-size:10px; padding:2px 6px; border-radius:999px; background:#f2f4f7; color:#667085; }
+    .nav-admin { display:flex; align-items:center; justify-content:space-between; }
+    .nav-admin span { font-size:10px; padding:2px 6px; border-radius:999px; background:#fff0f2; color:#b42332; }
     .history-filters { grid-template-columns:minmax(220px,1.5fr) repeat(4,minmax(130px,1fr)); }
     .research-select { width:220px; min-width:0; }
     .research-summary { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; margin:18px 0; }
@@ -1134,7 +1134,7 @@
         <button data-view-button="lifecycle">历史趋势分析</button>
         <button data-view-button="history-library">历史剧目库</button>
         <button data-view-button="research">题材 / 剧目研究</button>
-        <button class="nav-locked" type="button" disabled title="仅管理员账号可访问">系统设置 <span>管理员</span></button>
+        <button class="nav-admin" type="button" data-admin-href="/collect" title="需要管理员账号登录">系统设置 <span>管理员</span></button>
       </nav>
       <div class="side-note">
         <strong>数据状态</strong><br>
@@ -2070,6 +2070,11 @@
       const viewButton = event.target.closest('[data-view-button]');
       if (viewButton) {
         showView(viewButton.dataset.viewButton);
+      }
+      const adminButton = event.target.closest('[data-admin-href]');
+      if (adminButton) {
+        if (location.protocol === 'file:') alert('系统设置需要在线管理员账号登录。');
+        else location.href = adminButton.dataset.adminHref;
       }
       const tabButton = event.target.closest('[data-tab]');
       if (tabButton) {
