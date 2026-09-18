@@ -299,7 +299,7 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
         "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) "
         "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Mobile Safari/537.36"
     )
-    mobile_first = platform == "DramaWave"
+    mobile_first = platform in {"DramaWave", "ShortMax"}
     profiles = [
         {
             "viewport": {"width": 390, "height": 844} if mobile_first else {"width": 1440, "height": 1200},
