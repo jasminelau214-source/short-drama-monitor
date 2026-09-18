@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:18:46.402758+08:00",
+  "generated_at": "2026-09-18T17:22:53.598406+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
@@ -26,8 +26,8 @@
     {
       "platform": "DramaWave",
       "source_state": "ALT_TOP10_SEMANTIC_DECISION",
-      "web_rows": 0,
-      "web_status": "NEEDS_ADAPTER",
+      "web_rows": 5,
+      "web_status": "PARTIAL",
       "web_stable": false,
       "alternate_rows": 10,
       "alternate_target": "Popular Choices",

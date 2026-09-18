@@ -7,19 +7,35 @@
   "source_url": "https://m.mydramawave.com/",
   "strategy": "browser_probe",
   "top_n": 10,
-  "rows": [],
-  "row_count": 0,
-  "status": "NEEDS_ADAPTER",
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Swapped Heiress by My Bestie"
+    },
+    {
+      "rank": 2,
+      "title": "Daddy's Miracle Daughter(Dubbed)"
+    },
+    {
+      "rank": 3,
+      "title": "Slowly, Then Forever"
+    },
+    {
+      "rank": 4,
+      "title": "The Alpha King's Virgin Bride"
+    },
+    {
+      "rank": 5,
+      "title": "Claimed by the Alpha, Nursing His Baby"
+    }
+  ],
+  "row_count": 5,
+  "status": "PARTIAL",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 0,
+    "actualRows": 5,
     "missingRanks": [
-      1,
-      2,
-      3,
-      4,
-      5,
       6,
       7,
       8,
@@ -32,7 +48,45 @@
   },
   "evidence": {
     "parserFallbackError": "",
-    "browserRetryError": "attempt=2 Error: Page.evaluate: SyntaxError: Failed to execute 'querySelector' on 'Element': 'main.pb-13.5' is not a valid selector.\n    at eval (eval at evaluate (:311:30), <anonymous>:3:38)\n    at UtilityScript.evaluate (<anonymous>:318:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+    "pageTitle": "DramaWave",
+    "pageUrl": "https://m.mydramawave.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 2,
+    "mobileProfile": false,
+    "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+    "cardCount": 310,
+    "explicitRankCount1To10": 5,
+    "duplicateExplicitRanks": [],
+    "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
+    "explicitRanksSeen": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "explicitRankConflicts": {},
+    "scrollRounds": 60,
+    "finalScrollMetrics": {
+      "scrollTop": 43810,
+      "scrollHeight": 45467,
+      "clientHeight": 1090,
+      "atBottom": false
+    },
+    "rawHtmlSha256": "f245f5eec42cee43323685244781e7be1ca2309d9496a3c02d75cce6c29e6239",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.png",
+    "screenshotSha256": "2d369d491c3802d90906f596abd45c6aaa5dd7c349383c500820fb5966b37f5e",
+    "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
+    "profileMergedRanks": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "profileRankConflicts": {}
   },
   "error": "",
   "production_write": false
