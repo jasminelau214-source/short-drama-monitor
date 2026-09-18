@@ -17,7 +17,9 @@
       "target_key": "web_pilot_trending_top10",
       "ranking_type": "Trending",
       "strategy": "verified_parser",
-      "heading_keywords": ["Trending"]
+      "heading_keywords": [
+        "Trending"
+      ]
     },
     {
       "platform": "DramaWave",
@@ -25,7 +27,10 @@
       "target_key": "web_pilot_most_trending_top10",
       "ranking_type": "Most Trending",
       "strategy": "browser_probe",
-      "heading_keywords": ["Popular Choices", "Most Trending"]
+      "heading_keywords": [
+        "Popular Choices",
+        "Most Trending"
+      ]
     },
     {
       "platform": "FlexTV",
@@ -33,7 +38,10 @@
       "target_key": "web_pilot_top_in_flextv_top10",
       "ranking_type": "Top in FlexTV",
       "strategy": "browser_probe",
-      "heading_keywords": ["Top in FlexTV", "Top 10 Short Dramas"]
+      "heading_keywords": [
+        "Top in FlexTV",
+        "Top 10 Short Dramas"
+      ]
     },
     {
       "platform": "GoodShort",
@@ -41,7 +49,9 @@
       "target_key": "web_pilot_top_in_goodshort_top10",
       "ranking_type": "Top in GoodShort",
       "strategy": "verified_parser",
-      "heading_keywords": ["Top in GoodShort"]
+      "heading_keywords": [
+        "Top in GoodShort"
+      ]
     },
     {
       "platform": "MoboReels",
@@ -49,7 +59,10 @@
       "target_key": "web_pilot_popular_series_top10",
       "ranking_type": "Popular Series",
       "strategy": "browser_probe",
-      "heading_keywords": ["Popular Series", "Trending Series"]
+      "heading_keywords": [
+        "Popular Series",
+        "Trending Series"
+      ]
     },
     {
       "platform": "NetShort",
@@ -57,7 +70,10 @@
       "target_key": "web_pilot_trending_now_top10",
       "ranking_type": "Trending Now",
       "strategy": "browser_probe",
-      "heading_keywords": ["Trending Now", "Top Trending"]
+      "heading_keywords": [
+        "Trending Now",
+        "Top Trending"
+      ]
     },
     {
       "platform": "ReelShort",
@@ -65,15 +81,20 @@
       "target_key": "web_pilot_top_shelf_top10",
       "ranking_type": "TOP",
       "strategy": "browser_probe",
-      "heading_keywords": ["TOP", "Top"]
+      "heading_keywords": [
+        "TOP",
+        "Top"
+      ]
     },
     {
       "platform": "ShortMax",
       "url": "https://www.shorttv.live/",
       "target_key": "web_pilot_most_popular_top10",
       "ranking_type": "Most Popular",
-      "strategy": "verified_parser",
-      "heading_keywords": ["Most Popular"]
+      "strategy": "browser_probe",
+      "heading_keywords": [
+        "Most Popular"
+      ]
     }
   ]
 }
