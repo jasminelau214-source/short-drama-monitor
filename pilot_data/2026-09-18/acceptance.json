@@ -1,0 +1,124 @@
+{
+  "collection_date": "2026-09-18",
+  "generated_at": "2026-09-18T16:08:09.312935+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
+  "exact_web_top10_valid": 6,
+  "exact_web_top10_stable": 0,
+  "semantic_decision_platforms": [
+    "DramaWave",
+    "ShortMax"
+  ],
+  "unresolved_platforms": [],
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "DramaWave",
+      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
+      "web_rows": 5,
+      "web_status": "PARTIAL",
+      "web_stable": false,
+      "alternate_rows": 10,
+      "alternate_target": "Popular Choices",
+      "alternate_semantic_type": "ordered_shelf_not_explicit_rank",
+      "alternate_stability": {
+        "consecutive_complete_runs": 1,
+        "path_stable": false,
+        "dates": [
+          "2026-09-18"
+        ]
+      },
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+    },
+    {
+      "platform": "FlexTV",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "GoodShort",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "MoboReels",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "NetShort",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "ReelShort",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": false,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "ShortMax",
+      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
+      "web_rows": 7,
+      "web_status": "PARTIAL",
+      "web_stable": false,
+      "alternate_rows": 10,
+      "alternate_target": "Catalog sorted by playNum desc",
+      "alternate_semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "alternate_stability": {
+        "consecutive_complete_runs": 1,
+        "path_stable": false,
+        "dates": [
+          "2026-09-18"
+        ]
+      },
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+    }
+  ]
+}
