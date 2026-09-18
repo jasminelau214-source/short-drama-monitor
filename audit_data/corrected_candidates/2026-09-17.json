@@ -1,0 +1,448 @@
+{
+  "audit_version": "1.0",
+  "collection_date": "2026-09-17",
+  "baseline": "pilot/web-top10-8platform",
+  "status": "AWAITING_USER_CONFIRMATION",
+  "production_write": false,
+  "source_layers": {
+    "official_web_pilot": {
+      "rule": "Independent web layer; cannot substitute for App ranking and must not auto-trigger deep research.",
+      "raw_rows": 53,
+      "structurally_complete_rows": 40,
+      "promotable_rows": 0,
+      "reason_promotable_zero": "All PASS_CANDIDATE paths had only one valid run in the stored 9/17 pilot and pathStable=false; promotion requires three consecutive valid runs plus user confirmation.",
+      "platform_decisions": {
+        "DramaBox": {
+          "status": "NEEDS_ADAPTER",
+          "row_count": 0,
+          "ranking_type": "Trending",
+          "target_key": "web_pilot_trending_top10",
+          "path_stable": false,
+          "decision": "NOT_COMPLETE",
+          "rows": []
+        },
+        "DramaWave": {
+          "status": "PARTIAL",
+          "row_count": 5,
+          "ranking_type": "Most Trending",
+          "target_key": "web_pilot_most_trending_top10",
+          "path_stable": false,
+          "decision": "NOT_COMPLETE",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Swapped Heiress by My Bestie"
+            },
+            {
+              "rank": 2,
+              "title": "Daddy's Miracle Daughter(Dubbed)"
+            },
+            {
+              "rank": 3,
+              "title": "Slowly, Then Forever"
+            },
+            {
+              "rank": 4,
+              "title": "The Alpha King's Virgin Bride"
+            },
+            {
+              "rank": 5,
+              "title": "Claimed by the Alpha, Nursing His Baby"
+            }
+          ]
+        },
+        "FlexTV": {
+          "status": "PASS_CANDIDATE",
+          "row_count": 10,
+          "ranking_type": "Top in FlexTV",
+          "target_key": "web_pilot_top_in_flextv_top10",
+          "path_stable": false,
+          "decision": "STRUCTURAL_CANDIDATE_ONLY",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "The Veteran’s Promise",
+              "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+            },
+            {
+              "rank": 2,
+              "title": "Loving You in My Final Days",
+              "source_url": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
+            },
+            {
+              "rank": 3,
+              "title": "Mr. Williams! Madame Is Dying",
+              "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+            },
+            {
+              "rank": 4,
+              "title": "(DUBBED)The Tiny Tyrant of Go",
+              "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+            },
+            {
+              "rank": 5,
+              "title": "Betrayed at the Alter, She Married a CEO Instead",
+              "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+            },
+            {
+              "rank": 6,
+              "title": "My Three Brothers Finally Chose Me",
+              "source_url": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
+            },
+            {
+              "rank": 7,
+              "title": "I Secretly Gave Birth to God's Five Babies",
+              "source_url": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
+            },
+            {
+              "rank": 8,
+              "title": "Runaway Billionaire Becomes My Groom",
+              "source_url": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
+            },
+            {
+              "rank": 9,
+              "title": "A Flash Marriage With The Billionaire Tycoon",
+              "source_url": "https://www.flextv.cc/movie/a-flash-marriage-with-the-billionaire-tycoon-jGnvm37zky"
+            },
+            {
+              "rank": 10,
+              "title": "(DUBBED)Justice in Blood",
+              "source_url": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
+            }
+          ]
+        },
+        "GoodShort": {
+          "status": "NEEDS_ADAPTER",
+          "row_count": 0,
+          "ranking_type": "Top in GoodShort",
+          "target_key": "web_pilot_top_in_goodshort_top10",
+          "path_stable": false,
+          "decision": "NOT_COMPLETE",
+          "rows": []
+        },
+        "MoboReels": {
+          "status": "PASS_CANDIDATE",
+          "row_count": 10,
+          "ranking_type": "Popular Series",
+          "target_key": "web_pilot_popular_series_top10",
+          "path_stable": false,
+          "decision": "STRUCTURAL_CANDIDATE_ONLY",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "The Prince Is A Girl: The Slave In A Princess Disguise"
+            },
+            {
+              "rank": 2,
+              "title": "Came Back Hotter With Lord's Twins"
+            },
+            {
+              "rank": 3,
+              "title": "Mated To My Boyfriend's Brother"
+            },
+            {
+              "rank": 4,
+              "title": "The Chauffeur She Cheated On Was A Billionaire"
+            },
+            {
+              "rank": 5,
+              "title": "Left at the Altar, Married Power"
+            },
+            {
+              "rank": 6,
+              "title": "Their War, Our Fate"
+            },
+            {
+              "rank": 7,
+              "title": "His Secretary By Day, His Secret By Night"
+            },
+            {
+              "rank": 8,
+              "title": "Omega and Alpha: Fatal or Fated?"
+            },
+            {
+              "rank": 9,
+              "title": "The Abandoned God Of Olympus"
+            },
+            {
+              "rank": 10,
+              "title": "The CEO Didn't Know He Was Daddy"
+            }
+          ]
+        },
+        "NetShort": {
+          "status": "PASS_CANDIDATE",
+          "row_count": 10,
+          "ranking_type": "Trending Now",
+          "target_key": "web_pilot_trending_now_top10",
+          "path_stable": false,
+          "decision": "STRUCTURAL_CANDIDATE_ONLY",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Double-marked: Luna's Revenge",
+              "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+            },
+            {
+              "rank": 2,
+              "title": "My Sister’s Boyfriend Arrested Me",
+              "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+            },
+            {
+              "rank": 3,
+              "title": "Back to 95 - Her Big Comeback",
+              "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+            },
+            {
+              "rank": 4,
+              "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+              "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+            },
+            {
+              "rank": 5,
+              "title": "I Woke Up With a Tribe of Beast Girls",
+              "source_url": "https://netshort.com/full-episodes/i-woke-up-with-a-tribe-of-beast-girls-2098257057250066433"
+            },
+            {
+              "rank": 6,
+              "title": "The Quarterback's Comeback",
+              "source_url": "https://netshort.com/full-episodes/the-quarterbacks-comeback-2094669491412594689"
+            },
+            {
+              "rank": 7,
+              "title": "I Spoke Baby Dragon and Won Everyone Over!",
+              "source_url": "https://netshort.com/full-episodes/i-spoke-baby-dragon-and-won-everyone-over-2094674901238480897"
+            },
+            {
+              "rank": 8,
+              "title": "The Dragon Tyrant's Secret Heir",
+              "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
+            },
+            {
+              "rank": 9,
+              "title": "Escaping the R18 Mafia Bosses Together",
+              "source_url": "https://netshort.com/full-episodes/escaping-the-r18-mafia-bosses-together-2094250296962629634"
+            },
+            {
+              "rank": 10,
+              "title": "When Housewives Turn Deadly",
+              "source_url": "https://netshort.com/full-episodes/when-housewives-turn-deadly-2087124383570907138"
+            }
+          ]
+        },
+        "ReelShort": {
+          "status": "PASS_CANDIDATE",
+          "row_count": 10,
+          "ranking_type": "TOP",
+          "target_key": "web_pilot_top_shelf_top10",
+          "path_stable": false,
+          "decision": "STRUCTURAL_CANDIDATE_ONLY",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Take Me Back to the Night We Met"
+            },
+            {
+              "rank": 2,
+              "title": "Altarboy"
+            },
+            {
+              "rank": 3,
+              "title": "You've Been Replaced, First Love"
+            },
+            {
+              "rank": 4,
+              "title": "Sweet Temptation"
+            },
+            {
+              "rank": 5,
+              "title": "The Hockey Captain That Hates Me"
+            },
+            {
+              "rank": 6,
+              "title": "Salt Kiss"
+            },
+            {
+              "rank": 7,
+              "title": "Found A Homeless Billionaire Husband for Christmas"
+            },
+            {
+              "rank": 8,
+              "title": "Cooking My Way Back to Love"
+            },
+            {
+              "rank": 9,
+              "title": "When Wife Won't Forgive"
+            },
+            {
+              "rank": 10,
+              "title": "My X-Ray Vision Sees Right Through You"
+            }
+          ]
+        },
+        "ShortMax": {
+          "status": "PARTIAL",
+          "row_count": 8,
+          "ranking_type": "Most Popular",
+          "target_key": "web_pilot_most_popular_top10",
+          "path_stable": false,
+          "decision": "NOT_COMPLETE",
+          "rows": [
+            {
+              "rank": 1,
+              "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
+            },
+            {
+              "rank": 2,
+              "title": "Loved Twice by the Hockey Star",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+            },
+            {
+              "rank": 3,
+              "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
+            },
+            {
+              "rank": 4,
+              "title": "My Crush Lost Me to His Rival",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
+            },
+            {
+              "rank": 5,
+              "title": "Done Being a Lady. Time to Shoot.",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
+            },
+            {
+              "rank": 6,
+              "title": "My Groom Chose My Best Friend",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
+            },
+            {
+              "rank": 7,
+              "title": "Dumped My Ex, Married the Mafia Don",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
+            },
+            {
+              "rank": 8,
+              "title": "Don, Your Regret Can’t Keep Me",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+            }
+          ]
+        }
+      }
+    },
+    "production_app": {
+      "rule": "Separate SHORT_DRAMA_APP evidence layer. Same-day same platform/target runs are superseded by the latest complete run for daily fact display.",
+      "raw_runs": 0,
+      "raw_rows": 0,
+      "effective_latest_runs": 0,
+      "effective_rows": 0,
+      "latest_runs": {},
+      "note": "These App rows are valid only as App-layer facts; they are not corrected Web Top10 rows."
+    }
+  },
+  "research_audit": {
+    "actual_complete_tasks": 10,
+    "tasks_attached_to_latest_moboreels_titles": 0,
+    "stale_superseded_tasks": [
+      {
+        "id": "703c2fa2-45bb-49fb-ab81-9242c6a763cf",
+        "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+        "rank": 1,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "315b3e63-a894-49ef-a7e3-929319685c0c",
+        "title": "Mated To My Boyfriend's Brother",
+        "rank": 2,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "13ce1068-6056-40c4-a68d-cf2795aa6d34",
+        "title": "Left at the Altar, Married Power",
+        "rank": 3,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "5acd7b21-a537-47ce-81fd-8bf0f90925dd",
+        "title": "The King's Physician Bride",
+        "rank": 4,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "4e6e0896-2ab8-4a24-8900-9838ad1b2d82",
+        "title": "His Neglected Wife Is The Top Scientist",
+        "rank": 6,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-75b8d1fcd9a32d3211ff",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "99752d2e-d93f-4eb3-9371-e9af4514b2c1",
+        "title": "Reborn, I Choose The Other Groom",
+        "rank": 6,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "5826b589-c657-4ba0-8d6a-a42102bd5ff3",
+        "title": "Secret Triplets: Second Chance With My Billionaire",
+        "rank": 7,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "4603f251-f243-4905-acc3-b473af022391",
+        "title": "Designing My New Life",
+        "rank": 8,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "8d7b1581-677c-4d9c-addd-f2e83bd1dbfa",
+        "title": "Marrying The Merman King",
+        "rank": 9,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      },
+      {
+        "id": "68a2d0eb-6551-47f7-9a9c-c03c7f95d1ac",
+        "title": "Weak Yesterday, Unstoppable Today",
+        "rank": 10,
+        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+        "status": "COMPLETE"
+      }
+    ],
+    "latest_moboreels_new_titles": [],
+    "corrected_research_candidate_count": 0,
+    "action_for_latest_new_titles": "REPROCESS_OR_SCHEMA_REVALIDATE_WITH_CURRENT_RESEARCH_PIPELINE",
+    "action_for_stale_titles": "ARCHIVE_ONLY_EXCLUDE_FROM_2026-09-17_LATEST_DAILY_ANALYSIS",
+    "current_schema_findings": {
+      "completed_results": 10,
+      "controlled_genre_ok": 1,
+      "controlled_genre_invalid": 9,
+      "missing_required_keys_in_all_10": [
+        "canonicalTitle",
+        "newnessResolution",
+        "auditNotes",
+        "confidence",
+        "missingFields",
+        "sourceUrls",
+        "needsGPT"
+      ]
+    }
+  },
+  "backfill_decision": "DO_NOT_WRITE_PRODUCTION"
+}
