@@ -9,6 +9,7 @@ on:
       - pilot_web_top10.py
       - pilot_web_top10_v2.py
       - pilot_web_top10_v3.py
+      - pilot_api_discovery.py
       - pilot_exact_web_adapters.py
       - pilot_scope.json
       - official_web_collectors.py
@@ -44,6 +45,9 @@ jobs:
 
       - name: Run isolated eight-platform Web Top10 pilot
         run: python pilot_web_top10_v3.py
+
+      - name: Discover official JSON/API candidates for incomplete paths
+        run: python pilot_api_discovery.py
 
       - name: Upload raw evidence artifact
         if: always()
