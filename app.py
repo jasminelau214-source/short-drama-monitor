@@ -312,7 +312,11 @@ def known_titles(before_date=''):
 def apply_research_result(task, research):
     title=clean(task.get('title'),500); platform=clean(task.get('platform'),40); norm=normalize_title(title)
     data=public_data(); candidates=[r for r in data['records'] if normalize_title(r.get('title'))==norm]
-    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None)
+    def same_platform(r):
+        if clean(r.get('app'),40)==platform:
+            return True
+        return any(clean(h.get('app'),40)==platform for h in (r.get('history') or []) if isinstance(h,dict))
+    record=next((r for r in candidates if same_platform(r)), None)
     if not record or not record.get('id'):
         raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND_SAME_PLATFORM: {platform} {title}')
     fields={k:clean(research.get(k),6000) for k in EDITABLE_FIELDS if clean(research.get(k),6000)}
