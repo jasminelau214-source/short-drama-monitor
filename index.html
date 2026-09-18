@@ -810,19 +810,182 @@
         align-items: flex-start;
       }
     }
+  
+    /* UI REDESIGN V1 FOUNDATION */
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --panel-soft: #fff9fa;
+      --ink: #20263a;
+      --muted: #697386;
+      --line: #e7e9ef;
+      --strong: #18213a;
+      --accent: #d62f3f;
+      --accent-soft: #fdebed;
+      --amber: #f08a24;
+      --amber-soft: #fff1e4;
+      --rose: #e84d72;
+      --rose-soft: #fdeaf0;
+      --blue: #316fd6;
+      --blue-soft: #eaf1ff;
+      --shadow: 0 10px 28px rgba(22, 30, 55, 0.07);
+      --radius: 10px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 86% 0%, rgba(214, 47, 63, .07), transparent 26%),
+        linear-gradient(180deg, #fffafb 0, #f8f9fc 210px, #f7f8fb 100%);
+    }
+
+    .app-shell { grid-template-columns: 220px minmax(0, 1fr); }
+
+    .sidebar {
+      padding: 20px 14px;
+      background: rgba(255,255,255,.96);
+      border-right: 1px solid #eceef3;
+      gap: 20px;
+    }
+
+    .brand {
+      align-items: flex-start;
+      color: var(--strong);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #b91c2b 0%, #e64c59 100%);
+      box-shadow: 0 8px 18px rgba(214, 47, 63, .18);
+      font-size: 11px;
+      letter-spacing: .3px;
+    }
+
+    .nav { gap: 6px; }
+
+    .nav button {
+      min-height: 42px;
+      border-radius: 9px;
+      padding: 10px 12px;
+      color: #596174;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .nav button:hover {
+      background: #fff6f7;
+      color: #9e2632;
+    }
+
+    .nav button.active {
+      background: linear-gradient(90deg, #fff0f2 0%, #fff8f9 100%);
+      color: #b42332;
+      border-color: #f3cbd0;
+      box-shadow: none;
+    }
+
+    .side-note {
+      background: #fff;
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    main { padding: 24px 28px 34px; }
+
+    h1, h2 { color: var(--strong); }
+
+    .date-pill,
+    .date-select,
+    .metric,
+    .section,
+    .table-wrap,
+    .leader-item,
+    .modal {
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .metric,
+    .section {
+      box-shadow: 0 6px 18px rgba(22, 30, 55, .035);
+    }
+
+    .metric .value { color: var(--strong); }
+    .metric.new-title .value { color: var(--accent); }
+    .metric.continuing-title .value { color: var(--blue); }
+
+    table { background: #fff; }
+    thead th { background: #fafbfc; color: #596174; }
+    tbody tr { background: #fff; }
+    tbody tr:hover { background: #fff8f9; }
+
+    .rank {
+      background: #f1f3f6;
+      color: #4f596b;
+      border-radius: 7px;
+    }
+
+    tbody tr:nth-child(1) .rank {
+      background: #ffe5e8;
+      color: #bd1e2e;
+    }
+
+    tbody tr:nth-child(2) .rank {
+      background: #e8f0ff;
+      color: #275fbd;
+    }
+
+    tbody tr:nth-child(3) .rank {
+      background: #fff0df;
+      color: #c9670a;
+    }
+
+    .chip.rose {
+      background: var(--rose-soft);
+      color: #bd3155;
+    }
+
+    .chip.blue {
+      background: var(--blue-soft);
+      color: #2b61b7;
+    }
+
+    .chip.amber {
+      background: var(--amber-soft);
+      color: #b75b08;
+    }
+
+    .title-button,
+    .leader-item button {
+      color: #20263a;
+    }
+
+    .title-button:hover,
+    .leader-item button:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 980px) {
+      .app-shell { grid-template-columns: 190px minmax(0, 1fr); }
+      main { padding: 20px; }
+    }
+  
   </style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-mark">榜</div>
+        <div class="brand-mark">JSM</div>
         <div>JSM-海外AI短剧动态情报及内容分析系统</div>
       </div>
       <nav class="nav" aria-label="主导航">
-        <button class="active" data-view-button="dashboard">市场仪表盘</button>
-        <button data-view-button="catalog">今日40部榜单</button>
-        <button data-view-button="lifecycle">历史生命周期</button>
+        <button class="active" data-view-button="dashboard">市场总览</button>
+        <button data-view-button="catalog">今日榜单分析</button>
+        <button data-view-button="lifecycle">历史趋势分析</button>
       </nav>
       <div class="side-note">
         <strong>数据范围</strong><br>
@@ -839,8 +1002,8 @@
       <section id="dashboard" class="view active" aria-labelledby="dashboard-title">
         <div class="topbar">
           <div>
-            <h1 id="dashboard-title">市场仪表盘</h1>
-            <div class="subtle">NetShort、DramaWave、MoboReels、ReelShort 热播榜 Top10。</div>
+            <h1 id="dashboard-title">市场总览</h1>
+            <div class="subtle">快速了解今日市场概况、重点信号与研究入口。</div>
           </div>
           <label class="date-control" for="dashboardDate"><span>采集日</span><select id="dashboardDate" class="date-select"></select></label>
         </div>
@@ -902,8 +1065,8 @@
       <section id="catalog" class="view" aria-labelledby="catalog-title">
         <div class="topbar">
           <div>
-            <h1 id="catalog-title">今日40部榜单</h1>
-            <div class="subtle">筛选、搜索、点击剧名进入详情。</div>
+            <h1 id="catalog-title">今日榜单分析</h1>
+            <div class="subtle">聚焦当日榜单、新剧、题材结构与重点剧目。</div>
           </div>
           <div class="date-pill" id="catalogDatePill">采集日 2026-09-07</div>
         </div>
@@ -966,8 +1129,8 @@
       <section id="lifecycle" class="view" aria-labelledby="life-title">
         <div class="topbar">
           <div>
-            <h1 id="life-title">历史生命周期</h1>
-            <div class="subtle">只展示真实截图采集日，不补造中间日期或排名。</div>
+            <h1 id="life-title">历史趋势分析</h1>
+            <div class="subtle">基于真实历史采集数据观察题材变化与剧目生命周期。</div>
           </div>
           <div class="date-pill">2个真实采集日</div>
         </div>
