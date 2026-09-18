@@ -322,16 +322,6 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         'model': 'collector-direct-v2',
         'provider': _clean(payload.get('provider'), 80) or 'collector-direct',
     }
-, '', text)
-    return re.sub(r'[^a-z0-9]+', '', text)
-
-
-def _bool_value(value):
-    if isinstance(value, bool):
-        return value
-    if isinstance(value, str):
-        return value.strip().casefold() in {'1', 'true', 'yes', 'y', 'pass'}
-    return bool(value)
 
 
 def _iso_date(value):
