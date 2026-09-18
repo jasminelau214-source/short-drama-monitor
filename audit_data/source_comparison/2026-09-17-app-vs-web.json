@@ -1,19 +1,32 @@
 {
-  "audit_version": "1.0",
+  "audit_version": "1.1",
   "collection_date": "2026-09-17",
   "principle": "App ranking and Official Web ranking remain separate even when titles overlap.",
   "MoboReels": {
+    "app_ranking_type": "Trending Series",
     "web_ranking_type": "Popular Series",
-    "overlap_titles": [],
-    "overlap_count": 0,
-    "app_count": 0,
+    "overlap_titles": [
+      "Mated To My Boyfriend's Brother",
+      "Left at the Altar, Married Power"
+    ],
+    "overlap_count": 2,
+    "app_count": 10,
     "web_count": 10
   },
   "NetShort": {
+    "app_ranking_type": "Top Trending",
     "web_ranking_type": "Trending Now",
-    "overlap_titles": [],
-    "overlap_count": 0,
-    "app_count": 0,
+    "overlap_titles": [
+      "Back to 95 - Her Big Comeback",
+      "I Spoke Baby Dragon and Won Everyone Over!",
+      "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "Double-marked: Luna's Revenge",
+      "The Quarterback's Comeback",
+      "The Dragon Tyrant's Secret Heir",
+      "When Housewives Turn Deadly"
+    ],
+    "overlap_count": 7,
+    "app_count": 10,
     "web_count": 10
   },
   "conclusion": "Overlap does not establish equivalence. The two source layers produce materially different orderings and, for MoboReels, mostly different title sets."
