@@ -466,23 +466,40 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
             else:
                 rows, adapter_meta, found = _parse_exact(platform, document, collection_date)
                 if platform == "DramaWave":
+                    # Merge the final DOM parse with rank labels observed while scrolling.
+                    # Never replace a larger verified final-DOM set with a smaller scroll snapshot.
+                    merged_rank_titles: dict[int, set[str]] = {}
+                    for row in rows or []:
+                        try:
+                            rank = int(row.get("rank"))
+                        except Exception:
+                            continue
+                        title = base.clean(row.get("title"), 500)
+                        if 1 <= rank <= TOP_N and title:
+                            merged_rank_titles.setdefault(rank, set()).add(title)
+                    for rank, titles in dramawave_rank_titles.items():
+                        if 1 <= rank <= TOP_N:
+                            for title in titles:
+                                clean_title = base.clean(title, 500)
+                                if clean_title:
+                                    merged_rank_titles.setdefault(rank, set()).add(clean_title)
+
                     conflicts = {
                         rank: sorted(titles)
-                        for rank, titles in dramawave_rank_titles.items()
+                        for rank, titles in merged_rank_titles.items()
                         if len(titles) > 1
                     }
-                    unique_rows = [
-                        {"rank": rank, "title": next(iter(dramawave_rank_titles[rank]))}
-                        for rank in sorted(dramawave_rank_titles)
-                        if 1 <= rank <= TOP_N and len(dramawave_rank_titles[rank]) == 1
+                    rows = [
+                        {"rank": rank, "title": next(iter(merged_rank_titles[rank]))}
+                        for rank in sorted(merged_rank_titles)
+                        if len(merged_rank_titles[rank]) == 1
                     ]
-                    if unique_rows:
-                        rows = unique_rows
+                    if rows:
                         found = True
                     adapter_meta = {
                         **adapter_meta,
-                        "rankCaptureMethod": "explicit Most Trending labels accumulated while scrolling",
-                        "explicitRanksSeen": sorted(dramawave_rank_titles),
+                        "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
+                        "explicitRanksSeen": sorted(merged_rank_titles),
                         "explicitRankConflicts": conflicts,
                         "scrollRounds": dramawave_scroll_rounds,
                         "finalScrollMetrics": dramawave_final_metrics,
