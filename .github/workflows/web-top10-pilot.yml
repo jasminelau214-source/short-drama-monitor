@@ -14,6 +14,7 @@ on:
       - pilot_acceptance_report.py
       - pilot_alt_sources.py
       - pilot_dramawave_api.py
+      - pilot_dramawave_rank_probe.py
       - pilot_shortmax_api.py
       - pilot_render_probe.py
       - pilot_exact_web_adapters.py
@@ -57,6 +58,9 @@ jobs:
 
       - name: Collect alternate official API candidates
         run: python pilot_alt_sources.py
+
+      - name: Probe DramaWave explicit Most Trending ranks
+        run: python pilot_dramawave_rank_probe.py
 
       - name: Classify Web path blockers and fallback needs
         run: python pilot_path_decision.py
