@@ -5,15 +5,19 @@ import json
 import os
 import re
 import sqlite3
+import sys
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from collector_import import CollectorImportError, validate_and_normalize, _norm_title
 from research_pipeline import PLATFORM_DOMAINS, configured as research_configured, research_task
 from research_safety import validate_search_identity
 
-ROOT = Path(__file__).resolve().parent.parent
 FIXTURE_DIR = ROOT / "shadow_e2e" / "fixtures" / "2026-09-18"
 OUT_DIR = ROOT / "shadow_e2e" / "output"
 DATE = "2026-09-18"
