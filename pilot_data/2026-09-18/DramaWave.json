@@ -58,10 +58,10 @@
     "cardCount": 90,
     "explicitRankCount1To10": 5,
     "duplicateExplicitRanks": [],
-    "rawHtmlSha256": "772e89942aafd90c3fcb80c463cbd0a02e51012460ca38b860668eefaa8abcb0",
+    "rawHtmlSha256": "01f50e432282fe6af9724a3d93c78dd5009ff1066aeeca5d4f090b0671ea98d2",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
-    "screenshotSha256": "14d60a97ae90675355b48489e82118a09a68a867e83c6810a10b3b4af4c84ecb"
+    "screenshotSha256": "ba6141851a1a1a3887cb0e812c12b620eff987ead70ade0d7331c24507fe1421"
   },
   "error": "",
   "production_write": false
