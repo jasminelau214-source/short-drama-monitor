@@ -1,0 +1,36 @@
+{
+  "audit": "JSM historical audit 2026-09-16/17",
+  "branch": "audit/backfill-2026-09-16-17",
+  "baseline": "pilot/web-top10-8platform",
+  "scope": [
+    "2026-09-16",
+    "2026-09-17"
+  ],
+  "state": "AWAITING_USER_CONFIRMATION",
+  "production_database_mutated": false,
+  "scheduler_modified": false,
+  "task_one_branch_modified": false,
+  "render_modified": false,
+  "direct_historical_overwrite": false,
+  "candidate_summary": {
+    "2026-09-16": {
+      "raw_rows": 165,
+      "latest_historical_target_rows": 135,
+      "legacy_succeeded_rows": 115,
+      "strict_backfill_candidates": 20,
+      "review_hold_rows": 20,
+      "erroneous_pending_research_tasks": 115
+    },
+    "2026-09-17": {
+      "app_raw_rows": 40,
+      "app_effective_latest_rows": 20,
+      "web_pilot_raw_rows": 53,
+      "web_structural_candidates": 40,
+      "web_promotable_rows": 0,
+      "actual_complete_research_tasks": 10,
+      "latest_run_research_candidates": 9,
+      "stale_research_tasks": 1
+    }
+  },
+  "next_action_requires_user_confirmation": true
+}
