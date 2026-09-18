@@ -104,6 +104,13 @@ def clean_module(m: dict[str, Any]) -> dict[str, Any]:
             "key": it.get("key") or it.get("series_id") or it.get("id"),
             "rank": it.get("rank") or it.get("position") or it.get("ranking"),
             "episode_info": bool(it.get("episode_info")),
+            "r_info": it.get("r_info"),
+            "r_info1": it.get("r_info1"),
+            "view_count": it.get("view_count"),
+            "follow_count": it.get("follow_count"),
+            "link": it.get("link"),
+            "tag": it.get("tag"),
+            "series_tag": it.get("series_tag"),
             "suspicious_fields": suspicious_fields(it),
             "all_keys": sorted(str(k) for k in it.keys()),
         })
