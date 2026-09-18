@@ -11,7 +11,10 @@ import pilot_exact_web_adapters as exact
 
 
 def _verified_parser(cfg, collection_date):
-    if cfg.get("platform") == "ShortMax":
+    platform = cfg.get("platform")
+    if platform == "DramaBox":
+        return exact.run_verified_parser(cfg, collection_date)
+    if platform == "ShortMax":
         rows, evidence = exact.run_verified_parser(cfg, collection_date)
         # The stdlib collector can see only the server-rendered slice. If it is
         # incomplete, deliberately fall back to the rendered browser adapter
