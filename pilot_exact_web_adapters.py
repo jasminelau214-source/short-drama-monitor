@@ -342,6 +342,34 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
             dramawave_final_metrics: dict[str, Any] = {}
 
             if platform == "DramaWave":
+                # The public H5 page can expand to full document height in headless
+                # browsers, which prevents its internal infinite-scroll observer from
+                # ever firing. Constrain the real x-home-page scroller to the viewport
+                # so scrolling behaves like an actual phone/desktop session.
+                page.evaluate("""
+() => {
+  const layout = document.querySelector('x-search-and-tabs-layout');
+  const innerMain = layout && layout.querySelector('main.pb-13\\.5');
+  const scroller = document.querySelector('x-home-page');
+  const h = Math.max(620, window.innerHeight - 56);
+  if (layout) {
+    layout.style.height = window.innerHeight + 'px';
+    layout.style.maxHeight = window.innerHeight + 'px';
+  }
+  if (innerMain) {
+    innerMain.style.height = h + 'px';
+    innerMain.style.maxHeight = h + 'px';
+  }
+  if (scroller) {
+    scroller.style.height = h + 'px';
+    scroller.style.maxHeight = h + 'px';
+    scroller.style.overflowY = 'auto';
+    scroller.scrollTop = 0;
+  }
+}
+""")
+                page.wait_for_timeout(500)
+
                 bottom_stable = 0
                 previous_height = -1
 
