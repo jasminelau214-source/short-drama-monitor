@@ -15,20 +15,30 @@ def local_today() -> str:
     return datetime.now(TZ).date().isoformat()
 
 
+def load_json(path: Path, default):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return default
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", default=local_today())
     args = parser.parse_args()
     day = DATA_ROOT / args.date
 
-    summary = json.loads((day / "summary.json").read_text(encoding="utf-8"))
-    discovery_path = day / "api_discovery.json"
-    discovery = json.loads(discovery_path.read_text(encoding="utf-8")) if discovery_path.exists() else {"platforms": {}}
+    summary = load_json(day / "summary.json", {"platforms": []})
+    discovery = load_json(day / "api_discovery.json", {"platforms": {}})
     dmap = discovery.get("platforms") or {}
 
-    alt_path = day / "alternate_sources.json"
-    alt = json.loads(alt_path.read_text(encoding="utf-8")) if alt_path.exists() else {"sources": []}
+    alt = load_json(day / "alternate_sources.json", {"sources": []})
     amap = {str(x.get("platform")): x for x in (alt.get("sources") or []) if isinstance(x, dict)}
+
+    dw_probe = load_json(day / "dramawave_rank_probe.json", {})
+    dw_probe_complete = bool(dw_probe.get("top10_complete")) and not (dw_probe.get("rank_conflicts") or {})
+    dw_probe_count = len(dw_probe.get("explicit_ranks") or [])
+    dw_probe_status = dw_probe.get("status")
 
     decisions = []
     for item in summary.get("platforms") or []:
@@ -43,9 +53,27 @@ def main() -> int:
         alt_semantics = alternate.get("semantic_type")
         alt_target = alternate.get("target")
 
+        rank_probe = None
+        if platform == "DramaWave":
+            rank_probe = {
+                "status": dw_probe_status,
+                "explicit_rank_count": dw_probe_count,
+                "top10_complete": dw_probe_complete,
+                "missing_top10_ranks": dw_probe.get("missing_top10_ranks") or [],
+                "rank_conflicts": dw_probe.get("rank_conflicts") or {},
+                "source_type": dw_probe.get("source_type"),
+                "target": dw_probe.get("target"),
+            }
+
         if status in {"PASS_VERIFIED", "PASS_CANDIDATE"} and rows == 10:
             cls = "WEB_TOP10_VALID"
             next_step = "CONTINUE_STABILITY_VALIDATION"
+        elif platform == "DramaWave" and dw_probe_complete:
+            cls = "OFFICIAL_H5_EXPLICIT_TOP10_CANDIDATE"
+            next_step = "REQUIRE_USER_SCOPE_CONFIRMATION_BEFORE_PROMOTION"
+        elif platform == "DramaWave" and dw_probe_count:
+            cls = "OFFICIAL_H5_EXPLICIT_RANK_PARTIAL"
+            next_step = "CONTINUE_OFFICIAL_H5_RANK_DISCOVERY"
         elif page_status == 403:
             cls = "WEB_CLOUD_EGRESS_BLOCKED"
             next_step = "REQUIRE_ALTERNATE_CLOUD_EGRESS_OR_APP_FALLBACK"
@@ -54,7 +82,7 @@ def main() -> int:
             next_step = "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
         elif 0 < rows < 10 and candidate_count == 0:
             cls = "WEB_SOURCE_EXPOSES_LT_TOP10"
-            next_step = "REQUIRE_CLOUD_APP_OR_OFFICIAL_API_FALLBACK"
+            next_step = "CONTINUE_OFFICIAL_SOURCE_DISCOVERY"
         elif rows == 0 and candidate_count == 0:
             cls = "WEB_PATH_UNRESOLVED"
             next_step = "CONTINUE_CLOUD_DISCOVERY"
@@ -72,6 +100,7 @@ def main() -> int:
             "alternate_rows": alt_rows,
             "alternate_semantic_type": alt_semantics,
             "alternate_target": alt_target,
+            "rank_probe": rank_probe,
             "next_step": next_step,
             "production_write": False,
         })
