@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: scheduled-web-top10-pilot
+  group: web-top10-pilot
   cancel-in-progress: true
 
 jobs:
@@ -80,32 +80,17 @@ jobs:
           fi
 
           START_HEAD="$(git rev-parse HEAD)"
+          git fetch origin "$TARGET_BRANCH"
+          REMOTE_HEAD="$(git rev-parse "origin/$TARGET_BRANCH")"
+
+          # If another pilot run or a user update advanced the branch while this
+          # run was collecting, this result is stale. Keep the uploaded evidence
+          # artifact, but do not overwrite or rebase same-day generated data.
+          if [ "$REMOTE_HEAD" != "$START_HEAD" ]; then
+            echo "Pilot branch advanced during collection: start=$START_HEAD remote=$REMOTE_HEAD"
+            echo "Skipping stale result commit safely."
+            exit 0
+          fi
+
           git commit -m "Scheduled Pilot Web Top10 results $(date -u +%F)"
-
-          # Branch-drift protection:
-          # never force-push. If the pilot branch advanced while this run was collecting,
-          # rebase this run's isolated pilot-data commit onto the new remote head.
-          # If generated files conflict, stop safely and keep the evidence artifact.
-          for attempt in 1 2 3; do
-            git fetch origin "$TARGET_BRANCH"
-            REMOTE_HEAD="$(git rev-parse "origin/$TARGET_BRANCH")"
-
-            if ! git merge-base --is-ancestor "$REMOTE_HEAD" HEAD; then
-              echo "Pilot branch drift detected: start=$START_HEAD remote=$REMOTE_HEAD attempt=$attempt"
-              if ! git rebase "origin/$TARGET_BRANCH"; then
-                git rebase --abort || true
-                echo "::error::Pilot branch changed with conflicting pilot_data. Refusing to overwrite remote data."
-                exit 1
-              fi
-            fi
-
-            if git push origin "HEAD:$TARGET_BRANCH"; then
-              exit 0
-            fi
-
-            echo "Push raced with another update; retrying safely ($attempt/3)"
-            sleep $((attempt * 2))
-          done
-
-          echo "::error::Pilot branch kept advancing; refusing force-push after 3 safe retries."
-          exit 1
+          git push origin "HEAD:$TARGET_BRANCH"
