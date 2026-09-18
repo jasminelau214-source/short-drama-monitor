@@ -1492,6 +1492,44 @@
     .opportunity-horizon { margin-top:10px; }.opportunity-horizon-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }.horizon-card{display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:center;border:1px solid #eceef3;border-radius:10px;padding:12px;background:#fff}.horizon-card.long{background:#fffaf2}.horizon-card.short{background:#faf7ff}.horizon-card strong{display:block;color:#20263a}.horizon-card small{display:block;color:#8c96a8;margin-top:4px}.horizon-card>div:last-child{display:flex;gap:7px;flex-wrap:wrap}.horizon-card button{border:1px solid #eceef3;border-radius:999px;background:#fff;padding:6px 9px;color:#596579;font-size:10.5px}.horizon-card button b{color:#b42332}
     .empty-chart { min-height:220px; display:grid; place-items:center; color:#98a2b3; }
     @media(max-width:1180px){.locked-history-toolbar{grid-template-columns:repeat(2,1fr)}.history-range-note{grid-column:1/-1;text-align:left}.history-ai-brief{grid-template-columns:1fr}.history-data-grid,.history-lower-grid{grid-template-columns:1fr}.creative-guidance-grid{grid-template-columns:repeat(2,1fr)}.compact-life-cards{grid-template-columns:1fr}.opportunity-horizon-grid{grid-template-columns:1fr}}
+  
+    /* UI LOCK V2 OVERVIEW + DAILY */
+    .compact-overview-hero { min-height:132px; }
+    .compact-overview-hero h1 { font-size:30px; margin-bottom:6px; }
+    .overview-intel-brief { display:grid; grid-template-columns:310px 1fr; gap:18px; align-items:center; border:1px solid #f0d9dd; border-radius:13px; padding:18px 20px; background:linear-gradient(135deg,#fff8f9,#fff); margin:12px 0; }
+    .overview-intel-title { display:flex; gap:14px; align-items:center; }
+    .overview-intel-lines { display:grid; gap:7px; }
+    .overview-intel-line { width:100%; display:grid; grid-template-columns:24px 1fr auto; gap:9px; align-items:start; border:0; background:transparent; text-align:left; padding:4px 0; }
+    .overview-intel-line>span { width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#fff0f2;color:#b42332;font-size:10px;font-weight:850; }
+    .overview-intel-line p { margin:1px 0 0; color:#475467; line-height:1.55; }
+    .overview-intel-line em { font-style:normal; color:#b42332; font-size:10px; white-space:nowrap; margin-top:4px; }
+    .overview-signal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px; }
+    .overview-signal-card { border:1px solid #eceef3; border-radius:12px; background:#fff; padding:14px; min-height:165px; }
+    .signal-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .signal-icon { width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:900; }.signal-icon.red{background:#fff0f2;color:#d62f3f}.signal-icon.blue{background:#eaf2ff;color:#316fd6}.signal-icon.amber{background:#fff3e7;color:#e57912}
+    .signal-head small { display:block;color:#98a2b3;font-size:10px;margin-bottom:2px }.signal-head strong{color:#293246;font-size:13px}
+    .signal-primary { width:100%;border:0;background:transparent;text-align:left;padding:0;display:grid;gap:5px; }
+    .signal-primary b{font-size:16px;color:#20263a}.signal-primary span{font-size:10px;color:#8c96a8}.signal-primary p{margin:2px 0;color:#596579;line-height:1.5;font-size:11px}.signal-primary em{font-style:normal;color:#b42332;font-size:10px}
+    .overview-research-section,.overview-navigation-section{margin-top:10px}
+    .overview-research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .overview-research-card{display:grid;grid-template-columns:32px 72px 1fr;gap:10px;border:1px solid #eceef3;border-radius:11px;padding:10px;background:#fff;min-width:0}
+    .research-pick-no{font-size:18px;color:#c9ccd4;font-style:italic;font-weight:800}
+    .research-pick-poster{position:relative;border-radius:8px;min-height:96px;background:linear-gradient(145deg,#f4c7cd,#78535b);display:grid;place-items:center;color:#fff;font-size:26px;font-weight:900}.research-pick-poster span{position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);color:#d62f3f;font-size:9px;display:grid;place-items:center}
+    .research-pick-copy{min-width:0}.research-pick-copy>div{display:flex;gap:5px;flex-wrap:wrap}.research-pick-copy button{width:100%;border:0;background:transparent;padding:6px 0 0;text-align:left;font-weight:800;color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.research-pick-copy p{margin:5px 0;color:#667085;font-size:10.5px;line-height:1.45}.research-pick-copy small{color:#98a2b3}
+    .overview-navigation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.overview-nav-card{border:1px solid #eceef3;border-radius:10px;background:#fff;padding:14px;display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;text-align:left}.overview-nav-card>span{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:#fff0f2}.overview-nav-card.blue>span{background:#eaf2ff}.overview-nav-card.violet>span{background:#f1ebff}.overview-nav-card.amber>span{background:#fff3e7}.overview-nav-card strong{display:block;color:#20263a}.overview-nav-card small{display:block;color:#98a2b3;margin-top:3px}.overview-nav-card em{font-style:normal;font-size:18px;color:#667085}
+
+    .daily-primary-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:10px;margin:12px 0}
+    .daily-top10-table{display:grid}.daily-top10-head,.daily-top10-row{display:grid;grid-template-columns:42px minmax(130px,1.5fr) 90px 80px 74px 120px;gap:8px;align-items:center}
+    .daily-top10-head{padding:8px 10px;background:#f8f9fb;border-radius:8px;color:#8c96a8;font-size:10px}
+    .daily-top10-row{width:100%;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:7px 10px;text-align:left;color:#596579;font-size:10.5px}.daily-top10-row:hover{background:#fff8f9}.daily-top10-row strong{color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top10-rank{width:25px;height:25px;border-radius:7px;background:#f2f4f7;display:grid;place-items:center;font-weight:850;color:#667085}.daily-top10-row:nth-child(2) .top10-rank{background:#ffe9ed;color:#cf263a}.daily-top10-row:nth-child(3) .top10-rank{background:#fff0e1;color:#df7711}.daily-top10-row:nth-child(4) .top10-rank{background:#eaf2ff;color:#316fd6}
+    .vertical-focus-grid{grid-template-columns:1fr!important}
+    .daily-secondary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+    .daily-genre-structure,.daily-new-list,.daily-platform-performance{display:grid;gap:6px}
+    .daily-genre-row{display:grid;grid-template-columns:9px 70px 1fr 55px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.genre-color{width:8px;height:8px;border-radius:50%;background:#d62f3f}.genre-color.g1{background:#f08a24}.genre-color.g2{background:#316fd6}.genre-color.g3{background:#7d51b8}.genre-color.g4{background:#e84d72}.genre-color.g5{background:#9aa3b1}.daily-genre-row b{font-size:10.5px;color:#475467}.daily-genre-row i{height:7px;background:#f0f2f5;border-radius:99px;overflow:hidden}.daily-genre-row i::after{content:"";display:block;width:var(--w);height:100%;border-radius:99px;background:#d62f3f}.daily-genre-row em{font-style:normal;color:#8c96a8;font-size:10px;text-align:right}
+    .daily-new-row{display:grid;grid-template-columns:22px 1fr 92px 70px;gap:7px;align-items:center;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:6px 0;text-align:left}.daily-new-row>span{width:20px;height:20px;border-radius:6px;background:#fff3e7;color:#dd7816;display:grid;place-items:center;font-size:9px}.daily-new-row strong{font-size:10.5px;color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.daily-new-row small,.daily-new-row em{font-size:9.5px;color:#8c96a8;font-style:normal}
+    .daily-platform-row{display:grid;grid-template-columns:24px 80px 1fr 20px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.platform-badge{width:22px;height:22px;border-radius:6px;background:#ffe9ed;color:#cf263a;display:grid;place-items:center;font-size:9px;font-weight:800}.platform-badge.p1{background:#eaf2ff;color:#316fd6}.platform-badge.p2{background:#fff0e1;color:#df7711}.daily-platform-row strong{font-size:10.5px;color:#475467}.daily-platform-row i{height:7px;border-radius:99px;background:#f0f2f5;overflow:hidden}.daily-platform-row i b{display:block;height:100%;background:#d62f3f;border-radius:99px}.daily-platform-row em{font-size:10px;color:#8c96a8;font-style:normal}
+    .daily-movement-section{margin:10px 0}.daily-detail-anchor{scroll-margin-top:16px}
+    @media(max-width:1180px){.overview-signal-grid,.overview-research-grid{grid-template-columns:1fr}.overview-navigation-grid{grid-template-columns:repeat(2,1fr)}.overview-intel-brief{grid-template-columns:1fr}.daily-primary-grid{grid-template-columns:1fr}.daily-secondary-grid{grid-template-columns:repeat(2,1fr)}}
   </style>
 </head>
 <body>
@@ -1521,11 +1559,11 @@
 
     <main>
       <section id="dashboard" class="view active" aria-labelledby="dashboard-title">
-        <section class="market-hero">
+        <section class="market-hero compact-overview-hero">
           <div class="market-hero-copy">
             <div class="hero-kicker">GLOBAL SHORT DRAMA INTELLIGENCE</div>
-            <h1 id="dashboard-title">洞察全球短剧趋势<br>让好故事被更多人看到</h1>
-            <p>全球市场 · 数据驱动 · 内容洞察 · 创作灵感</p>
+            <h1 id="dashboard-title">市场总览</h1>
+            <p>今天最值得知道的市场信号、研究对象与下一步入口。</p>
           </div>
           <div class="hero-orbit" aria-hidden="true">
             <div class="hero-globe"></div>
@@ -1534,99 +1572,62 @@
           <label class="hero-date" for="dashboardDate"><span>采集日</span><select id="dashboardDate" class="date-select"></select></label>
         </section>
 
-        <div class="overview-kpi-row">
-          <button class="overview-kpi" type="button" data-overview-filter="all">
-            <span class="kpi-icon red">▶</span>
-            <span class="kpi-main"><b id="metricTitles">0</b><small>今日采集剧目</small></span>
-            <span class="kpi-hint">查看全部 →</span>
-          </button>
-          <button class="overview-kpi" type="button" data-overview-filter="new">
-            <span class="kpi-icon orange">★</span>
-            <span class="kpi-main"><b id="metricNew">0</b><small>今日新剧</small></span>
-            <span class="kpi-hint">筛选新剧 →</span>
-          </button>
-          <button class="overview-kpi" type="button" data-overview-filter="continuing">
-            <span class="kpi-icon green">▮▮</span>
-            <span class="kpi-main"><b id="metricContinuing">0</b><small>继续在榜</small></span>
-            <span class="kpi-hint">查看延续 →</span>
-          </button>
-          <button class="overview-kpi" type="button" data-overview-filter="female">
-            <span class="kpi-icon pink">♀</span>
-            <span class="kpi-main"><b id="metricFemale">0</b><small>女频剧目</small></span>
-            <span class="kpi-hint" id="metricFemaleShare">—</span>
-          </button>
-          <button class="overview-kpi" type="button" data-overview-filter="male">
-            <span class="kpi-icon blue">♂</span>
-            <span class="kpi-main"><b id="metricMale">0</b><small>男频剧目</small></span>
-            <span class="kpi-hint" id="metricMaleShare">—</span>
-          </button>
-
-          <section class="ai-summary-card">
-            <div class="ai-summary-head">
-              <div><span class="ai-spark">✦</span><strong>AI 今日市场摘要</strong></div>
-              <button class="text-link" type="button" data-view-button="catalog">查看完整分析 →</button>
+        <section class="overview-intel-brief">
+          <div class="overview-intel-title">
+            <div class="ai-orb">✦</div>
+            <div>
+              <div class="eyebrow">今日核心情报</div>
+              <h2>只保留值得采取行动的结论</h2>
+              <div class="subtle">点击结论或信号进入对应榜单、题材或单剧证据。</div>
             </div>
-            <div id="overviewConclusions" class="ai-summary-lines"></div>
+          </div>
+          <div id="overviewConclusions" class="overview-intel-lines"></div>
+        </section>
+
+        <div class="overview-signal-grid">
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon red">◎</span><div><small>重点剧目信号</small><strong>今天最值得追踪的剧</strong></div></div>
+            <div id="overviewDramaSignal" class="signal-body"></div>
+          </section>
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon blue">↗</span><div><small>题材机会</small><strong>正在形成的内容方向</strong></div></div>
+            <div id="overviewGenreSignal" class="signal-body"></div>
+          </section>
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon amber">✦</span><div><small>异常 / 新信号</small><strong>需要立即确认的变化</strong></div></div>
+            <div id="overviewAnomalySignal" class="signal-body"></div>
           </section>
         </div>
 
-        <div class="overview-mid-grid">
-          <section class="market-panel">
-            <div class="panel-head">
-              <div><span class="panel-accent"></span><h2>题材热度排行（今日）</h2></div>
-              <button class="mini-link" type="button" data-view-button="catalog">查看全部 →</button>
+        <section class="section overview-research-section">
+          <div class="section-head">
+            <div>
+              <h2>今日研究推荐</h2>
+              <div class="subtle">不是简单 Top3，而是结合排名变化、新剧状态和代表性筛出的研究对象。</div>
             </div>
-            <div id="genreRanking" class="rank-list"></div>
-          </section>
+            <button class="mini-link" type="button" data-view-button="catalog">进入今日榜单分析 →</button>
+          </div>
+          <div id="overviewResearchPicks" class="overview-research-grid"></div>
+        </section>
 
-          <section class="market-panel">
-            <div class="panel-head">
-              <div><span class="panel-accent"></span><h2>平台表现（今日新剧）</h2></div>
-              <button class="mini-link" type="button" data-view-button="catalog">查看全部 →</button>
+        <section class="section overview-navigation-section">
+          <div class="section-head">
+            <div>
+              <h2>快速进入</h2>
+              <div class="subtle">从情报总览进入对应分析工作台。</div>
             </div>
-            <div id="platformRanking" class="rank-list"></div>
-          </section>
-
-          <section class="market-panel trend-panel">
-            <div class="panel-head">
-              <div><span class="panel-accent"></span><h2>市场趋势（近7个采集日）</h2></div>
-              <button class="mini-link" type="button" data-view-button="lifecycle">查看更多 →</button>
-            </div>
-            <div class="trend-legend">
-              <span><i class="legend-dot total"></i>总剧目</span>
-              <span><i class="legend-dot female"></i>女频</span>
-              <span><i class="legend-dot male"></i>男频</span>
-            </div>
-            <div id="marketTrendChart" class="mini-trend-chart"></div>
-          </section>
-        </div>
-
-        <div class="overview-bottom-grid">
-          <section class="market-panel focus-market-panel">
-            <div class="panel-head">
-              <div><span class="panel-accent"></span><h2>今日重点关注</h2></div>
-              <button class="mini-link" type="button" data-view-button="catalog">查看全部 →</button>
-            </div>
-            <div class="focus-tabs" id="focusTabs">
-              <button type="button" class="active" data-focus-mode="new">新剧推荐</button>
-              <button type="button" data-focus-mode="rising">排名上升</button>
-              <button type="button" data-focus-mode="genre">潜力题材</button>
-            </div>
-            <div id="overviewFocus" class="focus-poster-grid"></div>
-          </section>
-
-          <section class="market-panel activity-panel">
-            <div class="panel-head">
-              <div><span class="panel-accent"></span><h2>最新动态</h2></div>
-              <button class="mini-link" type="button" data-view-button="catalog">查看更多 →</button>
-            </div>
-            <div id="latestActivity" class="activity-list"></div>
-          </section>
-        </div>
+          </div>
+          <div class="overview-navigation-grid">
+            <button type="button" class="overview-nav-card red" data-view-button="catalog"><span>🏆</span><div><strong>今日榜单分析</strong><small>今天具体发生了什么</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card blue" data-view-button="lifecycle"><span>📈</span><div><strong>历史趋势分析</strong><small>市场结构如何变化</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card violet" data-view-button="research"><span>🎬</span><div><strong>题材 / 剧目研究</strong><small>为什么这种内容有效</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card amber" data-view-button="history-library"><span>◫</span><div><strong>历史剧目库</strong><small>查找全部历史样本</small></div><em>→</em></button>
+          </div>
+        </section>
 
         <div class="overview-footnote">
-          <strong>JSM</strong> · 海外AI短剧动态情报及内容分析系统
-          <span>Data × Insight × Creativity</span>
+          <strong id="overviewStatusText">读取真实采集数据中…</strong>
+          <span>JSM · 从市场信号到创作研究</span>
         </div>
       </section>
 
@@ -1634,15 +1635,15 @@
         <div class="topbar">
           <div>
             <h1 id="catalog-title">今日榜单分析</h1>
-            <div class="subtle">聚焦当日榜单、新剧、题材结构与重点剧目。</div>
+            <div class="subtle">回答“今天具体发生了什么”：榜单变化、新剧、重点剧目、题材与平台表现。</div>
           </div>
-          <div class="date-pill" id="catalogDatePill">采集日 2026-09-07</div>
+          <div class="date-pill" id="catalogDatePill">采集日</div>
         </div>
 
         <section class="daily-brief">
           <div>
-            <div class="eyebrow">当日分析</div>
-            <h2>今日摘要</h2>
+            <div class="eyebrow">AI 今日摘要</div>
+            <h2>今日市场判断</h2>
           </div>
           <div id="dailyConclusions" class="daily-conclusions"></div>
         </section>
@@ -1655,88 +1656,68 @@
           <button class="metric daily-kpi" type="button" data-daily-filter="male"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">筛选男频剧目 →</div></button>
         </div>
 
-        <section class="section daily-focus-section">
-          <div class="section-head">
-            <div>
-              <h2>今日重点剧目</h2>
-              <div class="subtle">按榜位、排名变化与新剧状态快速筛出值得优先查看的剧目。</div>
-            </div>
-          </div>
-          <div id="dailyFocusTitles" class="daily-focus-grid"></div>
-        </section>
-
-        <div class="grid-2 daily-analysis-grid">
-          <section class="section">
+        <div class="daily-primary-grid">
+          <section class="section daily-top10-section">
             <div class="section-head">
-              <div>
-                <h2>榜单升降分析</h2>
-                <div class="subtle">与该剧上一个真实采集点比较；新剧单独统计。</div>
-              </div>
+              <div><h2>今日榜单 TOP10</h2><div class="subtle">按当日排名展示；排名变化与走势均基于真实采集点。</div></div>
+              <button class="mini-link" type="button" data-scroll-target="dailyDetailTable">查看完整榜单 →</button>
             </div>
-            <div id="dailyMovementSummary" class="movement-summary"></div>
+            <div class="daily-top10-table">
+              <div class="daily-top10-head"><span>排名</span><span>剧名</span><span>平台</span><span>题材</span><span>较上次</span><span>走势</span></div>
+              <div id="dailyTop10Rows"></div>
+            </div>
           </section>
-          <section class="section">
+
+          <section class="section daily-focus-section">
             <div class="section-head">
-              <div>
-                <h2>市场走势（近7个采集日）</h2>
-                <div class="subtle">总剧目、新剧与继续在榜变化。</div>
-              </div>
+              <div><h2>今日重点剧目</h2><div class="subtle">按榜位、排名变化和新剧信号筛选。</div></div>
             </div>
+            <div id="dailyFocusTitles" class="daily-focus-grid vertical-focus-grid"></div>
+          </section>
+        </div>
+
+        <div class="daily-secondary-grid">
+          <section class="section">
+            <div class="section-head"><div><h2>当日题材结构</h2><div class="subtle">点击题材直接筛选榜单。</div></div></div>
+            <div id="dailyGenreStructure" class="daily-genre-structure"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>今日新剧列表</h2><div class="subtle">当日首次记录剧目。</div></div></div>
+            <div id="dailyNewList" class="daily-new-list"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>平台表现（今日新剧）</h2><div class="subtle">按新剧数量观察平台当天供给。</div></div></div>
+            <div id="dailyPlatformPerformance" class="daily-platform-performance"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>近7个真实采集日趋势</h2><div class="subtle">总剧目、新剧与继续在榜。</div></div></div>
             <div id="dailyTrendChart" class="analysis-trend-chart"></div>
           </section>
         </div>
 
+        <section class="section daily-movement-section">
+          <div class="section-head"><div><h2>榜单升降概览</h2><div class="subtle">当前采集点与该剧上一个真实采集点比较。</div></div></div>
+          <div id="dailyMovementSummary" class="movement-summary"></div>
+        </section>
+
+        <div id="dailyDetailTable" class="daily-detail-anchor"></div>
         <div class="filters" aria-label="榜单筛选">
-          <div class="field">
-            <label for="dateFilter">采集日期</label>
-            <select id="dateFilter"></select>
-          </div>
-          <div class="field">
-            <label for="searchInput">剧名搜索</label>
-            <input id="searchInput" type="search" placeholder="输入英文剧名">
-          </div>
-          <div class="field">
-            <label for="appFilter">平台</label>
-            <select id="appFilter"></select>
-          </div>
-          <div class="field">
-            <label for="genreFilter">题材</label>
-            <select id="genreFilter"></select>
-          </div>
-          <div class="field">
-            <label for="laneFilter">赛道</label>
-            <select id="laneFilter"></select>
-          </div>
-          <div class="field">
-            <label for="audienceFilter">受众</label>
-            <select id="audienceFilter"></select>
-          </div>
-          <div class="field">
-            <label for="statusFilter">榜单状态</label>
-            <select id="statusFilter"><option value="">全部</option><option value="new">新剧</option><option value="continuing">继续在榜</option></select>
-          </div>
+          <div class="field"><label for="dateFilter">采集日期</label><select id="dateFilter"></select></div>
+          <div class="field"><label for="searchInput">剧名搜索</label><input id="searchInput" type="search" placeholder="输入英文剧名"></div>
+          <div class="field"><label for="appFilter">平台</label><select id="appFilter"></select></div>
+          <div class="field"><label for="genreFilter">题材</label><select id="genreFilter"></select></div>
+          <div class="field"><label for="laneFilter">赛道</label><select id="laneFilter"></select></div>
+          <div class="field"><label for="audienceFilter">受众</label><select id="audienceFilter"></select></div>
+          <div class="field"><label for="statusFilter">榜单状态</label><select id="statusFilter"><option value="">全部</option><option value="new">新剧</option><option value="continuing">继续在榜</option></select></div>
         </div>
 
-        <div class="table-meta">
-          <span id="resultCount"></span>
-          <span>热度与排名来自当日截图；空白字段保持为空。</span>
-        </div>
+        <div class="table-meta"><span id="resultCount"></span><span>点击任一剧目整行进入统一单剧详情；空白字段不补造。</span></div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>排名</th>
-                <th>较上次</th>
-                <th>剧名</th>
-                <th>平台</th>
-                <th>热度</th>
-                <th>排名走势</th>
-                <th>榜单状态</th>
-                <th>题材</th>
-                <th>细分赛道</th>
-                <th>受众</th>
-              </tr>
-            </thead>
+            <thead><tr><th>排名</th><th>较上次</th><th>剧名</th><th>平台</th><th>热度</th><th>排名走势</th><th>榜单状态</th><th>题材</th><th>细分赛道</th><th>受众</th></tr></thead>
             <tbody id="catalogBody"></tbody>
           </table>
         </div>
@@ -2325,68 +2306,48 @@
     }
 
     function renderDashboard() {
-      const day = summarizeDate(activeDate);
-      $('#dashboardDate').value = activeDate;
-      const female = day.audiences.find(item=>item.name==='女频')?.value || 0;
-      const male = day.audiences.find(item=>item.name==='男频')?.value || 0;
-      const audienceTotal = female + male;
-      const femaleShare = audienceTotal ? Math.round(female/audienceTotal*100) : 0;
-      const maleShare = audienceTotal ? Math.round(male/audienceTotal*100) : 0;
-
-      $('#metricTitles').textContent=formatNumber.format(day.uniqueTitles);
-      $('#metricNew').textContent=formatNumber.format(day.newTitles);
-      $('#metricContinuing').textContent=formatNumber.format(day.continuingTitles);
-      $('#metricFemale').textContent=formatNumber.format(female);
-      $('#metricMale').textContent=formatNumber.format(male);
-      $('#metricFemaleShare').textContent=audienceTotal ? femaleShare+'% 占比' : '待补标注';
-      $('#metricMaleShare').textContent=audienceTotal ? maleShare+'% 占比' : '待补标注';
+      const day=summarizeDate(activeDate);
+      $('#dashboardDate').value=activeDate;
       $('#sidebarDataStatus').textContent=`最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
+      $('#overviewStatusText').textContent=`数据正常 · ${activeDate} · ${day.platforms.length} 个平台 · ${day.uniqueTitles} 部剧`;
 
-      const topGenre = day.genres[0] || {name:'待标注',value:0};
-      const topNewPlatform = countValues(day.items.filter(r=>r.firstDate===activeDate).map(r=>r.app))[0] || null;
-      const topRiser = day.items.map(r=>({r,move:rankMovement(r,activeDate)})).filter(x=>Number(x.move)>0).sort((a,b)=>b.move-a.move)[0];
+      const topGenre=day.genres[0] || {name:'待标注',value:0};
+      const topRisers=day.items.map(r=>({r,move:rankMovement(r,activeDate)})).filter(x=>Number(x.move)>0).sort((a,b)=>b.move-a.move || a.r.rank-b.r.rank);
+      const topRiser=topRisers[0] || null;
+      const newTop=day.items.filter(r=>r.firstDate===activeDate).sort((a,b)=>a.rank-b.rank)[0] || null;
+      const recurringTop=day.items.filter(r=>r.firstDate!==activeDate).sort((a,b)=>a.rank-b.rank)[0] || null;
+
       const notes=[
-        `今日共采集 ${day.uniqueTitles} 部剧，新剧 ${day.newTitles} 部；${topGenre.name} 是当前数量最多的已标注题材。`,
-        topNewPlatform ? `${topNewPlatform.name} 今日新剧数量最多，共 ${topNewPlatform.value} 部。` : '今日各平台新剧数量已进入榜单分析，可继续按平台查看。',
-        topRiser ? `${topRiser.r.title} 今日排名上升 ${topRiser.move} 位，值得继续关注。` : `已标注受众中女频 ${female} 部、男频 ${male} 部。`
+        topRiser ? `《${topRiser.r.title}》较上一个真实采集点上升 ${topRiser.move} 位，是今天最明显的排名信号。` : `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部。`,
+        `「${topGenre.name}」是今日样本中数量最多的已标注题材，共 ${topGenre.value} 部，可进入题材研究继续拆解。`,
+        newTop ? `${newTop.app} 新剧《${newTop.title}》首次记录即位于第 ${newTop.rank} 名，建议继续观察后续生命周期。` : '今天暂未出现新的首次记录剧目。'
       ];
-      $('#overviewConclusions').innerHTML=notes.map(note=>`<div><span class="ai-bullet"></span><p>${escapeHtml(note)}</p></div>`).join('');
+      $('#overviewConclusions').innerHTML=notes.map((note,index)=>`<button type="button" class="overview-intel-line" data-intel-index="${index}"><span>${index+1}</span><p>${escapeHtml(note)}</p><em>查看依据 →</em></button>`).join('');
 
-      const genreMax=Math.max(1,...day.genres.slice(0,5).map(x=>x.value));
-      const colors=['red','orange','blue','purple','slate'];
-      $('#genreRanking').innerHTML=day.genres.slice(0,5).map((g,index)=>`<button type="button" class="rank-row clickable-rank-row" data-overview-genre="${escapeAttr(g.name)}">
-        <span class="rank-no ${colors[index]}">${index+1}</span>
-        <strong>${escapeHtml(g.name)}</strong>
-        <div class="rank-bar-track"><i class="rank-bar ${colors[index]}" style="width:${Math.round(g.value/genreMax*100)}%"></i></div>
-        <b>${g.value}</b>
-      </button>`).join('') || '<div class="subtle">暂无题材标注。</div>';
+      const drama=topRiser?.r || newTop || recurringTop || day.items[0];
+      $('#overviewDramaSignal').innerHTML=drama ? `<button class="signal-primary" data-open="${escapeAttr(drama.id)}"><b>${escapeHtml(drama.title)}</b><span>${escapeHtml(drama.app)} · 当前第 ${drama.rank} 名</span><p>${topRiser?.r.id===drama.id?`↑ ${topRiser.move} 位，排名变化最明显`:drama.firstDate===activeDate?'NEW · 今日首次记录':'高位持续在榜样本'}</p><em>进入单剧档案 →</em></button>` : '<div class="subtle">暂无剧目信号。</div>';
 
-      const platformNew=countValues(day.items.filter(r=>r.firstDate===activeDate).map(r=>r.app));
-      const platformFallback=countValues(day.items.map(r=>r.app));
-      const platformData=(platformNew.length?platformNew:platformFallback).slice(0,5);
-      const platformMax=Math.max(1,...platformData.map(x=>x.value));
-      $('#platformRanking').innerHTML=platformData.map((g,index)=>`<button type="button" class="rank-row clickable-rank-row" data-overview-app="${escapeAttr(g.name)}">
-        <span class="platform-dot ${colors[index]}">${escapeHtml(g.name.slice(0,1))}</span>
-        <strong>${escapeHtml(g.name)}</strong>
-        <div class="rank-bar-track"><i class="rank-bar ${colors[index]}" style="width:${Math.round(g.value/platformMax*100)}%"></i></div>
-        <b>${g.value}</b>
-      </button>`).join('') || '<div class="subtle">暂无平台数据。</div>';
+      $('#overviewGenreSignal').innerHTML=topGenre.value ? `<button class="signal-primary" data-overview-genre="${escapeAttr(topGenre.name)}"><b>${escapeHtml(topGenre.name)}</b><span>今日已标注 ${topGenre.value} 部</span><p>进入今日榜单查看具体剧目，再进入题材研究判断内容结构。</p><em>查看题材样本 →</em></button>` : '<div class="subtle">暂无题材信号。</div>';
 
-      renderTrendChart();
-      renderOverviewFocus(day);
+      const anomaly=newTop || topRiser?.r || day.items[0];
+      $('#overviewAnomalySignal').innerHTML=anomaly ? `<button class="signal-primary" data-open="${escapeAttr(anomaly.id)}"><b>${escapeHtml(anomaly.title)}</b><span>${anomaly.firstDate===activeDate?'新出现样本':'排名变化样本'}</span><p>${anomaly.firstDate===activeDate?'首次记录，需要继续观察后续留榜和走势。':'已有历史记录，可查看生命周期判断是否为持续信号。'}</p><em>查看证据 →</em></button>` : '<div class="subtle">暂无异常信号。</div>';
 
-      const activities=[];
-      const newTop3=day.items.filter(r=>r.firstDate===activeDate && r.rank<=3).sort((a,b)=>a.rank-b.rank);
-      newTop3.slice(0,2).forEach(r=>activities.push({title:`${r.app} 新剧《${r.title}》进入 Top ${r.rank}`,id:r.id}));
-      day.items.map(r=>({r,move:rankMovement(r,activeDate)})).filter(x=>Number(x.move)>0).sort((a,b)=>b.move-a.move).slice(0,2)
-        .forEach(x=>activities.push({title:`《${x.r.title}》排名上升 ${x.move} 位`,id:x.r.id}));
-      day.items.filter(r=>r.firstDate===activeDate).sort((a,b)=>a.rank-b.rank).slice(0,5).forEach(r=>{
-        if(activities.length<5) activities.push({title:`${r.app} 新剧《${r.title}》首次记录`,id:r.id});
-      });
-      if(!activities.length) day.items.slice(0,5).forEach(r=>activities.push({title:`${r.app}《${r.title}》当前第 ${r.rank} 名`,id:r.id}));
-      $('#latestActivity').innerHTML=activities.slice(0,5).map((a,index)=>`<button type="button" class="activity-item" data-open="${escapeAttr(a.id)}">
-        <span class="activity-time">${String(index+1).padStart(2,'0')}</span><i></i><span>${escapeHtml(a.title)}</span>
-      </button>`).join('');
+      const candidates=day.items.map(r=>{
+        const move=rankMovement(r,activeDate);
+        let score=(r.firstDate===activeDate?40:0)+(Number(move)>0?Number(move)*8:0)+(11-Math.min(10,Number(r.rank)||10));
+        if(!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff)) score+=12;
+        return {r,move,score};
+      }).sort((a,b)=>b.score-a.score || a.r.rank-b.r.rank).slice(0,3);
+
+      $('#overviewResearchPicks').innerHTML=candidates.map((x,index)=>{
+        const r=x.r;
+        const reason=r.firstDate===activeDate ? '新剧首次记录，适合跟踪后续生命周期' : Number(x.move)>0 ? `排名上升 ${x.move} 位，值得确认是否形成持续趋势` : !blank(r.storyCore)||!blank(r.payoff) ? '已有内容深研字段，可直接进入结构拆解' : '高位样本，适合作为当日代表剧观察';
+        return `<article class="overview-research-card">
+          <div class="research-pick-no">0${index+1}</div>
+          <div class="research-pick-poster">${escapeHtml((r.title||'J').slice(0,1))}<span>▶</span></div>
+          <div class="research-pick-copy"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='女频'?'rose':r.audience==='男频'?'blue':'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><p>${escapeHtml(reason)}</p><small>${escapeHtml(shown(r.genre))} · 当前 #${r.rank}</small></div>
+        </article>`;
+      }).join('') || '<div class="subtle">暂无可推荐研究剧目。</div>';
     }
 
     function leaderCard(item) {
@@ -2499,6 +2460,35 @@
           </div>
         </article>
       `).join('');
+
+
+      // Top10: rank movement + sparkline, all rows clickable.
+      const top10=dayItems.slice().sort((a,b)=>a.rank-b.rank || byText(a.title,b.title)).slice(0,10);
+      $('#dailyTop10Rows').innerHTML=top10.map(r=>`<button class="daily-top10-row" type="button" data-open="${escapeAttr(r.id)}">
+        <span class="top10-rank">${r.rank}</span>
+        <strong>${escapeHtml(r.title)}</strong>
+        <span>${escapeHtml(r.app)}</span>
+        <span>${escapeHtml(shown(r.genre))}</span>
+        <span>${movementBadge(rankMovement(r,activeDate),r.firstDate===activeDate)}</span>
+        <span>${rankSparkline(r,activeDate)}</span>
+      </button>`).join('');
+
+      // Genre structure: clickable distribution.
+      const genreRows=day.genres.slice(0,6);
+      const genreTotal=Math.max(1,genreRows.reduce((s,x)=>s+x.value,0));
+      $('#dailyGenreStructure').innerHTML=genreRows.map((g,index)=>{
+        const pct=Math.round(g.value/genreTotal*100);
+        return `<button type="button" class="daily-genre-row" data-daily-genre="${escapeAttr(g.name)}"><span class="genre-color g${index}"></span><b>${escapeHtml(g.name)}</b><i style="--w:${pct}%"></i><em>${g.value} · ${pct}%</em></button>`;
+      }).join('') || '<div class="subtle">暂无题材标注。</div>';
+
+      // Today's new releases.
+      const newRows=dayItems.filter(r=>r.firstDate===activeDate).sort((a,b)=>a.rank-b.rank).slice(0,8);
+      $('#dailyNewList').innerHTML=newRows.map((r,index)=>`<button type="button" class="daily-new-row" data-open="${escapeAttr(r.id)}"><span>${index+1}</span><strong>${escapeHtml(r.title)}</strong><small>${escapeHtml(r.app)} · #${r.rank}</small><em>${escapeHtml(shown(r.genre))}</em></button>`).join('') || '<div class="subtle">今日暂无首次记录剧目。</div>';
+
+      // Platform performance based on today's new titles; fallback to all titles.
+      const platformRows=countValues((newRows.length?dayItems.filter(r=>r.firstDate===activeDate):dayItems).map(r=>r.app)).slice(0,6);
+      const platformMax=Math.max(1,...platformRows.map(x=>x.value));
+      $('#dailyPlatformPerformance').innerHTML=platformRows.map((x,index)=>`<button type="button" class="daily-platform-row" data-daily-app="${escapeAttr(x.name)}"><span class="platform-badge p${index}">${escapeHtml(x.name.slice(0,1))}</span><strong>${escapeHtml(x.name)}</strong><i><b style="width:${Math.round(x.value/platformMax*100)}%"></b></i><em>${x.value}</em></button>`).join('') || '<div class="subtle">暂无平台数据。</div>';
 
       const statusLabel = $('#statusFilter').value === 'new' ? ' · 新剧' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
       $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 部${statusLabel}`;
@@ -3063,6 +3053,25 @@
         renderResearch();
         const laneInput = document.querySelector('#research [data-lane-search]');
         if (laneInput) laneInput.value = term;
+      }
+      const dailyGenre = event.target.closest('[data-daily-genre]');
+      if (dailyGenre) {
+        $('#genreFilter').value=dailyGenre.dataset.dailyGenre;
+        renderCatalog();
+        document.querySelector('#dailyDetailTable')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const dailyApp = event.target.closest('[data-daily-app]');
+      if (dailyApp) {
+        $('#appFilter').value=dailyApp.dataset.dailyApp;
+        renderCatalog();
+        document.querySelector('#dailyDetailTable')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const scrollButton = event.target.closest('[data-scroll-target]');
+      if (scrollButton) document.getElementById(scrollButton.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'});
+      const intelLine = event.target.closest('[data-intel-index]');
+      if (intelLine) {
+        if (intelLine.dataset.intelIndex === '1') showView('research');
+        else showView('catalog');
       }
       const focusTab = event.target.closest('[data-focus-mode]');
       if (focusTab) {
