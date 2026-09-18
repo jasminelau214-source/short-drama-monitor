@@ -4,6 +4,9 @@ import gzip
 import html as html_lib
 import json
 import re
+import urllib.error
+import urllib.request
+from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -376,8 +379,105 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
     return [], last_evidence, False
 
 
+def _dramabox_direct_next_data(collection_date: str):
+    """Try DramaBox's public Next.js JSON route when the HTML route blocks cloud IPs."""
+    try:
+        anchor = date.fromisoformat(collection_date)
+    except Exception:
+        anchor = date.today()
+
+    build_ids = ["dramaboxdb_prod_20260908"]
+    build_ids.extend(
+        f"dramaboxdb_prod_{(anchor - timedelta(days=offset)).strftime('%Y%m%d')}"
+        for offset in range(0, 22)
+    )
+    seen = set()
+    ordered_build_ids = []
+    for build_id in build_ids:
+        if build_id not in seen:
+            seen.add(build_id)
+            ordered_build_ids.append(build_id)
+
+    errors = []
+    for build_id in ordered_build_ids:
+        for locale_prefix in ("", "en/"):
+            url = (
+                "https://www.dramaboxdb.com/_next/data/"
+                f"{build_id}/{locale_prefix}channel/trending.json"
+            )
+            request = urllib.request.Request(
+                url,
+                headers={
+                    "User-Agent": (
+                        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36"
+                    ),
+                    "Accept": "application/json,text/plain,*/*",
+                    "Accept-Language": "en-US,en;q=0.9",
+                },
+            )
+            try:
+                with urllib.request.urlopen(request, timeout=12) as response:
+                    raw = response.read()
+            except urllib.error.HTTPError as exc:
+                if exc.code in (403, 404):
+                    continue
+                errors.append(f"{build_id}:{exc.code}")
+                continue
+            except Exception as exc:
+                errors.append(f"{build_id}:{type(exc).__name__}")
+                continue
+
+            try:
+                payload = json.loads(raw.decode("utf-8", errors="replace"))
+                page_props = payload.get("pageProps") or payload.get("props", {}).get("pageProps") or {}
+                more_data = page_props.get("moreData") or {}
+                items = more_data.get("items") or []
+            except Exception as exc:
+                errors.append(f"{build_id}:json:{type(exc).__name__}")
+                continue
+            if not isinstance(items, list) or len(items) < TOP_N:
+                continue
+
+            rows = []
+            for idx, item in enumerate(items[:TOP_N], start=1):
+                if not isinstance(item, dict):
+                    continue
+                title = base.clean(item.get("bookName") or item.get("name"), 500)
+                if not title:
+                    continue
+                row = {"rank": idx, "title": title}
+                book_id = base.clean(item.get("bookId") or item.get("action"), 80)
+                slug = base.clean(item.get("bookNameLower") or item.get("replacedBookName"), 300)
+                if book_id and slug:
+                    row["source_url"] = f"https://www.dramaboxdb.com/movie/{book_id}/{slug}"
+                rows.append(row)
+            if len(rows) == TOP_N:
+                return rows, {
+                    "collectorVersion": "dramabox-nextdata-direct-pilot-v1",
+                    "nextDataUrl": url,
+                    "nextBuildId": build_id,
+                    "rankingName": base.clean(more_data.get("name"), 120),
+                    "rowCount": len(rows),
+                    "cloudHtmlBypass": True,
+                }
+
+    raise RuntimeError(
+        "DRAMABOX_NEXT_DATA_UNAVAILABLE"
+        + (":" + ",".join(errors[-5:]) if errors else "")
+    )
+
+
 def run_verified_parser(cfg: dict[str, Any], collection_date: str):
-    if cfg.get("platform") != "ShortMax":
+    platform = cfg.get("platform")
+    if platform == "DramaBox":
+        try:
+            return base.run_verified_parser(cfg, collection_date)
+        except Exception as primary:
+            rows, evidence = _dramabox_direct_next_data(collection_date)
+            evidence["stdlibFallbackError"] = f"{type(primary).__name__}: {primary}"
+            return rows, evidence
+    if platform != "ShortMax":
         return base.run_verified_parser(cfg, collection_date)
     from official_web_collectors import collect_shortmax
     payload = collect_shortmax(collection_date=collection_date, section="Most Popular", top_n=None)
