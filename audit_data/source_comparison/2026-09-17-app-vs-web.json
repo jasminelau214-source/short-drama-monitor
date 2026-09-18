@@ -1,0 +1,20 @@
+{
+  "audit_version": "1.0",
+  "collection_date": "2026-09-17",
+  "principle": "App ranking and Official Web ranking remain separate even when titles overlap.",
+  "MoboReels": {
+    "web_ranking_type": "Popular Series",
+    "overlap_titles": [],
+    "overlap_count": 0,
+    "app_count": 0,
+    "web_count": 10
+  },
+  "NetShort": {
+    "web_ranking_type": "Trending Now",
+    "overlap_titles": [],
+    "overlap_count": 0,
+    "app_count": 0,
+    "web_count": 10
+  },
+  "conclusion": "Overlap does not establish equivalence. The two source layers produce materially different orderings and, for MoboReels, mostly different title sets."
+}
