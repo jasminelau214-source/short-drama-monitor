@@ -77,6 +77,53 @@ def rank_probe_history(current_date: str) -> dict:
     }
 
 
+def evidence_summary(platform: str, detail: dict) -> str:
+    evidence = detail.get("evidence") if isinstance(detail.get("evidence"), dict) else {}
+    structured = str(evidence.get("structuredData") or "").strip()
+    collector = str(evidence.get("collectorVersion") or "").strip()
+
+    if platform == "DramaBox":
+        source_evidence = evidence.get("sourceEvidence") if isinstance(evidence.get("sourceEvidence"), dict) else {}
+        egress = str(source_evidence.get("egress") or "").strip()
+        status = source_evidence.get("http_status")
+        if egress:
+            return f"official Trending page via {egress}; HTTP {status or '-'}"
+        return collector or "official Trending page"
+    if platform == "GoodShort":
+        payload = evidence.get("payloadEvidence") if isinstance(evidence.get("payloadEvidence"), dict) else {}
+        return f"server-rendered official Top in GoodShort; rows={payload.get('row_count', detail.get('row_count', 0))}"
+    if platform == "DramaWave":
+        ranks = evidence.get("explicitRanksSeen") or evidence.get("profileMergedRanks") or []
+        cards = evidence.get("cardCount")
+        return f"explicit Most Trending labels {ranks}; rendered cards={cards or '-'}"
+    if structured:
+        extra = ""
+        if platform == "NetShort" and evidence.get("itemListName"):
+            extra = f" ({evidence.get('itemListName')})"
+        elif platform == "ReelShort" and evidence.get("shelfName"):
+            extra = f" (shelf={evidence.get('shelfName')})"
+        elif platform == "ShortMax" and evidence.get("sectionScoped"):
+            extra = f"; section-scoped DOM; rendered cards={evidence.get('renderedCardCount', '-')}"
+        return structured + extra
+    return collector or "official Web evidence captured"
+
+
+def fallback_summary(platform: str, detail: dict) -> str:
+    evidence = detail.get("evidence") if isinstance(detail.get("evidence"), dict) else {}
+    if platform == "DramaBox":
+        service = str(evidence.get("fallbackService") or "").strip()
+        if service:
+            return f"independent cloud egress ({service}); still reads official Web source"
+        return "same official page via browser fallback"
+    if platform == "DramaWave":
+        return "NONE_EQUIVALENT; H5 Popular Choices is diagnostic only, not Most Trending"
+    if platform == "ShortMax":
+        return "NONE_EQUIVALENT; playNum-derived ordering is rejected"
+    if platform == "GoodShort":
+        return "same official page via rendered-browser adapter"
+    return "same official Web page via alternate browser profile; no cross-source substitution"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--date", default=today())
@@ -103,6 +150,7 @@ def main() -> int:
         stable = bool((item.get("stability") or {}).get("pathStable"))
         decision = dmap.get(platform) or {}
         alt = amap.get(platform) or {}
+        detail = load_json(day / f"{platform}.json", {})
 
         source_state = "WEB_INCOMPLETE"
         alt_stability = None
@@ -162,12 +210,19 @@ def main() -> int:
         else:
             unresolved.append(platform)
 
+        stability = item.get("stability") if isinstance(item.get("stability"), dict) else {}
         rows.append({
             "platform": platform,
             "source_state": source_state,
+            "source_url": detail.get("source_url"),
+            "ranking_meaning": detail.get("ranking_type"),
+            "strategy": detail.get("strategy"),
             "web_rows": web_rows,
             "web_status": status,
             "web_stable": stable,
+            "consecutive_valid_runs": int(stability.get("consecutiveValidRuns") or 0),
+            "evidence_summary": evidence_summary(platform, detail),
+            "fallback_path": fallback_summary(platform, detail),
             "rank_probe": rank_probe,
             "alternate_rows": int(alt.get("row_count") or 0),
             "alternate_target": alt.get("target"),
@@ -208,8 +263,8 @@ def main() -> int:
         "- Production write: **false**",
         "- Core promotion requires user confirmation: **true**",
         "",
-        "| Platform | State | Web | Stable | Official rank probe | Alternate | Decision |",
-        "|---|---|---:|---:|---|---|---|",
+        "| Platform | Official source | Ranking meaning | Completeness | Stability | Evidence | Fallback | Decision |",
+        "|---|---|---|---:|---:|---|---|---|",
     ]
     for x in rows:
         alt_text = "-"
@@ -231,9 +286,19 @@ def main() -> int:
             )
 
         decision_text = x["next_step"] or "-"
+        source_text = x.get("source_url") or "-"
+        ranking_text = x.get("ranking_meaning") or "-"
+        evidence_text = x.get("evidence_summary") or "-"
+        fallback_text = x.get("fallback_path") or "-"
+        stability_text = f'{x.get("consecutive_valid_runs", 0)}/3'
+        completeness_text = f'{x["web_rows"]}/10'
+        if x["platform"] == "DramaWave" and x["rank_probe"]:
+            evidence_text = f'{evidence_text}; H5 explicit-rank probe: {probe_text}; alternate: {alt_text}'
+        elif x["alternate_rows"]:
+            evidence_text = f'{evidence_text}; diagnostic alternate: {alt_text}'
         lines.append(
-            f'| {x["platform"]} | {x["source_state"]} | {x["web_rows"]}/10 | '
-            f'{"YES" if x["web_stable"] else "NO"} | {probe_text} | {alt_text} | {decision_text} |'
+            f'| {x["platform"]} | {source_text} | {ranking_text} | {completeness_text} | '
+            f'{stability_text} | {evidence_text} | {fallback_text} | {decision_text} |'
         )
 
     if semantic_decisions:
