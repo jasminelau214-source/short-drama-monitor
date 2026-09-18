@@ -12,7 +12,13 @@ import pilot_exact_web_adapters as exact
 
 def _verified_parser(cfg, collection_date):
     if cfg.get("platform") == "ShortMax":
-        return exact.run_verified_parser(cfg, collection_date)
+        rows, evidence = exact.run_verified_parser(cfg, collection_date)
+        # The stdlib collector can see only the server-rendered slice. If it is
+        # incomplete, deliberately fall back to the rendered browser adapter
+        # rather than treating a partial shelf as final.
+        if len(rows) < base.TOP_N:
+            raise RuntimeError(f"SHORTMAX_VERIFIED_PARTIAL:{len(rows)}")
+        return rows, evidence
     return _original_verified_parser(cfg, collection_date)
 
 
