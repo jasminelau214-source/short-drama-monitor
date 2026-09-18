@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:22:08.159643+08:00",
+  "generated_at": "2026-09-18T17:27:37.912527+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -196,7 +196,7 @@
         "consecutiveValidRuns": 1,
         "pathStable": false
       },
-      "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8"
+      "error": ""
     }
   ]
 }

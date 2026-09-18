@@ -5,7 +5,7 @@
   "target_key": "web_pilot_most_popular_top10",
   "ranking_type": "Most Popular",
   "source_url": "https://www.shorttv.live/",
-  "strategy": "verified_parser+browser_fallback",
+  "strategy": "browser_probe",
   "top_n": 10,
   "rows": [
     {
@@ -71,7 +71,7 @@
     "emptyTitles": 0
   },
   "evidence": {
-    "parserFallbackError": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
+    "parserFallbackError": "",
     "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
     "pageUrl": "https://www.shorttv.live/",
     "documentLang": "",
@@ -81,11 +81,11 @@
     "structuredData": "ShortMax live DOM Most Popular section",
     "renderedCardCount": 16,
     "sectionScoped": true,
-    "rawHtmlSha256": "48a61a04e1196c0098ca9e320b253bced08b03c1e5d49966860126bde2f9050d",
+    "rawHtmlSha256": "893e5f24c3d6259ca2431d0bc9e34f293bc2e5be1984148670ddee31f238e6d2",
     "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
-    "screenshotSha256": "a8bd698a8e374e86f0f2304d716f7f970ec80cd8b4476eef8a5b28a8cc33d21e"
+    "screenshotSha256": "c54304ea62b6a4d649dd92d4ec225cd29974784ac5af1d782d61c73fd62bfe66"
   },
-  "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
+  "error": "",
   "production_write": false
 }
