@@ -61,15 +61,14 @@ def _list_text(value, limit=100):
 
 
 def _norm_title(value):
-    """Normalize drama identity while removing non-title release labels.
-
-    Only anchored dub/release markers are stripped. This intentionally avoids
-    fuzzy aliasing so genuinely different titles are never merged by guesswork.
-    """
+    """Normalize drama identity while removing anchored release labels only."""
     text = str(value or '').casefold().strip()
-    marker = r'(?:eng(?:lish)?\s*)?dub(?:bed)?'
-    text = re.sub(rf'^\s*[\[(]?\s*{marker}\s*[\])]?(?:\s*[:|–—-]\s*)*', '', text)
-    text = re.sub(rf'(?:\s*[:|–—-]\s*)*[\[(]?\s*{marker}\s*[\])]?\s*$', '', text)
+    marker = r'(?:eng(?:lish)?\s+)?dub(?:bed)?'
+    bracketed = rf'[\[(]\s*{marker}\s*[\])]'
+    text = re.sub(rf'^\s*{bracketed}\s*[:|–—-]*\s*', '', text)
+    text = re.sub(rf'^\s*{marker}\b\s*[:|–—-]*\s*', '', text)
+    text = re.sub(rf'\s*[:|–—-]*\s*{bracketed}\s*$', '', text)
+    text = re.sub(rf'\s+{marker}\s*$', '', text)
     return re.sub(r'[^a-z0-9]+', '', text)
 
 def _bool_value(value):
