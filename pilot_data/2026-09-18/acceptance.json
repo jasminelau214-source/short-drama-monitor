@@ -1,11 +1,17 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T18:38:16.804800+08:00",
+  "generated_at": "2026-09-18T19:10:54.433165+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
-  "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
+  "overall_state": "PILOT_RUNNING_STABILITY_VALIDATION",
   "exact_web_top10_valid": 7,
   "exact_web_top10_stable": 0,
+  "core_promotion_scope_count": 7,
+  "core_exact_web_top10_valid": 7,
+  "core_exact_web_top10_stable": 0,
+  "non_blocking_platforms": [
+    "DramaWave"
+  ],
   "semantic_decision_platforms": [
     "DramaWave"
   ],
@@ -32,7 +38,7 @@
     },
     {
       "platform": "DramaWave",
-      "source_state": "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10",
+      "source_state": "NON_BLOCKING_SPECIAL_SCOPE",
       "source_url": "https://m.mydramawave.com/",
       "ranking_meaning": "Most Trending",
       "strategy": "browser_probe",

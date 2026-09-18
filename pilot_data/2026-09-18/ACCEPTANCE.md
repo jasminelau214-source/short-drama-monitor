@@ -1,8 +1,11 @@
 # Web Top10 Pilot Acceptance — 2026-09-18
 
-- Overall state: **PILOT_RUNNING_SCOPE_DECISION_REQUIRED**
-- Exact Web Top10 valid: **7/8**
-- Exact Web Top10 stable (3 daily runs): **0/8**
+- Overall state: **PILOT_RUNNING_STABILITY_VALIDATION**
+- Exact Web Top10 valid (all observed platforms): **7/8**
+- Core promotion scope: **7 platforms**
+- Core exact Web Top10 valid: **7/7**
+- Core exact Web Top10 stable (3 daily runs): **0/7**
+- Non-blocking special scope: **DramaWave**
 - Production write: **false**
 - Core promotion requires user confirmation: **true**
 
@@ -17,8 +20,8 @@
 | ReelShort | https://www.reelshort.com/shelf/top-short-movies-dramas-51001122 | TOP | 10/10 | 2/3 | Next.js __NEXT_DATA__ pageProps.list (shelf=TOP) | same official Web page via alternate browser profile; no cross-source substitution | CONTINUE_STABILITY_VALIDATION |
 | ShortMax | https://www.shorttv.live/ | Most Popular | 10/10 | 1/3 | ShortMax live DOM Most Popular section; section-scoped DOM; rendered cards=16; diagnostic alternate: Catalog sorted by playNum desc 10/10; alt stable=0/3 | NONE_EQUIVALENT; playNum-derived ordering is rejected | CONTINUE_STABILITY_VALIDATION |
 
-## Scope decisions still required before promotion
+## Non-blocking special-scope observations
 
-- **DramaWave**: Web currently verifies only explicit Top1–5; the H5 probe exposes no equivalent Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different.
+- **DramaWave**: excluded from the current core promotion gate. Web currently verifies only explicit Top1–5; the H5 probe exposes no equivalent Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different.
 
 No test result in this report is authorized for production ingestion.
