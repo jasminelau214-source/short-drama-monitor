@@ -1,0 +1,35 @@
+name: JSM 7-platform Shadow E2E
+
+on:
+  push:
+    branches:
+      - test/e2e-shadow-7platform-2026-09-18
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shadow-e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Compile shadow runner
+        run: python -m py_compile collector_import.py research_safety.py research_pipeline.py research_worker.py shadow_e2e/run_shadow_e2e.py test_shadow_e2e_7platform.py
+      - name: Run shadow regression tests
+        run: python -m unittest -v test_shadow_e2e_7platform.py
+      - name: Run isolated Shadow E2E audit
+        run: python shadow_e2e/run_shadow_e2e.py --live-research-if-configured
+      - name: Upload Shadow E2E report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsm-shadow-e2e-7platform-2026-09-18
+          path: shadow_e2e/output/
+          if-no-files-found: error
