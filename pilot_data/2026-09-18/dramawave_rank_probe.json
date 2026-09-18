@@ -1,7 +1,7 @@
 {
   "platform": "DramaWave",
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T18:32:46.603714+08:00",
+  "generated_at": "2026-09-18T18:38:10.946030+08:00",
   "source_type": "OFFICIAL_H5_API_RANK_PROBE",
   "target": "explicit Most Trending labels",
   "production_write": false,
@@ -44,15 +44,15 @@
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "1"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":190023913,\"item_idx\":\"1\",\"item_key\":\"QjnEkkZavD\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":95367,\"series_key\":\"NgyA8TDvqI\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":190023913,\"item_idx\":\"1\",\"item_key\":\"QjnEkkZavD\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":95367,\"series_key\":\"NgyA8TDvqI\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 24500,
+              "follow_count": 24501,
               "link": "dramawave://dramawave.app/detail?id=NgyA8TDvqI",
               "tag": null,
               "series_tag": null,
@@ -93,28 +93,28 @@
             },
             {
               "position": 2,
-              "title": "Nightmare at Deadly Guesthouse",
-              "key": "8J9a8VhGbl",
+              "title": "My Secret Wife Keeps Changing",
+              "key": "rwFu7E4cs5",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "2"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":184249560,\"item_idx\":\"2\",\"item_key\":\"9AAIoFrbHc\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":72080,\"series_key\":\"8J9a8VhGbl\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":176671777,\"item_idx\":\"2\",\"item_key\":\"lPYX6pMqno\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":47950,\"series_key\":\"rwFu7E4cs5\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 4371,
-              "link": "dramawave://dramawave.app/detail?id=8J9a8VhGbl",
+              "follow_count": 4278,
+              "link": "dramawave://dramawave.app/detail?id=rwFu7E4cs5",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Rebirth"
+                  "Love After Vows"
                 ],
                 "content_detail_tags": null
               },
@@ -147,28 +147,28 @@
             },
             {
               "position": 3,
-              "title": "Frozen Bonds, Bitter Regret",
-              "key": "jcm4aQsWpU",
+              "title": "Junior Sister Born to Rebel",
+              "key": "LSfcpXdZGV",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "3"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":184615318,\"item_idx\":\"3\",\"item_key\":\"b1XULGx0W0\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":73512,\"series_key\":\"jcm4aQsWpU\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":190438243,\"item_idx\":\"3\",\"item_key\":\"HB1T0IZS6K\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":96991,\"series_key\":\"LSfcpXdZGV\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 4044,
-              "link": "dramawave://dramawave.app/detail?id=jcm4aQsWpU",
+              "follow_count": 10586,
+              "link": "dramawave://dramawave.app/detail?id=LSfcpXdZGV",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Misunderstanding"
+                  "Time Travel"
                 ],
                 "content_detail_tags": null
               },
@@ -201,28 +201,28 @@
             },
             {
               "position": 4,
-              "title": "The Wrong Dog to Mess With",
-              "key": "j6wfkLmQdP",
+              "title": "Wildfire Between Us",
+              "key": "nkWx4Dt9iz",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "4"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":194518751,\"item_idx\":\"4\",\"item_key\":\"uEJpQHqvz4\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":116284,\"series_key\":\"j6wfkLmQdP\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":180854154,\"item_idx\":\"4\",\"item_key\":\"2kn5HQp2Qt\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":63509,\"series_key\":\"nkWx4Dt9iz\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 3370,
-              "link": "dramawave://dramawave.app/detail?id=j6wfkLmQdP",
+              "follow_count": 55519,
+              "link": "dramawave://dramawave.app/detail?id=nkWx4Dt9iz",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Superpower"
+                  "Contract Vows"
                 ],
                 "content_detail_tags": null
               },
@@ -249,34 +249,35 @@
                 "series_tag",
                 "tag",
                 "title",
+                "update_count",
                 "view_count",
                 "vip_type"
               ]
             },
             {
               "position": 5,
-              "title": "Dreams About Grandma Were a Trap",
-              "key": "lCkO91mAGU",
+              "title": "Never Cross the Heiress",
+              "key": "UcY86WvUKd",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "5"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":195515596,\"item_idx\":\"5\",\"item_key\":\"XGS5FcNCL4\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":124116,\"series_key\":\"lCkO91mAGU\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":192970481,\"item_idx\":\"5\",\"item_key\":\"l4NGGM8rwm\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":108497,\"series_key\":\"UcY86WvUKd\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 3428,
-              "link": "dramawave://dramawave.app/detail?id=lCkO91mAGU",
+              "follow_count": 3502,
+              "link": "dramawave://dramawave.app/detail?id=UcY86WvUKd",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Rebirth"
+                  "Revenge"
                 ],
                 "content_detail_tags": null
               },
@@ -309,28 +310,28 @@
             },
             {
               "position": 6,
-              "title": "Attractive Model Is a Billionaire CEO",
-              "key": "tL6QDVmWG3",
+              "title": "In Sister's Name: Time for Payback",
+              "key": "kHTYZRVJVB",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "6"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":177916657,\"item_idx\":\"6\",\"item_key\":\"F4GnRfLh4A\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":53268,\"series_key\":\"tL6QDVmWG3\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":178793710,\"item_idx\":\"6\",\"item_key\":\"7Gd9BrQXkX\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":55868,\"series_key\":\"kHTYZRVJVB\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 7740,
-              "link": "dramawave://dramawave.app/detail?id=tL6QDVmWG3",
+              "follow_count": 91389,
+              "link": "dramawave://dramawave.app/detail?id=kHTYZRVJVB",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Hidden Identity"
+                  "Revenge"
                 ],
                 "content_detail_tags": null
               },
@@ -363,28 +364,28 @@
             },
             {
               "position": 7,
-              "title": "Bread Wins, Gold Falls(Dubbed)",
-              "key": "kUN6VSRMX5",
+              "title": "Guarding Her Heart",
+              "key": "VT8MiEGOhG",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805591760896",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897165481553920",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "7"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":185061948,\"item_idx\":\"7\",\"item_key\":\"M24ZSiTui1\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805591760896\",\"scene_source\":\"/home/popular/banner\",\"series_id\":75899,\"series_key\":\"kUN6VSRMX5\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":132807289,\"item_idx\":\"7\",\"item_key\":\"I3zvyLvJQ1\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897165481553920\",\"scene_source\":\"/home/popular/banner\",\"series_id\":26778,\"series_key\":\"VT8MiEGOhG\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 106782,
-              "link": "dramawave://dramawave.app/detail?id=kUN6VSRMX5",
+              "follow_count": 5967,
+              "link": "dramawave://dramawave.app/detail?id=VT8MiEGOhG",
               "tag": null,
               "series_tag": null,
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": null,
                 "content_tags": [
-                  "Rebirth"
+                  "Flash Marriage"
                 ],
                 "content_detail_tags": null
               },
@@ -411,7 +412,6 @@
                 "series_tag",
                 "tag",
                 "title",
-                "update_count",
                 "view_count",
                 "vip_type"
               ]
@@ -428,21 +428,21 @@
           "sample": [
             {
               "position": 1,
-              "title": "Crown of Ashes",
-              "key": "0iQzy6xRy7",
+              "title": "He Sees Gold Everywhere",
+              "key": "NOWFPMdYDV",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "1"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":192145790,\"item_idx\":\"1\",\"item_key\":\"WCesIaueN9\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":103049,\"series_key\":\"0iQzy6xRy7\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":201575879,\"item_idx\":\"1\",\"item_key\":\"JAx2pc2zgz\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":128796,\"series_key\":\"NOWFPMdYDV\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 5943,
-              "link": "0iQzy6xRy7",
+              "follow_count": 2785,
+              "link": "NOWFPMdYDV",
               "tag": null,
               "series_tag": [
                 ""
@@ -453,8 +453,8 @@
                   ""
                 ],
                 "content_tags": [
-                  "Rebirth",
-                  "Revenge"
+                  "Revenge",
+                  "Counterattack"
                 ],
                 "content_detail_tags": null
               },
@@ -482,58 +482,40 @@
                 "style",
                 "tag",
                 "title",
+                "update_count",
                 "view_count",
                 "vip_type"
               ]
             },
             {
               "position": 2,
-              "title": "War God in the Asylum",
-              "key": "S1IafblnNL",
+              "title": "Unforgivable Betrayal",
+              "key": "rVLaGCjUEW",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "2"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":188629913,\"item_idx\":\"2\",\"item_key\":\"lNZAQNO9dB\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":79267,\"series_key\":\"S1IafblnNL\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":193150661,\"item_idx\":\"2\",\"item_key\":\"DZwsM5kMcL\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":109954,\"series_key\":\"rVLaGCjUEW\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 4043,
-              "link": "S1IafblnNL",
+              "follow_count": 2780,
+              "link": "rVLaGCjUEW",
               "tag": null,
               "series_tag": [
-                "Romance",
-                "Fantasy",
-                "Action",
-                "Revenge",
-                "Amnesia",
-                "Comeback Story",
-                "Strong Heroine",
-                "God",
-                "Magical World",
-                "Male",
-                "Dark",
-                "Powerful",
-                "Protective"
+                ""
               ],
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": [
-                  "Romance",
-                  "Fantasy",
-                  "Action",
-                  "Revenge",
-                  "Amnesia",
-                  "Comeback Story",
-                  "Strong Heroine",
-                  "God"
+                  ""
                 ],
                 "content_tags": [
-                  "Hidden Identity",
-                  "Hidden Strength"
+                  "Rebirth",
+                  "Revenge"
                 ],
                 "content_detail_tags": null
               },
@@ -567,54 +549,54 @@
             },
             {
               "position": 3,
-              "title": "Mom's Divorce Gambit",
-              "key": "UqLgwkPHR9",
+              "title": "Blinded by Lies, See With Your Eyes",
+              "key": "GtreTViWV4",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "3"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":177584800,\"item_idx\":\"3\",\"item_key\":\"appFvRkuj4\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":50803,\"series_key\":\"UqLgwkPHR9\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":187430754,\"item_idx\":\"3\",\"item_key\":\"9Mxz5i4qpN\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":77973,\"series_key\":\"GtreTViWV4\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 2920,
-              "link": "UqLgwkPHR9",
+              "follow_count": 2368,
+              "link": "GtreTViWV4",
               "tag": null,
               "series_tag": [
-                "Business",
+                "Romance",
                 "Drama",
-                "Revenge",
-                "Comeback",
+                "Tragedy",
+                "First Love",
+                "Mistaken Identity",
+                "Redemption",
                 "Betrayal",
-                "Divorce",
-                "Strong Female Lead",
-                "City",
+                "CEO / Boss",
+                "Innocent Damsel",
+                "Contemporary",
                 "Female",
+                "Melancholic",
                 "Heartfelt",
-                "Dark",
-                "Serious",
                 "Ambitious",
-                "Intelligent",
-                "Powerful"
+                "Innocent"
               ],
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": [
-                  "Business",
+                  "Romance",
                   "Drama",
-                  "Revenge",
-                  "Comeback",
+                  "Tragedy",
+                  "First Love",
+                  "Mistaken Identity",
+                  "Redemption",
                   "Betrayal",
-                  "Divorce",
-                  "Strong Female Lead",
-                  "City"
+                  "CEO / Boss"
                 ],
                 "content_tags": [
-                  "Female Growth",
-                  "Family Affection"
+                  "Identity Twist",
+                  "Misunderstanding"
                 ],
                 "content_detail_tags": null
               },
@@ -648,50 +630,48 @@
             },
             {
               "position": 4,
-              "title": "Reborn Tycoon: Rising to Wealth",
-              "key": "L0j6xJew03",
+              "title": "The Imperial Tutor: The Princess's Pursuit",
+              "key": "i6zlJ4uWgB",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "4"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":174021647,\"item_idx\":\"4\",\"item_key\":\"hAi7DQ1OAU\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":32838,\"series_key\":\"L0j6xJew03\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":168591,\"item_idx\":\"4\",\"item_key\":\"BE7BaCaqFj\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":2790,\"series_key\":\"i6zlJ4uWgB\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 3714,
-              "link": "L0j6xJew03",
+              "follow_count": 4566,
+              "link": "i6zlJ4uWgB",
               "tag": null,
               "series_tag": [
-                "Business",
-                "Drama",
-                "Rags to Riches",
-                "Reborn",
-                "Poor to rich",
-                "CEO / Boss",
-                "Heiress",
-                "Contemporary",
-                "Male",
-                "Ambitious",
-                "Confident"
+                "Romance",
+                "Fantasy",
+                "Counterattack",
+                "Princess",
+                "Female",
+                "Inspiring",
+                "Mysterious",
+                "Intelligent",
+                "Powerful"
               ],
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": [
-                  "Business",
-                  "Drama",
-                  "Rags to Riches",
-                  "Reborn",
-                  "Poor to rich",
-                  "CEO / Boss",
-                  "Heiress",
-                  "Contemporary"
+                  "Romance",
+                  "Fantasy",
+                  "Counterattack",
+                  "Princess",
+                  "Female",
+                  "Inspiring",
+                  "Mysterious",
+                  "Intelligent"
                 ],
                 "content_tags": [
-                  "Rebirth",
-                  "Live-in Son-in-Low"
+                  "Hidden Identity",
+                  "Hidden Roles"
                 ],
                 "content_detail_tags": null
               },
@@ -725,52 +705,51 @@
             },
             {
               "position": 5,
-              "title": "The CEO's Wife Is Leaving Again",
-              "key": "IwotLMOXaN",
+              "title": "Baby, I Found You",
+              "key": "npUoX2qIR1",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "5"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":162427115,\"item_idx\":\"5\",\"item_key\":\"cndW3wlhOf\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":32721,\"series_key\":\"IwotLMOXaN\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":164221,\"item_idx\":\"5\",\"item_key\":\"7DHhTJ80S4\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":2764,\"series_key\":\"npUoX2qIR1\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 3343,
-              "link": "IwotLMOXaN",
+              "follow_count": 18905,
+              "link": "npUoX2qIR1",
               "tag": null,
               "series_tag": [
                 "Romance",
+                "Mystery",
                 "Drama",
-                "Childhood Sweetheart",
-                "Mistaken Identity",
-                "Love After Divorce",
-                "Comeback Story",
-                "CEO / Boss",
-                "Strong Heroine",
-                "Office",
+                "Reunion",
+                "Revenge",
+                "Contemporary",
                 "Female",
-                "Sweet Romance",
+                "Adult",
                 "Bittersweet",
+                "Mysterious",
+                "Brave",
                 "Independent"
               ],
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": [
                   "Romance",
+                  "Mystery",
                   "Drama",
-                  "Childhood Sweetheart",
-                  "Mistaken Identity",
-                  "Love After Divorce",
-                  "Comeback Story",
-                  "CEO / Boss",
-                  "Strong Heroine"
+                  "Reunion",
+                  "Revenge",
+                  "Contemporary",
+                  "Female",
+                  "Adult"
                 ],
                 "content_tags": [
-                  "Revenge",
-                  "Hidden Identity"
+                  "Reunion",
+                  "Family Affection"
                 ],
                 "content_detail_tags": null
               },
@@ -786,6 +765,8 @@
                 "finish_status",
                 "follow_count",
                 "free",
+                "free_end",
+                "free_start",
                 "key",
                 "link",
                 "link_type",
@@ -804,21 +785,81 @@
             },
             {
               "position": 6,
-              "title": "The Palace Beauty's Revenge",
-              "key": "Bd8oWuNq8h",
+              "title": "The Child Who Raised a Tycoon",
+              "key": "yumIfIpniP",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "6"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":198165120,\"item_idx\":\"6\",\"item_key\":\"358vkdxm5j\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":142883,\"series_key\":\"Bd8oWuNq8h\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":195205919,\"item_idx\":\"6\",\"item_key\":\"rUtyvg7I3e\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":122551,\"series_key\":\"yumIfIpniP\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 1562,
-              "link": "Bd8oWuNq8h",
+              "follow_count": 6094,
+              "link": "yumIfIpniP",
+              "tag": null,
+              "series_tag": [
+                ""
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  ""
+                ],
+                "content_tags": [
+                  "Time Travel",
+                  "Fake vs. Real Heiress"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 7,
+              "title": "Switched Heiress, Misplaced Revenge",
+              "key": "CpnkZXpjQK",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "7"
+              },
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":193280468,\"item_idx\":\"7\",\"item_key\":\"T3E9Pu50gV\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":110057,\"series_key\":\"CpnkZXpjQK\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
+              "view_count": 0,
+              "follow_count": 1670,
+              "link": "CpnkZXpjQK",
               "tag": null,
               "series_tag": [
                 ""
@@ -830,7 +871,7 @@
                 ],
                 "content_tags": [
                   "Revenge",
-                  "Political Intrigue"
+                  "Fake vs. Real Heiress"
                 ],
                 "content_detail_tags": null
               },
@@ -858,122 +899,131 @@
                 "style",
                 "tag",
                 "title",
-                "update_count",
-                "view_count",
-                "vip_type"
-              ]
-            },
-            {
-              "position": 7,
-              "title": "From Pawn to Player",
-              "key": "UEAT8byv1H",
-              "rank": null,
-              "episode_info": true,
-              "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
-                "page_num": "1",
-                "page_size": "10",
-                "item_idx": "7"
-              },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":197362173,\"item_idx\":\"7\",\"item_key\":\"253IVHvlUq\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":134865,\"series_key\":\"UEAT8byv1H\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
-              "view_count": 0,
-              "follow_count": 934,
-              "link": "UEAT8byv1H",
-              "tag": null,
-              "series_tag": [
-                ""
-              ],
-              "suspicious_fields": {
-                "tag": null,
-                "series_tag": [
-                  ""
-                ],
-                "content_tags": [
-                  "Rebirth",
-                  "Revenge"
-                ],
-                "content_detail_tags": null
-              },
-              "all_keys": [
-                "can_action",
-                "can_show_action_animate",
-                "content_detail_tags",
-                "content_tags",
-                "cover",
-                "desc",
-                "episode_count",
-                "episode_info",
-                "finish_status",
-                "follow_count",
-                "free",
-                "key",
-                "link",
-                "link_type",
-                "orientation",
-                "pay_index",
-                "r_info",
-                "r_info1",
-                "resource_type",
-                "series_tag",
-                "style",
-                "tag",
-                "title",
-                "update_count",
                 "view_count",
                 "vip_type"
               ]
             },
             {
               "position": 8,
-              "title": "Love Her, Mask and All",
-              "key": "GjoAP676l6",
+              "title": "Escape Game",
+              "key": "VY8IR5GoiW",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "8"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":177395176,\"item_idx\":\"8\",\"item_key\":\"SKkGZCyPh3\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":50797,\"series_key\":\"GjoAP676l6\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":145409488,\"item_idx\":\"8\",\"item_key\":\"5f8DAexrDl\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":29131,\"series_key\":\"VY8IR5GoiW\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 5156,
-              "link": "GjoAP676l6",
+              "follow_count": 3123,
+              "link": "VY8IR5GoiW",
               "tag": null,
               "series_tag": [
-                "Romance",
-                "Drama",
-                "Love Triangle",
-                "Marriage Before Love",
+                "Paranormal",
+                "Urban",
+                "Survival",
+                "Thriller",
                 "Hidden Identity",
-                "Mistaken Identity",
-                "CEO / Boss",
-                "Strong Heroine",
+                "Destiny",
+                "College Student",
                 "Contemporary",
-                "Female",
-                "Heartfelt",
-                "Sweet Romance",
-                "Romantic",
-                "Ambitious",
+                "Male",
+                "Serious",
+                "Mysterious",
+                "Brave",
+                "Protective",
                 "Sensitive"
               ],
               "suspicious_fields": {
                 "tag": null,
                 "series_tag": [
-                  "Romance",
-                  "Drama",
-                  "Love Triangle",
-                  "Marriage Before Love",
+                  "Paranormal",
+                  "Urban",
+                  "Survival",
+                  "Thriller",
                   "Hidden Identity",
-                  "Mistaken Identity",
-                  "CEO / Boss",
-                  "Strong Heroine"
+                  "Destiny",
+                  "College Student",
+                  "Contemporary"
                 ],
                 "content_tags": [
-                  "Contract Vows",
-                  "Love After Vows"
+                  "Superpower",
+                  "Bonded by Fate"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 9,
+              "title": "I Won't Lose Her Again",
+              "key": "iMlKcYKetk",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "9"
+              },
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":201432892,\"item_idx\":\"9\",\"item_key\":\"ArUhEZeS8h\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":168908,\"series_key\":\"iMlKcYKetk\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
+              "view_count": 0,
+              "follow_count": 2827,
+              "link": "iMlKcYKetk",
+              "tag": null,
+              "series_tag": [
+                "Drama",
+                "Love Triangle",
+                "Second Chance",
+                "Revenge",
+                "Heartbreak",
+                "Male",
+                "Emotional"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Drama",
+                  "Love Triangle",
+                  "Second Chance",
+                  "Revenge",
+                  "Heartbreak",
+                  "Male",
+                  "Emotional"
+                ],
+                "content_tags": [
+                  "Winning Back Wife",
+                  "Second Chance"
                 ],
                 "content_detail_tags": null
               },
@@ -1007,125 +1057,54 @@
               ]
             },
             {
-              "position": 9,
-              "title": "Married in A Flash, Pampered for A Lifetime",
-              "key": "jpxycmbqUf",
-              "rank": null,
-              "episode_info": true,
-              "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
-                "page_num": "1",
-                "page_size": "10",
-                "item_idx": "9"
-              },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":175246734,\"item_idx\":\"9\",\"item_key\":\"OJhJMv0Xp3\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":40380,\"series_key\":\"jpxycmbqUf\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
-              "view_count": 0,
-              "follow_count": 9195,
-              "link": "jpxycmbqUf",
-              "tag": null,
-              "series_tag": [
-                "Rom-Com",
-                "Contemporary",
-                "City",
-                "Female",
-                "Sweet Romance",
-                "Funny"
-              ],
-              "suspicious_fields": {
-                "tag": null,
-                "series_tag": [
-                  "Rom-Com",
-                  "Contemporary",
-                  "City",
-                  "Female",
-                  "Sweet Romance",
-                  "Funny"
-                ],
-                "content_tags": [
-                  "Flash Marriage",
-                  "Love After Vows"
-                ],
-                "content_detail_tags": null
-              },
-              "all_keys": [
-                "can_action",
-                "can_show_action_animate",
-                "content_detail_tags",
-                "content_tags",
-                "cover",
-                "desc",
-                "episode_count",
-                "episode_info",
-                "finish_status",
-                "follow_count",
-                "free",
-                "key",
-                "link",
-                "link_type",
-                "orientation",
-                "pay_index",
-                "r_info",
-                "r_info1",
-                "resource_type",
-                "series_tag",
-                "style",
-                "tag",
-                "title",
-                "view_count",
-                "vip_type"
-              ]
-            },
-            {
               "position": 10,
-              "title": "The Hidden Lord's Anger",
-              "key": "X7jDECMg41",
+              "title": "Awakening of Glory(Dubbed)",
+              "key": "mnuOrUkyJt",
               "rank": null,
               "episode_info": true,
               "r_info": {
-                "session_id": "2100895805591760897",
-                "request_id": "2100895805927305217",
+                "session_id": "2100897165481553921",
+                "request_id": "2100897166295248896",
                 "page_num": "1",
                 "page_size": "10",
                 "item_idx": "10"
               },
-              "r_info1": "{\"ab_exps\":\"731:2311,1783:6173,205:552,1792:6204,1824:6325,1828:6347,1812:6283,1420:4946,1803:6251,1641:5649,1686:5812,1761:6087,1390:4839,1825:6334,1378:4784,1797:6220,1207:4170,1441:5011,1822:6315,1840:6382,1228:4269,1818:6303,1831:6357,461:1391,1790:6197,1808:6264,544:1646,1348:4676,437:1326\",\"device_id\":\"d3a68b71e6c74255a5c8bed4a999b8ff\",\"item_id\":135000054,\"item_idx\":\"10\",\"item_key\":\"ae0mUVbfhn\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100895805927305217\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":27260,\"series_key\":\"X7jDECMg41\",\"session_id\":\"2100895805591760897\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100895805591760897\",\"user_id\":278185233}",
+              "r_info1": "{\"ab_exps\":\"1792:6203,1228:4269,1686:5812,1378:4785,1790:6196,1641:5647,1826:6340,1761:6086,1348:4676,1808:6265,205:552,1822:6320,544:1646,1840:6381,1797:6223,731:2311,1824:6326,1831:6356,437:1325,1829:6348,1825:6334,1420:4946,1207:4170,676:2113,1390:4839,1828:6346,1441:5011\",\"device_id\":\"e61349f215584df59830bda34cba72a8\",\"item_id\":195024294,\"item_idx\":\"10\",\"item_key\":\"bm9bgbpJDs\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100897166295248896\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":121195,\"series_key\":\"mnuOrUkyJt\",\"session_id\":\"2100897165481553921\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100897165481553921\",\"user_id\":278188033}",
               "view_count": 0,
-              "follow_count": 3435,
-              "link": "X7jDECMg41",
-              "tag": null,
+              "follow_count": 12108,
+              "link": "mnuOrUkyJt",
+              "tag": [
+                "Dubbed"
+              ],
               "series_tag": [
                 "Romance",
-                "Comedy",
-                "Hidden Identity",
-                "Mistaken Identity",
-                "Concealed Identity",
-                "Underdog Rise",
-                "CEO / Boss",
+                "Drama",
+                "Revenge",
+                "Rags to Riches",
+                "Billionaire",
                 "Strong Heroine",
-                "Soldier",
                 "Contemporary",
                 "Female",
-                "Sweet Romance",
-                "Funny",
-                "Humble",
-                "Powerful"
+                "Healing",
+                "Protective"
               ],
               "suspicious_fields": {
-                "tag": null,
+                "tag": [
+                  "Dubbed"
+                ],
                 "series_tag": [
                   "Romance",
-                  "Comedy",
-                  "Hidden Identity",
-                  "Mistaken Identity",
-                  "Concealed Identity",
-                  "Underdog Rise",
-                  "CEO / Boss",
-                  "Strong Heroine"
+                  "Drama",
+                  "Revenge",
+                  "Rags to Riches",
+                  "Billionaire",
+                  "Strong Heroine",
+                  "Contemporary",
+                  "Female"
                 ],
                 "content_tags": [
                   "Hidden Identity",
-                  "Identity Reveal"
+                  "Hidden Strength"
                 ],
                 "content_detail_tags": null
               },
