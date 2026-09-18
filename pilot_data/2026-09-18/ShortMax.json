@@ -69,10 +69,10 @@
     "mobileProfile": false,
     "structuredData": "ShortMax rendered Most Popular DOM",
     "renderedCardCount": 7,
-    "rawHtmlSha256": "b2932b726c41949bf53bf4640eb45cfd71c4aaef8ba30926d60b132fc992d78b",
+    "rawHtmlSha256": "ed4e0339942aa8800e3fc6d2e8df6eca8ed045acdfe48c0525ea7aac29af8ace",
     "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
-    "screenshotSha256": "2237544d95d625c6969c29f9063a7c906d3ec4b55343904ac398b9ae82b67e3b"
+    "screenshotSha256": "e951ad5f374b9a2a61124a33c57f60af0623d444b80ade9be36ccbc8e5df4305"
   },
   "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
   "production_write": false

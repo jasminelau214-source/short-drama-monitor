@@ -55,13 +55,13 @@
     "browserAttempt": 1,
     "mobileProfile": true,
     "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
-    "cardCount": 80,
+    "cardCount": 100,
     "explicitRankCount1To10": 5,
     "duplicateExplicitRanks": [],
-    "rawHtmlSha256": "94621af405f59c67ea6b0395d0cb371ceb05854db7df5211a982d0b54f714fe4",
+    "rawHtmlSha256": "f92afb69273bebac9743448bae0a233fea7ae755f31ada1debd81c11e532325c",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
-    "screenshotSha256": "c257b333ac20173cfcd5f9beb22de49263f7c4ef81d5a3ecb86dfbcdf4ed9339"
+    "screenshotSha256": "23048e7548f6354393080b4e760be8d0681bf8407b7d68cd9592aee81930a9e7"
   },
   "error": "",
   "production_write": false

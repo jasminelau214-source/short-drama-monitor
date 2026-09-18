@@ -1,0 +1,88 @@
+{
+  "collection_date": "2026-09-18",
+  "generated_at": "2026-09-18T13:54:36.403747+08:00",
+  "promotion_requires_user_confirmation": true,
+  "production_write": false,
+  "decisions": [
+    {
+      "platform": "DramaBox",
+      "class": "WEB_CLOUD_EGRESS_BLOCKED",
+      "web_rows": 0,
+      "web_status": "NEEDS_ADAPTER",
+      "page_status": 403,
+      "api_candidate_count": 0,
+      "next_step": "REQUIRE_ALTERNATE_CLOUD_EGRESS_OR_APP_FALLBACK",
+      "production_write": false
+    },
+    {
+      "platform": "DramaWave",
+      "class": "WEB_SOURCE_EXPOSES_LT_TOP10",
+      "web_rows": 5,
+      "web_status": "PARTIAL",
+      "page_status": 200,
+      "api_candidate_count": 0,
+      "next_step": "REQUIRE_CLOUD_APP_OR_OFFICIAL_API_FALLBACK",
+      "production_write": false
+    },
+    {
+      "platform": "FlexTV",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "page_status": null,
+      "api_candidate_count": 0,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
+      "production_write": false
+    },
+    {
+      "platform": "GoodShort",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
+      "page_status": null,
+      "api_candidate_count": 0,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
+      "production_write": false
+    },
+    {
+      "platform": "MoboReels",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "page_status": null,
+      "api_candidate_count": 0,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
+      "production_write": false
+    },
+    {
+      "platform": "NetShort",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "page_status": null,
+      "api_candidate_count": 0,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
+      "production_write": false
+    },
+    {
+      "platform": "ReelShort",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "page_status": null,
+      "api_candidate_count": 0,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
+      "production_write": false
+    },
+    {
+      "platform": "ShortMax",
+      "class": "WEB_SOURCE_EXPOSES_LT_TOP10",
+      "web_rows": 7,
+      "web_status": "PARTIAL",
+      "page_status": 200,
+      "api_candidate_count": 0,
+      "next_step": "REQUIRE_CLOUD_APP_OR_OFFICIAL_API_FALLBACK",
+      "production_write": false
+    }
+  ]
+}
