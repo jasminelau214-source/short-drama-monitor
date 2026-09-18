@@ -348,7 +348,16 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                         last_card_count = card_count
                     if stable_rounds >= 5:
                         break
-                    page.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
+                    page.evaluate("""
+() => {
+  const scroller = document.querySelector('x-home-page');
+  if (scroller) {
+    scroller.scrollTop = scroller.scrollHeight;
+  } else {
+    window.scrollTo(0, document.documentElement.scrollHeight);
+  }
+}
+""")
                     page.wait_for_timeout(650)
             else:
                 for _ in range(4):
