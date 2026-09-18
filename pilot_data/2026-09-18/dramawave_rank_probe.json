@@ -1,0 +1,1177 @@
+{
+  "platform": "DramaWave",
+  "collection_date": "2026-09-18",
+  "generated_at": "2026-09-18T18:26:11.879557+08:00",
+  "source_type": "OFFICIAL_H5_API_RANK_PROBE",
+  "target": "explicit Most Trending labels",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "status": "NO_EXPLICIT_RANKS",
+  "top10_complete": false,
+  "explicit_ranks": [],
+  "missing_top10_ranks": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "rank_conflicts": {},
+  "tabs": [
+    {
+      "tab_key": "28",
+      "position_index": 10000,
+      "business_name": "popular",
+      "title": "",
+      "module_count": 2,
+      "modules": [
+        {
+          "type": "banner",
+          "module_key": "40",
+          "module_name": "Banner",
+          "module_suspicious_fields": {},
+          "item_count": 7,
+          "sample": [
+            {
+              "position": 1,
+              "title": "Step Into Speed",
+              "key": "NgyA8TDvqI",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "1"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":190023913,\"item_idx\":\"1\",\"item_key\":\"QjnEkkZavD\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":95367,\"series_key\":\"NgyA8TDvqI\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 24500,
+              "link": "dramawave://dramawave.app/detail?id=NgyA8TDvqI",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "Forbidden Love"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 2,
+              "title": "My Boss, the Split Man",
+              "key": "wxP8wNCgOq",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "2"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":177705752,\"item_idx\":\"2\",\"item_key\":\"O2nIKvOMoO\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":53221,\"series_key\":\"wxP8wNCgOq\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 5567,
+              "link": "dramawave://dramawave.app/detail?id=wxP8wNCgOq",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "Hidden Identity"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 3,
+              "title": "The Princess of His Heart",
+              "key": "AKfdJPNMhO",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "3"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":129507424,\"item_idx\":\"3\",\"item_key\":\"vI8s3hANez\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":26360,\"series_key\":\"AKfdJPNMhO\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 20858,
+              "link": "dramawave://dramawave.app/detail?id=AKfdJPNMhO",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "O.N.S."
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 4,
+              "title": "One Night, Triple Blessings",
+              "key": "pOpa5YXKqE",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "4"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":194514696,\"item_idx\":\"4\",\"item_key\":\"HZFAFmugBj\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":116685,\"series_key\":\"pOpa5YXKqE\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 7650,
+              "link": "dramawave://dramawave.app/detail?id=pOpa5YXKqE",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "O.N.S."
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 5,
+              "title": "A Mother Against the Powerful",
+              "key": "pPpGkXDkIy",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "5"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":191341987,\"item_idx\":\"5\",\"item_key\":\"qvwVQjMmhE\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":99954,\"series_key\":\"pPpGkXDkIy\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 1437,
+              "link": "dramawave://dramawave.app/detail?id=pPpGkXDkIy",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "Betrayal"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 6,
+              "title": "Too Late for Love: 15 Days After Miscarriage",
+              "key": "aRNX0ZnQT6",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "6"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":189366362,\"item_idx\":\"6\",\"item_key\":\"uhvTTiYqmF\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":90217,\"series_key\":\"aRNX0ZnQT6\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 17543,
+              "link": "dramawave://dramawave.app/detail?id=aRNX0ZnQT6",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "Betrayal"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 7,
+              "title": "Mr. Vampire Wants Me EveryDay",
+              "key": "6Yb5lzB7in",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894150221971456",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "7"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":2176653,\"item_idx\":\"7\",\"item_key\":\"g7amtQ130A\",\"language\":\"en\",\"module_id\":40,\"module_key\":\"40\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894150221971456\",\"scene_source\":\"/home/popular/banner\",\"series_id\":12225,\"series_key\":\"6Yb5lzB7in\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 39238,
+              "link": "dramawave://dramawave.app/detail?id=6Yb5lzB7in",
+              "tag": null,
+              "series_tag": null,
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": null,
+                "content_tags": [
+                  "Bonded by Fate"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "bg_color",
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            }
+          ],
+          "initial_explicit_ranks": []
+        },
+        {
+          "type": "recommend",
+          "module_key": "41",
+          "module_name": "Popular Choices",
+          "module_suspicious_fields": {},
+          "item_count": 10,
+          "sample": [
+            {
+              "position": 1,
+              "title": "Unstoppable Kid: Dad's Savior",
+              "key": "7kipx70hhz",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "1"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":196981970,\"item_idx\":\"1\",\"item_key\":\"zyu4UET8bF\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":134299,\"series_key\":\"7kipx70hhz\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 3466,
+              "link": "7kipx70hhz",
+              "tag": null,
+              "series_tag": [
+                ""
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  ""
+                ],
+                "content_tags": [
+                  "Hidden Identity",
+                  "Family Affection"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "update_count",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 2,
+              "title": "Fake Heiress, Real Romance",
+              "key": "IogZmI329N",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "2"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":196913293,\"item_idx\":\"2\",\"item_key\":\"HGgsmigudO\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":132787,\"series_key\":\"IogZmI329N\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 2571,
+              "link": "IogZmI329N",
+              "tag": null,
+              "series_tag": [
+                ""
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  ""
+                ],
+                "content_tags": [
+                  "Hidden Identity",
+                  "Hidden Roles"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 3,
+              "title": "The Hidden Dragon Reveals Itself",
+              "key": "EwbYMnzcPg",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "3"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":135164326,\"item_idx\":\"3\",\"item_key\":\"xKfZY84pxl\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":26480,\"series_key\":\"EwbYMnzcPg\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 4031,
+              "link": "EwbYMnzcPg",
+              "tag": null,
+              "series_tag": [
+                "Fantasy",
+                "Action",
+                "Hidden Identity",
+                "Revenge",
+                "Comeback",
+                "Betrayal",
+                "Billionaire",
+                "Strong Heroine",
+                "Commander",
+                "Magical World",
+                "Male",
+                "Dark",
+                "Ambitious",
+                "Powerful"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Fantasy",
+                  "Action",
+                  "Hidden Identity",
+                  "Revenge",
+                  "Comeback",
+                  "Betrayal",
+                  "Billionaire",
+                  "Strong Heroine"
+                ],
+                "content_tags": [
+                  "Hidden Identity",
+                  "Hidden Strength"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 4,
+              "title": "Stolen Identity, Bitter Revenge",
+              "key": "v1qTQf9d4E",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "4"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":170557281,\"item_idx\":\"4\",\"item_key\":\"GVsqQOKOPF\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":33628,\"series_key\":\"v1qTQf9d4E\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 4624,
+              "link": "v1qTQf9d4E",
+              "tag": null,
+              "series_tag": [
+                "Drama",
+                "Tragedy",
+                "Hidden Identity",
+                "Revenge",
+                "Jealousy",
+                "Contemporary",
+                "Family",
+                "Female",
+                "Melancholic",
+                "Dark",
+                "Cruel",
+                "Possessive"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Drama",
+                  "Tragedy",
+                  "Hidden Identity",
+                  "Revenge",
+                  "Jealousy",
+                  "Contemporary",
+                  "Family",
+                  "Female"
+                ],
+                "content_tags": [
+                  "Fake vs. Real Heiress",
+                  "Betrayal"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 5,
+              "title": "Captain of Her Own Sky(Dubbed)",
+              "key": "HwBGO6jNUc",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "5"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":212139485,\"item_idx\":\"5\",\"item_key\":\"4swIsMDqfE\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":233287,\"series_key\":\"HwBGO6jNUc\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 6173,
+              "link": "HwBGO6jNUc",
+              "tag": [
+                "Dubbed"
+              ],
+              "series_tag": [
+                "Romance",
+                "Drama",
+                "Office Romance",
+                "Break Up",
+                "Character Growth",
+                "Strong Female Lead",
+                "Pilot",
+                "Contemporary",
+                "Office",
+                "Female",
+                "Ambitious",
+                "Independent"
+              ],
+              "suspicious_fields": {
+                "tag": [
+                  "Dubbed"
+                ],
+                "series_tag": [
+                  "Romance",
+                  "Drama",
+                  "Office Romance",
+                  "Break Up",
+                  "Character Growth",
+                  "Strong Female Lead",
+                  "Pilot",
+                  "Contemporary"
+                ],
+                "content_tags": [
+                  "Betrayal",
+                  "Female Growth"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "update_count",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 6,
+              "title": "My Wife Turns the Tables",
+              "key": "A3soSQ3GDj",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "6"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":197459685,\"item_idx\":\"6\",\"item_key\":\"RURCwRGXXR\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":134328,\"series_key\":\"A3soSQ3GDj\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 1842,
+              "link": "A3soSQ3GDj",
+              "tag": null,
+              "series_tag": [
+                ""
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  ""
+                ],
+                "content_tags": [
+                  "Revenge",
+                  "Hidden Identity"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "update_count",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 7,
+              "title": "She Danced Her Way Back",
+              "key": "bWrassnpDz",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "7"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":193700590,\"item_idx\":\"7\",\"item_key\":\"dVA8MvBv5C\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":112719,\"series_key\":\"bWrassnpDz\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 1464,
+              "link": "bWrassnpDz",
+              "tag": null,
+              "series_tag": [
+                ""
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  ""
+                ],
+                "content_tags": [
+                  "Rebirth",
+                  "Revenge"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 8,
+              "title": "When Success Leads Back Home",
+              "key": "ztl5JUP9Ge",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "8"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":174151845,\"item_idx\":\"8\",\"item_key\":\"PcaqZZmsEv\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":38069,\"series_key\":\"ztl5JUP9Ge\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 3738,
+              "link": "ztl5JUP9Ge",
+              "tag": null,
+              "series_tag": [
+                "Business",
+                "Drama",
+                "Rags to Riches",
+                "Comeback Story",
+                "Family",
+                "Small Town",
+                "Female",
+                "Bittersweet",
+                "Serious",
+                "Ambitious",
+                "Powerful"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Business",
+                  "Drama",
+                  "Rags to Riches",
+                  "Comeback Story",
+                  "Family",
+                  "Small Town",
+                  "Female",
+                  "Bittersweet"
+                ],
+                "content_tags": [
+                  "Family Affection",
+                  "Hidden Identity"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 9,
+              "title": "Riding High with Parents' Fortune",
+              "key": "vbiAQspOfP",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "9"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":172127336,\"item_idx\":\"9\",\"item_key\":\"IqluOmpoQj\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":28550,\"series_key\":\"vbiAQspOfP\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 4378,
+              "link": "vbiAQspOfP",
+              "tag": null,
+              "series_tag": [
+                "Romance",
+                "Urban",
+                "Comedy",
+                "Hidden Identity",
+                "Fake Relationship",
+                "Rags to Riches",
+                "Class Difference",
+                "Misunderstanding",
+                "Billionaire",
+                "CEO / Boss",
+                "Contemporary",
+                "City",
+                "Female",
+                "Humble",
+                "Naive"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Romance",
+                  "Urban",
+                  "Comedy",
+                  "Hidden Identity",
+                  "Fake Relationship",
+                  "Rags to Riches",
+                  "Class Difference",
+                  "Misunderstanding"
+                ],
+                "content_tags": [
+                  "Hidden Identity",
+                  "Pretend Romance"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            },
+            {
+              "position": 10,
+              "title": "Has the CEO Won Her Heart?",
+              "key": "fPFylLgerw",
+              "rank": null,
+              "episode_info": true,
+              "r_info": {
+                "session_id": "2100894150221971457",
+                "request_id": "2100894151010500608",
+                "page_num": "1",
+                "page_size": "10",
+                "item_idx": "10"
+              },
+              "r_info1": "{\"ab_exps\":\"437:1325,1808:6270,731:2310,1207:4170,1825:6331,1420:4943,1797:6226,1839:6375,1815:6291,544:1646,1228:4268,1807:6262,205:552,1641:5649,1831:6356,1348:4676,1792:6205,1378:4784,1812:6281,1840:6381,1390:4839,1686:5811,1822:6317,1817:6301,1828:6347,1824:6324,1441:5011,461:1392\",\"device_id\":\"bc7dc939e7494e849a04eb787710f092\",\"item_id\":163685723,\"item_idx\":\"10\",\"item_key\":\"zxqlGUnlhl\",\"language\":\"en\",\"module_id\":41,\"module_key\":\"41\",\"page_num\":\"1\",\"page_size\":\"10\",\"request_id\":\"2100894151010500608\",\"scene_source\":\"/home/popular/popular_choice\",\"series_id\":32020,\"series_key\":\"fPFylLgerw\",\"session_id\":\"2100894150221971457\",\"tab_id\":28,\"tab_key\":\"popular\",\"theater_id\":6,\"theater_key\":\"home\",\"trace_id\":\"2100894150221971457\",\"user_id\":278181766}",
+              "view_count": 0,
+              "follow_count": 4400,
+              "link": "fPFylLgerw",
+              "tag": null,
+              "series_tag": [
+                "Romance",
+                "Office Romance",
+                "Flash Marriage",
+                "Childhood Crush",
+                "Misunderstanding",
+                "CEO / Boss",
+                "Office Lady",
+                "Contemporary",
+                "Office",
+                "Female",
+                "Sweet Romance",
+                "Protective"
+              ],
+              "suspicious_fields": {
+                "tag": null,
+                "series_tag": [
+                  "Romance",
+                  "Office Romance",
+                  "Flash Marriage",
+                  "Childhood Crush",
+                  "Misunderstanding",
+                  "CEO / Boss",
+                  "Office Lady",
+                  "Contemporary"
+                ],
+                "content_tags": [
+                  "Flash Marriage",
+                  "Contract Vows"
+                ],
+                "content_detail_tags": null
+              },
+              "all_keys": [
+                "can_action",
+                "can_show_action_animate",
+                "content_detail_tags",
+                "content_tags",
+                "cover",
+                "desc",
+                "episode_count",
+                "episode_info",
+                "finish_status",
+                "follow_count",
+                "free",
+                "key",
+                "link",
+                "link_type",
+                "orientation",
+                "pay_index",
+                "r_info",
+                "r_info1",
+                "resource_type",
+                "series_tag",
+                "style",
+                "tag",
+                "title",
+                "view_count",
+                "vip_type"
+              ]
+            }
+          ],
+          "initial_explicit_ranks": [],
+          "recommend_feed_rank_scan": {
+            "module_key": "41",
+            "pages_scanned": 10,
+            "items_scanned": 100,
+            "explicit_ranks": [],
+            "top10_complete": false,
+            "top10": [],
+            "missing_top10_ranks": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "next_token": "",
+            "has_more": false
+          }
+        }
+      ]
+    }
+  ],
+  "error": "",
+  "notes": "Evidence-only probe. It accepts only explicit ordinal labels such as '1st Most Trending'; ordered shelves without explicit ranking semantics are never promoted by this probe."
+}

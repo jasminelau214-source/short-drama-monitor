@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:45:08.113073+08:00",
+  "generated_at": "2026-09-18T18:26:17.938844+08:00",
   "promotion_requires_user_confirmation": true,
   "production_write": false,
   "decisions": [
@@ -29,13 +29,24 @@
       "alternate_semantic_type": "ordered_shelf_not_explicit_rank",
       "alternate_target": "Popular Choices",
       "rank_probe": {
-        "status": null,
+        "status": "NO_EXPLICIT_RANKS",
         "explicit_rank_count": 0,
         "top10_complete": false,
-        "missing_top10_ranks": [],
+        "missing_top10_ranks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
         "rank_conflicts": {},
-        "source_type": null,
-        "target": null
+        "source_type": "OFFICIAL_H5_API_RANK_PROBE",
+        "target": "explicit Most Trending labels"
       },
       "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION",
       "production_write": false

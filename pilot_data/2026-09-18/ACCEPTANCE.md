@@ -9,7 +9,7 @@
 | Platform | State | Web | Stable | Official rank probe | Alternate | Decision |
 |---|---|---:|---:|---|---|---|
 | DramaBox | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
-| DramaWave | ALT_TOP10_SEMANTIC_DECISION | 5/10 | NO | - | Popular Choices 10/10; alt stable=1/3 | CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION |
+| DramaWave | ALT_TOP10_SEMANTIC_DECISION | 5/10 | NO | explicit=0/10; complete=NO; stable=0/3 | Popular Choices 10/10; alt stable=1/3 | CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION |
 | FlexTV | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
 | GoodShort | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
 | MoboReels | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |

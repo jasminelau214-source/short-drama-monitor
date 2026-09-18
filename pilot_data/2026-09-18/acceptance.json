@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:45:08.166537+08:00",
+  "generated_at": "2026-09-18T18:26:17.974027+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
@@ -30,7 +30,33 @@
       "web_rows": 5,
       "web_status": "PARTIAL",
       "web_stable": false,
-      "rank_probe": null,
+      "rank_probe": {
+        "status": "NO_EXPLICIT_RANKS",
+        "explicit_rank_count": 0,
+        "top10_complete": false,
+        "missing_top10_ranks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "stability": {
+          "consecutive_complete_runs": 0,
+          "path_stable": false,
+          "dates": [
+            "2026-09-18"
+          ],
+          "explicit_counts": [
+            0
+          ]
+        }
+      },
       "alternate_rows": 10,
       "alternate_target": "Popular Choices",
       "alternate_semantic_type": "ordered_shelf_not_explicit_rank",

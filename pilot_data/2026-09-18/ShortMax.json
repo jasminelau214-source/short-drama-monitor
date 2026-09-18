@@ -81,10 +81,10 @@
     "structuredData": "ShortMax live DOM Most Popular section",
     "renderedCardCount": 16,
     "sectionScoped": true,
-    "rawHtmlSha256": "669e870dcbd86827a73c3344be7e0bc96856699fb5a4efdab8edb286af8e0f51",
+    "rawHtmlSha256": "7e4096c98b3fa28663a6d79a54d6ab2c753b5c4f3b95a47e0718403059fe8c0a",
     "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
-    "screenshotSha256": "fef7410e1a1c7908cb544e0ff256803e1e12ed2e056d1b77aecef701e1b5da8e"
+    "screenshotSha256": "a8bd698a8e374e86f0f2304d716f7f970ec80cd8b4476eef8a5b28a8cc33d21e"
   },
   "error": "",
   "production_write": false
