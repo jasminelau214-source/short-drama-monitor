@@ -31,6 +31,7 @@ _apply_runtime_ui_patch()
 from live_observations_v2 import build_live_summary as _build_live_summary
 from live_observations_v2 import merge_analysis_records as _merge_analysis_records
 import persistence
+from collector_import import _norm_title as canonical_norm_title
 
 
 def _platform_slug(platform):
@@ -38,7 +39,7 @@ def _platform_slug(platform):
 
 
 def _norm_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+    return canonical_norm_title(value)
 
 
 def _legacy_v1_id(platform, title, normalize_title):
@@ -253,6 +254,20 @@ def _build_web_collection(monitoring):
                 'research': research,
                 'researchConfidence': str((task or {}).get('confidence') or ''),
                 'researchSources': (task or {}).get('sources') if isinstance((task or {}).get('sources'), list) else [],
+                'researchMissingFields': (
+                    (task or {}).get('missing_fields')
+                    if isinstance((task or {}).get('missing_fields'), list)
+                    else ((task or {}).get('missingFields') if isinstance((task or {}).get('missingFields'), list) else [])
+                ),
+                'researchFieldProvenance': {
+                    k: ('source_fact' if k in {'synopsis','openingSummary','payEpisode','paywallSummary'} else 'analysis_judgment')
+                    for k in research
+                    if k in {
+                        'synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff',
+                        'openingSummary','openingType','payEpisode','paywallSummary','paywallType',
+                        'localizationLevel','localizationJudgment','mismatch'
+                    }
+                },
                 'provisional': bool(result.get('provisional')),
             })
 
