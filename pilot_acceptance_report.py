@@ -125,6 +125,20 @@ def main() -> int:
             if probe_complete:
                 source_state = "OFFICIAL_H5_EXPLICIT_TOP10_SCOPE_DECISION"
                 semantic_decisions.append(platform)
+            elif (
+                web_rows == 5
+                and dw_probe.get("status") == "NO_EXPLICIT_RANKS"
+                and int(alt.get("row_count") or 0) == 10
+                and alt.get("semantic_type") == "ordered_shelf_not_explicit_rank"
+            ):
+                source_state = "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10"
+                alt_stability = alt_history(
+                    platform,
+                    str(alt.get("semantic_type")),
+                    str(alt.get("target")),
+                    args.date,
+                )
+                semantic_decisions.append(platform)
             elif int(alt.get("row_count") or 0) == 10 and alt.get("semantic_type"):
                 source_state = "ALT_TOP10_SEMANTIC_DECISION"
                 alt_stability = alt_history(
@@ -229,8 +243,8 @@ def main() -> int:
             "",
             *[
                 (
-                    f"- **{p}**: an official alternate path may provide additional evidence, "
-                    "but it is not automatically equivalent to the current Web ranking target."
+                    f"- **{p}**: Web currently verifies only explicit Top1–5; the H5 probe exposes no equivalent "
+                    "Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different."
                 )
                 for p in sorted(set(semantic_decisions))
             ],
