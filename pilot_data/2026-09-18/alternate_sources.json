@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:11:06.912331+08:00",
+  "generated_at": "2026-09-18T17:18:34.280500+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "sources": [
@@ -13,18 +13,18 @@
       "rows": [
         {
           "position": 1,
-          "title": "Mommy, Run! Daddy's Jealous Again",
-          "series_key": "BRtWdg8iRj"
+          "title": "Scarred Soldier Returns(Dubbed)",
+          "series_key": "pvpAiyn4th"
         },
         {
           "position": 2,
-          "title": "The Diva's Brilliant Revival",
-          "series_key": "UgR4a4kemc"
+          "title": "The Undying Sovereign",
+          "series_key": "7mrUfjQOHG"
         },
         {
           "position": 3,
-          "title": "My substitute lover",
-          "series_key": "3ygeqDD1LL"
+          "title": "The Supreme Master of Tai Chi",
+          "series_key": "5BgYkle0pP"
         },
         {
           "position": 4,
@@ -33,33 +33,33 @@
         },
         {
           "position": 5,
-          "title": "A Kiss with the Evening Breeze",
-          "series_key": "H8Yit7itj8"
+          "title": "Time Travel to 1985, Guardian's Love",
+          "series_key": "OLPy2o2uck"
         },
         {
           "position": 6,
-          "title": "When the Heir Falls, Billions Rain",
-          "series_key": "e3gDdYqlgG"
+          "title": "After My Bestie Slept With My Ex-Husband",
+          "series_key": "soNPzrkXmT"
         },
         {
           "position": 7,
-          "title": "Starting Over, Ji-hye",
-          "series_key": "8bgiVx7riP"
+          "title": "King of the Deserted Isle",
+          "series_key": "Me8a5m2Aim"
         },
         {
           "position": 8,
-          "title": "Claiming Her Heart",
-          "series_key": "qsvPlsHEOx"
+          "title": "Flirting With the Wrong Man",
+          "series_key": "S67wkjcnNb"
         },
         {
           "position": 9,
-          "title": "My Wife Let Our Daughter Die",
-          "series_key": "XNSgAHc3Rp"
+          "title": "The Baseball Star's Baby",
+          "series_key": "fWMXPMDw4p"
         },
         {
           "position": 10,
-          "title": "My Mommy Can Fight",
-          "series_key": "Wdk5k8eDps"
+          "title": "Thanksgiving With Mom and Dad",
+          "series_key": "9Gum781otT"
         }
       ],
       "production_write": false,
@@ -109,8 +109,8 @@
           "position": 5,
           "title": "Oops, I Mated an Ancient Dragon",
           "short_play_id": 32532,
-          "play_num": 283365,
-          "collect_num": 94455
+          "play_num": 283401,
+          "collect_num": 94467
         },
         {
           "position": 6,

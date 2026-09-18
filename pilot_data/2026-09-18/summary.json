@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:10:32.719100+08:00",
+  "generated_at": "2026-09-18T17:18:01.016822+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -33,13 +33,18 @@
     },
     {
       "platform": "DramaWave",
-      "status": "PARTIAL",
-      "row_count": 5,
+      "status": "NEEDS_ADAPTER",
+      "row_count": 0,
       "audit": {
         "batchComplete": false,
         "expectedRows": 10,
-        "actualRows": 5,
+        "actualRows": 0,
         "missingRanks": [
+          1,
+          2,
+          3,
+          4,
+          5,
           6,
           7,
           8,
@@ -53,7 +58,7 @@
       "stability": {
         "lastThree": [
           "PARTIAL",
-          "PARTIAL"
+          "NEEDS_ADAPTER"
         ],
         "consecutiveValidRuns": 0,
         "pathStable": false

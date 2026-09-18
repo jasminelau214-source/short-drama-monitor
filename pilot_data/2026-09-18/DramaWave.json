@@ -7,35 +7,19 @@
   "source_url": "https://m.mydramawave.com/",
   "strategy": "browser_probe",
   "top_n": 10,
-  "rows": [
-    {
-      "rank": 1,
-      "title": "Swapped Heiress by My Bestie"
-    },
-    {
-      "rank": 2,
-      "title": "Daddy's Miracle Daughter(Dubbed)"
-    },
-    {
-      "rank": 3,
-      "title": "Slowly, Then Forever"
-    },
-    {
-      "rank": 4,
-      "title": "The Alpha King's Virgin Bride"
-    },
-    {
-      "rank": 5,
-      "title": "Claimed by the Alpha, Nursing His Baby"
-    }
-  ],
-  "row_count": 5,
-  "status": "PARTIAL",
+  "rows": [],
+  "row_count": 0,
+  "status": "NEEDS_ADAPTER",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 5,
+    "actualRows": 0,
     "missingRanks": [
+      1,
+      2,
+      3,
+      4,
+      5,
       6,
       7,
       8,
@@ -48,44 +32,7 @@
   },
   "evidence": {
     "parserFallbackError": "",
-    "pageTitle": "DramaWave",
-    "pageUrl": "https://m.mydramawave.com/",
-    "documentLang": "en",
-    "httpStatus": 200,
-    "browserAttempt": 2,
-    "mobileProfile": false,
-    "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
-    "cardCount": 20,
-    "explicitRankCount1To10": 4,
-    "duplicateExplicitRanks": [],
-    "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
-    "explicitRanksSeen": [
-      2,
-      3,
-      4,
-      5
-    ],
-    "explicitRankConflicts": {},
-    "scrollRounds": 5,
-    "finalScrollMetrics": {
-      "scrollTop": 0,
-      "scrollHeight": 3397,
-      "clientHeight": 3397,
-      "atBottom": true
-    },
-    "rawHtmlSha256": "860669d8d32c391165377821215fb03416afc733b2e061749f71066ded9d9c3d",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.png",
-    "screenshotSha256": "7f416c503382c473896c29e01f16b5ba6b1972449234ccf1ed09b3775bfd98d7",
-    "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
-    "profileMergedRanks": [
-      1,
-      2,
-      3,
-      4,
-      5
-    ],
-    "profileRankConflicts": {}
+    "browserRetryError": "attempt=2 Error: Page.evaluate: SyntaxError: Failed to execute 'querySelector' on 'Element': 'main.pb-13.5' is not a valid selector.\n    at eval (eval at evaluate (:311:30), <anonymous>:3:38)\n    at UtilityScript.evaluate (<anonymous>:318:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
   },
   "error": "",
   "production_write": false
