@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import json
+import re
 import urllib.request
 from typing import Any
 
@@ -46,6 +47,32 @@ def title(item: dict[str, Any]) -> str:
     return str(item.get("lanShortPlayName") or item.get("shortPlayName") or item.get("rawName") or "").strip()
 
 
+def display_name(item: dict[str, Any]) -> str:
+    for key in ("displayName", "labelName", "rawName", "className", "name", "title"):
+        value = item.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+    return ""
+
+
+def slim_defs(items: Any) -> list[dict[str, Any]]:
+    out = []
+    if not isinstance(items, list):
+        return out
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        out.append({
+            k: item.get(k)
+            for k in (
+                "labelId", "classId", "displayName", "labelName", "rawName",
+                "className", "name", "type", "sort", "weight", "status"
+            )
+            if k in item
+        })
+    return out
+
+
 def main() -> int:
     payload = {
         "pageNo": 1,
@@ -85,11 +112,53 @@ def main() -> int:
         }
         for i, x in enumerate(by_play[:15], 1)
     ]
+
+    labels_resp = post("/cmsLabelNew/queryList", {})
+    classes_resp = post("/cmsClassNew/queryList", {})
+    labels = labels_resp.get("data") or []
+    classes = classes_resp.get("data") or []
+    label_defs = slim_defs(labels)
+    class_defs = slim_defs(classes)
+
+    keyword = re.compile(r"(popular|hot|trend|rank|top)", re.I)
+    matching_labels = [x for x in label_defs if keyword.search(" ".join(str(v) for v in x.values()))]
+    matching_classes = [x for x in class_defs if keyword.search(" ".join(str(v) for v in x.values()))]
+
+    label_samples = []
+    for definition in matching_labels[:10]:
+        label_id = definition.get("labelId")
+        if not label_id:
+            continue
+        resp = post(
+            "/cmsShortPlay/queryPage",
+            {"pageNo": 1, "pageSize": 15, "labelId": label_id, "classId": ""},
+        )
+        pdata = resp.get("data") or {}
+        rows = [
+            {
+                "position": i,
+                "id": x.get("shortPlayId"),
+                "title": title(x),
+                "playNum": x.get("playNum"),
+                "collectNum": x.get("collectNum"),
+            }
+            for i, x in enumerate((pdata.get("list") or [])[:15], 1)
+            if isinstance(x, dict) and title(x)
+        ]
+        label_samples.append({
+            "definition": definition,
+            "total": pdata.get("total"),
+            "rows": rows,
+        })
+
     print(json.dumps({
         "total": page.get("total"),
         "page_count": len(items),
         "api_order_first15": api_order,
         "play_desc_first15": top_play,
+        "matching_labels": matching_labels,
+        "matching_classes": matching_classes,
+        "label_samples": label_samples,
     }, ensure_ascii=False, indent=2))
     return 0
 
