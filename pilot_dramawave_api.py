@@ -67,22 +67,44 @@ def auth_header(auth_key: str, auth_secret: str) -> str:
     return f"oauth_signature={sig},oauth_token={auth_key},ts={int(time.time()*1000)}"
 
 
+def suspicious_fields(item: dict[str, Any]) -> dict[str, Any]:
+    words = ("rank", "trend", "badge", "label", "tag", "corner", "mark", "hot", "popular", "sort", "position")
+    out: dict[str, Any] = {}
+    for key, value in item.items():
+        if not any(word in str(key).casefold() for word in words):
+            continue
+        if isinstance(value, (str, int, float, bool)) or value is None:
+            out[key] = value
+        elif isinstance(value, list):
+            out[key] = value[:8]
+        elif isinstance(value, dict):
+            out[key] = {
+                k: v for k, v in list(value.items())[:12]
+                if isinstance(v, (str, int, float, bool)) or v is None
+            }
+    return out
+
+
 def clean_module(m: dict[str, Any]) -> dict[str, Any]:
     keep = {}
     for k in ("type", "module_key", "title", "name", "display_name", "module_name", "style", "sub_title"):
         if k in m and isinstance(m.get(k), (str, int, float, bool)):
             keep[k] = m.get(k)
+    keep["module_suspicious_fields"] = suspicious_fields(m)
     items = m.get("items") if isinstance(m.get("items"), list) else []
     keep["item_count"] = len(items)
     sample = []
-    for it in items[:5]:
+    for idx, it in enumerate(items[:15], 1):
         if not isinstance(it, dict):
             continue
         sample.append({
+            "position": idx,
             "title": it.get("title") or it.get("series_name") or it.get("name"),
             "key": it.get("key") or it.get("series_id") or it.get("id"),
             "rank": it.get("rank") or it.get("position") or it.get("ranking"),
             "episode_info": bool(it.get("episode_info")),
+            "suspicious_fields": suspicious_fields(it),
+            "all_keys": sorted(str(k) for k in it.keys()),
         })
     keep["sample"] = sample
     return keep
@@ -95,7 +117,7 @@ def main() -> int:
     auth_key = data.get("auth_key")
     auth_secret = data.get("auth_secret")
     if not auth_key or not auth_secret:
-        raise RuntimeError(f"anonymous login missing auth fields: {login}")
+        raise RuntimeError("anonymous login missing auth fields")
     auth = auth_header(str(auth_key), str(auth_secret))
 
     tabs = request("/h5-api/homepage/v2/tab/list", auth=auth, device_id=device_id)
@@ -122,6 +144,7 @@ def main() -> int:
             "tab_key": tab_key,
             "position_index": pidx,
             "business_name": tab.get("business_name"),
+            "page_info": idata.get("page_info"),
             "modules": [clean_module(m) for m in modules if isinstance(m, dict)],
         })
 
