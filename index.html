@@ -973,6 +973,20 @@
       main { padding: 20px; }
     }
   
+  
+    /* UI REDESIGN V1 NAV + LIBRARY */
+    .nav-locked { display:flex; align-items:center; justify-content:space-between; opacity:.58; cursor:not-allowed !important; }
+    .nav-locked span { font-size:10px; padding:2px 6px; border-radius:999px; background:#f2f4f7; color:#667085; }
+    .history-filters { grid-template-columns:minmax(220px,1.5fr) repeat(4,minmax(130px,1fr)); }
+    .research-select { width:220px; min-width:0; }
+    .research-summary { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; margin:18px 0; }
+    .research-summary .metric { min-height:96px; }
+    .history-status { display:inline-flex; font-size:12px; font-weight:700; padding:5px 8px; border-radius:999px; background:#f2f4f7; color:#667085; }
+    .history-status.active { background:#eaf7ef; color:#237a45; }
+    @media (max-width:1100px) {
+      .history-filters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .research-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
   </style>
 </head>
 <body>
@@ -986,6 +1000,9 @@
         <button class="active" data-view-button="dashboard">市场总览</button>
         <button data-view-button="catalog">今日榜单分析</button>
         <button data-view-button="lifecycle">历史趋势分析</button>
+        <button data-view-button="history-library">历史剧目库</button>
+        <button data-view-button="research">题材 / 剧目研究</button>
+        <button class="nav-locked" type="button" disabled title="仅管理员账号可访问">系统设置 <span>管理员</span></button>
       </nav>
       <div class="side-note">
         <strong>数据范围</strong><br>
@@ -1154,6 +1171,45 @@
             <div id="lifeList" class="leader-list"></div>
           </section>
         </div>
+      </section>
+      <section id="history-library" class="view" aria-labelledby="history-library-title">
+        <div class="topbar">
+          <div>
+            <h1 id="history-library-title">历史剧目库</h1>
+            <div class="subtle">查看全部历史剧目，支持筛选、搜索，并可直接进入单剧详情。</div>
+          </div>
+          <div class="date-pill" id="historyCountPill">全部历史数据</div>
+        </div>
+        <div class="filters history-filters" aria-label="历史剧目筛选">
+          <div class="field"><label for="historySearch">剧名搜索</label><input id="historySearch" type="search" placeholder="输入中英文剧名"></div>
+          <div class="field"><label for="historyAppFilter">平台</label><select id="historyAppFilter"></select></div>
+          <div class="field"><label for="historyGenreFilter">题材</label><select id="historyGenreFilter"></select></div>
+          <div class="field"><label for="historyAudienceFilter">男女频</label><select id="historyAudienceFilter"></select></div>
+          <div class="field"><label for="historyStateFilter">状态</label><select id="historyStateFilter"><option value="">全部</option><option value="active">最近采集日在榜</option><option value="inactive">历史出现 / 当前未记录</option></select></div>
+        </div>
+        <div class="table-meta"><span id="historyResultCount"></span><span>点击剧名进入统一单剧详情。</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>剧名</th><th>平台</th><th>男女频</th><th>题材</th><th>首次上榜</th><th>最近上榜</th><th>历史最高</th><th>记录采集日</th><th>状态</th></tr></thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+        <div id="historyEmpty" class="empty">没有匹配的历史剧目。</div>
+      </section>
+
+      <section id="research" class="view" aria-labelledby="research-title">
+        <div class="topbar">
+          <div>
+            <h1 id="research-title">题材 / 剧目研究</h1>
+            <div class="subtle">从题材趋势进入代表剧目，再进入统一单剧深度研究档案。</div>
+          </div>
+          <div class="field research-select"><label for="researchGenre">研究题材</label><select id="researchGenre"></select></div>
+        </div>
+        <div id="researchSummary" class="research-summary"></div>
+        <section class="section">
+          <div class="section-head"><div><h2>代表剧目</h2><div class="subtle">按历史最高排名与在榜记录排序；点击剧名进入单剧详情。</div></div></div>
+          <div id="researchTitles" class="leader-list"></div>
+        </section>
       </section>
     </main>
   </div>
@@ -1646,15 +1702,92 @@
     $('#importEdits').addEventListener('click', () => $('#importEditsFile').click());
     $('#importEditsFile').addEventListener('change', event => importEdits(event.target.files[0]).catch(error => alert('导入失败：' + error.message)));
 
+
+    function setupHistoryLibrary() {
+      optionList($('#historyAppFilter'), uniq(records.map(r => r.app)));
+      optionList($('#historyGenreFilter'), uniq(records.map(r => r.genre)));
+      optionList($('#historyAudienceFilter'), uniq(records.map(r => r.audience)));
+      ['historySearch','historyAppFilter','historyGenreFilter','historyAudienceFilter','historyStateFilter']
+        .forEach(id => $('#' + id).addEventListener('input', renderHistoryLibrary));
+    }
+
+    function renderHistoryLibrary() {
+      const query = $('#historySearch').value.trim().toLowerCase();
+      const app = $('#historyAppFilter').value;
+      const genre = $('#historyGenreFilter').value;
+      const audience = $('#historyAudienceFilter').value;
+      const state = $('#historyStateFilter').value;
+      const filtered = records
+        .filter(r => !query || r.title.toLowerCase().includes(query))
+        .filter(r => !app || r.app === app)
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => {
+          if (!state) return true;
+          const active = r.lastDate === summary.collectionDate;
+          return state === 'active' ? active : !active;
+        })
+        .slice()
+        .sort((a,b) => a.firstDate.localeCompare(b.firstDate) || a.highestRank - b.highestRank || byText(a.title,b.title));
+
+      $('#historyCountPill').textContent = '历史剧目 ' + records.length + ' 部';
+      $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 部`;
+      $('#historyBody').innerHTML = filtered.map(r => {
+        const active = r.lastDate === summary.collectionDate;
+        return `<tr>
+          <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
+          <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
+          <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
+          <td>${escapeHtml(shown(r.genre))}</td>
+          <td>${escapeHtml(shown(r.firstDate))}</td>
+          <td>${escapeHtml(shown(r.lastDate))}</td>
+          <td>#${escapeHtml(shown(r.highestRank))}</td>
+          <td>${escapeHtml(String((r.recordedDates || []).length))}</td>
+          <td><span class="history-status ${active ? 'active' : ''}">${active ? '最近采集日在榜' : '历史记录'}</span></td>
+        </tr>`;
+      }).join('');
+      $('#historyEmpty').style.display = filtered.length ? 'none' : 'block';
+    }
+
+    function setupResearch() {
+      const genres = uniq(records.map(r => r.genre));
+      optionList($('#researchGenre'), genres, null);
+      if (genres.length) $('#researchGenre').value = genres[0];
+      $('#researchGenre').addEventListener('change', renderResearch);
+    }
+
+    function renderResearch() {
+      const genre = $('#researchGenre').value;
+      const items = records.filter(r => !genre || r.genre === genre);
+      const female = items.filter(r => r.audience === '女频').length;
+      const male = items.filter(r => r.audience === '男频').length;
+      const avgDays = items.length ? (items.reduce((sum,r) => sum + Number(r.daysOnChart || 0),0) / items.length).toFixed(1) : '0';
+      const ranks = items.map(r => Number(r.highestRank || 0)).filter(v => Number.isFinite(v) && v > 0);
+      const bestRank = ranks.length ? Math.min(...ranks) : 0;
+      $('#researchSummary').innerHTML = [
+        ['历史剧目', items.length, '当前题材样本量'],
+        ['女频 / 男频', `${female} / ${male}`, '按已标注受众统计'],
+        ['平均记录采集日', avgDays, '基于现有历史快照'],
+        ['最佳历史排名', bestRank ? '#' + bestRank : '—', '代表剧目最高表现']
+      ].map(([label,value,note]) => `<div class="metric"><div class="label">${escapeHtml(label)}</div><div class="value">${escapeHtml(String(value))}</div><div class="subtle">${escapeHtml(note)}</div></div>`).join('');
+      $('#researchTitles').innerHTML = items.slice().sort((a,b) => a.highestRank - b.highestRank || b.daysOnChart - a.daysOnChart || byText(a.title,b.title)).slice(0,12)
+        .map(r => `<div class="leader-item"><div><span class="chip neutral">${escapeHtml(r.app)}</span> <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><div class="subtle">历史最高第${escapeHtml(String(r.highestRank))}名 · 已记录${escapeHtml(String(r.daysOnChart))}个采集日 · ${escapeHtml(shown(r.lane))}</div></div>`).join('')
+        || '<div class="subtle">当前题材暂无可用剧目。</div>';
+    }
+
     async function initialize() {
       await loadHostedData();
       applyOfflineEdits();
       if (location.protocol !== 'file:') $('#offlineTools').style.display = 'none';
       setDateOptions();
       setupFilters();
+      setupHistoryLibrary();
+      setupResearch();
       renderDashboard();
       renderCatalog();
       renderLifecycle();
+      renderHistoryLibrary();
+      renderResearch();
     }
 
     initialize();
