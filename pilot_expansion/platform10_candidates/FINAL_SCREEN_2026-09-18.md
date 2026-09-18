@@ -37,6 +37,24 @@ Scales below are directional only and are **not combined into a single winner sc
 | VibeShort | Google Play 10M+; Short Drama Data paid-app #6 on 2026-09-18; August Insightrackr revenue #11, +62.37% MoM; active creatives scaled to ~750 by month-end |
 | My Drama | Google Play 5M+; Short Drama Data paid-app #19 on 2026-09-18; Sensor Tower 2026 report lists it among fast revenue growers |
 
+## Portfolio-coverage gap in the current 9-platform pool
+
+A new dimension materially changes the interpretation of the shortlist.
+
+Using Short Drama Data's 2026-09-18 third-party market snapshot only as a `DATA_MONITORING` signal:
+
+- Current core pool already covers paid-app ranks **#1 DramaBox, #2 ReelShort, #3 NetShort, #4 DramaWave, #7 GoodShort, #8 ShortMax**.
+- The two missing apps inside that paid Top8 block are **#5 StoryReel** and **#6 VibeShort**.
+- Current core pool already has the free-app leader **#1 FreeReels**.
+- **PineDrama #2** and **Melolo #3** would deepen free/IAA/discovery-model coverage rather than fill a paid Top8 gap.
+
+Therefore Platform 10 has two different portfolio roles:
+
+1. **Paid-head completeness:** StoryReel or VibeShort.
+2. **Free-model breadth / ecosystem diversification:** PineDrama or Melolo.
+
+This does not decide the platform, but it prevents a pure single-app scale metric from obscuring portfolio coverage.
+
 ## Terminal matrix
 
 | Candidate | Market/data value | Incremental content value | Trope overlap with current 9 | Production-format overlap | Official web field richness | Ranking-source usability | Automation difficulty for shelf | Automation difficulty for true Top10 | Human maintenance | Core Top10 contract fit |
