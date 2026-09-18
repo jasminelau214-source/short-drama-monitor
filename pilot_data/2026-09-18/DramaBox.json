@@ -5,47 +5,86 @@
   "target_key": "web_pilot_trending_top10",
   "ranking_type": "Trending",
   "source_url": "https://www.dramaboxdb.com/channel/trending",
-  "strategy": "verified_parser+browser_fallback",
+  "strategy": "verified_parser",
   "top_n": 10,
-  "rows": [],
-  "row_count": 0,
-  "status": "NEEDS_ADAPTER",
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Guess Who They Miss Now",
+      "source_url": "https://www.dramaboxdb.com/movie/42000015757/guess-who-they-miss-now"
+    },
+    {
+      "rank": 2,
+      "title": "Fear Her, My Mom's the Lady Boss!",
+      "source_url": "https://www.dramaboxdb.com/movie/42000014893/fear-her-my-moms-the-lady-boss"
+    },
+    {
+      "rank": 3,
+      "title": "Lady Diamond's Lost Heiress Returns",
+      "source_url": "https://www.dramaboxdb.com/movie/42000012143/lady-diamonds-lost-heiress-returns"
+    },
+    {
+      "rank": 4,
+      "title": "No Escape as the Dragon King's Mate",
+      "source_url": "https://www.dramaboxdb.com/movie/42000015264/no-escape-as-the-dragon-kings-mate"
+    },
+    {
+      "rank": 5,
+      "title": "Think Again! I'm the Hidden Boss Mom",
+      "source_url": "https://www.dramaboxdb.com/movie/42000010883/think-again-im-the-hidden-boss-mom"
+    },
+    {
+      "rank": 6,
+      "title": "Ruling Over All I See (DUBBED)",
+      "source_url": "https://www.dramaboxdb.com/movie/41000121270/ruling-over-all-i-see-dubbed-"
+    },
+    {
+      "rank": 7,
+      "title": "I'm Nothing but a Mortal (DUBBED)",
+      "source_url": "https://www.dramaboxdb.com/movie/41000111513/im-nothing-but-a-mortal-dubbed"
+    },
+    {
+      "rank": 8,
+      "title": "Forever Was a Lie",
+      "source_url": "https://www.dramaboxdb.com/movie/41000110445/forever-was-a-lie"
+    },
+    {
+      "rank": 9,
+      "title": "Queen Mom Rules",
+      "source_url": "https://www.dramaboxdb.com/movie/41000119953/queen-mom-rules"
+    },
+    {
+      "rank": 10,
+      "title": "Divorced, Now a Lycan Princess",
+      "source_url": "https://www.dramaboxdb.com/movie/41000121134/divorced-now-a-lycan-princess"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_VERIFIED",
   "audit": {
-    "batchComplete": false,
+    "batchComplete": true,
     "expectedRows": 10,
-    "actualRows": 0,
-    "missingRanks": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10
-    ],
+    "actualRows": 10,
+    "missingRanks": [],
     "duplicateRanks": [],
     "duplicateTitles": [],
     "emptyTitles": 0
   },
   "evidence": {
-    "parserFallbackError": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
-    "pageTitle": "ERROR: The request could not be satisfied",
-    "pageUrl": "https://www.dramaboxdb.com/channel/trending",
-    "documentLang": "",
-    "httpStatus": 403,
-    "browserAttempt": 2,
-    "mobileProfile": true,
-    "structuredData": "DramaBox browser parse failed",
-    "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
-    "rawHtmlSha256": "322f3e32dac9560f2d42ab6e88e373ed093331b935a716890719f8d7d2dadb82",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.png",
-    "screenshotSha256": "fba25ca0e022512e492eebf6a097d1ac101dd61dba7d4832ea96e362ba6e2e0d",
-    "browserRetryError": "attempt=2 status=403 adapter_found=False"
+    "collectorVersion": "dramabox-render-singapore-pilot-v1",
+    "fallbackService": "jsm-dramabox-pilot-probe",
+    "fallbackUrl": "https://jsm-dramabox-pilot-probe.onrender.com/refresh",
+    "sourceUrl": "https://www.dramaboxdb.com/channel/trending",
+    "sourceEvidence": {
+      "egress": "render-singapore",
+      "raw_html_sha256": "452ee812e5a0766478148ac1e01d4311aa2198d8beb6fc7f5a3e13756eb9a013",
+      "http_status": 200,
+      "collector_version": "dramabox-nextdata-v1",
+      "collected_at": "2026-09-18T07:58:50.935493+00:00"
+    },
+    "primaryCollectorError": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
+    "productionWrite": false
   },
-  "error": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
+  "error": "",
   "production_write": false
 }

@@ -72,7 +72,7 @@
   },
   "evidence": {
     "parserFallbackError": "",
-    "pageTitle": "Loading https://www.flextv.cc/drama/Top-in-FlexTV",
+    "pageTitle": "Top in FlexTV Short Dramas Online | Watch Full Episodes in HD - FlexTV",
     "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
     "documentLang": "en",
     "httpStatus": 200,
@@ -80,10 +80,10 @@
     "mobileProfile": false,
     "structuredData": "JSON-LD ItemList",
     "itemListName": "",
-    "rawHtmlSha256": "a025ead8f489eb12a05c3bfcedd1763bb7fa81fa61379992c7a775567adc417c",
+    "rawHtmlSha256": "d633b7c0ef8820af7fc8ca1267b3134be9e047b9e1aaca85b0cf29a1dd38440c",
     "rawHtmlFile": "pilot_evidence/2026-09-18/FlexTV.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/FlexTV.png",
-    "screenshotSha256": "8b863b1e7434507ff9e7adf8b7c558cfb0883215bf3e595ea520e22cde1fcfb9"
+    "screenshotSha256": "d5b4d7a981182158e72103954fbefc26307752c243258896eba2f76ba20a7489"
   },
   "error": "",
   "production_write": false

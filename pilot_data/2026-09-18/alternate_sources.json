@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T15:51:48.095347+08:00",
+  "generated_at": "2026-09-18T16:00:15.689730+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "sources": [
@@ -109,15 +109,15 @@
           "position": 5,
           "title": "Oops, I Mated an Ancient Dragon",
           "short_play_id": 32532,
-          "play_num": 283098,
-          "collect_num": 94366
+          "play_num": 283128,
+          "collect_num": 94376
         },
         {
           "position": 6,
           "title": "Reborn for the Raven Prince",
           "short_play_id": 35953,
-          "play_num": 282081,
-          "collect_num": 94027
+          "play_num": 282093,
+          "collect_num": 94031
         },
         {
           "position": 7,

@@ -1,27 +1,33 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T15:51:58.376241+08:00",
+  "generated_at": "2026-09-18T16:00:31.476252+08:00",
   "promotion_requires_user_confirmation": true,
   "production_write": false,
   "decisions": [
     {
       "platform": "DramaBox",
-      "class": "WEB_CLOUD_EGRESS_BLOCKED",
-      "web_rows": 0,
-      "web_status": "NEEDS_ADAPTER",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
       "page_status": 403,
       "api_candidate_count": 0,
-      "next_step": "REQUIRE_ALTERNATE_CLOUD_EGRESS_OR_APP_FALLBACK",
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
     {
       "platform": "DramaWave",
-      "class": "WEB_SOURCE_EXPOSES_LT_TOP10",
+      "class": "ALTERNATE_API_COMPLETE_SEMANTIC_MISMATCH",
       "web_rows": 5,
       "web_status": "PARTIAL",
       "page_status": 200,
       "api_candidate_count": 0,
-      "next_step": "REQUIRE_CLOUD_APP_OR_OFFICIAL_API_FALLBACK",
+      "alternate_rows": 10,
+      "alternate_semantic_type": "ordered_shelf_not_explicit_rank",
+      "alternate_target": "Popular Choices",
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION",
       "production_write": false
     },
     {
@@ -31,6 +37,9 @@
       "web_status": "PASS_CANDIDATE",
       "page_status": null,
       "api_candidate_count": 0,
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
       "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
@@ -41,6 +50,9 @@
       "web_status": "PASS_VERIFIED",
       "page_status": null,
       "api_candidate_count": 0,
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
       "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
@@ -51,6 +63,9 @@
       "web_status": "PASS_CANDIDATE",
       "page_status": null,
       "api_candidate_count": 0,
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
       "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
@@ -61,6 +76,9 @@
       "web_status": "PASS_CANDIDATE",
       "page_status": null,
       "api_candidate_count": 0,
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
       "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
@@ -71,17 +89,23 @@
       "web_status": "PASS_CANDIDATE",
       "page_status": null,
       "api_candidate_count": 0,
+      "alternate_rows": 0,
+      "alternate_semantic_type": null,
+      "alternate_target": null,
       "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     },
     {
       "platform": "ShortMax",
-      "class": "WEB_SOURCE_EXPOSES_LT_TOP10",
+      "class": "ALTERNATE_API_COMPLETE_SEMANTIC_MISMATCH",
       "web_rows": 7,
       "web_status": "PARTIAL",
       "page_status": 200,
       "api_candidate_count": 0,
-      "next_step": "REQUIRE_CLOUD_APP_OR_OFFICIAL_API_FALLBACK",
+      "alternate_rows": 10,
+      "alternate_semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "alternate_target": "Catalog sorted by playNum desc",
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION",
       "production_write": false
     }
   ]
