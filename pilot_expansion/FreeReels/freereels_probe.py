@@ -21,7 +21,6 @@ TZ = ZoneInfo("Asia/Shanghai")
 
 OFFICIAL_URLS = [
     "https://free-reels.com/",
-    "https://www.free-reels.com/",
 ]
 
 TITLE_KEYS = (
@@ -326,7 +325,7 @@ def run_probe(collection_date: str) -> dict[str, Any]:
                     title = ""
                     body_text = ""
                     try:
-                        response = page.goto(url, wait_until="domcontentloaded", timeout=90000)
+                        response = page.goto(url, wait_until="domcontentloaded", timeout=45000)
                         status = response.status if response else None
                         page.wait_for_timeout(5000)
                         for _ in range(8):
