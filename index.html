@@ -1049,6 +1049,32 @@
       .overview-stats, .entry-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .focus-grid { grid-template-columns:1fr; }
     }
+  
+    /* UI REDESIGN V1 DAILY */
+    .daily-brief {
+      display:grid; grid-template-columns:190px 1fr; gap:18px; align-items:start;
+      border:1px solid #f0d9dd; border-radius:12px; padding:16px 18px; background:linear-gradient(135deg,#fff8f9,#fff);
+      margin-bottom:12px;
+    }
+    .daily-conclusions { display:grid; gap:7px; }
+    .daily-conclusions > div { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:start; }
+    .daily-conclusions span { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; background:#fff0f2; color:#b42332; font-size:11px; font-weight:800; }
+    .daily-conclusions p { margin:0; color:#475467; line-height:1.55; }
+    .daily-stats { display:grid; grid-template-columns:repeat(5,minmax(130px,1fr)); gap:10px; margin:12px 0; }
+    .daily-stats .metric { min-height:92px; padding:13px; }
+    .daily-stats .metric .value { font-size:26px; }
+    .daily-focus-section { margin:12px 0; }
+    .daily-focus-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .daily-focus-card { border:1px solid #eceef3; border-radius:11px; padding:14px; background:#fff; min-width:0; }
+    .daily-focus-rank { color:#c9ccd5; font-weight:900; font-size:12px; margin-bottom:7px; }
+    .daily-focus-meta { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:9px; }
+    .daily-focus-title { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:15px; font-weight:800; line-height:1.4; margin-bottom:7px; }
+    .daily-focus-title:hover { color:#b42332; }
+    @media (max-width:1100px) {
+      .daily-brief { grid-template-columns:1fr; }
+      .daily-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .daily-focus-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1153,6 +1179,32 @@
           </div>
           <div class="date-pill" id="catalogDatePill">采集日 2026-09-07</div>
         </div>
+
+        <section class="daily-brief">
+          <div>
+            <div class="eyebrow">当日分析</div>
+            <h2>今日摘要</h2>
+          </div>
+          <div id="dailyConclusions" class="daily-conclusions"></div>
+        </section>
+
+        <div class="daily-stats">
+          <div class="metric"><div class="label">今日剧目</div><div class="value" id="dailyMetricTitles">0</div><div class="subtle">按剧名去重</div></div>
+          <div class="metric new-title"><div class="label">今日新剧</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">首次记录</div></div>
+          <div class="metric continuing-title"><div class="label">继续在榜</div><div class="value" id="dailyMetricContinuing">0</div><div class="subtle">历史已出现</div></div>
+          <div class="metric"><div class="label">女频</div><div class="value" id="dailyMetricFemale">0</div><div class="subtle">已标注受众</div></div>
+          <div class="metric"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">已标注受众</div></div>
+        </div>
+
+        <section class="section daily-focus-section">
+          <div class="section-head">
+            <div>
+              <h2>今日重点剧目</h2>
+              <div class="subtle">按榜位与新剧状态快速筛出值得优先查看的剧目。</div>
+            </div>
+          </div>
+          <div id="dailyFocusTitles" class="daily-focus-grid"></div>
+        </section>
 
         <div class="filters" aria-label="榜单筛选">
           <div class="field">
@@ -1567,8 +1619,46 @@
     function renderCatalog() {
       const dayItems = recordsOnDate(activeDate);
       const filtered = getFilteredRecords();
+      const day = summarizeDate(activeDate);
+      const female = day.audiences.find(item => item.name === '女频')?.value || 0;
+      const male = day.audiences.find(item => item.name === '男频')?.value || 0;
+      const topGenre = day.genres[0] || { name: '待标注', value: 0 };
+      const newShare = day.uniqueTitles ? Math.round(day.newTitles / day.uniqueTitles * 100) : 0;
+
       $('#dateFilter').value = activeDate;
       $('#catalogDatePill').textContent = '采集日 ' + activeDate;
+      $('#dailyMetricTitles').textContent = formatNumber.format(day.uniqueTitles);
+      $('#dailyMetricNew').textContent = formatNumber.format(day.newTitles);
+      $('#dailyMetricContinuing').textContent = formatNumber.format(day.continuingTitles);
+      $('#dailyMetricFemale').textContent = formatNumber.format(female);
+      $('#dailyMetricMale').textContent = formatNumber.format(male);
+
+      const dailyNotes = [
+        `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部，占比 ${newShare}%。`,
+        `当前数量最多的已标注题材是「${topGenre.name}」，共 ${topGenre.value} 部。`,
+        `已标注受众中，女频 ${female} 部、男频 ${male} 部。`
+      ];
+      $('#dailyConclusions').innerHTML = dailyNotes.map((note, index) =>
+        `<div><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
+      ).join('');
+
+      const priority = dayItems.slice().sort((a,b) => {
+        const aNew = a.firstDate === activeDate ? 0 : 1;
+        const bNew = b.firstDate === activeDate ? 0 : 1;
+        return aNew - bNew || a.rank - b.rank || byText(a.title,b.title);
+      }).slice(0,3);
+      $('#dailyFocusTitles').innerHTML = priority.map((r,index) => `
+        <article class="daily-focus-card">
+          <div class="daily-focus-rank">${String(index + 1).padStart(2,'0')}</div>
+          <div class="daily-focus-meta">
+            <span class="chip neutral">${escapeHtml(r.app)}</span>
+            ${r.firstDate === activeDate ? '<span class="chip amber">新剧</span>' : '<span class="chip blue">继续在榜</span>'}
+          </div>
+          <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+          <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+        </article>
+      `).join('');
+
       const statusLabel = $('#statusFilter').value === 'new' ? ' · 新剧' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
       $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 部${statusLabel}`;
       $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
