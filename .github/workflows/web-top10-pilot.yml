@@ -11,9 +11,11 @@ on:
       - pilot_web_top10_v3.py
       - pilot_api_discovery.py
       - pilot_path_decision.py
+      - pilot_acceptance_report.py
       - pilot_alt_sources.py
       - pilot_dramawave_api.py
       - pilot_shortmax_api.py
+      - pilot_render_probe.py
       - pilot_exact_web_adapters.py
       - pilot_scope.json
       - official_web_collectors.py
@@ -58,6 +60,9 @@ jobs:
 
       - name: Classify Web path blockers and fallback needs
         run: python pilot_path_decision.py
+
+      - name: Build acceptance and scope-decision report
+        run: python pilot_acceptance_report.py
 
       - name: Upload raw evidence artifact
         if: always()
