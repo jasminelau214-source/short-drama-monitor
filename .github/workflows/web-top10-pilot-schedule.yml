@@ -57,16 +57,47 @@ jobs:
           retention-days: 30
 
       - name: Commit parsed pilot results to pilot branch only
+        shell: bash
         run: |
+          set -euo pipefail
+
+          TARGET_BRANCH="pilot/web-top10-8platform"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git fetch origin pilot/web-top10-8platform
           git add pilot_data
           if git diff --cached --quiet; then
             echo "No pilot data changes"
             exit 0
           fi
 
+          START_HEAD="$(git rev-parse HEAD)"
           git commit -m "Scheduled Pilot Web Top10 results $(date -u +%F)"
-          git push origin HEAD:pilot/web-top10-8platform
+
+          # Branch-drift protection:
+          # never force-push. If the pilot branch advanced while this run was collecting,
+          # rebase this run's isolated pilot-data commit onto the new remote head.
+          # If generated files conflict, stop safely and keep the evidence artifact.
+          for attempt in 1 2 3; do
+            git fetch origin "$TARGET_BRANCH"
+            REMOTE_HEAD="$(git rev-parse "origin/$TARGET_BRANCH")"
+
+            if ! git merge-base --is-ancestor "$REMOTE_HEAD" HEAD; then
+              echo "Pilot branch drift detected: start=$START_HEAD remote=$REMOTE_HEAD attempt=$attempt"
+              if ! git rebase "origin/$TARGET_BRANCH"; then
+                git rebase --abort || true
+                echo "::error::Pilot branch changed with conflicting pilot_data. Refusing to overwrite remote data."
+                exit 1
+              fi
+            fi
+
+            if git push origin "HEAD:$TARGET_BRANCH"; then
+              exit 0
+            fi
+
+            echo "Push raced with another update; retrying safely ($attempt/3)"
+            sleep $((attempt * 2))
+          done
+
+          echo "::error::Pilot branch kept advancing; refusing force-push after 3 safe retries."
+          exit 1
