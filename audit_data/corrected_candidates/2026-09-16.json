@@ -1,0 +1,590 @@
+{
+  "audit_version": "1.0",
+  "collection_date": "2026-09-16",
+  "baseline": "pilot/web-top10-8platform",
+  "status": "AWAITING_USER_CONFIRMATION",
+  "production_write": false,
+  "strict_rule": "One selected Official Web target per platform, fixed Top10, exact ranks 1-10, no cross-shelf fill, no recommendation-order substitution, no automatic deep research from pilot evidence.",
+  "counts": {
+    "raw_job_attempts": 14,
+    "raw_rows": 165,
+    "latest_historical_target_rows": 135,
+    "legacy_succeeded_rows": 115,
+    "strict_current_equivalent_candidate_rows": 20,
+    "semantic_review_rows": 20,
+    "auto_research_eligible_rows": 0
+  },
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "current_target": "web_pilot_trending_top10",
+      "ranking_type": "Trending",
+      "decision": "CANDIDATE_AFTER_CONFIRMATION",
+      "historical_source_job": "4c98cdf5-bed7-426d-a584-aa9843803683",
+      "historical_rows": 60,
+      "corrected_rows": [
+        {
+          "rank": 1,
+          "title": "Guess Who They Miss Now",
+          "sourcePage": 1
+        },
+        {
+          "rank": 2,
+          "title": "Fear Her, My Mom's the Lady Boss!",
+          "sourcePage": 1
+        },
+        {
+          "rank": 3,
+          "title": "Lady Diamond's Lost Heiress Returns",
+          "sourcePage": 1
+        },
+        {
+          "rank": 4,
+          "title": "No Escape as the Dragon King's Mate",
+          "sourcePage": 1
+        },
+        {
+          "rank": 5,
+          "title": "Think Again! I'm the Hidden Boss Mom",
+          "sourcePage": 1
+        },
+        {
+          "rank": 6,
+          "title": "Ruling Over All I See (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 7,
+          "title": "I'm Nothing but a Mortal (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 8,
+          "title": "Forever Was a Lie",
+          "sourcePage": 1
+        },
+        {
+          "rank": 9,
+          "title": "Queen Mom Rules",
+          "sourcePage": 1
+        },
+        {
+          "rank": 10,
+          "title": "Divorced, Now a Lycan Princess",
+          "sourcePage": 1
+        }
+      ],
+      "rationale": "Same official /channel/trending semantic as current scope. Historical verified pagination contains ordered ranks 1-60; only ranks 1-10 are retained. No padding or cross-page semantic change."
+    },
+    {
+      "platform": "DramaWave",
+      "current_target": "web_pilot_most_trending_top10",
+      "ranking_type": "Most Trending",
+      "decision": "NO_DATA",
+      "historical_rows": 0,
+      "corrected_rows": [],
+      "rationale": "No 2026-09-16 historical collection job exists."
+    },
+    {
+      "platform": "FlexTV",
+      "current_target": "web_pilot_top_in_flextv_top10",
+      "ranking_type": "Top in FlexTV",
+      "decision": "INSUFFICIENT",
+      "historical_source_job": "79643758-a944-4577-bf70-8e977fc19180",
+      "historical_rows": 2,
+      "corrected_rows": [],
+      "held_evidence": [
+        {
+          "rank": 1,
+          "title": "The Veteran’s Promise"
+        },
+        {
+          "rank": 2,
+          "title": "Mr. Williams! Madame Is Dying"
+        }
+      ],
+      "rationale": "Only two verified ranks. Current contract forbids filling ranks 3-10."
+    },
+    {
+      "platform": "GoodShort",
+      "current_target": "web_pilot_top_in_goodshort_top10",
+      "ranking_type": "Top in GoodShort",
+      "decision": "CANDIDATE_AFTER_CONFIRMATION",
+      "historical_source_job": "84e3dfb0-957f-4bf7-ae2c-5395ead4710b",
+      "historical_rows": 10,
+      "corrected_rows": [
+        {
+          "rank": 1,
+          "tags": [
+            "Strong Female Lead",
+            "Marriage",
+            "Dynamic Duo",
+            "Comeback",
+            "Female CEO"
+          ],
+          "title": "Don't Challenge the Lady Billionaire",
+          "metrics": {
+            "episode_count": "83",
+            "plays_display": "25.8M"
+          }
+        },
+        {
+          "rank": 2,
+          "tags": [
+            "Pregnancy",
+            "Sweet",
+            "CEO"
+          ],
+          "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+          "metrics": {
+            "episode_count": "75",
+            "plays_display": "32.9M"
+          }
+        },
+        {
+          "rank": 3,
+          "tags": [
+            "Family",
+            "Heiress",
+            "Regret"
+          ],
+          "title": "Blood and Bones of the Disowned Daughter",
+          "metrics": {
+            "episode_count": "64",
+            "plays_display": "38.6M"
+          }
+        },
+        {
+          "rank": 4,
+          "tags": [
+            "Little Cupids",
+            "Sweet",
+            "Destiny",
+            "Cute Kids"
+          ],
+          "title": "A Blind Date with my Mr. Meant-to-Be",
+          "metrics": {
+            "episode_count": "72",
+            "plays_display": "23.5M"
+          }
+        },
+        {
+          "rank": 5,
+          "tags": [
+            "Marriage",
+            "Redemption",
+            "Cinderella",
+            "CEO",
+            "Misidentification"
+          ],
+          "title": "Will You Be My Love Again?",
+          "metrics": {
+            "episode_count": "72",
+            "plays_display": "10.7M"
+          }
+        },
+        {
+          "rank": 6,
+          "tags": [
+            "Marriage",
+            "CEO",
+            "Billionaire",
+            "Contract Marriage"
+          ],
+          "title": "Love by Contract",
+          "metrics": {
+            "episode_count": "65",
+            "plays_display": "8.9M"
+          }
+        },
+        {
+          "rank": 7,
+          "tags": [
+            "Sweet",
+            "CEO",
+            "Flash-Marriage"
+          ],
+          "title": "[ENG DUB] Flash Marriage CEO Spoils Me a Lot",
+          "metrics": {
+            "episode_count": "100",
+            "plays_display": "8.8M"
+          }
+        },
+        {
+          "rank": 8,
+          "tags": [
+            "Marriage",
+            "Mafia",
+            "Heiress",
+            "Flash-Marriage"
+          ],
+          "title": "Fated Deal with the Mafia King",
+          "metrics": {
+            "episode_count": "89",
+            "plays_display": "13.4M"
+          }
+        },
+        {
+          "rank": 9,
+          "tags": [
+            "Sweet",
+            "Marriage",
+            "CEO",
+            "Crush-to-love"
+          ],
+          "title": "Perfect Love",
+          "metrics": {
+            "episode_count": "56",
+            "plays_display": "8.6M"
+          }
+        },
+        {
+          "rank": 10,
+          "tags": [
+            "Sweet",
+            "Destiny",
+            "Cinderella",
+            "Age Gap"
+          ],
+          "title": "Becoming My Ex’s Mother in Law",
+          "metrics": {
+            "episode_count": "73",
+            "plays_display": "6.8M"
+          }
+        }
+      ],
+      "rationale": "Same official channel URL/ranking semantic and complete verified 10-card ordered shelf; locale en-US recorded in evidence."
+    },
+    {
+      "platform": "MoboReels",
+      "current_target": "web_pilot_popular_series_top10",
+      "ranking_type": "Popular Series",
+      "decision": "REJECT_FOR_CURRENT_TARGET",
+      "historical_source_job": "fd622565-ab75-4f75-a6ce-759bfde8f722",
+      "historical_rows": 8,
+      "corrected_rows": [],
+      "held_evidence": [
+        {
+          "rank": 1,
+          "title": "That Prince Is A Girl: The Princess And Her Grand King"
+        },
+        {
+          "rank": 2,
+          "title": "The Secret of Gala Night"
+        },
+        {
+          "rank": 3,
+          "title": "The 7-Year-Old Boxing Champion"
+        },
+        {
+          "rank": 4,
+          "title": "Addicted To Her Scent"
+        },
+        {
+          "rank": 5,
+          "title": "When Love Is Gone"
+        },
+        {
+          "rank": 6,
+          "title": "Left at the Altar, Married Power"
+        },
+        {
+          "rank": 7,
+          "title": "The Trophy Wife's War"
+        },
+        {
+          "rank": 8,
+          "title": "Married My Bestie's Dad"
+        }
+      ],
+      "rationale": "Historical target was Trending Series and only 8 rows. Current target is Popular Series Top10. Semantic mismatch plus incomplete count."
+    },
+    {
+      "platform": "NetShort",
+      "current_target": "web_pilot_trending_now_top10",
+      "ranking_type": "Trending Now",
+      "decision": "REVIEW_REQUIRED",
+      "historical_source_job": "6e4e4e05-a250-4719-91f2-f0ed649910f5",
+      "historical_rows": 10,
+      "corrected_rows": [],
+      "held_evidence": [
+        {
+          "rank": 1,
+          "title": "Double-marked: Luna's Revenge"
+        },
+        {
+          "rank": 2,
+          "title": "Back to 95 - Her Big Comeback"
+        },
+        {
+          "rank": 3,
+          "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire"
+        },
+        {
+          "rank": 4,
+          "title": "The Quarterback's Comeback"
+        },
+        {
+          "rank": 5,
+          "title": "I Spoke Baby Dragon and Won Everyone Over!"
+        },
+        {
+          "rank": 6,
+          "title": "Escaping the R18 Mafia Bosses Together"
+        },
+        {
+          "rank": 7,
+          "title": "The Dragon Tyrant's Secret Heir"
+        },
+        {
+          "rank": 8,
+          "title": "When Housewives Turn Deadly"
+        },
+        {
+          "rank": 9,
+          "title": "The Heiress's Revenge_Out of My Mansion"
+        },
+        {
+          "rank": 10,
+          "title": "Broken Arm, Broken Bloodline"
+        }
+      ],
+      "rationale": "Historical record says Homepage Top10, while current exact target is Trending Now. Ten rows exist, but semantic equivalence is not proven by stored evidence."
+    },
+    {
+      "platform": "ReelShort",
+      "current_target": "web_pilot_top_shelf_top10",
+      "ranking_type": "TOP",
+      "decision": "REVIEW_REQUIRED",
+      "historical_source_job": "3c01e249-0dc4-4223-b30b-d8d8420ffc81",
+      "historical_rows": 10,
+      "corrected_rows": [],
+      "held_evidence": [
+        {
+          "rank": 1,
+          "title": "You've Been Replaced, First Love"
+        },
+        {
+          "rank": 2,
+          "title": "Sweet Temptation"
+        },
+        {
+          "rank": 3,
+          "title": "Altarboy"
+        },
+        {
+          "rank": 4,
+          "title": "Take Me Back to the Night We Met"
+        },
+        {
+          "rank": 5,
+          "title": "Carter Reed"
+        },
+        {
+          "rank": 6,
+          "title": "The Hockey Captain That Hates Me"
+        },
+        {
+          "rank": 7,
+          "title": "Mistaken as His Mate: The Luna’s Regret"
+        },
+        {
+          "rank": 8,
+          "title": "Salt Kiss"
+        },
+        {
+          "rank": 9,
+          "title": "My X-Ray Vision Sees Right Through You"
+        },
+        {
+          "rank": 10,
+          "title": "Obsessed with His Silent Bride"
+        }
+      ],
+      "rationale": "Ten rows exist, but historical job itself was NEEDS_REVIEW and noted canonical shelf needed re-verification. Current exact canonical shelf cannot be retroactively assumed."
+    },
+    {
+      "platform": "ShortMax",
+      "current_target": "web_pilot_most_popular_top10",
+      "ranking_type": "Most Popular",
+      "decision": "INSUFFICIENT",
+      "historical_source_job": "5080a108-3b03-4a60-b520-643a29b192a6",
+      "historical_rows": 8,
+      "corrected_rows": [],
+      "held_evidence": [
+        {
+          "rank": 1,
+          "title": "My Catfish Victim Is Actually My Bestie’s Brother"
+        },
+        {
+          "rank": 2,
+          "title": "Loved Twice by the Hockey Star"
+        },
+        {
+          "rank": 3,
+          "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR"
+        },
+        {
+          "rank": 4,
+          "title": "My Crush Lost Me to His Rival"
+        },
+        {
+          "rank": 5,
+          "title": "Done Being a Lady. Time to Shoot."
+        },
+        {
+          "rank": 6,
+          "title": "My Groom Chose My Best Friend"
+        },
+        {
+          "rank": 7,
+          "title": "Dumped My Ex, Married the Mafia Don"
+        },
+        {
+          "rank": 8,
+          "title": "Don, Your Regret Can’t Keep Me"
+        }
+      ],
+      "excluded_category_shelves": [
+        {
+          "target_key": "web_category_dragon_clan",
+          "category": "Dragon Clan",
+          "row_count": 3,
+          "rows": [
+            {
+              "title": "Marked by Him I Became the Dragon Clan's Forbidden Toy",
+              "position": 1
+            },
+            {
+              "title": "Secret Dragon",
+              "position": 2
+            },
+            {
+              "title": "Claimed by His Father",
+              "position": 3
+            }
+          ]
+        },
+        {
+          "target_key": "web_category_war_god",
+          "category": "War God",
+          "row_count": 8,
+          "rows": [
+            {
+              "title": "North Dragon Rise After Rejection",
+              "position": 1
+            },
+            {
+              "title": "The Priest Is Actually A Seraph",
+              "position": 2
+            },
+            {
+              "title": "This Beggar is a Dragon God",
+              "position": 3
+            },
+            {
+              "title": "The Discarded Prince Awakens the Sea",
+              "position": 4
+            },
+            {
+              "title": "Wrath of the Dragon God",
+              "position": 5
+            },
+            {
+              "title": "[Dubbed]Destiny's Keeper",
+              "position": 6
+            },
+            {
+              "title": "[Dubbed]Veiled War God: Protect the Heiress",
+              "position": 7
+            },
+            {
+              "title": "[Dubbed]Path Beyond Eternity",
+              "position": 8
+            }
+          ]
+        },
+        {
+          "target_key": "web_category_apocalypse",
+          "category": "Apocalypse",
+          "row_count": 8,
+          "rows": [
+            {
+              "title": "[Dubbed]Apocalypse: My Infinite RV Upgrade",
+              "position": 1
+            },
+            {
+              "title": "[Dubbed] Cataclysm Arrives: I Have a Mobile Fortress",
+              "position": 2
+            },
+            {
+              "title": "Apocalypse: I have a super fortress in advance",
+              "position": 3
+            },
+            {
+              "title": "[Dubbed]Last Shelter:The Awakened Zoo",
+              "position": 4
+            },
+            {
+              "title": "[Dubbed] Boss of the Apocalypse",
+              "position": 5
+            },
+            {
+              "title": "[Dubbed] The Godslayer Devourer",
+              "position": 6
+            },
+            {
+              "title": "[Dubbed] Doomsday Supermarket",
+              "position": 7
+            },
+            {
+              "title": "[Dubbed]The Source War",
+              "position": 8
+            }
+          ]
+        },
+        {
+          "target_key": "web_category_tycoon_life",
+          "category": "Tycoon Life",
+          "row_count": 8,
+          "rows": [
+            {
+              "title": "The Eight-Year-Old Captain",
+              "position": 1
+            },
+            {
+              "title": "The Foster Son of the Iron Crown",
+              "position": 2
+            },
+            {
+              "title": "[Dubbed] Little Pilot, Big Hero",
+              "position": 3
+            },
+            {
+              "title": "Regret！Your Husband is A Tycoon!",
+              "position": 4
+            },
+            {
+              "title": "[Dubbed]Am I A Taxi Driver?",
+              "position": 5
+            },
+            {
+              "title": "Beware the Man in Rags",
+              "position": 6
+            },
+            {
+              "title": "The Billionaire System",
+              "position": 7
+            },
+            {
+              "title": "[Dubbed]My Dad is a Super Rich Guard",
+              "position": 8
+            }
+          ]
+        }
+      ],
+      "rationale": "Most Popular has only 8 rows. Category shelves are retained as separate historical evidence and cannot be used to fill ranks 9-10."
+    }
+  ],
+  "backfill_decision": "DO_NOT_WRITE_PRODUCTION"
+}
