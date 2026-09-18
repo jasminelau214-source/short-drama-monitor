@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T17:05:01.049935+08:00",
+  "generated_at": "2026-09-18T17:10:32.719100+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -34,13 +34,12 @@
     {
       "platform": "DramaWave",
       "status": "PARTIAL",
-      "row_count": 4,
+      "row_count": 5,
       "audit": {
         "batchComplete": false,
         "expectedRows": 10,
-        "actualRows": 4,
+        "actualRows": 5,
         "missingRanks": [
-          1,
           6,
           7,
           8,

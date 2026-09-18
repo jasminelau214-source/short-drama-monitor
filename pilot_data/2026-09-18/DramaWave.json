@@ -9,6 +9,10 @@
   "top_n": 10,
   "rows": [
     {
+      "rank": 1,
+      "title": "Swapped Heiress by My Bestie"
+    },
+    {
       "rank": 2,
       "title": "Daddy's Miracle Daughter(Dubbed)"
     },
@@ -25,14 +29,13 @@
       "title": "Claimed by the Alpha, Nursing His Baby"
     }
   ],
-  "row_count": 4,
+  "row_count": 5,
   "status": "PARTIAL",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 4,
+    "actualRows": 5,
     "missingRanks": [
-      1,
       6,
       7,
       8,
@@ -49,8 +52,8 @@
     "pageUrl": "https://m.mydramawave.com/",
     "documentLang": "en",
     "httpStatus": 200,
-    "browserAttempt": 1,
-    "mobileProfile": true,
+    "browserAttempt": 2,
+    "mobileProfile": false,
     "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
     "cardCount": 20,
     "explicitRankCount1To10": 4,
@@ -66,14 +69,23 @@
     "scrollRounds": 5,
     "finalScrollMetrics": {
       "scrollTop": 0,
-      "scrollHeight": 3510,
-      "clientHeight": 3510,
+      "scrollHeight": 3397,
+      "clientHeight": 3397,
       "atBottom": true
     },
-    "rawHtmlSha256": "9eef926d7742cec4ef9472bc089f14c1c54e9a1eca12fde0b33b4ce8c58e0004",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
-    "screenshotSha256": "b77c94a59ff69451af7a3d046d35b709c0aa9ad990e355b22a04fbe9d8b6aca1"
+    "rawHtmlSha256": "860669d8d32c391165377821215fb03416afc733b2e061749f71066ded9d9c3d",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.png",
+    "screenshotSha256": "7f416c503382c473896c29e01f16b5ba6b1972449234ccf1ed09b3775bfd98d7",
+    "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
+    "profileMergedRanks": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "profileRankConflicts": {}
   },
   "error": "",
   "production_write": false
