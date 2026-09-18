@@ -55,9 +55,14 @@
     "browserAttempt": 2,
     "mobileProfile": false,
     "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
-    "cardCount": 290,
+    "cardCount": 315,
     "explicitRankCount1To10": 5,
-    "duplicateExplicitRanks": [],
+    "duplicateExplicitRanks": [
+      1,
+      2,
+      3,
+      4
+    ],
     "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
     "explicitRanksSeen": [
       1,
@@ -69,15 +74,15 @@
     "explicitRankConflicts": {},
     "scrollRounds": 60,
     "finalScrollMetrics": {
-      "scrollTop": 40903,
-      "scrollHeight": 42559,
+      "scrollTop": 43703,
+      "scrollHeight": 44793,
       "clientHeight": 1090,
-      "atBottom": false
+      "atBottom": true
     },
-    "rawHtmlSha256": "1d1864a7c5e70be3507223c13d59286249a219351281fa658d9657b7876cda66",
+    "rawHtmlSha256": "a2bf173044043d0e5d7a59e0b6bdaadc06cba840b3997eaa1f9f7bd1c71075d4",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.png",
-    "screenshotSha256": "515574cb447fa9bfd285916e6068127f289b47ec7bdf35e3ccc061d5625da01b",
+    "screenshotSha256": "45c9114c70464854228317cdd6483221cff2f48b6878890b0a750a083e5bafe4",
     "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
     "profileMergedRanks": [
       1,
