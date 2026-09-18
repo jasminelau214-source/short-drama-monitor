@@ -336,29 +336,75 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
             # Trigger lazy rendering without inferring rank. DramaWave is an
             # infinite recommendation stream, so exhaust rendered cards (bounded)
             # instead of stopping after an arbitrary number of wheel events.
+            dramawave_rank_titles: dict[int, set[str]] = {}
+            dramawave_scroll_rounds = 0
+            dramawave_final_metrics: dict[str, Any] = {}
+
             if platform == "DramaWave":
-                stable_rounds = 0
-                last_card_count = -1
+                bottom_stable = 0
+                previous_height = -1
+
+                def capture_dramawave_rank_labels() -> None:
+                    snapshots = page.evaluate("""
+() => Array.from(document.querySelectorAll('x-drama-card')).map(card => {
+  const title = String(card.querySelector('x-drama-title')?.textContent || '').replace(/\\s+/g, ' ').trim();
+  const text = String(card.textContent || '').replace(/\\s+/g, ' ').trim();
+  const match = text.match(/\\b(\\d{1,2})(?:st|nd|rd|th)\\s+Most\\s+Trending\\b/i);
+  return match && title ? {rank: Number(match[1]), title} : null;
+}).filter(Boolean)
+""")
+                    for snap in snapshots or []:
+                        if not isinstance(snap, dict):
+                            continue
+                        try:
+                            rank = int(snap.get("rank"))
+                        except Exception:
+                            continue
+                        title = base.clean(snap.get("title"), 500)
+                        if not 1 <= rank <= 30 or not title:
+                            continue
+                        dramawave_rank_titles.setdefault(rank, set()).add(title)
+
                 for _ in range(60):
-                    card_count = int(page.locator("x-drama-card").count())
-                    if card_count == last_card_count:
-                        stable_rounds += 1
-                    else:
-                        stable_rounds = 0
-                        last_card_count = card_count
-                    if stable_rounds >= 5:
-                        break
-                    page.evaluate("""
+                    capture_dramawave_rank_labels()
+                    metrics = page.evaluate("""
 () => {
   const scroller = document.querySelector('x-home-page');
-  if (scroller) {
-    scroller.scrollTop = scroller.scrollHeight;
-  } else {
-    window.scrollTo(0, document.documentElement.scrollHeight);
+  if (!scroller) {
+    window.scrollBy(0, Math.max(700, window.innerHeight * 0.8));
+    return {
+      scrollTop: window.scrollY,
+      scrollHeight: document.documentElement.scrollHeight,
+      clientHeight: window.innerHeight,
+      atBottom: window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8
+    };
   }
+  const step = Math.max(700, scroller.clientHeight * 0.8);
+  scroller.scrollTop = Math.min(scroller.scrollTop + step, scroller.scrollHeight);
+  return {
+    scrollTop: scroller.scrollTop,
+    scrollHeight: scroller.scrollHeight,
+    clientHeight: scroller.clientHeight,
+    atBottom: scroller.scrollTop + scroller.clientHeight >= scroller.scrollHeight - 8
+  };
 }
 """)
+                    dramawave_scroll_rounds += 1
                     page.wait_for_timeout(650)
+                    current_height = int((metrics or {}).get("scrollHeight") or 0)
+                    at_bottom = bool((metrics or {}).get("atBottom"))
+                    if at_bottom and current_height == previous_height:
+                        bottom_stable += 1
+                    elif at_bottom:
+                        bottom_stable = 1
+                    else:
+                        bottom_stable = 0
+                    previous_height = current_height
+                    dramawave_final_metrics = metrics or {}
+                    if bottom_stable >= 5:
+                        break
+
+                capture_dramawave_rank_labels()
             else:
                 for _ in range(4):
                     page.mouse.wheel(0, 1400)
@@ -419,6 +465,28 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                 found = bool(live_items)
             else:
                 rows, adapter_meta, found = _parse_exact(platform, document, collection_date)
+                if platform == "DramaWave":
+                    conflicts = {
+                        rank: sorted(titles)
+                        for rank, titles in dramawave_rank_titles.items()
+                        if len(titles) > 1
+                    }
+                    unique_rows = [
+                        {"rank": rank, "title": next(iter(dramawave_rank_titles[rank]))}
+                        for rank in sorted(dramawave_rank_titles)
+                        if 1 <= rank <= TOP_N and len(dramawave_rank_titles[rank]) == 1
+                    ]
+                    if unique_rows:
+                        rows = unique_rows
+                        found = True
+                    adapter_meta = {
+                        **adapter_meta,
+                        "rankCaptureMethod": "explicit Most Trending labels accumulated while scrolling",
+                        "explicitRanksSeen": sorted(dramawave_rank_titles),
+                        "explicitRankConflicts": conflicts,
+                        "scrollRounds": dramawave_scroll_rounds,
+                        "finalScrollMetrics": dramawave_final_metrics,
+                    }
             status_code = int(response.status) if response is not None else None
             evidence = {
                 "pageTitle": base.clean(page.title(), 300),
