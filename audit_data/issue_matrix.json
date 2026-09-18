@@ -1,0 +1,75 @@
+{
+  "audit_version": "1.0",
+  "scope": [
+    "2026-09-16",
+    "2026-09-17"
+  ],
+  "categories": [
+    {
+      "category": "DATA_SOURCE_ERROR",
+      "severity": "HIGH",
+      "findings": [
+        "2026-09-16 ShortMax category shelves are valid source evidence but invalid substitutes for the selected Most Popular ranking.",
+        "2026-09-17 MoboReels App row The Trophy Wife's War has synopsis-like prose in tags; candidate clears tags but preserves raw evidence."
+      ]
+    },
+    {
+      "category": "COLLECTION_LOGIC_ERROR",
+      "severity": "CRITICAL",
+      "findings": [
+        "2026-09-16 collected 14 job attempts and 11 historical targets instead of one selected target per platform.",
+        "DramaBox expanded Trending to 60 rows; ShortMax collected five shelves; target-specific TopN values of 60/8/3 were treated as complete under the legacy contract."
+      ]
+    },
+    {
+      "category": "RANKING_SEMANTIC_ERROR",
+      "severity": "CRITICAL",
+      "findings": [
+        "ShortMax Category Shelf, Most Popular, MoboReels Trending Series/Popular Series, NetShort Homepage Top10/Trending Now and App/Web rankings are not interchangeable.",
+        "2026-09-17 App vs Web overlap is only 2/10 on MoboReels and 7/10 on NetShort; ordering also differs."
+      ]
+    },
+    {
+      "category": "DATE_ERROR",
+      "severity": "LOW",
+      "findings": [
+        "No primary off-by-one collection_date error was found. 2026-09-17 App collectedAt times and UTC created_at values map to the same +08 business date.",
+        "2026-09-16 research tasks were created on 2026-09-17 but intentionally retained collection_date=2026-09-16; processing time must not be shown as collection date."
+      ]
+    },
+    {
+      "category": "DEDUPE_ERROR",
+      "severity": "HIGH",
+      "findings": [
+        "2026-09-16 raw attempts total 165 rows; latest-per-historical-target is 135. Repeated attempts were previously easy to count as additional collection.",
+        "2026-09-17 App has 40 raw row observations but only 20 effective rows after latest-run supersession."
+      ]
+    },
+    {
+      "category": "TASK_GENERATION_ERROR",
+      "severity": "CRITICAL",
+      "findings": [
+        "2026-09-16 created 115 PENDING research tasks from OFFICIAL_WEB rows. Their task reasons explicitly say Official Web采集入库/待内容分析, so this was an ad-hoc legacy enqueue path, not the current guarded trigger.",
+        "2026-09-17 task upsert does not invalidate titles that disappear from a later same-day run; His Neglected Wife Is The Top Scientist remained and was completed after it left the latest list."
+      ]
+    },
+    {
+      "category": "DEEP_RESEARCH_ERROR",
+      "severity": "CRITICAL",
+      "findings": [
+        "2026-09-16 had no completed deep research; the error is premature/cross-scope marketAnalysis plus erroneous task generation.",
+        "ShortMax marketAnalysis copied a multi-shelf aggregate conclusion into each individual category run; DramaBox trend analysis used Top60 rather than the current Top10 scope.",
+        "2026-09-17 has 10 COMPLETE MoboReels tasks, but only 1/10 genres conforms to the current controlled enum and all 10 research_json objects omit current required keys. Existing evidence can be retained, but results require schema revalidation before reuse."
+      ]
+    },
+    {
+      "category": "FRONTEND_DISPLAY_ERROR",
+      "severity": "HIGH",
+      "findings": [
+        "A single 采集数量 is ambiguous: 2026-09-16 can legitimately yield 165 raw attempt rows, 135 latest-target rows, 115 legacy-pass rows, or 20 strict current-equivalent candidate rows.",
+        "Current baseline already separates App ranking publication from Official Web and selects the latest complete App run, but historical research overrides still contain non-current genre values and can surface stale/invalid analysis until backfill is approved.",
+        "monitoring_status exposes raw job-level statusCounts while the current wrapper derives target-level counts from coverage; consumers must use the target-level metric for comparable dashboards."
+      ]
+    }
+  ]
+}
