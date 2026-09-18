@@ -1,0 +1,17 @@
+{
+  "pilot": "platform-expansion-p9-p10",
+  "collection_date": "2026-09-18",
+  "production_write": false,
+  "FreeReels": {
+    "status": "NO_RANKING_SOURCE",
+    "semantic_type": "NO_PUBLIC_LIST",
+    "top10_complete": false,
+    "top20_eligible": false,
+    "promotion_allowed": false
+  },
+  "platform10": {
+    "status": "AWAITING_USER_PLATFORM10_SELECTION",
+    "collector_development_allowed": false
+  },
+  "overall_state": "AWAITING_USER_PLATFORM10_SELECTION"
+}

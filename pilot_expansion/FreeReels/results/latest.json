@@ -1,0 +1,96 @@
+{
+  "pilot": "platform-expansion-p9-p10",
+  "platform": "FreeReels",
+  "platform_group": "SHORT_DRAMA_APP",
+  "source_layer": "OFFICIAL_WEB",
+  "collection_date": "2026-09-18",
+  "generated_at": "2026-09-18T19:15:00.932470+08:00",
+  "production_write": false,
+  "source": {
+    "official_web": "https://free-reels.com/",
+    "page_attempts": [
+      {
+        "profile": "desktop",
+        "requested_url": "https://free-reels.com/",
+        "final_url": "https://free-reels.com/",
+        "http_status": 200,
+        "title": "",
+        "body_text_chars": 153,
+        "challenge_detected": false,
+        "error": ""
+      },
+      {
+        "profile": "mobile",
+        "requested_url": "https://free-reels.com/",
+        "final_url": "https://free-reels.com/",
+        "http_status": 200,
+        "title": "",
+        "body_text_chars": 153,
+        "challenge_detected": false,
+        "error": ""
+      }
+    ],
+    "structured_endpoints_observed": []
+  },
+  "ranking_meaning": "",
+  "semantic_type": "NO_PUBLIC_LIST",
+  "top10_completeness": {
+    "complete": false,
+    "max_public_rank": 0,
+    "missing_ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "top20_evaluation": {
+    "eligible": false,
+    "reason": "Top20 is not evaluated unless explicit Top10 and ranks 1-20 are verified."
+  },
+  "evidence": {
+    "artifact_path": "pilot_expansion/evidence/2026-09-18/FreeReels/",
+    "section_labels_seen": [],
+    "structured_candidate_count": 0,
+    "structured_candidates": []
+  },
+  "collection_path": "OFFICIAL_WEB_BROWSER_DOM",
+  "fallback": {
+    "next": "APP_AUTOMATION_CLOUD_DEVICE",
+    "manual": "MANUAL_EVIDENCE_ONLY_AS_FALLBACK",
+    "rule": "Third-party ranking data cannot substitute for FreeReels official ranking evidence."
+  },
+  "field_richness": {
+    "groups": {
+      "title": false,
+      "synopsis": false,
+      "tags": false,
+      "views": false,
+      "likes": false,
+      "favorites": false,
+      "episodes": false,
+      "rating": false
+    },
+    "group_count": 0,
+    "observed_keys": []
+  },
+  "login_required": "UNKNOWN",
+  "cloud_environment": {
+    "accessible": true,
+    "possible_ip_block": false,
+    "profiles_tested": [
+      "desktop",
+      "mobile"
+    ]
+  },
+  "automation_risk": "MEDIUM",
+  "status": "NO_RANKING_SOURCE",
+  "status_reason": "No official public ranked list was found in Web/structured evidence.",
+  "promotion_allowed": false
+}
