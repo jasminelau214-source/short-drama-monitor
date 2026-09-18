@@ -80,10 +80,10 @@
     "mobileProfile": false,
     "structuredData": "JSON-LD ItemList",
     "itemListName": "",
-    "rawHtmlSha256": "02177f9f2cdba9b85c510f1cec6dc1f771db7d1fceb2697cbe36beb99f074a7a",
+    "rawHtmlSha256": "4296e5bc366139b56371886c0c6f0bd1269c7cf44f81342bc9b6d54c9d748713",
     "rawHtmlFile": "pilot_evidence/2026-09-18/FlexTV.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/FlexTV.png",
-    "screenshotSha256": "f3288ec22e0160230e635663886de6ccebc1a5b3dd8821e0fb78956dd5fbd682"
+    "screenshotSha256": "82e89d4cce199c1e3b20074a22941a3da6445bd6fb12d67c81c3e1c33fb36c39"
   },
   "error": "",
   "production_write": false
