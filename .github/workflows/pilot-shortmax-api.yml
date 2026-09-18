@@ -1,0 +1,26 @@
+name: ShortMax API diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pilot/web-top10-8platform
+    paths:
+      - pilot_shortmax_api.py
+      - .github/workflows/pilot-shortmax-api.yml
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pilot/web-top10-8platform
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install crypto dependency
+        run: pip install pycryptodome
+      - name: Probe ShortMax catalog API
+        run: python pilot_shortmax_api.py
