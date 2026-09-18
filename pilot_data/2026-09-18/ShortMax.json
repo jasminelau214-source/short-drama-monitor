@@ -67,12 +67,13 @@
     "httpStatus": 200,
     "browserAttempt": 2,
     "mobileProfile": false,
-    "structuredData": "ShortMax rendered Most Popular DOM",
+    "structuredData": "ShortMax live DOM Most Popular section",
     "renderedCardCount": 7,
-    "rawHtmlSha256": "e2fa3430b4d55bfd12da13f9319cd7df51aae347a9ef2a340ecb78c2310be4f3",
+    "sectionScoped": true,
+    "rawHtmlSha256": "6999d2e99273793350c266a1af65519933f194cfe2e46e5cf81b131fe1f8d769",
     "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.png",
-    "screenshotSha256": "b583984c919497706f4a39249132feb7943a9589a2d31e16d446fcb22b79580a"
+    "screenshotSha256": "bd96b55d350a80dc74ce1df1d3b31f6e6e17b16272b1bf303b6c17940f4f56d2"
   },
   "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
   "production_write": false

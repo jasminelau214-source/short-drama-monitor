@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T16:12:43.243489+08:00",
+  "generated_at": "2026-09-18T16:16:34.834156+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
@@ -58,7 +58,7 @@
       "platform": "GoodShort",
       "source_state": "WEB_TOP10_VALIDATING",
       "web_rows": 10,
-      "web_status": "PASS_CANDIDATE",
+      "web_status": "PASS_VERIFIED",
       "web_stable": false,
       "alternate_rows": 0,
       "alternate_target": null,
