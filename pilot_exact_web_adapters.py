@@ -389,7 +389,7 @@ def _dramabox_direct_next_data(collection_date: str):
     build_ids = ["dramaboxdb_prod_20260908"]
     build_ids.extend(
         f"dramaboxdb_prod_{(anchor - timedelta(days=offset)).strftime('%Y%m%d')}"
-        for offset in range(0, 22)
+        for offset in range(0, 15)
     )
     seen = set()
     ordered_build_ids = []
@@ -417,10 +417,12 @@ def _dramabox_direct_next_data(collection_date: str):
                 },
             )
             try:
-                with urllib.request.urlopen(request, timeout=12) as response:
+                with urllib.request.urlopen(request, timeout=5) as response:
                     raw = response.read()
             except urllib.error.HTTPError as exc:
-                if exc.code in (403, 404):
+                if exc.code == 403:
+                    raise RuntimeError(f"DRAMABOX_NEXT_DATA_FORBIDDEN:{build_id}") from exc
+                if exc.code == 404:
                     continue
                 errors.append(f"{build_id}:{exc.code}")
                 continue
