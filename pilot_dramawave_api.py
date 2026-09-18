@@ -4,6 +4,7 @@ import base64
 import hashlib
 import json
 import os
+import re
 import time
 import uuid
 import urllib.request
@@ -110,6 +111,110 @@ def clean_module(m: dict[str, Any]) -> dict[str, Any]:
     return keep
 
 
+
+TRENDING_RE = re.compile(r"\\b(\\d{1,2})(?:st|nd|rd|th)\\s+Most\\s+Trending\\b", re.I)
+
+
+def explicit_trending_rank(item: dict[str, Any]) -> int | None:
+    candidates: list[Any] = []
+    for key in ("content_tags", "series_tag", "tag", "content_detail_tags"):
+        value = item.get(key)
+        if isinstance(value, list):
+            candidates.extend(value)
+        elif value is not None:
+            candidates.append(value)
+    for value in candidates:
+        if not isinstance(value, str):
+            continue
+        match = TRENDING_RE.search(value)
+        if match:
+            try:
+                return int(match.group(1))
+            except Exception:
+                return None
+    return None
+
+
+def scan_recommend_feed(
+    *,
+    module: dict[str, Any],
+    page_info: dict[str, Any],
+    auth: str,
+    device_id: str,
+    max_pages: int = 40,
+) -> dict[str, Any]:
+    by_rank: dict[int, dict[str, Any]] = {}
+    seen_keys: set[str] = set()
+    scanned_items = 0
+    pages = 0
+
+    def consume(items: Any) -> None:
+        nonlocal scanned_items
+        if not isinstance(items, list):
+            return
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            scanned_items += 1
+            rank = explicit_trending_rank(item)
+            if not rank or not 1 <= rank <= 30:
+                continue
+            title = str(item.get("title") or item.get("series_name") or item.get("name") or "").strip()
+            if not title:
+                continue
+            key = str(item.get("key") or item.get("series_id") or item.get("id") or "")
+            if key and key in seen_keys:
+                continue
+            if key:
+                seen_keys.add(key)
+            by_rank.setdefault(rank, {
+                "rank": rank,
+                "title": title,
+                "series_key": key or None,
+                "content_tags": item.get("content_tags"),
+                "series_tag": item.get("series_tag"),
+                "tag": item.get("tag"),
+            })
+
+    consume(module.get("items") or [])
+    module_key = str(module.get("module_key") or "")
+    next_token = str(page_info.get("next") or "")
+    has_more = bool(page_info.get("has_more"))
+    visited: set[str] = set()
+
+    while module_key and has_more and next_token and pages < max_pages:
+        if next_token in visited:
+            break
+        visited.add(next_token)
+        response = request(
+            "/h5-api/homepage/v2/tab/feed",
+            method="POST",
+            body={"module_key": module_key, "next": next_token},
+            auth=auth,
+            device_id=device_id,
+        )
+        data = response.get("data") or {}
+        consume(data.get("items") or [])
+        info = data.get("page_info") or {}
+        next_token = str(info.get("next") or "")
+        has_more = bool(info.get("has_more"))
+        pages += 1
+        if all(rank in by_rank for rank in range(1, 11)):
+            break
+
+    return {
+        "module_key": module_key,
+        "pages_scanned": pages,
+        "items_scanned": scanned_items,
+        "explicit_ranks": [by_rank[r] for r in sorted(by_rank)],
+        "top10_complete": all(rank in by_rank for rank in range(1, 11)),
+        "top10": [by_rank[r] for r in range(1, 11) if r in by_rank],
+        "missing_top10_ranks": [r for r in range(1, 11) if r not in by_rank],
+        "next_token": next_token,
+        "has_more": has_more,
+    }
+
+
 def main() -> int:
     device_id = uuid.uuid4().hex
     login = request("/h5-api/anonymous/login", method="POST", body={"device_id": device_id}, device_id=device_id)
@@ -140,13 +245,30 @@ def main() -> int:
         )
         idata = idx.get("data") or {}
         modules = idata.get("items") if isinstance(idata.get("items"), list) else []
-        out["indexes"].append({
+        index_record = {
             "tab_key": tab_key,
             "position_index": pidx,
             "business_name": tab.get("business_name"),
             "page_info": idata.get("page_info"),
             "modules": [clean_module(m) for m in modules if isinstance(m, dict)],
-        })
+        }
+        recommend = next(
+            (
+                m for m in modules
+                if isinstance(m, dict)
+                and m.get("type") == "recommend"
+                and isinstance(m.get("items"), list)
+            ),
+            None,
+        )
+        if recommend:
+            index_record["recommend_feed_rank_scan"] = scan_recommend_feed(
+                module=recommend,
+                page_info=idata.get("page_info") or {},
+                auth=auth,
+                device_id=device_id,
+            )
+        out["indexes"].append(index_record)
 
     print(json.dumps(out, ensure_ascii=False, indent=2))
     return 0
