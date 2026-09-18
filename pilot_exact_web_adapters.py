@@ -350,7 +350,50 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
             screenshot_path = evidence_dir / f'{cfg["platform"]}{suffix}.png'
             page.screenshot(path=str(screenshot_path), full_page=True)
 
-            rows, adapter_meta, found = _parse_exact(platform, document, collection_date)
+            if platform == "ShortMax":
+                live_items = page.evaluate("""
+() => {
+  const clean = (s) => String(s || '').replace(/\\s+/g, ' ').trim();
+  const headings = Array.from(document.querySelectorAll('h1,h2,h3,h4,[role="heading"]'));
+  const heading = headings.find(el => clean(el.textContent).toLowerCase().startsWith('most popular'));
+  if (!heading) return [];
+  const section = heading.closest('section') || heading.parentElement?.parentElement;
+  if (!section) return [];
+  const cards = Array.from(section.querySelectorAll('.drama-card'));
+  const out = [];
+  const seen = new Set();
+  for (const card of cards) {
+    const titleEl = card.querySelector('.card-title, .overlay-title, [class*="card-title"]');
+    const linkEl = card.querySelector('a.card-title-layout, a.overlay-title, a[href*="/drama/"]');
+    const title = clean(titleEl && titleEl.textContent);
+    const href = linkEl && linkEl.href ? String(linkEl.href) : '';
+    const key = title.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    if (!title || !key || seen.has(key)) continue;
+    seen.add(key);
+    out.push({title, href});
+    if (out.length >= 20) break;
+  }
+  return out;
+}
+""")
+                rows = []
+                for idx, item in enumerate(live_items[:TOP_N], start=1):
+                    title = base.clean(item.get("title"), 500) if isinstance(item, dict) else ""
+                    if not title:
+                        continue
+                    row = {"rank": idx, "title": title}
+                    url = base.clean(item.get("href"), 1200) if isinstance(item, dict) else ""
+                    if url:
+                        row["source_url"] = url
+                    rows.append(row)
+                adapter_meta = {
+                    "structuredData": "ShortMax live DOM Most Popular section",
+                    "renderedCardCount": len(live_items),
+                    "sectionScoped": True,
+                }
+                found = bool(live_items)
+            else:
+                rows, adapter_meta, found = _parse_exact(platform, document, collection_date)
             status_code = int(response.status) if response is not None else None
             evidence = {
                 "pageTitle": base.clean(page.title(), 300),
