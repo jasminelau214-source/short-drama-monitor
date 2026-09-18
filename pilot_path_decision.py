@@ -71,6 +71,15 @@ def main() -> int:
         elif platform == "DramaWave" and dw_probe_complete:
             cls = "OFFICIAL_H5_EXPLICIT_TOP10_CANDIDATE"
             next_step = "REQUIRE_USER_SCOPE_CONFIRMATION_BEFORE_PROMOTION"
+        elif (
+            platform == "DramaWave"
+            and rows == 5
+            and dw_probe_status == "NO_EXPLICIT_RANKS"
+            and alt_rows == 10
+            and alt_semantics == "ordered_shelf_not_explicit_rank"
+        ):
+            cls = "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10"
+            next_step = "EVALUATE_SPECIAL_TOP5_SCOPE_OR_OTHER_OFFICIAL_RANKING_ENTRY"
         elif platform == "DramaWave" and dw_probe_count:
             cls = "OFFICIAL_H5_EXPLICIT_RANK_PARTIAL"
             next_step = "CONTINUE_OFFICIAL_H5_RANK_DISCOVERY"
