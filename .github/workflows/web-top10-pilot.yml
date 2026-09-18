@@ -11,6 +11,9 @@ on:
       - pilot_web_top10_v3.py
       - pilot_api_discovery.py
       - pilot_path_decision.py
+      - pilot_alt_sources.py
+      - pilot_dramawave_api.py
+      - pilot_shortmax_api.py
       - pilot_exact_web_adapters.py
       - pilot_scope.json
       - official_web_collectors.py
@@ -38,10 +41,10 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install browser runtime
+      - name: Install browser runtime and pilot crypto dependency
         run: |
           python -m pip install --upgrade pip
-          pip install playwright
+          pip install playwright pycryptodome
           python -m playwright install --with-deps chromium
 
       - name: Run isolated eight-platform Web Top10 pilot
@@ -49,6 +52,9 @@ jobs:
 
       - name: Discover official JSON/API candidates for incomplete paths
         run: python pilot_api_discovery.py
+
+      - name: Collect alternate official API candidates
+        run: python pilot_alt_sources.py
 
       - name: Classify Web path blockers and fallback needs
         run: python pilot_path_decision.py
