@@ -6,7 +6,7 @@
     "2026-09-16",
     "2026-09-17"
   ],
-  "state": "AWAITING_USER_CONFIRMATION",
+  "state": "FIXES_IMPLEMENTED_IN_AUDIT_BRANCH_AWAITING_PRODUCTION_PROMOTION",
   "production_database_mutated": false,
   "scheduler_modified": false,
   "task_one_branch_modified": false,
@@ -32,5 +32,26 @@
       "stale_research_tasks": 1
     }
   },
+  "implemented_in_audit_branch": {
+    "research_latest_run_guard": true,
+    "research_schema_write_gate": true,
+    "frontend_current_web_scope_filter": true,
+    "official_web_auto_research_join_removed": true,
+    "web_ui_copy_corrected_to_evidence_layer": true,
+    "regression_workflow_added": true
+  },
+  "draft_only_not_applied": {
+    "production_db_supersession_trigger": "audit_data/proposed_db_supersession_fix.sql",
+    "historical_task_cleanup": true,
+    "historical_backfill": true
+  },
+  "promotion_order": [
+    "validate audit branch regression workflow",
+    "deploy code to staging and visually verify frontend",
+    "apply production DB latest-run trigger migration",
+    "repair 9/16 and 9/17 historical active-state presentation without deleting raw evidence",
+    "revalidate 9/17 research outputs under current schema",
+    "promote to production after final verification"
+  ],
   "next_action_requires_user_confirmation": true
 }
