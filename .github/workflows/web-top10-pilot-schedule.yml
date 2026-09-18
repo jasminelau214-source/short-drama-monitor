@@ -38,6 +38,9 @@ jobs:
       - name: Discover official JSON/API candidates for incomplete paths
         run: python pilot_api_discovery.py
 
+      - name: Classify Web path blockers and fallback needs
+        run: python pilot_path_decision.py
+
       - name: Upload raw evidence artifact
         if: always()
         uses: actions/upload-artifact@v4
