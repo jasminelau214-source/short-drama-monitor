@@ -1,0 +1,144 @@
+{
+  "platform": "GoodShort",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_in_goodshort_top10",
+  "ranking_type": "Top in GoodShort",
+  "source_url": "https://www.goodshort.com/channel/Top-in-GoodShort",
+  "strategy": "verified_parser",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Don't Challenge the Lady Billionaire",
+      "tags": [
+        "Strong Female Lead",
+        "Marriage",
+        "Dynamic Duo",
+        "Comeback",
+        "Female CEO"
+      ],
+      "source_url": "https://www.goodshort.com/drama/don-t-challenge-the-lady-billionaire-31000835181"
+    },
+    {
+      "rank": 2,
+      "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+      "tags": [
+        "Pregnancy",
+        "Sweet",
+        "CEO"
+      ],
+      "source_url": "https://www.goodshort.com/drama/a-mistaken-surrogate-for-the-ruthless-billionaire-31000881454"
+    },
+    {
+      "rank": 3,
+      "title": "Blood and Bones of the Disowned Daughter",
+      "tags": [
+        "Family",
+        "Heiress",
+        "Regret"
+      ],
+      "source_url": "https://www.goodshort.com/drama/blood-and-bones-of-the-disowned-daughter-31001113972"
+    },
+    {
+      "rank": 4,
+      "title": "A Blind Date with my Mr. Meant-to-Be",
+      "tags": [
+        "Little Cupids",
+        "Sweet",
+        "Destiny",
+        "Cute Kids"
+      ],
+      "source_url": "https://www.goodshort.com/drama/a-blind-date-with-my-mr-meant-to-be-31000991502"
+    },
+    {
+      "rank": 5,
+      "title": "Will You Be My Love Again?",
+      "tags": [
+        "Marriage",
+        "Redemption",
+        "Cinderella",
+        "CEO",
+        "Misidentification"
+      ],
+      "source_url": "https://www.goodshort.com/drama/will-you-be-my-love-again-31000810138"
+    },
+    {
+      "rank": 6,
+      "title": "Love by Contract",
+      "tags": [
+        "Marriage",
+        "CEO",
+        "Billionaire",
+        "Contract Marriage"
+      ],
+      "source_url": "https://www.goodshort.com/drama/love-by-contract-31000688865"
+    },
+    {
+      "rank": 7,
+      "title": "[ENG DUB] Flash Marriage CEO Spoils Me a Lot",
+      "tags": [
+        "Sweet",
+        "CEO",
+        "Flash-Marriage"
+      ],
+      "source_url": "https://www.goodshort.com/drama/eng-dub-flash-marriage-ceo-spoils-me-a-lot-31000673472"
+    },
+    {
+      "rank": 8,
+      "title": "Fated Deal with the Mafia King",
+      "tags": [
+        "Marriage",
+        "Mafia",
+        "Heiress",
+        "Flash-Marriage"
+      ],
+      "source_url": "https://www.goodshort.com/drama/fated-deal-with-the-mafia-king-31000840274"
+    },
+    {
+      "rank": 9,
+      "title": "Perfect Love",
+      "tags": [
+        "Sweet",
+        "Marriage",
+        "CEO",
+        "Crush-to-love"
+      ],
+      "source_url": "https://www.goodshort.com/drama/perfect-love-31000662271"
+    },
+    {
+      "rank": 10,
+      "title": "Becoming My Ex’s Mother in Law",
+      "tags": [
+        "Sweet",
+        "Destiny",
+        "Cinderella",
+        "Age Gap"
+      ],
+      "source_url": "https://www.goodshort.com/drama/becoming-my-ex-s-mother-in-law-31000768973"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_VERIFIED",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "collectorVersion": "goodshort-html-v1",
+    "collectedAt": "2026-09-18T11:09:31.091995+00:00",
+    "payloadEvidence": {
+      "url": "https://www.goodshort.com/channel/Top-in-GoodShort",
+      "section": "Top in GoodShort",
+      "row_count": 10,
+      "server_rendered": true
+    }
+  },
+  "error": "",
+  "production_write": false
+}
