@@ -1,0 +1,48 @@
+name: DramaBox CDN route diagnostic
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pilot/web-top10-8platform
+    paths:
+      - .github/workflows/pilot-dramabox-cdn.yml
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Probe DramaBox CDN routes
+        shell: bash
+        run: |
+          python - <<'PY'
+          import urllib.error, urllib.request
+
+          urls = [
+              "https://infocdn.dramaboxdb.com/seo/dramaboxdb/_next/data/dramaboxdb_prod_20260908/channel/trending.json",
+              "https://infocdn.dramaboxdb.com/seo/dramaboxdb/_next/data/dramaboxdb_prod_20260908/en/channel/trending.json",
+              "https://infocdn.dramaboxdb.com/seo/dramaboxdb/_next/data/dramaboxdb_prod_20260908/ja/channel/trending.json",
+              "https://infocdn.dramaboxdb.com/seo/dramaboxdb/channel/trending",
+              "https://infocdn.dramaboxdb.com/seo/dramaboxdb/channel/trending/index.html",
+          ]
+          headers = {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36",
+              "Accept-Language": "en-US,en;q=0.9",
+              "Accept": "application/json,text/html,*/*",
+          }
+          for url in urls:
+              req = urllib.request.Request(url, headers=headers)
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      body = r.read(4096)
+                      print(url)
+                      print(" status=", r.status, "ctype=", r.headers.get("content-type"), "bytes=", len(body))
+                      print(" sample=", body[:300].decode("utf-8", errors="replace").replace("\n"," "))
+              except urllib.error.HTTPError as exc:
+                  print(url, "HTTPError", exc.code, "ctype=", exc.headers.get("content-type"))
+              except Exception as exc:
+                  print(url, type(exc).__name__, str(exc)[:200])
+          PY
