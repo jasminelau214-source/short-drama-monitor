@@ -1,0 +1,76 @@
+name: Platform expansion P9/P10 isolated pilot
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - pilot/platform-expansion-p9-p10
+    paths:
+      - pilot_expansion/FreeReels/freereels_probe.py
+      - pilot_expansion/platform10_candidates/**
+      - pilot_expansion/README.md
+      - .github/workflows/platform-expansion-p9-p10.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: platform-expansion-p9-p10
+  cancel-in-progress: true
+
+jobs:
+  freereels_probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PYTHONUNBUFFERED: "1"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pilot/platform-expansion-p9-p10
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install isolated browser runtime
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Probe FreeReels official public paths
+        run: |
+          COLLECTION_DATE="$(TZ=Asia/Shanghai date +%F)"
+          python pilot_expansion/FreeReels/freereels_probe.py --date "$COLLECTION_DATE"
+
+      - name: Upload raw FreeReels evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: platform-expansion-freereels-evidence-${{ github.run_id }}
+          path: pilot_expansion/evidence/
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Commit parsed pilot outputs only
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          START_SHA="${GITHUB_SHA}"
+          git fetch origin pilot/platform-expansion-p9-p10
+          REMOTE_SHA="$(git rev-parse origin/pilot/platform-expansion-p9-p10)"
+          if [ "$REMOTE_SHA" != "$START_SHA" ]; then
+            echo "Expansion branch advanced during this run; skip stale output commit."
+            exit 0
+          fi
+
+          git add pilot_expansion/FreeReels/results pilot_expansion/acceptance
+          if git diff --cached --quiet; then
+            echo "No parsed pilot output changes"
+          else
+            git commit -m "FreeReels expansion probe $(TZ=Asia/Shanghai date +%F)"
+            git push origin HEAD:pilot/platform-expansion-p9-p10
+          fi
