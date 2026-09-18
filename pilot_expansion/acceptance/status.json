@@ -7,11 +7,14 @@
     "semantic_type": "NO_PUBLIC_LIST",
     "top10_complete": false,
     "top20_eligible": false,
-    "promotion_allowed": false
+    "promotion_allowed": false,
+    "decision": "DO_NOT_PROMOTE_NOW"
   },
   "platform10": {
-    "status": "AWAITING_USER_PLATFORM10_SELECTION",
-    "collector_development_allowed": false
+    "status": "DEFERRED_BY_USER",
+    "collector_development_allowed": false,
+    "note": "User chose not to add a 10th core monitoring platform at this stage."
   },
-  "overall_state": "AWAITING_USER_PLATFORM10_SELECTION"
+  "overall_state": "PLATFORM_EXPANSION_PAUSED_BY_USER",
+  "updated_at": "2026-09-18"
 }
