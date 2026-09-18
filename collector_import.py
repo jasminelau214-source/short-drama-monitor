@@ -67,9 +67,10 @@ def _norm_title(value):
     fuzzy aliasing so genuinely different titles are never merged by guesswork.
     """
     text = str(value or '').casefold().strip()
-    marker = r'(?:eng(?:lish)?\s*)?dub(?:bed)?'
-    text = re.sub(rf'^\s*[\[(]?\s*{marker}\s*[\])]?[\s:|\-–—]*', '', text)
-    text = re.sub(rf'[\s:|\-–—]*[\[(]?\s*{marker}\s*[\])]?\s*
+    marker = r'(?:eng(?:lish)?\\s*)?dub(?:bed)?'
+    text = re.sub(rf'^\\s*[\\[(]?\\s*{marker}\\s*[\\])]?[\\s:|\\-–—]*', '', text)
+    text = re.sub(rf'[\\s:|\\-–—]*[\\[(]?\\s*{marker}\\s*[\\])]?[\\s]*' + r'$', '', text)
+    return re.sub(r'[^a-z0-9]+', '', text)
 
 def _bool_value(value):
     if isinstance(value, bool):
