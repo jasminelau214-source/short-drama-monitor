@@ -26,10 +26,10 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install browser runtime
+      - name: Install browser runtime and pilot crypto dependency
         run: |
           python -m pip install --upgrade pip
-          pip install playwright
+          pip install playwright pycryptodome
           python -m playwright install --with-deps chromium
 
       - name: Run isolated eight-platform Web Top10 pilot
@@ -37,6 +37,9 @@ jobs:
 
       - name: Discover official JSON/API candidates for incomplete paths
         run: python pilot_api_discovery.py
+
+      - name: Collect alternate official API candidates
+        run: python pilot_alt_sources.py
 
       - name: Classify Web path blockers and fallback needs
         run: python pilot_path_decision.py
