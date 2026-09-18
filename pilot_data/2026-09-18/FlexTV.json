@@ -1,0 +1,90 @@
+{
+  "platform": "FlexTV",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_in_flextv_top10",
+  "ranking_type": "Top in FlexTV",
+  "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Veteran’s Promise",
+      "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+    },
+    {
+      "rank": 2,
+      "title": "Loving You in My Final Days",
+      "source_url": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
+    },
+    {
+      "rank": 3,
+      "title": "Mr. Williams! Madame Is Dying",
+      "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+    },
+    {
+      "rank": 4,
+      "title": "(DUBBED)The Tiny Tyrant of Go",
+      "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+    },
+    {
+      "rank": 5,
+      "title": "Betrayed at the Alter, She Married a CEO Instead",
+      "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+    },
+    {
+      "rank": 6,
+      "title": "My Three Brothers Finally Chose Me",
+      "source_url": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
+    },
+    {
+      "rank": 7,
+      "title": "I Secretly Gave Birth to God's Five Babies",
+      "source_url": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
+    },
+    {
+      "rank": 8,
+      "title": "Runaway Billionaire Becomes My Groom",
+      "source_url": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
+    },
+    {
+      "rank": 9,
+      "title": "A Flash Marriage With The Billionaire Tycoon",
+      "source_url": "https://www.flextv.cc/movie/a-flash-marriage-with-the-billionaire-tycoon-jGnvm37zky"
+    },
+    {
+      "rank": 10,
+      "title": "(DUBBED)Justice in Blood",
+      "source_url": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Top in FlexTV Short Dramas Online | Watch Full Episodes in HD - FlexTV",
+    "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 2,
+    "mobileProfile": true,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "",
+    "rawHtmlSha256": "0245b40e77d73a8d5cfca0b9efafba47e42b6e0f73573d1657b2dfe5330812f6",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/FlexTV-attempt2.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/FlexTV-attempt2.png",
+    "screenshotSha256": "632327ff281f7ad5d5ee41678092aa5b56a4a408e6c087345876ba8729e65b9e"
+  },
+  "error": "",
+  "production_write": false
+}

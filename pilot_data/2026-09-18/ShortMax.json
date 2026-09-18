@@ -1,0 +1,79 @@
+{
+  "platform": "ShortMax",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_popular_top10",
+  "ranking_type": "Most Popular",
+  "source_url": "https://www.shorttv.live/",
+  "strategy": "verified_parser+browser_fallback",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+      "source_url": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
+    },
+    {
+      "rank": 2,
+      "title": "Loved Twice by the Hockey Star",
+      "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+    },
+    {
+      "rank": 3,
+      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+      "source_url": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
+    },
+    {
+      "rank": 4,
+      "title": "Done Being a Lady. Time to Shoot.",
+      "source_url": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
+    },
+    {
+      "rank": 5,
+      "title": "My Crush Lost Me to His Rival",
+      "source_url": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
+    },
+    {
+      "rank": 6,
+      "title": "My Groom Chose My Best Friend",
+      "source_url": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
+    },
+    {
+      "rank": 7,
+      "title": "Don, Your Regret Can’t Keep Me",
+      "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+    }
+  ],
+  "row_count": 7,
+  "status": "PARTIAL",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 7,
+    "missingRanks": [
+      8,
+      9,
+      10
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
+    "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
+    "pageUrl": "https://www.shorttv.live/",
+    "documentLang": "",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "ShortMax rendered Most Popular DOM",
+    "renderedCardCount": 7,
+    "rawHtmlSha256": "4c04b4da32da31bdfbf09bc89b6576f096fa813d069679178e705c093060e84e",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
+    "screenshotSha256": "47859c7719b29c6f69856518a769f293581104bd95678592600d6c89e26cf1a3"
+  },
+  "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
+  "production_write": false
+}

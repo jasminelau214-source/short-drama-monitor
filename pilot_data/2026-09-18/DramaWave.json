@@ -1,0 +1,68 @@
+{
+  "platform": "DramaWave",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_trending_top10",
+  "ranking_type": "Most Trending",
+  "source_url": "https://m.mydramawave.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Swapped Heiress by My Bestie"
+    },
+    {
+      "rank": 2,
+      "title": "Daddy's Miracle Daughter(Dubbed)"
+    },
+    {
+      "rank": 3,
+      "title": "Slowly, Then Forever"
+    },
+    {
+      "rank": 4,
+      "title": "The Alpha King's Virgin Bride"
+    },
+    {
+      "rank": 5,
+      "title": "Claimed by the Alpha, Nursing His Baby"
+    }
+  ],
+  "row_count": 5,
+  "status": "PARTIAL",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 5,
+    "missingRanks": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "DramaWave",
+    "pageUrl": "https://m.mydramawave.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": true,
+    "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+    "cardCount": 80,
+    "explicitRankCount1To10": 5,
+    "duplicateExplicitRanks": [],
+    "rawHtmlSha256": "7caf05b34de2f5f2a32c86d513ab101e838c9b1bfcbca063539e5577161d11a6",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
+    "screenshotSha256": "e448fd2d811e55729d656648e9e5d53853110450b46b84daaaadcff5819595cd"
+  },
+  "error": "",
+  "production_write": false
+}

@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-09-18",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Mated To My Boyfriend's Brother"
+    },
+    {
+      "rank": 2,
+      "title": "Oops, My Father's BFF Is In My Bed"
+    },
+    {
+      "rank": 3,
+      "title": "Left at the Altar, Married Power"
+    },
+    {
+      "rank": 4,
+      "title": "Love After Divorce: My Ex-husband Wants Me Back"
+    },
+    {
+      "rank": 5,
+      "title": "Came Back Hotter With Lord's Twins"
+    },
+    {
+      "rank": 6,
+      "title": "The Abandoned God Of Olympus"
+    },
+    {
+      "rank": 7,
+      "title": "Their War, Our Fate"
+    },
+    {
+      "rank": 8,
+      "title": "The Billionaire's Revenge Bride"
+    },
+    {
+      "rank": 9,
+      "title": "The Prince Is A Girl: The Slave In A Princess Disguise"
+    },
+    {
+      "rank": 10,
+      "title": "One Night With Three Alphas Changed Everything"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "ee0520a3b92d454448d671d4e5e83e06ff74d1cc3925064a67df7af3fea07849",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/MoboReels.png",
+    "screenshotSha256": "73a8e20dda8e819fdc97c09e83d358894c093b4e1594ce3d915aaaa3302a3cf9"
+  },
+  "error": "",
+  "production_write": false
+}
