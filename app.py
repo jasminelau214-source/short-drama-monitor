@@ -23,7 +23,7 @@ from urllib.parse import parse_qs, unquote, urlparse
 from analysis_pipeline import analyze_batch, configured as analysis_configured, model_name as analysis_model_name
 from live_observations import merge_analysis_records, build_live_summary
 from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
-from collector_import import CollectorImportError, validate_and_normalize
+from collector_import import CollectorImportError, validate_and_normalize, _norm_title as collector_norm_title
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -50,7 +50,7 @@ def split_lane(value):
 
 
 def normalize_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+    return collector_norm_title(value)
 
 
 def load_base_data():
@@ -242,6 +242,11 @@ def public_data():
 
 
 def known_titles(before_date=''):
+    """Return known drama identities from every verified prior ranking fact.
+
+    Publication layers stay separate, but identity/newness must not forget a
+    drama merely because its earlier verified ranking arrived through Web.
+    """
     titles=set()
     for r in public_data()['records']:
         title=clean(r.get('title'),500)
@@ -250,19 +255,77 @@ def known_titles(before_date=''):
             prior=any(clean(h.get('date'),20) < before_date for h in (r.get('history') or []) if clean(h.get('date'),20))
             if not prior: continue
         titles.add(title)
+
+    run_rows=[]
+    try:
+        with connect() as c:
+            run_rows.extend(dict(x) for x in c.execute(
+                'SELECT id,collection_date,status,result_json FROM analysis_runs'
+            ).fetchall())
+    except Exception:
+        pass
+    if persistence.configured():
+        try:
+            run_rows.extend(persistence.list_analysis_runs(limit=500))
+        except Exception:
+            pass
+
+    seen_runs=set()
+    for row in run_rows:
+        run_id=clean(row.get('id'),200)
+        if run_id and run_id in seen_runs:
+            continue
+        if run_id:
+            seen_runs.add(run_id)
+        run_date=clean(row.get('collection_date') or row.get('collectionDate'),20)
+        if before_date and (not run_date or run_date >= before_date):
+            continue
+        result=row.get('result')
+        if not isinstance(result,dict):
+            raw=row.get('result_json') or row.get('resultJson') or {}
+            if isinstance(raw,str):
+                try: result=json.loads(raw)
+                except json.JSONDecodeError: result={}
+            elif isinstance(raw,dict):
+                result=raw
+            else:
+                result={}
+        if not isinstance(result,dict) or not result.get('batchComplete'):
+            continue
+        rows=result.get('rows') if isinstance(result.get('rows'),list) else []
+        collector=result.get('collector') if isinstance(result.get('collector'),dict) else {}
+        try:
+            top_n=int(collector.get('topN') or len(rows))
+        except (TypeError,ValueError):
+            top_n=len(rows)
+        if not rows or top_n < 1 or len(rows) != top_n:
+            continue
+        for item in rows:
+            if not isinstance(item,dict):
+                continue
+            title=clean(item.get('title'),500)
+            if title:
+                titles.add(title)
     return sorted(titles)
 
 
 def apply_research_result(task, research):
     title=clean(task.get('title'),500); platform=clean(task.get('platform'),40); norm=normalize_title(title)
     data=public_data(); candidates=[r for r in data['records'] if normalize_title(r.get('title'))==norm]
-    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None) or (candidates[0] if candidates else None)
+    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None)
     if not record or not record.get('id'):
-        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND: {platform} {title}')
+        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND_SAME_PLATFORM: {platform} {title}')
     fields={k:clean(research.get(k),6000) for k in EDITABLE_FIELDS if clean(research.get(k),6000)}
     fields['researchStatus']='已研究'
     fields['researchConfidence']=clean(research.get('confidence'),30)
     fields['researchSources']=[clean(x,1000) for x in (research.get('sourceUrls') or []) if clean(x,1000)]
+    fields['researchMissingFields']=[clean(x,120) for x in (research.get('missingFields') or []) if clean(x,120)]
+    fact_fields={'synopsis','openingSummary','payEpisode','paywallSummary'}
+    fields['researchFieldProvenance']={
+        k:('source_fact' if k in fact_fields else 'analysis_judgment')
+        for k in fields
+        if k in EDITABLE_FIELDS
+    }
     drama_id=record['id']
     with connect() as c:
         old=c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone()
