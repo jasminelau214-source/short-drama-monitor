@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T18:26:17.938844+08:00",
+  "generated_at": "2026-09-18T18:32:52.858652+08:00",
   "promotion_requires_user_confirmation": true,
   "production_write": false,
   "decisions": [
@@ -20,7 +20,7 @@
     },
     {
       "platform": "DramaWave",
-      "class": "ALTERNATE_API_COMPLETE_SEMANTIC_MISMATCH",
+      "class": "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10",
       "web_rows": 5,
       "web_status": "PARTIAL",
       "page_status": 200,
@@ -48,7 +48,7 @@
         "source_type": "OFFICIAL_H5_API_RANK_PROBE",
         "target": "explicit Most Trending labels"
       },
-      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION",
+      "next_step": "EVALUATE_SPECIAL_TOP5_SCOPE_OR_OTHER_OFFICIAL_RANKING_ENTRY",
       "production_write": false
     },
     {

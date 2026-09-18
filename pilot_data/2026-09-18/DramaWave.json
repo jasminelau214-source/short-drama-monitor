@@ -69,15 +69,15 @@
     "explicitRankConflicts": {},
     "scrollRounds": 60,
     "finalScrollMetrics": {
-      "scrollTop": 43784,
-      "scrollHeight": 45441,
+      "scrollTop": 43814,
+      "scrollHeight": 45471,
       "clientHeight": 1090,
       "atBottom": false
     },
-    "rawHtmlSha256": "9392c501dfa0147b736407777ccbb3fcb3c5067dc04ff13797a05b954423cb56",
+    "rawHtmlSha256": "9642f14d942d122d413a669079a2d0ccd1be15d62bf2bf7455f395c3b450f6e5",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave-attempt2.png",
-    "screenshotSha256": "ab30dce99aabeb80c55b25b911ec15048d5b27f386dee360479ec4b4eda4ff2a",
+    "screenshotSha256": "d0f98bf3bd200c49924fa79bff3156714488de85f8fb5ff2c9af0b290e3db73e",
     "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
     "profileMergedRanks": [
       1,

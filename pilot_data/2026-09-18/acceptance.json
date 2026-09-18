@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T18:26:17.974027+08:00",
+  "generated_at": "2026-09-18T18:32:52.916007+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
@@ -26,7 +26,7 @@
     },
     {
       "platform": "DramaWave",
-      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
+      "source_state": "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10",
       "web_rows": 5,
       "web_status": "PARTIAL",
       "web_stable": false,
@@ -67,7 +67,7 @@
           "2026-09-18"
         ]
       },
-      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+      "next_step": "EVALUATE_SPECIAL_TOP5_SCOPE_OR_OTHER_OFFICIAL_RANKING_ENTRY"
     },
     {
       "platform": "FlexTV",

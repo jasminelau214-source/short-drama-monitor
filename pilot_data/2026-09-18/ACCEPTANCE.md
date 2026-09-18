@@ -9,7 +9,7 @@
 | Platform | State | Web | Stable | Official rank probe | Alternate | Decision |
 |---|---|---:|---:|---|---|---|
 | DramaBox | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
-| DramaWave | ALT_TOP10_SEMANTIC_DECISION | 5/10 | NO | explicit=0/10; complete=NO; stable=0/3 | Popular Choices 10/10; alt stable=1/3 | CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION |
+| DramaWave | WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10 | 5/10 | NO | explicit=0/10; complete=NO; stable=0/3 | Popular Choices 10/10; alt stable=1/3 | EVALUATE_SPECIAL_TOP5_SCOPE_OR_OTHER_OFFICIAL_RANKING_ENTRY |
 | FlexTV | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
 | GoodShort | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
 | MoboReels | WEB_TOP10_VALIDATING | 10/10 | NO | - | - | CONTINUE_STABILITY_VALIDATION |
@@ -19,6 +19,6 @@
 
 ## Scope decisions still required before promotion
 
-- **DramaWave**: an official alternate path may provide additional evidence, but it is not automatically equivalent to the current Web ranking target.
+- **DramaWave**: Web currently verifies only explicit Top1–5; the H5 probe exposes no equivalent Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different.
 
 No test result in this report is authorized for production ingestion.
