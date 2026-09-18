@@ -1,5 +1,6 @@
 {
-  "audit_version": "1.0",
+  "audit_version": "1.1",
+  "correction_note": "v1.1 fixes audit-script provider filter from app-direct to collector-direct. Raw source snapshots were unaffected.",
   "collection_date": "2026-09-17",
   "baseline": "pilot/web-top10-8platform",
   "status": "AWAITING_USER_CONFIRMATION",
@@ -10,7 +11,7 @@
       "raw_rows": 53,
       "structurally_complete_rows": 40,
       "promotable_rows": 0,
-      "reason_promotable_zero": "All PASS_CANDIDATE paths had only one valid run in the stored 9/17 pilot and pathStable=false; promotion requires three consecutive valid runs plus user confirmation.",
+      "reason_promotable_zero": "All PASS_CANDIDATE paths had only one valid stored run and pathStable=false; promotion requires three consecutive valid runs plus user confirmation.",
       "platform_decisions": {
         "DramaBox": {
           "status": "NEEDS_ADAPTER",
@@ -342,91 +343,395 @@
     },
     "production_app": {
       "rule": "Separate SHORT_DRAMA_APP evidence layer. Same-day same platform/target runs are superseded by the latest complete run for daily fact display.",
-      "raw_runs": 0,
-      "raw_rows": 0,
-      "effective_latest_runs": 0,
-      "effective_rows": 0,
-      "latest_runs": {},
+      "raw_runs": 4,
+      "raw_rows": 40,
+      "effective_latest_runs": 2,
+      "effective_rows": 20,
+      "latest_runs": {
+        "MoboReels": {
+          "run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+          "created_at": "2026-09-17 09:22:39.45488+00",
+          "ranking_type": "Trending Series",
+          "target_key": "daily_top_all",
+          "rows": [
+            {
+              "heat": "5.70M",
+              "rank": 1,
+              "tags": [],
+              "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 41"
+              ],
+              "sourceSynopsis": "Isabella is dumped at the altar by her fiancé Alex. To save her dignity and get revenge, she marries his father, Damien, the most powerful mafia boss. After the marriage, with her sharp wit and growing influence, she tears down her ex, reclaims her mother's stolen fortune, crushes family betrayals, and rises from an abandoned bride to a mafia queen. Along the way, a cold contract marriage with Damien turns into something real, a fierce, unstoppable love."
+            },
+            {
+              "heat": "2.89M",
+              "rank": 2,
+              "tags": [
+                "Werewolf",
+                "Soulmates",
+                "Comeback",
+                "Revenge",
+                "Broken Heart"
+              ],
+              "title": "Mated To My Boyfriend's Brother",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [],
+              "sourceSynopsis": "Sophia, an Omega, finds out her boy friend Bruce cheated with her bestie Louisa, before her eighteenth birthday. But soon, she finds out Bruce's brother Bryan, the Alpha, is her destined mate. It is on Bryan's engagement banquet, and her words ruin it. Bryan is furious and sacks her brother, which causes her mother to get sick. To save her family, Sophia becomes his personal secretary. He is cold to her, yet his wolf longs for her. After conflicts and crises, they forge real feelings and form a real mate bond."
+            },
+            {
+              "heat": "2.86M",
+              "rank": 3,
+              "tags": [
+                "Sweetness",
+                "Whirlwind Marriage",
+                "Romance",
+                "Billionaires",
+                "Counterattack"
+              ],
+              "title": "Left at the Altar, Married Power",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [],
+              "sourceSynopsis": "Linsey was overjoyed to marry her fiancé Felix, until he was called away by a single phone call from that homewrecker. Humiliated at her own wedding, Linsey hit rock bottom. Then the homewrecker called again, just to gloat. But Linsey didn't cry. She turned around, walked outside the church, and married the first man she saw. As fate would have it, he turned out to be the most powerful man in the city..."
+            },
+            {
+              "heat": "1.67M",
+              "rank": 4,
+              "tags": [],
+              "title": "The King's Physician Bride",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 32"
+              ],
+              "sourceSynopsis": "Hilwyn, a noble healer who despises aristocratic constraints, treats King Lucien for a chronic poisoning that has been mistaken for impotence. To protect his secret and avoid marriage pressure, Lucien proposes a contractual marriage, eighty thousand gold coins, no interference, and separate lives. But their constant bickering masks an unexpected bond. As Hilwyn risks everything to detoxify him and proves her skill before the royal court, Lucien moves from cold indifference to possessive devotion. When he tears up their contract and confesses his heart, Hilwyn must choose between her hard-won independence and a love she never anticipated..."
+            },
+            {
+              "heat": "1.25M",
+              "rank": 5,
+              "tags": [],
+              "title": "The Trophy Wife's War",
+              "metrics": {},
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": [
+                "Up by 41"
+              ],
+              "sourceSynopsis": "With Julian as her shield, Seraphina fights back using hidden reserves, intelligence contacts, and tactical brilliance. But her ultimate goal is not just victory—it is finding her little sister, \"Nine,\" sold to traffickers years ago. The hunt has just begun.",
+              "rawTags": [
+                "Seraphina Reed has spent three years as the silent, decorative wife of tech mogul Ethan Vance. That peace shatters when ",
+                "But she is no ordinary victim. Before marriage, she lived under many names, trained in survival and combat. She chose Et",
+                "Her only ally is Julian Thorne, the ruthless \"Devil’s Advocate\" divorce lawyer who never loses. Initially seeing her as "
+              ],
+              "auditCorrection": "collector tags contained synopsis-like prose; cleared in candidate only"
+            },
+            {
+              "heat": "842k",
+              "rank": 6,
+              "tags": [],
+              "title": "Reborn, I Choose The Other Groom",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 52"
+              ],
+              "sourceSynopsis": "In her past life, Cathy made her adopted brother Rory marry her. Her stepsister Marlee, in love with Rory, killed herself. Rory was furious and accidentally killed Cathy. Reborn before the wedding, Cathy chooses to let Marlee have Rory, and takes on the family duty of marrying Nate, the crippled son of the Moss family. After marriage, Cathy finds that Nate's disability is actually caused by his uncle Theo and stepmother Martha. The couple take back family power and punish the villains, forming a true family with love and children, leaving Rory in regret."
+            },
+            {
+              "heat": "580k",
+              "rank": 7,
+              "tags": [],
+              "title": "Secret Triplets: Second Chance With My Billionaire",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 72"
+              ],
+              "sourceSynopsis": "On the day of her mother's funeral, Cailin Morton witnesses her fiancé Hilliard Holloway returning home with his mistress Charla. Heartbroken, she fakes a miscarriage and leaves him, raising her three genius children with him alone. After their reunion, the children team up to prank their father. Hilliard gradually discovers the children are his. Charla tries to frame her, but the couple eventually resolves all misunderstandings. The man wins back his wife and children, and the family lives happily ever after."
+            },
+            {
+              "heat": "565k",
+              "rank": 8,
+              "tags": [],
+              "title": "Designing My New Life",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 60"
+              ],
+              "sourceSynopsis": "Thea and Chase had been married for three years, but misunderstandings and interference from Lily tore the couple apart. After enduring countless grievances, Thea resolutely filed for divorce, dedicated herself to her talent in fashion design, and rebuilt her career in the fashion world, reclaiming her dreams and achieving success. Chase, after facing life-threatening dangers, finally recognized his true feelings and went all out to make amends. Through hardships, they resolved every misunderstanding, broke down all barriers, and reunited through mutual understanding and redemption, ultimately finding complete happiness together."
+            },
+            {
+              "heat": "547k",
+              "rank": 9,
+              "tags": [],
+              "title": "Marrying The Merman King",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 86"
+              ],
+              "sourceSynopsis": "Vivian is a simple woman who wants a test-tube baby, yet she accidentally carries the baby of William, king of the merfolk. Betrayed by her family and fiancé, she has no choice but to marry Willaim and go live with him in the Deep Sea Palace. The merfolk reject a human queen, and many noble ladies covet William. Vivian works hard to establish herself among the hostilities, and true feelings emerge between the couple."
+            },
+            {
+              "heat": "437k",
+              "rank": 10,
+              "tags": [],
+              "title": "Weak Yesterday, Unstoppable Today",
+              "metrics": {},
+              "newness": "new",
+              "confidence": "collector-verified",
+              "pendingChecks": [
+                "待深度研究"
+              ],
+              "rankingBadges": [
+                "Up by 79"
+              ],
+              "sourceSynopsis": "Zen, heir of the House Blackwood, was betrayed and sold into slavery by his own family, until he awakened the Prometheus Fire, a power that turned his wounds into strength. He escaped and joined the temple trials to find his sister Yana, who was exiled to the frozen wastes. Against rival nobles like Perrin and shadowy conspiracies, Zen survived deadly trials, earned the favor of Frost Tower's master Aura, and uncovered an ancient tome in the Stardust Corridor. As he grew stronger, he peeled back the lies behind his family's fall and his sister's banishment. Every scar made him sharper, every enemy brought him closer to the truth, and to the throne that was stolen from him."
+            }
+          ]
+        },
+        "NetShort": {
+          "run_id": "collector-netshort-daily_top_all-20260917-1206d4440b20ab05470f",
+          "created_at": "2026-09-17 09:22:43.564839+00",
+          "ranking_type": "Top Trending",
+          "target_key": "daily_top_all",
+          "rows": [
+            {
+              "heat": "128.6M",
+              "rank": 1,
+              "tags": [
+                "Time Travel",
+                "Second Chance",
+                "Underdog Rise"
+              ],
+              "title": "Back to 95 - Her Big Comeback",
+              "metrics": {
+                "followers": "406.9K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "114.3M",
+              "rank": 2,
+              "tags": [
+                "Time Travel",
+                "Life OL",
+                "Wish-Fulfillment"
+              ],
+              "title": "I Spoke Baby Dragon and Won Everyone Over!",
+              "metrics": {
+                "followers": "789.2K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "110.3M",
+              "rank": 3,
+              "tags": [
+                "Female Empowerment",
+                "Karma Payback",
+                "Karma"
+              ],
+              "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+              "metrics": {
+                "followers": "3.4M Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "108.2M",
+              "rank": 4,
+              "tags": [
+                "Contract Lovers",
+                "Karma Payback",
+                "Werewolf"
+              ],
+              "title": "Double-marked: Luna's Revenge",
+              "metrics": {
+                "followers": "243.2K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "103.6M",
+              "rank": 5,
+              "tags": [
+                "Rebirth",
+                "Underdog Rise",
+                "Karma Payback"
+              ],
+              "title": "The Quarterback's Comeback",
+              "metrics": {
+                "followers": "616.0K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "86.2M",
+              "rank": 6,
+              "tags": [
+                "Runaway Pregnancy",
+                "Underdog Rise",
+                "Sweet Romance"
+              ],
+              "title": "The Dragon Tyrant's Secret Heir",
+              "metrics": {
+                "followers": "1.2M Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "68.8M",
+              "rank": 7,
+              "tags": [
+                "Mystery",
+                "Karma Payback",
+                "Revenge"
+              ],
+              "title": "When Housewives Turn Deadly",
+              "metrics": {
+                "followers": "2.2M Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "48.1M",
+              "rank": 8,
+              "tags": [
+                "Modern Romance",
+                "Rich Family Feud"
+              ],
+              "title": "The Heiress's Revenge_Out of My Mansion",
+              "metrics": {
+                "followers": "499.2K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "46.9M",
+              "rank": 9,
+              "tags": [
+                "Return of the King",
+                "Feel-Good"
+              ],
+              "title": "SSS-Rank: The Slum-Born Thunder God",
+              "metrics": {
+                "followers": "1.7M Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            },
+            {
+              "heat": "45.1M",
+              "rank": 10,
+              "tags": [
+                "Underdog Rise",
+                "All-Too-Late",
+                "Apocalypse"
+              ],
+              "title": "Broken Arm, Broken Bloodline",
+              "metrics": {
+                "followers": "652.9K Followers"
+              },
+              "newness": "old",
+              "confidence": "collector-verified",
+              "pendingChecks": [],
+              "rankingBadges": []
+            }
+          ]
+        }
+      },
       "note": "These App rows are valid only as App-layer facts; they are not corrected Web Top10 rows."
     }
   },
   "research_audit": {
     "actual_complete_tasks": 10,
-    "tasks_attached_to_latest_moboreels_titles": 0,
+    "tasks_attached_to_latest_moboreels_titles": 9,
     "stale_superseded_tasks": [
-      {
-        "id": "703c2fa2-45bb-49fb-ab81-9242c6a763cf",
-        "title": "Married My Ex's Dad, Now I'm Mafia Queen",
-        "rank": 1,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "315b3e63-a894-49ef-a7e3-929319685c0c",
-        "title": "Mated To My Boyfriend's Brother",
-        "rank": 2,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "13ce1068-6056-40c4-a68d-cf2795aa6d34",
-        "title": "Left at the Altar, Married Power",
-        "rank": 3,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "5acd7b21-a537-47ce-81fd-8bf0f90925dd",
-        "title": "The King's Physician Bride",
-        "rank": 4,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
       {
         "id": "4e6e0896-2ab8-4a24-8900-9838ad1b2d82",
         "title": "His Neglected Wife Is The Top Scientist",
         "rank": 6,
         "analysis_run_id": "collector-moboreels-daily_top_all-20260917-75b8d1fcd9a32d3211ff",
         "status": "COMPLETE"
-      },
-      {
-        "id": "99752d2e-d93f-4eb3-9371-e9af4514b2c1",
-        "title": "Reborn, I Choose The Other Groom",
-        "rank": 6,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "5826b589-c657-4ba0-8d6a-a42102bd5ff3",
-        "title": "Secret Triplets: Second Chance With My Billionaire",
-        "rank": 7,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "4603f251-f243-4905-acc3-b473af022391",
-        "title": "Designing My New Life",
-        "rank": 8,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "8d7b1581-677c-4d9c-addd-f2e83bd1dbfa",
-        "title": "Marrying The Merman King",
-        "rank": 9,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
-      },
-      {
-        "id": "68a2d0eb-6551-47f7-9a9c-c03c7f95d1ac",
-        "title": "Weak Yesterday, Unstoppable Today",
-        "rank": 10,
-        "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
-        "status": "COMPLETE"
       }
     ],
-    "latest_moboreels_new_titles": [],
-    "corrected_research_candidate_count": 0,
+    "latest_moboreels_new_titles": [
+      "Married My Ex's Dad, Now I'm Mafia Queen",
+      "Mated To My Boyfriend's Brother",
+      "Left at the Altar, Married Power",
+      "The King's Physician Bride",
+      "Reborn, I Choose The Other Groom",
+      "Secret Triplets: Second Chance With My Billionaire",
+      "Designing My New Life",
+      "Marrying The Merman King",
+      "Weak Yesterday, Unstoppable Today"
+    ],
+    "corrected_research_candidate_count": 9,
     "action_for_latest_new_titles": "REPROCESS_OR_SCHEMA_REVALIDATE_WITH_CURRENT_RESEARCH_PIPELINE",
     "action_for_stale_titles": "ARCHIVE_ONLY_EXCLUDE_FROM_2026-09-17_LATEST_DAILY_ANALYSIS",
     "current_schema_findings": {
