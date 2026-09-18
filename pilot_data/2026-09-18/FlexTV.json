@@ -76,14 +76,14 @@
     "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
     "documentLang": "en",
     "httpStatus": 200,
-    "browserAttempt": 2,
-    "mobileProfile": true,
+    "browserAttempt": 1,
+    "mobileProfile": false,
     "structuredData": "JSON-LD ItemList",
     "itemListName": "",
-    "rawHtmlSha256": "0245b40e77d73a8d5cfca0b9efafba47e42b6e0f73573d1657b2dfe5330812f6",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/FlexTV-attempt2.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/FlexTV-attempt2.png",
-    "screenshotSha256": "632327ff281f7ad5d5ee41678092aa5b56a4a408e6c087345876ba8729e65b9e"
+    "rawHtmlSha256": "02177f9f2cdba9b85c510f1cec6dc1f771db7d1fceb2697cbe36beb99f074a7a",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/FlexTV.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/FlexTV.png",
+    "screenshotSha256": "f3288ec22e0160230e635663886de6ccebc1a5b3dd8821e0fb78956dd5fbd682"
   },
   "error": "",
   "production_write": false

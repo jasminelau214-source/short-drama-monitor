@@ -31,7 +31,7 @@
     "emptyTitles": 0
   },
   "evidence": {
-    "parserFallbackError": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+    "parserFallbackError": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
     "pageTitle": "ERROR: The request could not be satisfied",
     "pageUrl": "https://www.dramaboxdb.com/channel/trending",
     "documentLang": "",
@@ -40,12 +40,12 @@
     "mobileProfile": true,
     "structuredData": "DramaBox browser parse failed",
     "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
-    "rawHtmlSha256": "1a3dea7fee1d197bc55384354e4089ac2950615dc6b0f73bf4ab9025d16a5bb8",
+    "rawHtmlSha256": "dec655436f9be6197f112440401680a840e590817ef14b6c5fa5ad28c2ce4dc7",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.png",
-    "screenshotSha256": "e03f19f2ef4e830d8348e1a67bee60f2c1b5458722d2efc5a5a22bdf7d2520f9",
+    "screenshotSha256": "b2ff69e303ffc19e12a9c2817911050c6c78adca118725a72f99be613e3f807c",
     "browserRetryError": "attempt=2 status=403 adapter_found=False"
   },
-  "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+  "error": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
   "production_write": false
 }

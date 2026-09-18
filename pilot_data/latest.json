@@ -1,7 +1,7 @@
 {
   "pilot": "web-top10-8platform",
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T11:11:01.260126+08:00",
+  "generated_at": "2026-09-18T11:23:21.844651+08:00",
   "top_n": 10,
   "scope_count": 8,
   "production_write": false,
@@ -40,7 +40,7 @@
         "consecutiveValidRuns": 0,
         "pathStable": false
       },
-      "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden"
+      "error": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908"
     },
     {
       "platform": "DramaWave",
