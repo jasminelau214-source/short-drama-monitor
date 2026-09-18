@@ -1,0 +1,2013 @@
+{
+  "audit_version": "1.0",
+  "branch": "audit/backfill-2026-09-16-17",
+  "baseline": "pilot/web-top10-8platform",
+  "collection_date": "2026-09-17",
+  "source_layers": {
+    "production_app": {
+      "production_mutated": false,
+      "run_count": 4,
+      "raw_rows": 40,
+      "runs": [
+        {
+          "id": "collector-moboreels-daily_top_all-20260917-75b8d1fcd9a32d3211ff",
+          "collection_date": "2026-09-17",
+          "platform": "MoboReels",
+          "status": "已识别-待深研",
+          "model": "collector-direct-v2",
+          "provider": "collector-direct",
+          "created_at": "2026-09-17 01:35:29.616396+00",
+          "updated_at": "2026-09-17 01:35:29.616396+00",
+          "result_json": {
+            "rows": [
+              {
+                "heat": "4.01M",
+                "rank": 1,
+                "tags": [],
+                "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 41"
+                ],
+                "sourceSynopsis": "Isabella is dumped at the altar by her fiancé Alex. To save her dignity and get revenge, she marries his father, Damien, the most powerful mafia boss. After the marriage, with her sharp wit and growing influence, she tears down her ex, reclaims her mother's stolen fortune, crushes family betrayals, and rises from an abandoned bride to a mafia queen. Along the way, a cold contract marriage with Damien turns into something real, a fierce, unstoppable love."
+              },
+              {
+                "heat": "2.88M",
+                "rank": 2,
+                "tags": [
+                  "Sweetness",
+                  "Whirlwind Marriage",
+                  "Romance",
+                  "Billionaires",
+                  "Counterattack"
+                ],
+                "title": "Left at the Altar, Married Power",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [],
+                "sourceSynopsis": "Linsey was overjoyed to marry her fiancé Felix, until he was called away by a single phone call from that homewrecker. Humiliated at her own wedding, Linsey hit rock bottom. Then the homewrecker called again, just to gloat. But Linsey didn't cry. She turned around, walked outside the church, and married the first man she saw. As fate would have it, he turned out to be the most powerful man in the city..."
+              },
+              {
+                "heat": "2.85M",
+                "rank": 3,
+                "tags": [
+                  "Werewolf",
+                  "Soulmates",
+                  "Comeback",
+                  "Revenge",
+                  "Broken Heart"
+                ],
+                "title": "Mated To My Boyfriend's Brother",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [],
+                "sourceSynopsis": "Sophia, an Omega, finds out her boy friend Bruce cheated with her bestie Louisa, before her eighteenth birthday. But soon, she finds out Bruce's brother Bryan, the Alpha, is her destined mate. It is on Bryan's engagement banquet, and her words ruin it. Bryan is furious and sacks her brother, which causes her mother to get sick. To save her family, Sophia becomes his personal secretary. He is cold to her, yet his wolf longs for her. After conflicts and crises, they forge real feelings and form a real mate bond."
+              },
+              {
+                "heat": "1.57M",
+                "rank": 4,
+                "tags": [],
+                "title": "The King's Physician Bride",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 32"
+                ],
+                "sourceSynopsis": "Hilwyn, a noble healer who despises aristocratic constraints, treats King Lucien for a chronic poisoning that has been mistaken for impotence. To protect his secret and avoid marriage pressure, Lucien proposes a contractual marriage, eighty thousand gold coins, no interference, and separate lives. But their constant bickering masks an unexpected bond. As Hilwyn risks everything to detoxify him and proves her skill before the royal court, Lucien moves from cold indifference to possessive devotion. When he tears up their contract and confesses his heart, Hilwyn must choose between her hard-won independence and a love she never anticipated..."
+              },
+              {
+                "heat": "1.18M",
+                "rank": 5,
+                "tags": [
+                  "Seraphina Reed has spent three years as the silent, decorative wife of tech mogul Ethan Vance. That peace shatters when ",
+                  "But she is no ordinary victim. Before marriage, she lived under many names, trained in survival and combat. She chose Et",
+                  "Her only ally is Julian Thorne, the ruthless \"Devil’s Advocate\" divorce lawyer who never loses. Initially seeing her as "
+                ],
+                "title": "The Trophy Wife's War",
+                "metrics": {},
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": [
+                  "Up by 41"
+                ],
+                "sourceSynopsis": "With Julian as her shield, Seraphina fights back using hidden reserves, intelligence contacts, and tactical brilliance. But her ultimate goal is not just victory—it is finding her little sister, \"Nine,\" sold to traffickers years ago. The hunt has just begun."
+              },
+              {
+                "heat": "904k",
+                "rank": 6,
+                "tags": [],
+                "title": "His Neglected Wife Is The Top Scientist",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 52"
+                ],
+                "sourceSynopsis": "June, a genius scientist, gave up her career to marry Cole. She did this for love, yet Cole neglected her. When she was bleeding out from miscarriage, he was with his mistress Alycia. June lost her child, her ability to conceive, and her love for him. She started research again, tackled Cole's slander, and took back her stolen works. She was still the top scientist."
+              },
+              {
+                "heat": "835k",
+                "rank": 7,
+                "tags": [],
+                "title": "Reborn, I Choose The Other Groom",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 52"
+                ],
+                "sourceSynopsis": "In her past life, Cathy made her adopted brother Rory marry her. Her stepsister Marlee, in love with Rory, killed herself. Rory was furious and accidentally killed Cathy. Reborn before the wedding, Cathy chooses to let Marlee have Rory, and takes on the family duty of marrying Nate, the crippled son of the Moss family. After marriage, Cathy finds that Nate's disability is actually caused by his uncle Theo and stepmother Martha. The couple take back family power and punish the villains, forming a true family with love and children, leaving Rory in regret."
+              },
+              {
+                "heat": "623k",
+                "rank": 8,
+                "tags": [],
+                "title": "Designing My New Life",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 60"
+                ],
+                "sourceSynopsis": "Thea and Chase had been married for three years, but misunderstandings and interference from Lily tore the couple apart. After enduring countless grievances, Thea resolutely filed for divorce, dedicated herself to her talent in fashion design, and rebuilt her career in the fashion world, reclaiming her dreams and achieving success. Chase, after facing life-threatening dangers, finally recognized his true feelings and went all out to make amends. Through hardships, they resolved every misunderstanding, broke down all barriers, and reunited through mutual understanding and redemption, ultimately finding complete happiness together."
+              },
+              {
+                "heat": "521k",
+                "rank": 9,
+                "tags": [],
+                "title": "Marrying The Merman King",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 86"
+                ],
+                "sourceSynopsis": "Vivian is a simple woman who wants a test-tube baby, yet she accidentally carries the baby of William, king of the merfolk. Betrayed by her family and fiancé, she has no choice but to marry Willaim and go live with him in the Deep Sea Palace. The merfolk reject a human queen, and many noble ladies covet William. Vivian works hard to establish herself among the hostilities, and true feelings emerge between the couple."
+              },
+              {
+                "heat": "516k",
+                "rank": 10,
+                "tags": [],
+                "title": "Secret Triplets: Second Chance With My Billionaire",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 72"
+                ],
+                "sourceSynopsis": "On the day of her mother's funeral, Cailin Morton witnesses her fiancé Hilliard Holloway returning home with his mistress Charla. Heartbroken, she fakes a miscarriage and leaves him, raising her three genius children with him alone. After their reunion, the children team up to prank their father. Hilliard gradually discovers the children are his. Charla tries to frame her, but the couple eventually resolves all misunderstandings. The man wins back his wife and children, and the family lives happily ever after."
+              }
+            ],
+            "collector": {
+              "topN": 10,
+              "locale": "",
+              "region": "",
+              "category": "All",
+              "evidence": {
+                "screenshot": "",
+                "ui_xml_pages": [
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page1_20260917_093317.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page2_20260917_093317.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page3_20260917_093317.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page4_20260917_093317.xml"
+                ]
+              },
+              "sourceId": "shortapp_moboreels",
+              "adbSerial": "127.0.0.1:5555",
+              "targetKey": "daily_top_all",
+              "localAudit": {
+                "missingRanks": [],
+                "batchComplete": true,
+                "duplicateRanks": [],
+                "duplicateTitles": []
+              },
+              "sourceType": "SHORT_DRAMA_APP",
+              "collectedAt": "2026-09-17T09:35:22",
+              "rankingType": "Trending Series",
+              "collectionMethod": "APP_UI_XML_SCROLL",
+              "collectorVersion": "",
+              "evidencePersistence": "LOCAL_ONLY"
+            },
+            "importedAt": "2026-09-17T01:35:29.616368+00:00",
+            "batchComplete": true
+          }
+        },
+        {
+          "id": "collector-netshort-daily_top_all-20260917-e0fa114e5a925f7d126c",
+          "collection_date": "2026-09-17",
+          "platform": "NetShort",
+          "status": "已分析",
+          "model": "collector-direct-v2",
+          "provider": "collector-direct",
+          "created_at": "2026-09-17 01:35:31.608602+00",
+          "updated_at": "2026-09-17 01:35:31.608602+00",
+          "result_json": {
+            "rows": [
+              {
+                "heat": "122.4M",
+                "rank": 1,
+                "tags": [
+                  "Time Travel",
+                  "Life OL",
+                  "Wish-Fulfillment"
+                ],
+                "title": "I Spoke Baby Dragon and Won Everyone Over!",
+                "metrics": {
+                  "followers": "783.9K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "114.3M",
+                "rank": 2,
+                "tags": [
+                  "Time Travel",
+                  "Second Chance",
+                  "Underdog Rise"
+                ],
+                "title": "Back to 95 - Her Big Comeback",
+                "metrics": {
+                  "followers": "388.1K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "110.1M",
+                "rank": 3,
+                "tags": [
+                  "Rebirth",
+                  "Underdog Rise",
+                  "Karma Payback"
+                ],
+                "title": "The Quarterback's Comeback",
+                "metrics": {
+                  "followers": "611.0K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "109.1M",
+                "rank": 4,
+                "tags": [
+                  "Female Empowerment",
+                  "Karma Payback",
+                  "Karma"
+                ],
+                "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+                "metrics": {
+                  "followers": "3.4M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "90.1M",
+                "rank": 5,
+                "tags": [
+                  "Runaway Pregnancy",
+                  "Underdog Rise",
+                  "Sweet Romance"
+                ],
+                "title": "The Dragon Tyrant's Secret Heir",
+                "metrics": {
+                  "followers": "1.2M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "88.2M",
+                "rank": 6,
+                "tags": [
+                  "Contract Lovers",
+                  "Karma Payback",
+                  "Werewolf"
+                ],
+                "title": "Double-marked: Luna's Revenge",
+                "metrics": {
+                  "followers": "227.6K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "73.8M",
+                "rank": 7,
+                "tags": [
+                  "Mystery",
+                  "Karma Payback",
+                  "Revenge"
+                ],
+                "title": "When Housewives Turn Deadly",
+                "metrics": {
+                  "followers": "2.2M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "50.7M",
+                "rank": 8,
+                "tags": [
+                  "Modern Romance",
+                  "Rich Family Feud"
+                ],
+                "title": "The Heiress's Revenge_Out of My Mansion",
+                "metrics": {
+                  "followers": "496.0K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "48.4M",
+                "rank": 9,
+                "tags": [
+                  "Underdog Rise",
+                  "All-Too-Late",
+                  "Apocalypse"
+                ],
+                "title": "Broken Arm, Broken Bloodline",
+                "metrics": {
+                  "followers": "651.0K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "47M",
+                "rank": 10,
+                "tags": [
+                  "Power Play",
+                  "Multiple Identities",
+                  "Revenge"
+                ],
+                "title": "Phantom Returns",
+                "metrics": {
+                  "followers": "263.6K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              }
+            ],
+            "collector": {
+              "topN": 10,
+              "locale": "",
+              "region": "",
+              "category": "All",
+              "evidence": {
+                "ui_xml": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_20260917_093129.xml",
+                "screenshot": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_20260917_093129.png"
+              },
+              "sourceId": "shortapp_netshort",
+              "adbSerial": "emulator-5554",
+              "targetKey": "daily_top_all",
+              "localAudit": {
+                "missingRanks": [],
+                "batchComplete": true,
+                "duplicateRanks": [],
+                "duplicateTitles": []
+              },
+              "sourceType": "SHORT_DRAMA_APP",
+              "collectedAt": "2026-09-17T09:33:16",
+              "rankingType": "Top Trending",
+              "collectionMethod": "APP_UI_XML",
+              "collectorVersion": "",
+              "evidencePersistence": "LOCAL_ONLY"
+            },
+            "importedAt": "2026-09-17T01:35:31.608580+00:00",
+            "batchComplete": true
+          }
+        },
+        {
+          "id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+          "collection_date": "2026-09-17",
+          "platform": "MoboReels",
+          "status": "已识别-待深研",
+          "model": "collector-direct-v2",
+          "provider": "collector-direct",
+          "created_at": "2026-09-17 09:22:39.45488+00",
+          "updated_at": "2026-09-17 09:22:39.45488+00",
+          "result_json": {
+            "rows": [
+              {
+                "heat": "5.70M",
+                "rank": 1,
+                "tags": [],
+                "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 41"
+                ],
+                "sourceSynopsis": "Isabella is dumped at the altar by her fiancé Alex. To save her dignity and get revenge, she marries his father, Damien, the most powerful mafia boss. After the marriage, with her sharp wit and growing influence, she tears down her ex, reclaims her mother's stolen fortune, crushes family betrayals, and rises from an abandoned bride to a mafia queen. Along the way, a cold contract marriage with Damien turns into something real, a fierce, unstoppable love."
+              },
+              {
+                "heat": "2.89M",
+                "rank": 2,
+                "tags": [
+                  "Werewolf",
+                  "Soulmates",
+                  "Comeback",
+                  "Revenge",
+                  "Broken Heart"
+                ],
+                "title": "Mated To My Boyfriend's Brother",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [],
+                "sourceSynopsis": "Sophia, an Omega, finds out her boy friend Bruce cheated with her bestie Louisa, before her eighteenth birthday. But soon, she finds out Bruce's brother Bryan, the Alpha, is her destined mate. It is on Bryan's engagement banquet, and her words ruin it. Bryan is furious and sacks her brother, which causes her mother to get sick. To save her family, Sophia becomes his personal secretary. He is cold to her, yet his wolf longs for her. After conflicts and crises, they forge real feelings and form a real mate bond."
+              },
+              {
+                "heat": "2.86M",
+                "rank": 3,
+                "tags": [
+                  "Sweetness",
+                  "Whirlwind Marriage",
+                  "Romance",
+                  "Billionaires",
+                  "Counterattack"
+                ],
+                "title": "Left at the Altar, Married Power",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [],
+                "sourceSynopsis": "Linsey was overjoyed to marry her fiancé Felix, until he was called away by a single phone call from that homewrecker. Humiliated at her own wedding, Linsey hit rock bottom. Then the homewrecker called again, just to gloat. But Linsey didn't cry. She turned around, walked outside the church, and married the first man she saw. As fate would have it, he turned out to be the most powerful man in the city..."
+              },
+              {
+                "heat": "1.67M",
+                "rank": 4,
+                "tags": [],
+                "title": "The King's Physician Bride",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 32"
+                ],
+                "sourceSynopsis": "Hilwyn, a noble healer who despises aristocratic constraints, treats King Lucien for a chronic poisoning that has been mistaken for impotence. To protect his secret and avoid marriage pressure, Lucien proposes a contractual marriage, eighty thousand gold coins, no interference, and separate lives. But their constant bickering masks an unexpected bond. As Hilwyn risks everything to detoxify him and proves her skill before the royal court, Lucien moves from cold indifference to possessive devotion. When he tears up their contract and confesses his heart, Hilwyn must choose between her hard-won independence and a love she never anticipated..."
+              },
+              {
+                "heat": "1.25M",
+                "rank": 5,
+                "tags": [
+                  "Seraphina Reed has spent three years as the silent, decorative wife of tech mogul Ethan Vance. That peace shatters when ",
+                  "But she is no ordinary victim. Before marriage, she lived under many names, trained in survival and combat. She chose Et",
+                  "Her only ally is Julian Thorne, the ruthless \"Devil’s Advocate\" divorce lawyer who never loses. Initially seeing her as "
+                ],
+                "title": "The Trophy Wife's War",
+                "metrics": {},
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": [
+                  "Up by 41"
+                ],
+                "sourceSynopsis": "With Julian as her shield, Seraphina fights back using hidden reserves, intelligence contacts, and tactical brilliance. But her ultimate goal is not just victory—it is finding her little sister, \"Nine,\" sold to traffickers years ago. The hunt has just begun."
+              },
+              {
+                "heat": "842k",
+                "rank": 6,
+                "tags": [],
+                "title": "Reborn, I Choose The Other Groom",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 52"
+                ],
+                "sourceSynopsis": "In her past life, Cathy made her adopted brother Rory marry her. Her stepsister Marlee, in love with Rory, killed herself. Rory was furious and accidentally killed Cathy. Reborn before the wedding, Cathy chooses to let Marlee have Rory, and takes on the family duty of marrying Nate, the crippled son of the Moss family. After marriage, Cathy finds that Nate's disability is actually caused by his uncle Theo and stepmother Martha. The couple take back family power and punish the villains, forming a true family with love and children, leaving Rory in regret."
+              },
+              {
+                "heat": "580k",
+                "rank": 7,
+                "tags": [],
+                "title": "Secret Triplets: Second Chance With My Billionaire",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 72"
+                ],
+                "sourceSynopsis": "On the day of her mother's funeral, Cailin Morton witnesses her fiancé Hilliard Holloway returning home with his mistress Charla. Heartbroken, she fakes a miscarriage and leaves him, raising her three genius children with him alone. After their reunion, the children team up to prank their father. Hilliard gradually discovers the children are his. Charla tries to frame her, but the couple eventually resolves all misunderstandings. The man wins back his wife and children, and the family lives happily ever after."
+              },
+              {
+                "heat": "565k",
+                "rank": 8,
+                "tags": [],
+                "title": "Designing My New Life",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 60"
+                ],
+                "sourceSynopsis": "Thea and Chase had been married for three years, but misunderstandings and interference from Lily tore the couple apart. After enduring countless grievances, Thea resolutely filed for divorce, dedicated herself to her talent in fashion design, and rebuilt her career in the fashion world, reclaiming her dreams and achieving success. Chase, after facing life-threatening dangers, finally recognized his true feelings and went all out to make amends. Through hardships, they resolved every misunderstanding, broke down all barriers, and reunited through mutual understanding and redemption, ultimately finding complete happiness together."
+              },
+              {
+                "heat": "547k",
+                "rank": 9,
+                "tags": [],
+                "title": "Marrying The Merman King",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 86"
+                ],
+                "sourceSynopsis": "Vivian is a simple woman who wants a test-tube baby, yet she accidentally carries the baby of William, king of the merfolk. Betrayed by her family and fiancé, she has no choice but to marry Willaim and go live with him in the Deep Sea Palace. The merfolk reject a human queen, and many noble ladies covet William. Vivian works hard to establish herself among the hostilities, and true feelings emerge between the couple."
+              },
+              {
+                "heat": "437k",
+                "rank": 10,
+                "tags": [],
+                "title": "Weak Yesterday, Unstoppable Today",
+                "metrics": {},
+                "newness": "new",
+                "confidence": "collector-verified",
+                "pendingChecks": [
+                  "待深度研究"
+                ],
+                "rankingBadges": [
+                  "Up by 79"
+                ],
+                "sourceSynopsis": "Zen, heir of the House Blackwood, was betrayed and sold into slavery by his own family, until he awakened the Prometheus Fire, a power that turned his wounds into strength. He escaped and joined the temple trials to find his sister Yana, who was exiled to the frozen wastes. Against rival nobles like Perrin and shadowy conspiracies, Zen survived deadly trials, earned the favor of Frost Tower's master Aura, and uncovered an ancient tome in the Stardust Corridor. As he grew stronger, he peeled back the lies behind his family's fall and his sister's banishment. Every scar made him sharper, every enemy brought him closer to the truth, and to the throne that was stolen from him."
+              }
+            ],
+            "collector": {
+              "topN": 10,
+              "locale": "",
+              "region": "",
+              "category": "All",
+              "evidence": {
+                "screenshot": "",
+                "ui_xml_pages": [
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page1_20260917_170221.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page2_20260917_170221.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page3_20260917_170221.xml",
+                  "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page4_20260917_170221.xml"
+                ]
+              },
+              "sourceId": "shortapp_moboreels",
+              "adbSerial": "127.0.0.1:5555",
+              "targetKey": "daily_top_all",
+              "localAudit": {
+                "missingRanks": [],
+                "batchComplete": true,
+                "duplicateRanks": [],
+                "duplicateTitles": []
+              },
+              "sourceType": "SHORT_DRAMA_APP",
+              "collectedAt": "2026-09-17T17:04:20",
+              "rankingType": "Trending Series",
+              "collectionMethod": "APP_UI_XML_SCROLL",
+              "collectorVersion": "",
+              "evidencePersistence": "LOCAL_ONLY"
+            },
+            "importedAt": "2026-09-17T09:22:39.454860+00:00",
+            "batchComplete": true
+          }
+        },
+        {
+          "id": "collector-netshort-daily_top_all-20260917-1206d4440b20ab05470f",
+          "collection_date": "2026-09-17",
+          "platform": "NetShort",
+          "status": "已分析",
+          "model": "collector-direct-v2",
+          "provider": "collector-direct",
+          "created_at": "2026-09-17 09:22:43.564839+00",
+          "updated_at": "2026-09-17 09:22:43.564839+00",
+          "result_json": {
+            "rows": [
+              {
+                "heat": "128.6M",
+                "rank": 1,
+                "tags": [
+                  "Time Travel",
+                  "Second Chance",
+                  "Underdog Rise"
+                ],
+                "title": "Back to 95 - Her Big Comeback",
+                "metrics": {
+                  "followers": "406.9K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "114.3M",
+                "rank": 2,
+                "tags": [
+                  "Time Travel",
+                  "Life OL",
+                  "Wish-Fulfillment"
+                ],
+                "title": "I Spoke Baby Dragon and Won Everyone Over!",
+                "metrics": {
+                  "followers": "789.2K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "110.3M",
+                "rank": 3,
+                "tags": [
+                  "Female Empowerment",
+                  "Karma Payback",
+                  "Karma"
+                ],
+                "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+                "metrics": {
+                  "followers": "3.4M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "108.2M",
+                "rank": 4,
+                "tags": [
+                  "Contract Lovers",
+                  "Karma Payback",
+                  "Werewolf"
+                ],
+                "title": "Double-marked: Luna's Revenge",
+                "metrics": {
+                  "followers": "243.2K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "103.6M",
+                "rank": 5,
+                "tags": [
+                  "Rebirth",
+                  "Underdog Rise",
+                  "Karma Payback"
+                ],
+                "title": "The Quarterback's Comeback",
+                "metrics": {
+                  "followers": "616.0K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "86.2M",
+                "rank": 6,
+                "tags": [
+                  "Runaway Pregnancy",
+                  "Underdog Rise",
+                  "Sweet Romance"
+                ],
+                "title": "The Dragon Tyrant's Secret Heir",
+                "metrics": {
+                  "followers": "1.2M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "68.8M",
+                "rank": 7,
+                "tags": [
+                  "Mystery",
+                  "Karma Payback",
+                  "Revenge"
+                ],
+                "title": "When Housewives Turn Deadly",
+                "metrics": {
+                  "followers": "2.2M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "48.1M",
+                "rank": 8,
+                "tags": [
+                  "Modern Romance",
+                  "Rich Family Feud"
+                ],
+                "title": "The Heiress's Revenge_Out of My Mansion",
+                "metrics": {
+                  "followers": "499.2K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "46.9M",
+                "rank": 9,
+                "tags": [
+                  "Return of the King",
+                  "Feel-Good"
+                ],
+                "title": "SSS-Rank: The Slum-Born Thunder God",
+                "metrics": {
+                  "followers": "1.7M Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              },
+              {
+                "heat": "45.1M",
+                "rank": 10,
+                "tags": [
+                  "Underdog Rise",
+                  "All-Too-Late",
+                  "Apocalypse"
+                ],
+                "title": "Broken Arm, Broken Bloodline",
+                "metrics": {
+                  "followers": "652.9K Followers"
+                },
+                "newness": "old",
+                "confidence": "collector-verified",
+                "pendingChecks": [],
+                "rankingBadges": []
+              }
+            ],
+            "collector": {
+              "topN": 10,
+              "locale": "",
+              "region": "",
+              "category": "All",
+              "evidence": {
+                "ui_xml": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_20260917_170005.xml",
+                "screenshot": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_20260917_170005.png"
+              },
+              "sourceId": "shortapp_netshort",
+              "adbSerial": "emulator-5554",
+              "targetKey": "daily_top_all",
+              "localAudit": {
+                "missingRanks": [],
+                "batchComplete": true,
+                "duplicateRanks": [],
+                "duplicateTitles": []
+              },
+              "sourceType": "SHORT_DRAMA_APP",
+              "collectedAt": "2026-09-17T17:02:20",
+              "rankingType": "Top Trending",
+              "collectionMethod": "APP_UI_XML",
+              "collectorVersion": "",
+              "evidencePersistence": "LOCAL_ONLY"
+            },
+            "importedAt": "2026-09-17T09:22:43.564819+00:00",
+            "batchComplete": true
+          }
+        }
+      ]
+    },
+    "current_web_pilot": {
+      "production_write": false,
+      "note": "Independent branch artifact captured on 2026-09-17; source semantics remain separate from SHORT_DRAMA_APP.",
+      "platforms": {
+        "DramaBox": {
+          "platform": "DramaBox",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_trending_top10",
+          "ranking_type": "Trending",
+          "source_url": "https://www.dramaboxdb.com/channel/trending",
+          "strategy": "verified_parser+browser_fallback",
+          "top_n": 10,
+          "rows": [],
+          "row_count": 0,
+          "status": "NEEDS_ADAPTER",
+          "audit": {
+            "batchComplete": false,
+            "expectedRows": 10,
+            "actualRows": 0,
+            "missingRanks": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+            "pageTitle": "ERROR: The request could not be satisfied",
+            "pageUrl": "https://www.dramaboxdb.com/channel/trending",
+            "documentLang": "",
+            "structuredData": "DramaBox browser parse failed",
+            "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
+            "rawHtmlSha256": "de50d2ad1165035b571aa5995ab3f0d4aa908c3ac9306c097a365fcd73dc15f4",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/DramaBox.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/DramaBox.png",
+            "screenshotSha256": "307eb34ebc13987a8f943ab0a3764ee5ba799ab5775c4fe6e13a50809bb146be"
+          },
+          "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.dramaboxdb.com/channel/trending: HTTP Error 403: Forbidden",
+          "production_write": false
+        },
+        "DramaWave": {
+          "platform": "DramaWave",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_most_trending_top10",
+          "ranking_type": "Most Trending",
+          "source_url": "https://m.mydramawave.com/",
+          "strategy": "browser_probe",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Swapped Heiress by My Bestie"
+            },
+            {
+              "rank": 2,
+              "title": "Daddy's Miracle Daughter(Dubbed)"
+            },
+            {
+              "rank": 3,
+              "title": "Slowly, Then Forever"
+            },
+            {
+              "rank": 4,
+              "title": "The Alpha King's Virgin Bride"
+            },
+            {
+              "rank": 5,
+              "title": "Claimed by the Alpha, Nursing His Baby"
+            }
+          ],
+          "row_count": 5,
+          "status": "PARTIAL",
+          "audit": {
+            "batchComplete": false,
+            "expectedRows": 10,
+            "actualRows": 5,
+            "missingRanks": [
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "",
+            "pageTitle": "DramaWave",
+            "pageUrl": "https://m.mydramawave.com/",
+            "documentLang": "en",
+            "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+            "cardCount": 20,
+            "explicitRankCount1To10": 5,
+            "duplicateExplicitRanks": [],
+            "rawHtmlSha256": "e39f2638f15c400a0d2ae83b43d14c8bc6ee845e8b0163879b723286e030996b",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/DramaWave.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/DramaWave.png",
+            "screenshotSha256": "8ba8783152015f5d4198b152485ca7a2da60b1dee5cbdf3af61fdad0cefc9224"
+          },
+          "error": "",
+          "production_write": false
+        },
+        "FlexTV": {
+          "platform": "FlexTV",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_top_in_flextv_top10",
+          "ranking_type": "Top in FlexTV",
+          "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+          "strategy": "browser_probe",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "The Veteran’s Promise",
+              "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+            },
+            {
+              "rank": 2,
+              "title": "Loving You in My Final Days",
+              "source_url": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
+            },
+            {
+              "rank": 3,
+              "title": "Mr. Williams! Madame Is Dying",
+              "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+            },
+            {
+              "rank": 4,
+              "title": "(DUBBED)The Tiny Tyrant of Go",
+              "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+            },
+            {
+              "rank": 5,
+              "title": "Betrayed at the Alter, She Married a CEO Instead",
+              "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+            },
+            {
+              "rank": 6,
+              "title": "My Three Brothers Finally Chose Me",
+              "source_url": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
+            },
+            {
+              "rank": 7,
+              "title": "I Secretly Gave Birth to God's Five Babies",
+              "source_url": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
+            },
+            {
+              "rank": 8,
+              "title": "Runaway Billionaire Becomes My Groom",
+              "source_url": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
+            },
+            {
+              "rank": 9,
+              "title": "A Flash Marriage With The Billionaire Tycoon",
+              "source_url": "https://www.flextv.cc/movie/a-flash-marriage-with-the-billionaire-tycoon-jGnvm37zky"
+            },
+            {
+              "rank": 10,
+              "title": "(DUBBED)Justice in Blood",
+              "source_url": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
+            }
+          ],
+          "row_count": 10,
+          "status": "PASS_CANDIDATE",
+          "audit": {
+            "batchComplete": true,
+            "expectedRows": 10,
+            "actualRows": 10,
+            "missingRanks": [],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "",
+            "pageTitle": "Top in FlexTV Short Dramas Online | Watch Full Episodes in HD - FlexTV",
+            "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+            "documentLang": "en",
+            "structuredData": "JSON-LD ItemList",
+            "itemListName": "",
+            "rawHtmlSha256": "687083c0dedcc315f4853e9574b1eb14bbf98e55c25489e64e5a42d678c1fa2d",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/FlexTV.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/FlexTV.png",
+            "screenshotSha256": "97312100da9bfa692f0a009de4d994321958841ebcdef8c581286841e6f0728d"
+          },
+          "error": "",
+          "production_write": false
+        },
+        "GoodShort": {
+          "platform": "GoodShort",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_top_in_goodshort_top10",
+          "ranking_type": "Top in GoodShort",
+          "source_url": "https://www.goodshort.com/channel/Top-in-GoodShort",
+          "strategy": "verified_parser+browser_fallback",
+          "top_n": 10,
+          "rows": [],
+          "row_count": 0,
+          "status": "NEEDS_ADAPTER",
+          "audit": {
+            "batchComplete": false,
+            "expectedRows": 10,
+            "actualRows": 0,
+            "missingRanks": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.goodshort.com/channel/Top-in-GoodShort: The read operation timed out",
+            "pageTitle": "Top in GoodShort - GoodShort",
+            "pageUrl": "https://www.goodshort.com/channel/Top-in-GoodShort",
+            "documentLang": "en",
+            "structuredData": "No exact browser adapter",
+            "rawHtmlSha256": "57e32a69b4aef36838d026baa6acd2c974cb03de0479c6bf7247914a2f4c486b",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/GoodShort.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/GoodShort.png",
+            "screenshotSha256": "9a70c253d13beb3ba7dfc3e6a32da2a9594c82d58a8ac9596c4ef960d25b2796"
+          },
+          "error": "OfficialWebCollectorError: WEB_FETCH_FAILED: https://www.goodshort.com/channel/Top-in-GoodShort: The read operation timed out",
+          "production_write": false
+        },
+        "MoboReels": {
+          "platform": "MoboReels",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_popular_series_top10",
+          "ranking_type": "Popular Series",
+          "source_url": "https://www.moboreels.com/",
+          "strategy": "browser_probe",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "The Prince Is A Girl: The Slave In A Princess Disguise"
+            },
+            {
+              "rank": 2,
+              "title": "Came Back Hotter With Lord's Twins"
+            },
+            {
+              "rank": 3,
+              "title": "Mated To My Boyfriend's Brother"
+            },
+            {
+              "rank": 4,
+              "title": "The Chauffeur She Cheated On Was A Billionaire"
+            },
+            {
+              "rank": 5,
+              "title": "Left at the Altar, Married Power"
+            },
+            {
+              "rank": 6,
+              "title": "Their War, Our Fate"
+            },
+            {
+              "rank": 7,
+              "title": "His Secretary By Day, His Secret By Night"
+            },
+            {
+              "rank": 8,
+              "title": "Omega and Alpha: Fatal or Fated?"
+            },
+            {
+              "rank": 9,
+              "title": "The Abandoned God Of Olympus"
+            },
+            {
+              "rank": 10,
+              "title": "The CEO Didn't Know He Was Daddy"
+            }
+          ],
+          "row_count": 10,
+          "status": "PASS_CANDIDATE",
+          "audit": {
+            "batchComplete": true,
+            "expectedRows": 10,
+            "actualRows": 10,
+            "missingRanks": [],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "",
+            "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+            "pageUrl": "https://www.moboreels.com/",
+            "documentLang": "en",
+            "structuredData": "MoboReels Popular Series DOM",
+            "visibleTitles": 24,
+            "rawHtmlSha256": "4e40645ff2157f6da3b2e7f41c25f36bdd4cf9f0c38fa6625ff98ce0fb167c5d",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/MoboReels.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/MoboReels.png",
+            "screenshotSha256": "1a157d010a4a865b19be487f6b3da6621e0873a41478e1d199fc721a0a66f3de"
+          },
+          "error": "",
+          "production_write": false
+        },
+        "NetShort": {
+          "platform": "NetShort",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_trending_now_top10",
+          "ranking_type": "Trending Now",
+          "source_url": "https://netshort.com/",
+          "strategy": "browser_probe",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Double-marked: Luna's Revenge",
+              "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+            },
+            {
+              "rank": 2,
+              "title": "My Sister’s Boyfriend Arrested Me",
+              "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+            },
+            {
+              "rank": 3,
+              "title": "Back to 95 - Her Big Comeback",
+              "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+            },
+            {
+              "rank": 4,
+              "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+              "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+            },
+            {
+              "rank": 5,
+              "title": "I Woke Up With a Tribe of Beast Girls",
+              "source_url": "https://netshort.com/full-episodes/i-woke-up-with-a-tribe-of-beast-girls-2098257057250066433"
+            },
+            {
+              "rank": 6,
+              "title": "The Quarterback's Comeback",
+              "source_url": "https://netshort.com/full-episodes/the-quarterbacks-comeback-2094669491412594689"
+            },
+            {
+              "rank": 7,
+              "title": "I Spoke Baby Dragon and Won Everyone Over!",
+              "source_url": "https://netshort.com/full-episodes/i-spoke-baby-dragon-and-won-everyone-over-2094674901238480897"
+            },
+            {
+              "rank": 8,
+              "title": "The Dragon Tyrant's Secret Heir",
+              "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
+            },
+            {
+              "rank": 9,
+              "title": "Escaping the R18 Mafia Bosses Together",
+              "source_url": "https://netshort.com/full-episodes/escaping-the-r18-mafia-bosses-together-2094250296962629634"
+            },
+            {
+              "rank": 10,
+              "title": "When Housewives Turn Deadly",
+              "source_url": "https://netshort.com/full-episodes/when-housewives-turn-deadly-2087124383570907138"
+            }
+          ],
+          "row_count": 10,
+          "status": "PASS_CANDIDATE",
+          "audit": {
+            "batchComplete": true,
+            "expectedRows": 10,
+            "actualRows": 10,
+            "missingRanks": [],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "",
+            "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+            "pageUrl": "https://netshort.com/",
+            "documentLang": "en-US",
+            "structuredData": "JSON-LD ItemList",
+            "itemListName": "Trending Now",
+            "rawHtmlSha256": "db0420342a99d2e9bbe9c866c9c55d7efc9c82f4ea282ce5ffb0b8b268cb3c73",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/NetShort.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/NetShort.png",
+            "screenshotSha256": "518dc2a7b8d919b9cbb5be036f02243857782b2f5d3f5bd70bb64b1c1369110d"
+          },
+          "error": "",
+          "production_write": false
+        },
+        "ReelShort": {
+          "platform": "ReelShort",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_top_shelf_top10",
+          "ranking_type": "TOP",
+          "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+          "strategy": "browser_probe",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "Take Me Back to the Night We Met"
+            },
+            {
+              "rank": 2,
+              "title": "Altarboy"
+            },
+            {
+              "rank": 3,
+              "title": "You've Been Replaced, First Love"
+            },
+            {
+              "rank": 4,
+              "title": "Sweet Temptation"
+            },
+            {
+              "rank": 5,
+              "title": "The Hockey Captain That Hates Me"
+            },
+            {
+              "rank": 6,
+              "title": "Salt Kiss"
+            },
+            {
+              "rank": 7,
+              "title": "Found A Homeless Billionaire Husband for Christmas"
+            },
+            {
+              "rank": 8,
+              "title": "Cooking My Way Back to Love"
+            },
+            {
+              "rank": 9,
+              "title": "When Wife Won't Forgive"
+            },
+            {
+              "rank": 10,
+              "title": "My X-Ray Vision Sees Right Through You"
+            }
+          ],
+          "row_count": 10,
+          "status": "PASS_CANDIDATE",
+          "audit": {
+            "batchComplete": true,
+            "expectedRows": 10,
+            "actualRows": 10,
+            "missingRanks": [],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "parserFallbackError": "",
+            "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+            "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+            "documentLang": "en",
+            "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+            "shelfName": "TOP",
+            "total": 200,
+            "rawHtmlSha256": "931a50e58fb581bb1b1dd3cf9f506cf115d44e8b3b7b60326bb68370429d202e",
+            "rawHtmlFile": "pilot_evidence/2026-09-17/ReelShort.html.gz",
+            "screenshotFile": "pilot_evidence/2026-09-17/ReelShort.png",
+            "screenshotSha256": "fa1cb924e46e2f2745acd56af333c42f74b23d68e5dc8be33fcfc9c1d5a51a83"
+          },
+          "error": "",
+          "production_write": false
+        },
+        "ShortMax": {
+          "platform": "ShortMax",
+          "collection_date": "2026-09-17",
+          "source_type": "OFFICIAL_WEB_PILOT",
+          "target_key": "web_pilot_most_popular_top10",
+          "ranking_type": "Most Popular",
+          "source_url": "https://www.shorttv.live/",
+          "strategy": "verified_parser",
+          "top_n": 10,
+          "rows": [
+            {
+              "rank": 1,
+              "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
+            },
+            {
+              "rank": 2,
+              "title": "Loved Twice by the Hockey Star",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+            },
+            {
+              "rank": 3,
+              "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
+            },
+            {
+              "rank": 4,
+              "title": "My Crush Lost Me to His Rival",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
+            },
+            {
+              "rank": 5,
+              "title": "Done Being a Lady. Time to Shoot.",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
+            },
+            {
+              "rank": 6,
+              "title": "My Groom Chose My Best Friend",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
+            },
+            {
+              "rank": 7,
+              "title": "Dumped My Ex, Married the Mafia Don",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
+            },
+            {
+              "rank": 8,
+              "title": "Don, Your Regret Can’t Keep Me",
+              "tags": [],
+              "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+            }
+          ],
+          "row_count": 8,
+          "status": "PARTIAL",
+          "audit": {
+            "batchComplete": false,
+            "expectedRows": 10,
+            "actualRows": 8,
+            "missingRanks": [
+              9,
+              10
+            ],
+            "duplicateRanks": [],
+            "duplicateTitles": [],
+            "emptyTitles": 0
+          },
+          "evidence": {
+            "collectorVersion": "shortmax-web-v1",
+            "collectedAt": "2026-09-17T10:54:30.399923+00:00",
+            "payloadEvidence": {
+              "url": "https://www.shorttv.live/",
+              "section": "Most Popular 🔥",
+              "row_count": 8
+            }
+          },
+          "error": "",
+          "production_write": false
+        }
+      },
+      "raw_rows": 53,
+      "structurally_complete_rows": 40
+    }
+  },
+  "research_tasks": [
+    {
+      "id": "703c2fa2-45bb-49fb-ab81-9242c6a763cf",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 1,
+      "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+      "normalized_title": "marriedmyexsdadnowimmafiaqueen",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/drama/married-my-exs-dad-now-im-mafia-queen-50212322",
+          "note": "MoboReels官方剧集页：简介、标签、60集。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/married-my-ex%E2%80%99s-dad-now-i%E2%80%99m-mafia-queen",
+          "note": "MoboReels官方搜索页交叉验证标题、简介与标签。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "黑帮大佬 / 前任父亲 / 契约婚姻 / 弃婚反击",
+        "genre": "现代都市 / 黑帮爱情",
+        "payoff": "当场反转婚礼羞辱；前任被持续打脸；追回母亲财产；女主获得权力与身份跃迁；契约婚姻转为真爱。",
+        "audience": "女频",
+        "conflict": "Alex的背叛、家族对母亲财产的侵占，以及Isabella进入黑帮权力中心后的家族对抗，共同推动她从弃妇到掌权者。",
+        "mismatch": "核心关系是“嫁给前任父亲”，存在明显年龄差与家庭伦理争议；适合作为高概念钩子，但投流需避免将权力差包装成强迫关系。",
+        "synopsis": "Isabella is dumped at the altar by fiancé Alex and, to reclaim her dignity and retaliate, marries Alex's father Damien, a powerful mafia boss. She then fights her ex and family betrayals, seeks to recover her mother's stolen fortune, gains influence and develops a real relationship with Damien.",
+        "storyCore": "婚礼受辱的女主转身嫁给前任父亲这一更高权力男性，在婚姻联盟中完成复仇、夺回家产并获得新的爱情与地位。",
+        "storySkin": "Mafia boss + ex's father + contract marriage + abandoned bride + family fortune",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "高",
+        "safetyConflictNote": "关系涉及明显年龄差和黑帮权力差；官方简介可确认契约婚姻与后续恋爱，但未见强迫性关系证据。",
+        "localizationJudgment": "Mafia、age-gap、contract marriage与英语姓名均属于欧美短剧成熟商业包装，题材识别直接。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:39:57.968338+00"
+    },
+    {
+      "id": "315b3e63-a894-49ef-a7e3-929319685c0c",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 2,
+      "title": "Mated To My Boyfriend's Brother",
+      "normalized_title": "matedtomyboyfriendsbrother",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/drama/mated-to-my-boyfriend-s-brother-59256322",
+          "note": "MoboReels官方剧集页：简介、标签、62集。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/mated-to-my-boyfriend%E2%80%99s-brother",
+          "note": "MoboReels官方搜索页交叉验证简介与标签。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "狼人命定伴侣 / 前任兄弟 / Alpha×Omega / 职场近身",
+        "genre": "西幻狼人",
+        "payoff": "背叛关系被替换为更高位命定伴侣；Alpha狼性吸引持续释放；冲突关系转为真实mate bond。",
+        "audience": "女频",
+        "conflict": "背叛、命定伴侣与既有婚约冲突叠加；Bryan因订婚宴受损而迁怒Sophia，并通过解雇其兄长间接加重她的家庭压力。",
+        "mismatch": "官方简介明确背叛发生在Sophia十八岁生日之前，但没有明确说明她与Bryan的恋爱/伴侣关系从何时开始；年龄时间线存在必须单独核验的合规风险。",
+        "synopsis": "Omega Sophia discovers boyfriend Bruce cheated with her best friend Louisa shortly before her eighteenth birthday. She then learns Bruce's Alpha brother Bryan is her destined mate. After disrupting Bryan's engagement and triggering a family crisis, Sophia becomes Bryan's secretary; conflict and attraction eventually lead them toward a mate bond.",
+        "storyCore": "遭男友与闺蜜背叛的低位Omega发现真正命定伴侣是前任的Alpha哥哥，并在强冲突和被迫近距离相处中转向新的伴侣关系。",
+        "storySkin": "Werewolf + Alpha/Omega + fated mate + engagement banquet + personal secretary",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "高",
+        "safetyConflictNote": "未成年时间线存在实质风险：公开简介只确认“before her eighteenth birthday”，不能据此推断后续mate关系已满18岁。内容与投流应在年龄未核清前谨慎处理。",
+        "localizationJudgment": "Alpha/Omega、fated mate、mate bond等英语狼人言情语汇高度成熟，类型识别直接。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:39:57.968338+00"
+    },
+    {
+      "id": "13ce1068-6056-40c4-a68d-cf2795aa6d34",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 3,
+      "title": "Left at the Altar, Married Power",
+      "normalized_title": "leftatthealtarmarriedpower",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/episode/left-at-the-altar-married-power-45264322-01",
+          "note": "MoboReels官方EP1页：简介、标签、124集。",
+          "type": "official"
+        },
+        {
+          "url": "https://eng.moboreels.com/UdFB8/KMWS%20Linsey%20was%20...",
+          "note": "MoboReels官方英语落地页交叉验证标题与核心简介。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "婚礼弃婚 / 闪婚 / 亿万富豪 / 打脸反击",
+        "genre": "现代都市爱情",
+        "payoff": "婚礼低谷即时反转；女主不追渣男而直接换轨；新丈夫高身份形成持续打脸与宠爱预期。",
+        "audience": "女频",
+        "conflict": "Felix与第三者造成婚礼羞辱，Linsey的闪婚选择将旧恋情冲突升级为前任、第三者与新丈夫之间的身份对抗。",
+        "mismatch": "本土化主要在场景与姓名层，核心爽点仍高度依赖“城市最强男人”式网文权力想象。",
+        "synopsis": "Linsey is humiliated when fiancé Felix leaves their wedding after a call from another woman. Instead of collapsing, she walks out of the church and impulsively marries the first man she meets, who turns out to be the most powerful man in the city.",
+        "storyCore": "女主在婚礼现场被抛弃后立即切断旧关系，并通过与陌生高位男性闪婚完成身份和情绪反转。",
+        "storySkin": "church wedding + whirlwind marriage + billionaire/powerful man + cheating ex",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中高",
+        "safetyConflictNote": "暂无明显红线；婚礼羞辱与第三者冲突属于常规情感戏。",
+        "localizationJudgment": "教堂婚礼与英文人物名加强英语市场包装，但“被弃婚后随手嫁给全城最有权势男人”仍是典型中文闪婚爽剧结构。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:39:57.968338+00"
+    },
+    {
+      "id": "5acd7b21-a537-47ce-81fd-8bf0f90925dd",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 4,
+      "title": "The King's Physician Bride",
+      "normalized_title": "thekingsphysicianbride",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/drama/the-kings-physician-bride-66317322",
+          "note": "MoboReels官方剧集页：简介、标签、69集。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/the-kings-physician-bride",
+          "note": "MoboReels官方搜索页交叉验证简介与标签。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "神医女主 / 国王中毒 / 契约婚姻 / 先婚后爱",
+        "genre": "中古宫廷爱情",
+        "payoff": "女主识破“阳痿”误诊并成功解毒；医术在王廷获得认可；冷漠国王转为强烈追爱并撕毁契约。",
+        "audience": "女频",
+        "conflict": "Lucien的中毒秘密与王室逼婚、Hilwyn对独立生活的坚持、宫廷对其医术与身份的质疑构成持续冲突。",
+        "mismatch": "“八万金币”“误判阳痿的慢性中毒”等设定强化戏剧性，但更接近架空网文宫廷而非写实欧洲历史语境。",
+        "synopsis": "Independent noble healer Hilwyn discovers King Lucien's supposed impotence is actually chronic poisoning. To protect the secret and resist marriage pressure, Lucien offers her a contractual marriage for eighty thousand gold coins and separate lives. While she treats him and proves herself at court, their combative relationship develops into love.",
+        "storyCore": "不愿受贵族规则束缚的女医者通过治愈国王进入权力中心，与国王以利益婚约绑定，最终从互相利用转为相爱。",
+        "storySkin": "medieval royal court + physician bride + poisoned king + gold-coin contract marriage",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中",
+        "safetyConflictNote": "官方简介涉及性功能误诊，但属于医疗/婚姻设定，不等于露骨性内容；投流措辞仍宜避免过度性暗示。",
+        "localizationJudgment": "中古王室和英文名提供西式外壳，但“神医救王+高额契约婚姻+先婚后爱”的核心机制仍有明显网文迁移感。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:39:57.968338+00"
+    },
+    {
+      "id": "4e6e0896-2ab8-4a24-8900-9838ad1b2d82",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-75b8d1fcd9a32d3211ff",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 6,
+      "title": "His Neglected Wife Is The Top Scientist",
+      "normalized_title": "hisneglectedwifeisthetopscientist",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/episode/his-neglected-wife-is-the-top-scientist-60357322-60",
+          "note": "MoboReels官方EP60页：简介、标签、60集。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/his-neglected-wife-is-the-top-scientist",
+          "note": "MoboReels官方搜索页交叉验证简介与标签。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "婚姻背叛 / 隐藏大佬妻子 / 科研事业回归 / 离婚反击",
+        "genre": "现代都市",
+        "payoff": "家庭主妇身份翻转顶级科学家；被夺成果归还；丈夫与第三者失去对女主的控制；事业尊严完成回归。",
+        "audience": "女频",
+        "conflict": "Cole的情感背叛与舆论/成果争夺叠加，June需要从婚姻创伤中抽离，同时证明科研实力并拿回被侵占的作品。",
+        "mismatch": "职业包装较现代，但官方简介没有提供科研领域、机构或制度细节；不能把“top scientist”进一步扩写成具体奖项或专业成就。",
+        "synopsis": "Genius scientist June gives up her career for husband Cole but is neglected while he stays with mistress Alycia. After a miscarriage leaves June unable to conceive, she returns to research, fights Cole's slander and reclaims work that was taken from her, re-establishing herself as a top scientist.",
+        "storyCore": "为婚姻牺牲事业的高能力女性在遭遇背叛和重大失去后重新回到专业领域，用实力夺回成果与主体性。",
+        "storySkin": "top scientist + neglected wife + stolen research + mistress + career comeback",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中",
+        "safetyConflictNote": "流产、不孕与婚内背叛属于高情绪敏感内容；营销应避免将流产过程做成猎奇或强刺激画面。",
+        "localizationJudgment": "科学家职业与英文姓名具全球可读性，但“隐藏顶级身份的牺牲型妻子被背叛后回归巅峰”仍是典型中文女频爽剧母题。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:39:57.968338+00"
+    },
+    {
+      "id": "99752d2e-d93f-4eb3-9371-e9af4514b2c1",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 6,
+      "title": "Reborn, I Choose The Other Groom",
+      "normalized_title": "rebornichoosetheothergroom",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/search/reborn-i-choose-the-other-groom",
+          "note": "MoboReels官方搜索页：简介与标签。",
+          "type": "official"
+        },
+        {
+          "url": "https://shortdramawiki.com/en/dramas/reborn-i-choose-the-other-groom/",
+          "note": "ShortDramaWiki交叉验证平台归属、54集及相同核心简介；未据此扩写剧情。",
+          "type": "secondary"
+        }
+      ],
+      "research_json": {
+        "lane": "重生换夫 / 替嫁 / 残疾继承人 / 豪门夺权",
+        "genre": "现代豪门 / 重生",
+        "payoff": "重生后主动换婚；识破残疾背后的谋害；夫妻联手夺回家族权力；旧爱后悔失去女主。",
+        "audience": "女频",
+        "conflict": "前世情感执念、继女/继亲关系与Nate家族内部谋害叠加，Cathy与Nate需要同时解决婚姻选择和继承权斗争。",
+        "mismatch": "西化主要停留在姓名层；核心因果、家族责任婚姻和重生复仇逻辑均明显偏东方网文。",
+        "synopsis": "After dying in a tragic first life, Cathy returns to the period before her wedding. She lets stepsister Marlee marry Rory and instead fulfills the family duty of marrying Nate Moss, a disabled heir. Cathy discovers Nate's condition was caused by uncle Theo and stepmother Martha; the couple work together to reclaim family power and punish the people behind the scheme.",
+        "storyCore": "女主带着前世死亡记忆重来，在婚姻关键节点做出相反选择，与被家族迫害的另一位继承人结盟，改写两人的命运。",
+        "storySkin": "rebirth + substitute marriage + disabled heir + poisoning conspiracy + family succession",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "低中",
+        "safetyConflictNote": "前世包含自杀与意外致死背景；可作为前史动机，但投流应避免自杀细节化与浪漫化。",
+        "localizationJudgment": "英文姓名能降低理解门槛，但“重生换夫+替嫁残疾少爷+豪门夺权”的叙事骨架保留强烈中文网文结构。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:40:22.036314+00"
+    },
+    {
+      "id": "5826b589-c657-4ba0-8d6a-a42102bd5ff3",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 7,
+      "title": "Secret Triplets: Second Chance With My Billionaire",
+      "normalized_title": "secrettripletssecondchancewithmybillionaire",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/episode/secret-triplets-second-chance-with-my-billionaire-54023322-59",
+          "note": "MoboReels官方EP59页：简介、标签、62集。",
+          "type": "official"
+        },
+        {
+          "url": "https://eng.moboreels.com/aYlL4/KBBB%20full%20story%20of%20Secret%20...",
+          "note": "MoboReels官方英语落地页交叉验证标题与简介。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/secrets",
+          "note": "MoboReels官方搜索页同时出现近同名变体，用于记录版本/重复包装异常。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "秘密三胞胎 / 豪门追妻 / 破镜重圆 / 身世揭晓",
+        "genre": "现代都市爱情",
+        "payoff": "三个孩子主动整蛊父亲；亲子身份逐步揭晓；第三者失败；男方追回妻儿并完成家庭团圆。",
+        "audience": "女频",
+        "conflict": "Cailin对背叛的创伤与隐瞒孩子身份、Hilliard的追查、Charla持续陷害共同推动关系冲突。",
+        "mismatch": "MoboReels同时存在近同名《Secret Triplets: The Billionaire's Second Chance》版本，人物仍为Cailin/Hilliard/Charla，但官方文案在fiancé/husband、离开原因和部分事件细节上存在差异，疑似同源内容的不同包装/版本，统计时应防止重复计数。",
+        "synopsis": "At her mother's funeral, Cailin Morton sees Hilliard Holloway return with mistress Charla. She leaves him after faking a miscarriage and raises their three children away from him. Years later they reunite, the children interfere with their father, Hilliard gradually discovers the children are his, and the couple eventually reconciles after Charla's schemes fail.",
+        "storyCore": "被背叛的女性带着孩子离开旧关系，多年后因孩子与男方重新交集，通过父子相认和第三者清算推动破镜重圆。",
+        "storySkin": "billionaire + secret triplets + genius kids + fake miscarriage + paternity reveal",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中高",
+        "safetyConflictNote": "涉及流产伪造、儿童身份隐瞒与第三者冲突；无证据支持更具体的伤害情节，不做扩写。",
+        "localizationJudgment": "billionaire、secret babies、second chance romance在英语短剧市场高度成熟，但“天才萌宝+带球跑+追妻”仍保留中文网文母题。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:40:22.036314+00"
+    },
+    {
+      "id": "4603f251-f243-4905-acc3-b473af022391",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 8,
+      "title": "Designing My New Life",
+      "normalized_title": "designingmynewlife",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/search/designing-my-new-life",
+          "note": "MoboReels官方搜索页：简介与标签。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/design",
+          "note": "MoboReels官方站另一搜索入口交叉验证同一简介与标签。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "离婚觉醒 / 事业回归 / 时尚设计 / 追妻复合",
+        "genre": "现代都市爱情",
+        "payoff": "女主主动离婚止损；重返设计行业并成功；男主进入追妻/补偿位；最终通过消除误会实现复合。",
+        "audience": "女频",
+        "conflict": "Lily介入和长期误会摧毁婚姻，Thea的事业重建与Chase的追悔形成“独立成长—旧关系修复”的双线冲突。",
+        "mismatch": "官方简介将大量矛盾归因于misunderstandings，目前缺乏具体事件证据，不能进一步推定谁应承担主要过错。",
+        "synopsis": "After three years of marriage, Thea's relationship with Chase collapses under repeated misunderstandings and Lily's interference. Thea files for divorce, returns to fashion design and rebuilds a successful career. After facing danger, Chase recognizes his feelings and tries to repair the relationship; they eventually reconcile.",
+        "storyCore": "长期在婚姻中受委屈的女性主动离开失衡关系，通过重启职业天赋恢复主体性，再决定是否接受旧伴侣的补偿与复合。",
+        "storySkin": "fashion designer + divorce + third-party interference + career comeback + second chance marriage",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中高",
+        "safetyConflictNote": "暂无明显合规红线；核心是婚姻情感冲突与事业回归。",
+        "localizationJudgment": "离婚、时尚设计与英文人物名均适合英语市场，但结构仍属于成熟的“受委屈妻子离开—事业逆袭—丈夫追悔”短剧母题。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:40:22.036314+00"
+    },
+    {
+      "id": "8d7b1581-677c-4d9c-addd-f2e83bd1dbfa",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 9,
+      "title": "Marrying The Merman King",
+      "normalized_title": "marryingthemermanking",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "medium",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/search/marrying-the-merman-king",
+          "note": "MoboReels官方搜索页：简介与标签。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/the-merman",
+          "note": "MoboReels官方站交叉验证，并发现同人物同设定的近似标题版本。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "人鱼王 / 意外怀孕 / 契约婚姻 / 异族王后",
+        "genre": "西幻爱情",
+        "payoff": "普通人类跃迁为人鱼王后；在敌意王廷中证明自身价值；契约关系转为真感情。",
+        "audience": "女频",
+        "conflict": "Vivian同时面对原生家庭/未婚夫背叛、异族王廷排斥、人鱼贵族女性竞争和与William的契约式婚姻。",
+        "mismatch": "MoboReels另有《No Way! I Carried The Merman King's Baby》，同样使用Vivian/William、IVF误孕、人鱼王与契约婚姻设定，疑似同源内容的再包装或扩写版本；做剧目统计时应防止重复。",
+        "synopsis": "Human woman Vivian seeks IVF but accidentally becomes pregnant with the child of William, king of the merfolk. After betrayal by her family and fiancé, she marries William and moves to the Deep Sea Palace, where the merfolk resist having a human queen and noble women compete for William. Vivian tries to earn her place as the marriage develops into genuine affection.",
+        "storyCore": "遭现实关系背叛的普通女性因意外怀上异族王者的孩子进入陌生王国，通过婚姻绑定、宫廷排斥与自我证明完成身份跃迁和爱情建立。",
+        "storySkin": "merman king + IVF mistake + pregnancy + deep-sea palace + human queen",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "中高",
+        "safetyConflictNote": "怀孕/生育为核心剧情；官方简介未提供非自愿性关系证据。异族婚配可做，但营销需避免强迫生育或性暗示过度。",
+        "localizationJudgment": "人鱼王、深海王宫和跨种族婚恋提供强西幻视觉皮，但“意外孕+契约婚姻+豪门/王室排斥”仍沿用成熟女频母题。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 01:35:29.957598+00",
+      "updated_at": "2026-09-17 09:40:22.036314+00"
+    },
+    {
+      "id": "68a2d0eb-6551-47f7-9a9c-c03c7f95d1ac",
+      "analysis_run_id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "collection_date": "2026-09-17",
+      "platform": "MoboReels",
+      "rank": 10,
+      "title": "Weak Yesterday, Unstoppable Today",
+      "normalized_title": "weakyesterdayunstoppabletoday",
+      "reason": [
+        "newness:new",
+        "待深度研究"
+      ],
+      "missing_fields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ],
+      "status": "COMPLETE",
+      "confidence": "high",
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/search/weak-yesterday-unstoppable-today",
+          "note": "MoboReels官方搜索页：简介与标签。",
+          "type": "official"
+        },
+        {
+          "url": "https://www.moboreels.com/search/weak-fate-thunder-rise",
+          "note": "MoboReels官方站另一搜索入口交叉验证同一简介。",
+          "type": "official"
+        }
+      ],
+      "research_json": {
+        "lane": "废柴逆袭 / 奴隶觉醒 / 王位复仇 / 试炼升级",
+        "genre": "西幻冒险",
+        "payoff": "受伤反而变强的能力形成即时爽点；奴隶逃脱；试炼连续升级；不断接近真相并向王位复仇。",
+        "audience": "男频",
+        "conflict": "家族背叛、奴隶身份、贵族对手、妹妹被流放与幕后阴谋构成长线升级阻力。",
+        "mismatch": "成长路径仍明显接近中文玄幻/升级流：受辱低位开局、特殊力量觉醒、试炼升级、古籍机缘、查明家族冤案并夺回王位，创新主要来自西幻故事皮。",
+        "synopsis": "Zen, heir of House Blackwood, is betrayed by his family and sold into slavery before awakening the Prometheus Fire, a power that turns wounds into strength. He escapes, enters temple trials to find exiled sister Yana, battles rival nobles and conspiracies, gains power and clues, and moves toward uncovering his family's fall and reclaiming his stolen throne.",
+        "storyCore": "被家族背叛跌入奴隶底层的继承人觉醒特殊力量，通过连续试炼升级、寻找亲人和揭开阴谋，最终向被夺走的身份与王位反攻。",
+        "storySkin": "House Blackwood + Prometheus Fire + temple trials + Frost Tower + ancient tome + stolen throne",
+        "payEpisode": "",
+        "openingType": "",
+        "paywallType": "",
+        "openingSummary": "",
+        "paywallSummary": "",
+        "localizationLevel": "高",
+        "safetyConflictNote": "含奴役、战斗与家族迫害设定；公开简介未给出具体血腥尺度，不能扩写暴力细节。",
+        "localizationJudgment": "Blackwood家族、Prometheus、Frost Tower、王位与中世纪奇幻术语构成强西幻包装，英语市场视觉识别度高。"
+      },
+      "error": "",
+      "created_at": "2026-09-17 09:22:39.834961+00",
+      "updated_at": "2026-09-17 09:40:22.036314+00"
+    }
+  ]
+}
