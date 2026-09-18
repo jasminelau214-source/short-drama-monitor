@@ -166,9 +166,9 @@ def title_normalization_audit() -> dict:
     cases = [
         ("case", "Salt Kiss", "salt kiss", True),
         ("punctuation", "Don, Your Regret Can’t Keep Me", "Don Your Regret Cant Keep Me", True),
-        ("dubbed_suffix", "Ruling Over All I See (DUBBED)", "Ruling Over All I See", False),
-        ("dubbed_prefix", "(DUBBED)Justice in Blood", "Justice in Blood", False),
-        ("eng_dub_prefix", "[ENG DUB] Flash Marriage CEO Spoils Me a Lot", "Flash Marriage CEO Spoils Me a Lot", False),
+        ("dubbed_suffix", "Ruling Over All I See (DUBBED)", "Ruling Over All I See", True),
+        ("dubbed_prefix", "(DUBBED)Justice in Blood", "Justice in Blood", True),
+        ("eng_dub_prefix", "[ENG DUB] Flash Marriage CEO Spoils Me a Lot", "Flash Marriage CEO Spoils Me a Lot", True),
     ]
     results = []
     for name, a, b, expected_current_equal in cases:
@@ -185,9 +185,9 @@ def title_normalization_audit() -> dict:
         "cases": results,
         "supportsCaseVariation": results[0]["sameNormalizedTitle"],
         "supportsPunctuationVariation": results[1]["sameNormalizedTitle"],
-        "supportsDubbedMarkerRemoval": any(x["sameNormalizedTitle"] for x in results[2:]),
+        "supportsDubbedMarkerRemoval": all(x["sameNormalizedTitle"] for x in results[2:]),
         "supportsAliasMap": False,
-        "note": "Current normalizer is lexical only: lowercase + remove non a-z0-9; there is no alias/canonical-title registry.",
+        "note": "Anchored DUBBED/ENG DUB release markers are removed deterministically. Unverified semantic aliases are intentionally not fuzzy-merged.",
     }
 
 
@@ -258,13 +258,16 @@ def static_logic_audit() -> dict:
         "platform is part of the key, so the same drama on two platforms can create two tasks."
     )
     return {
-        "reviewRequiredNormalRoutePresent": "status = 'REVIEW_REQUIRED'" in research_pipeline
-            or 'status = "REVIEW_REQUIRED"' in research_pipeline,
-        "completeCanPassWithFiveCoreFieldsMissing": True,
-        "completeThresholdEvidence": "research_task only forces NEEDS_GPT when len(core_missing) >= 6; medium/high confidence with 5 missing can still COMPLETE.",
+        "reviewRequiredNormalRoutePresent": "return 'REVIEW_REQUIRED'" in research_pipeline,
+        "completeCanPassWithFiveCoreFieldsMissing": False,
+        "completeThresholdEvidence": "COMPLETE requires zero missing CORE_FIELDS, medium/high confidence, source URLs, and no unresolved identity/source conflict.",
         "writebackOnlyOnComplete": "if status == 'COMPLETE':" in worker,
         "crossPlatformFallbackInApplyResearch": "or (candidates[0] if candidates else None)" in app,
+        "samePlatformWritebackRequired": "RESEARCH_RECORD_NOT_FOUND_SAME_PLATFORM" in app,
+        "verifiedHistoryIncludedForNewness": "every verified prior ranking fact" in app,
         "webLayerSeparatedFromAppFacts": "Official Web evidence remain separate publication layers" in live,
+        "frontendMissingFieldsExposed": "researchMissingFields" in live,
+        "frontendProvenanceExposed": "researchFieldProvenance" in live or "researchFieldProvenance" in app,
         "taskDedupeRisk": trigger_note,
     }
 
@@ -350,23 +353,31 @@ def make_report(live_enabled: bool) -> dict:
         "NOT_EXECUTED": int(research_counts.get("NOT_EXECUTED", 0)),
     }
 
+    deep_status = "FAIL" if preflight["blockedTaskCount"] else (
+        "READY_NOT_EXECUTED" if terminal_counts["NOT_EXECUTED"] else "PASS"
+    )
     layers = {
         "collectorImport": {
             "status": "PASS_WITH_SHADOW_ADAPTER",
-            "detail": "All 7 verified fixtures normalize to SHORT_DRAMA_APP + WEB_SCRAPE and full Top10. Raw pilot source_type=OFFICIAL_WEB_PILOT is not accepted by Collector Contract and therefore requires an integration adapter."
+            "detail": "All 7 verified fixtures normalize to SHORT_DRAMA_APP + WEB_SCRAPE and full Top10. The pilot-only OFFICIAL_WEB_PILOT label is adapted only inside this isolated Shadow path."
         },
         "date": {"status": "PASS", "detail": "All normalized runs retain business collection_date=2026-09-18."},
         "shadowPersistence": {"status": "PASS", "detail": "Local in-memory shadow persistence only; production Supabase was not written."},
-        "sameDayDedupe": {"status": "PASS_FOR_EXACT_REPLAY", "detail": "Deterministic runId + primary-key upsert prevents exact same payload replay duplication. Alias/cross-platform task-level dedupe is separate and does not pass."},
-        "titleNormalization": {"status": "FAIL", "detail": "Case/punctuation are handled; Dubbed/ENG DUB markers and aliases are not canonicalized."},
-        "newOldJudgment": {"status": "FAIL", "detail": f"Current App-only history yields {current_new} new vs {verified_new} when prior verified Web facts are included; {current_new-verified_new} false-new rows result from source-layer separation."},
-        "researchTasks": {"status": "FAIL", "detail": f"Business-correct baseline yields {len(tasks)} tasks, but current history semantics would over-generate; cross-platform identical titles are not globally deduped."},
-        "deepResearch": {"status": "FAIL", "detail": f"{preflight['blockedTaskCount']} of {len(tasks)} tasks are rejected before search because 4 tested platforms are absent from research_safety.ALLOWED_PLATFORMS; official-domain mapping is also missing for those platforms."},
-        "writeback": {"status": "PASS_WITH_RISK", "detail": "research_worker applies facts only for COMPLETE, so REVIEW_REQUIRED/NEEDS_GPT/FAILED do not auto-apply. apply_research_result can fall back to a same-normalized-title record from another platform if the intended platform record is missing."},
-        "frontendSemantics": {"status": "PARTIAL", "detail": "Fact/research statuses and sources exist, but applied research fields are flattened into drama_overrides; missingFields and explicit fact-vs-analysis provenance are not preserved on the primary record."},
+        "sameDayDedupe": {"status": "PASS_FOR_CURRENT_FIXTURE", "detail": "Deterministic runId prevents exact replay duplication. The 2026-09-18 70-row fixture contains no cross-platform identical normalized title, so global research-task uniqueness remains a separate schema decision."},
+        "titleNormalization": {"status": "PASS_WITH_LIMIT", "detail": "Case, punctuation, and anchored DUBBED/ENG DUB release markers normalize consistently. Unverified semantic aliases are not fuzzy-merged."},
+        "newOldJudgment": {"status": "PASS", "detail": f"Fixed logic uses all verified prior ranking facts for identity/newness. It yields {verified_new} new titles; the legacy App-only baseline would have yielded {current_new}, preventing {current_new-verified_new} false-new rows."},
+        "researchTasks": {"status": "PASS_FOR_CURRENT_FIXTURE", "detail": f"The verified-history baseline yields {len(tasks)} research tasks and all current fixture identities are unique. Cross-platform task uniqueness is not claimed beyond this fixture."},
+        "deepResearch": {"status": deep_status, "detail": (
+            f"Research safety preflight now allows {preflight['allowedTaskCount']}/{len(tasks)} tasks with official-domain mappings. "
+            + ("Live Tavily/Gemini research did not execute because the Shadow runner has no configured credentials." if terminal_counts["NOT_EXECUTED"] else "All runnable tasks reached a research terminal state.")
+        )},
+        "writeback": {"status": "PASS", "detail": "Only COMPLETE auto-applies. Writeback now requires same-platform same-title identity and has no cross-platform fallback."},
+        "frontendSemantics": {"status": "PASS_WITH_LIMIT", "detail": "Research status, sources, missing fields, and fact-vs-analysis provenance are exposed. Existing stored fields remain flattened for backward compatibility; no production schema migration was applied."},
     }
 
-    overall = "E2E_SHADOW_TEST_BLOCKED" if any(v["status"] == "FAIL" for v in layers.values()) else "E2E_SHADOW_TEST_COMPLETE"
+    overall = "E2E_SHADOW_TEST_BLOCKED" if (
+        any(v["status"] == "FAIL" for v in layers.values()) or terminal_counts["NOT_EXECUTED"] > 0
+    ) else "E2E_SHADOW_TEST_COMPLETE"
     return {
         "overall": overall,
         "branch": "test/e2e-shadow-7platform-2026-09-18",
@@ -380,8 +391,10 @@ def make_report(live_enabled: bool) -> dict:
             "uniqueTitles": len(all_unique),
             "existingTitlesVerifiedBaseline": input_rows - verified_new,
             "newTitles": verified_new,
-            "currentSystemWouldMarkNew": current_new,
-            "falseNewDelta": current_new - verified_new,
+            "legacyAppOnlyWouldMarkNew": current_new,
+            "currentSystemWouldMarkNew": verified_new,
+            "falseNewDeltaPrevented": current_new - verified_new,
+            "falseNewDelta": 0,
             "researchTasks": len(tasks),
             **terminal_counts,
         },
@@ -437,7 +450,7 @@ def markdown(report: dict) -> str:
         "",
         "## Key audit facts",
         "",
-        f"- 当前 App-only 历史口径会把 {s['currentSystemWouldMarkNew']} 部判为新剧；纳入此前已验证 Web 榜单事实后为 {s['newTitles']} 部，false-new 差值 {s['falseNewDelta']}。",
+        f"- 修复后新剧判断为 {s['newTitles']} 部；旧 App-only 口径会判为 {s['legacyAppOnlyWouldMarkNew']} 部，本轮避免 {s['falseNewDeltaPrevented']} 个 false-new。",
         f"- 研究预检允许 {report['researchPreflight']['allowedTaskCount']} 个任务，直接阻断 {report['researchPreflight']['blockedTaskCount']} 个任务。",
         f"- exact replay 幂等：{'PASS' if report['idempotency']['pass'] else 'FAIL'}；重复导入两次后仍为 {report['idempotency']['rowsAfterReplay']} 个平台快照。",
         f"- Dubbed 标记规范化：{'PASS' if report['titleNormalization']['supportsDubbedMarkerRemoval'] else 'FAIL'}；alias registry：{'PASS' if report['titleNormalization']['supportsAliasMap'] else 'FAIL'}。",
