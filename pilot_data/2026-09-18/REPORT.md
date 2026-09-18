@@ -7,7 +7,7 @@ Promotion state: **PILOT_RUNNING**
 | DramaBox | PASS_VERIFIED | 10 | 1 | NO |
 | DramaWave | PARTIAL | 5 | 0 | NO |
 | FlexTV | PASS_CANDIDATE | 10 | 2 | NO |
-| GoodShort | PASS_VERIFIED | 10 | 1 | NO |
+| GoodShort | PASS_CANDIDATE | 10 | 1 | NO |
 | MoboReels | PASS_CANDIDATE | 10 | 2 | NO |
 | NetShort | PASS_CANDIDATE | 10 | 2 | NO |
 | ReelShort | PASS_CANDIDATE | 10 | 2 | NO |

@@ -65,14 +65,14 @@
     "pageUrl": "https://www.shorttv.live/",
     "documentLang": "",
     "httpStatus": 200,
-    "browserAttempt": 1,
+    "browserAttempt": 2,
     "mobileProfile": false,
     "structuredData": "ShortMax rendered Most Popular DOM",
     "renderedCardCount": 7,
-    "rawHtmlSha256": "ee292ed91c4f1f6b0673ac8251af682c1e5451e4b840c8f6701d853d74ea3390",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
-    "screenshotSha256": "964bc92932a3a4f428d11979f3e0b2a29e2e2ca3f99e206eba29504bc57c8578"
+    "rawHtmlSha256": "e2fa3430b4d55bfd12da13f9319cd7df51aae347a9ef2a340ecb78c2310be4f3",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.png",
+    "screenshotSha256": "b583984c919497706f4a39249132feb7943a9589a2d31e16d446fcb22b79580a"
   },
   "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
   "production_write": false
