@@ -1402,6 +1402,38 @@
       .movement-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .daily-analysis-grid,.history-library-analysis { grid-template-columns:1fr; }
     }
+  
+    /* UI LOCK V1 CLICKABILITY */
+    button.metric.daily-kpi {
+      width:100%;
+      text-align:left;
+      cursor:pointer;
+      appearance:none;
+      font:inherit;
+    }
+    button.metric.daily-kpi:hover {
+      transform:translateY(-1px);
+      border-color:#e8bcc3;
+      box-shadow:0 8px 18px rgba(145,36,52,.06);
+    }
+    button.metric.daily-kpi:focus-visible,
+    .clickable-rank-row:focus-visible,
+    .clickable-data-row:focus-visible {
+      outline:2px solid rgba(214,47,63,.32);
+      outline-offset:2px;
+    }
+    .clickable-rank-row {
+      width:100%;
+      border:0;
+      padding:0;
+      background:transparent;
+      text-align:left;
+      cursor:pointer;
+      font:inherit;
+    }
+    .clickable-rank-row:hover strong { color:#b42332; }
+    .clickable-data-row { cursor:pointer; transition:background .12s ease; }
+    .clickable-data-row:hover { background:#fff8f9 !important; }
   </style>
 </head>
 <body>
@@ -1415,7 +1447,6 @@
         <button class="active" data-view-button="dashboard">市场总览</button>
         <button data-view-button="catalog">今日榜单分析</button>
         <button data-view-button="lifecycle">历史趋势分析</button>
-        <button data-view-button="history-library">历史剧目库</button>
         <button data-view-button="research">题材 / 剧目研究</button>
         <button class="nav-admin" type="button" data-admin-href="/collect" title="需要管理员账号登录">系统设置 <span>管理员</span></button>
       </nav>
@@ -1559,11 +1590,11 @@
         </section>
 
         <div class="daily-stats">
-          <div class="metric"><div class="label">今日剧目</div><div class="value" id="dailyMetricTitles">0</div><div class="subtle">按剧名去重</div></div>
-          <div class="metric new-title"><div class="label">今日新剧</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">首次记录</div></div>
-          <div class="metric continuing-title"><div class="label">继续在榜</div><div class="value" id="dailyMetricContinuing">0</div><div class="subtle">历史已出现</div></div>
-          <div class="metric"><div class="label">女频</div><div class="value" id="dailyMetricFemale">0</div><div class="subtle">已标注受众</div></div>
-          <div class="metric"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">已标注受众</div></div>
+          <button class="metric daily-kpi" type="button" data-daily-filter="all"><div class="label">今日剧目</div><div class="value" id="dailyMetricTitles">0</div><div class="subtle">查看全部剧目 →</div></button>
+          <button class="metric daily-kpi new-title" type="button" data-daily-filter="new"><div class="label">今日新剧</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">筛选首次记录 →</div></button>
+          <button class="metric daily-kpi continuing-title" type="button" data-daily-filter="continuing"><div class="label">继续在榜</div><div class="value" id="dailyMetricContinuing">0</div><div class="subtle">筛选历史已出现 →</div></button>
+          <button class="metric daily-kpi" type="button" data-daily-filter="female"><div class="label">女频</div><div class="value" id="dailyMetricFemale">0</div><div class="subtle">筛选女频剧目 →</div></button>
+          <button class="metric daily-kpi" type="button" data-daily-filter="male"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">筛选男频剧目 →</div></button>
         </div>
 
         <section class="section daily-focus-section">
@@ -2206,23 +2237,23 @@
 
       const genreMax=Math.max(1,...day.genres.slice(0,5).map(x=>x.value));
       const colors=['red','orange','blue','purple','slate'];
-      $('#genreRanking').innerHTML=day.genres.slice(0,5).map((g,index)=>`<div class="rank-row">
+      $('#genreRanking').innerHTML=day.genres.slice(0,5).map((g,index)=>`<button type="button" class="rank-row clickable-rank-row" data-overview-genre="${escapeAttr(g.name)}">
         <span class="rank-no ${colors[index]}">${index+1}</span>
         <strong>${escapeHtml(g.name)}</strong>
         <div class="rank-bar-track"><i class="rank-bar ${colors[index]}" style="width:${Math.round(g.value/genreMax*100)}%"></i></div>
         <b>${g.value}</b>
-      </div>`).join('') || '<div class="subtle">暂无题材标注。</div>';
+      </button>`).join('') || '<div class="subtle">暂无题材标注。</div>';
 
       const platformNew=countValues(day.items.filter(r=>r.firstDate===activeDate).map(r=>r.app));
       const platformFallback=countValues(day.items.map(r=>r.app));
       const platformData=(platformNew.length?platformNew:platformFallback).slice(0,5);
       const platformMax=Math.max(1,...platformData.map(x=>x.value));
-      $('#platformRanking').innerHTML=platformData.map((g,index)=>`<div class="rank-row">
+      $('#platformRanking').innerHTML=platformData.map((g,index)=>`<button type="button" class="rank-row clickable-rank-row" data-overview-app="${escapeAttr(g.name)}">
         <span class="platform-dot ${colors[index]}">${escapeHtml(g.name.slice(0,1))}</span>
         <strong>${escapeHtml(g.name)}</strong>
         <div class="rank-bar-track"><i class="rank-bar ${colors[index]}" style="width:${Math.round(g.value/platformMax*100)}%"></i></div>
         <b>${g.value}</b>
-      </div>`).join('') || '<div class="subtle">暂无平台数据。</div>';
+      </button>`).join('') || '<div class="subtle">暂无平台数据。</div>';
 
       renderTrendChart();
       renderOverviewFocus(day);
@@ -2356,7 +2387,7 @@
       $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 部${statusLabel}`;
       $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
       $('#catalogBody').innerHTML = filtered.map(r => `
-        <tr>
+        <tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
           <td><span class="rank">${r.rank}</span></td>
           <td>${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}</td>
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
@@ -2746,6 +2777,43 @@
         showView('catalog');
         renderCatalog();
       }
+      const dailyFilter = event.target.closest('[data-daily-filter]');
+      if (dailyFilter) {
+        const mode = dailyFilter.dataset.dailyFilter;
+        $('#searchInput').value = '';
+        $('#appFilter').value = '';
+        $('#genreFilter').value = '';
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        if (mode === 'new' || mode === 'continuing') $('#statusFilter').value = mode;
+        if (mode === 'female') $('#audienceFilter').value = '女频';
+        if (mode === 'male') $('#audienceFilter').value = '男频';
+        renderCatalog();
+        document.querySelector('#catalog .filters')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const overviewGenre = event.target.closest('[data-overview-genre]');
+      if (overviewGenre) {
+        $('#searchInput').value = '';
+        $('#appFilter').value = '';
+        $('#genreFilter').value = overviewGenre.dataset.overviewGenre;
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        showView('catalog');
+        renderCatalog();
+      }
+      const overviewApp = event.target.closest('[data-overview-app]');
+      if (overviewApp) {
+        $('#searchInput').value = '';
+        $('#appFilter').value = overviewApp.dataset.overviewApp;
+        $('#genreFilter').value = '';
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        showView('catalog');
+        renderCatalog();
+      }
       const focusTab = event.target.closest('[data-focus-mode]');
       if (focusTab) {
         overviewFocusMode = focusTab.dataset.focusMode;
@@ -2773,7 +2841,13 @@
     $('#closeModal').addEventListener('click', closeDetail);
     window.addEventListener('hashchange', syncDetailFromHash);
     $('#modalBackdrop').addEventListener('click', event => { if (event.target.id === 'modalBackdrop') closeDetail(); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDetail(); });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeDetail();
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.clickable-data-row[data-open]')) {
+        event.preventDefault();
+        openDetail(event.target.dataset.open);
+      }
+    });
     $('#exportEdits').addEventListener('click', exportEdits);
     $('#importEdits').addEventListener('click', () => $('#importEditsFile').click());
     $('#importEditsFile').addEventListener('change', event => importEdits(event.target.files[0]).catch(error => alert('导入失败：' + error.message)));
@@ -2823,7 +2897,7 @@
       $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 部`;
       $('#historyBody').innerHTML = filtered.map(r => {
         const active = r.lastDate === summary.collectionDate;
-        return `<tr>
+        return `<tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
           <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
