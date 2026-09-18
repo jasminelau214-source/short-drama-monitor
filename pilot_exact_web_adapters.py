@@ -349,7 +349,7 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                 page.evaluate("""
 () => {
   const layout = document.querySelector('x-search-and-tabs-layout');
-  const innerMain = layout && layout.querySelector('main.pb-13\\.5');
+  const innerMain = layout && layout.querySelector('main');
   const scroller = document.querySelector('x-home-page');
   const h = Math.max(620, window.innerHeight - 56);
   if (layout) {
