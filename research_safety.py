@@ -7,7 +7,9 @@ import threading
 from datetime import date
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
-ALLOWED_PLATFORMS = {'ReelShort','MoboReels','NetShort','DramaWave'}
+ALLOWED_PLATFORMS = {
+    'DramaBox','FlexTV','GoodShort','MoboReels','NetShort','ReelShort','ShortMax','DramaWave'
+}
 SENSITIVE_QUERY_KEYS = {
     'token','access_token','auth','authorization','api_key','apikey','key','secret','signature','sig',
     'password','passwd','session','sessionid','jwt','credential','credentials','x-amz-signature',
