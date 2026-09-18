@@ -1119,6 +1119,31 @@
       .lifecycle-cards { grid-template-columns:1fr; }
       .history-toolbar { align-items:flex-start; flex-direction:column; }
     }
+  
+    /* UI REDESIGN V1 DETAIL */
+    .modal { border-radius:14px; }
+    .modal-header { background:linear-gradient(135deg,#fff8f9 0%,#fff 70%); }
+    .detail-summary { gap:10px; }
+    .tabs { overflow-x:auto; flex-wrap:nowrap; padding-bottom:2px; }
+    .tabs button { white-space:nowrap; }
+    .compare-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+    .compare-card { border:1px solid #eceef3; border-radius:11px; padding:14px; background:#fff; }
+    .compare-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+    .compare-card button { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-weight:800; line-height:1.4; }
+    .compare-card button:hover { color:#b42332; }
+    .compare-card p { margin:8px 0 5px; color:#475467; }
+    .compare-card small { color:#98a2b3; line-height:1.5; }
+    .resource-intro { border:1px solid #f0d9dd; border-radius:12px; padding:16px; background:linear-gradient(135deg,#fff8f9,#fff); margin-bottom:12px; }
+    .resource-intro h3 { margin-top:3px; }
+    .resource-intro p { margin-bottom:0; }
+    .resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .resource-card { border:1px dashed #dfe3ea; border-radius:11px; padding:15px; background:#fff; min-height:116px; display:flex; flex-direction:column; gap:8px; }
+    .resource-card span { color:#b42332; font-size:12px; font-weight:800; }
+    .resource-card strong { color:#344054; }
+    .resource-card small { color:#98a2b3; line-height:1.5; }
+    @media (max-width:900px) {
+      .compare-grid, .resource-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1448,9 +1473,11 @@
         <div class="tabs" role="tablist">
           <button class="active" data-tab="market" role="tab">市场表现</button>
           <button data-tab="positioning" role="tab">内容定位</button>
-          <button data-tab="story" role="tab">故事拆解</button>
-          <button data-tab="business" role="tab">商业拆解</button>
-          <button data-tab="localization" role="tab">欧美适配</button>
+          <button data-tab="story" role="tab">内容深研</button>
+          <button data-tab="business" role="tab">商业钩子</button>
+          <button data-tab="localization" role="tab">本土化</button>
+          <button data-tab="compare" role="tab">同类对比</button>
+          <button data-tab="assets" role="tab">相关资源</button>
           <button data-tab="edit" role="tab">编辑资料</button>
         </div>
         <section id="tab-market" class="tab-panel active"></section>
@@ -1458,6 +1485,8 @@
         <section id="tab-story" class="tab-panel"></section>
         <section id="tab-business" class="tab-panel"></section>
         <section id="tab-localization" class="tab-panel"></section>
+        <section id="tab-compare" class="tab-panel"></section>
+        <section id="tab-assets" class="tab-panel"></section>
         <section id="tab-edit" class="tab-panel"></section>
       </div>
     </article>
@@ -1974,6 +2003,44 @@
       $('#tab-localization').innerHTML = `
         <div class="info-grid"><div class="text-block"><h3>本土化完成度</h3><p>${detailValue(item.localizationLevel)}</p></div><div class="text-block"><h3>本土化判断</h3><p>${detailValue(item.localizationJudgment)}</p></div></div>
         <div class="text-block"><h3>明显不适配点</h3><p>${detailValue(item.mismatch)}</p></div>
+      `;
+
+      const related = records
+        .filter(r => r.id !== item.id)
+        .filter(r => (!blank(item.genre) && r.genre === item.genre) || (!blank(item.audience) && r.audience === item.audience))
+        .sort((a,b) => {
+          const aGenre = !blank(item.genre) && a.genre === item.genre ? 0 : 1;
+          const bGenre = !blank(item.genre) && b.genre === item.genre ? 0 : 1;
+          return aGenre - bGenre || a.highestRank - b.highestRank || byText(a.title,b.title);
+        })
+        .slice(0,6);
+      $('#tab-compare').innerHTML = related.length ? `
+        <div class="note-line">优先匹配同题材，其次匹配同受众；点击剧名可继续切换到对应单剧档案。</div>
+        <div class="compare-grid">
+          ${related.map(r => `
+            <article class="compare-card">
+              <div class="compare-tags"><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></div>
+              <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+              <p>${escapeHtml(shown(r.genre))} · 历史最高第${escapeHtml(String(r.highestRank))}名</p>
+              <small>${escapeHtml(shown(r.lane))}</small>
+            </article>
+          `).join('')}
+        </div>
+      ` : '<div class="note-line">当前暂无足够的同类剧目用于横向对比。</div>';
+
+      $('#tab-assets').innerHTML = `
+        <div class="resource-intro">
+          <div>
+            <div class="eyebrow">Future Ready</div>
+            <h3>视频 / 广告 / 外部资源</h3>
+            <p class="subtle">当前先保留统一资源位。后续可按 drama_id 接入正片、预告、广告素材、投放落地页和外部链接，不需要重构单剧档案。</p>
+          </div>
+        </div>
+        <div class="resource-grid">
+          <div class="resource-card"><span>视频</span><strong>暂无已接入资源</strong><small>未来支持直接播放或跳转</small></div>
+          <div class="resource-card"><span>广告</span><strong>暂无已接入素材</strong><small>未来支持素材预览与投放链接</small></div>
+          <div class="resource-card"><span>外部链接</span><strong>暂无已关联链接</strong><small>未来支持官网、平台页和研究来源</small></div>
+        </div>
       `;
       renderEditForm(item);
       activateTab('market');
