@@ -987,6 +987,68 @@
       .history-filters { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .research-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
+  
+    /* UI REDESIGN V1 OVERVIEW */
+    .overview-topbar { margin-bottom: 14px; }
+    .system-strip {
+      display:flex; align-items:center; gap:10px; min-height:38px;
+      padding:8px 12px; margin-bottom:14px; border:1px solid #eceef3;
+      border-radius:10px; background:rgba(255,255,255,.9); color:#667085; font-size:13px;
+    }
+    .system-strip strong { color:#344054; }
+    .status-dot { width:8px; height:8px; border-radius:50%; background:#36a269; box-shadow:0 0 0 4px #eaf7ef; }
+    .overview-brief {
+      border:1px solid #f0d9dd; border-radius:14px; padding:20px 22px;
+      background:linear-gradient(135deg,#fff7f8 0%,#fff 62%); box-shadow:0 10px 24px rgba(145,36,52,.04);
+    }
+    .overview-brief-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px; }
+    .eyebrow { color:#b42332; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
+    .text-link { border:0; background:transparent; color:#b42332; font-weight:700; padding:4px 0; }
+    .conclusion-list { display:grid; gap:10px; }
+    .conclusion-item { display:grid; grid-template-columns:28px 1fr; align-items:flex-start; gap:10px; }
+    .conclusion-item span {
+      width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+      background:#fff; border:1px solid #f1cfd4; color:#b42332; font-size:12px; font-weight:800;
+    }
+    .conclusion-item p { margin:1px 0 0; line-height:1.65; color:#344054; }
+
+    .overview-stats {
+      display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; margin:14px 0;
+    }
+    .overview-stats .metric { min-height:100px; }
+
+    .overview-focus { margin-top:14px; }
+    .focus-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .focus-card { position:relative; overflow:hidden; border:1px solid #eceef3; border-radius:12px; padding:16px; background:#fff; min-height:118px; }
+    .focus-card::before { content:""; position:absolute; inset:0 auto 0 0; width:3px; background:#d62f3f; }
+    .focus-card.blue::before { background:#316fd6; }
+    .focus-card.amber::before { background:#f08a24; }
+    .focus-type { color:#98a2b3; font-size:12px; font-weight:700; margin-bottom:9px; }
+    .focus-title { display:block; width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:17px; font-weight:800; line-height:1.35; margin-bottom:8px; }
+    button.focus-title:hover { color:#b42332; }
+
+    .overview-entry-section { margin-top:14px; }
+    .entry-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+    .entry-card {
+      min-height:116px; border:1px solid #f0d9dd; border-radius:12px; padding:14px;
+      background:#fffafa; color:#344054; text-align:left; display:flex; flex-direction:column; gap:7px;
+      transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease;
+    }
+    .entry-card:hover { transform:translateY(-1px); border-color:#e7b5bd; box-shadow:0 8px 18px rgba(145,36,52,.06); }
+    .entry-card span { color:#b42332; font-size:12px; font-weight:900; }
+    .entry-card strong { color:#20263a; font-size:15px; }
+    .entry-card small { color:#7a8497; line-height:1.5; }
+    .entry-card.blue { background:#fbfcff; border-color:#dfe8fb; }
+    .entry-card.blue span { color:#316fd6; }
+    .entry-card.amber { background:#fffdf9; border-color:#f5e5cd; }
+    .entry-card.amber span { color:#d8791e; }
+    .entry-card.violet { background:#fdfbff; border-color:#eadff5; }
+    .entry-card.violet span { color:#7d51b8; }
+
+    @media (max-width:1100px) {
+      .overview-stats, .entry-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .focus-grid { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
@@ -1005,8 +1067,8 @@
         <button class="nav-locked" type="button" disabled title="仅管理员账号可访问">系统设置 <span>管理员</span></button>
       </nav>
       <div class="side-note">
-        <strong>数据范围</strong><br>
-        已纳入真实采集日：2026-09-04、2026-09-07。趋势和生命周期只使用截图采集记录。
+        <strong>数据状态</strong><br>
+        <span id="sidebarDataStatus">读取真实采集数据中…</span>
       </div>
       <div id="offlineTools" class="data-tools">
         <button id="exportEdits" class="tool-button" type="button">导出修改</button>
@@ -1017,66 +1079,70 @@
 
     <main>
       <section id="dashboard" class="view active" aria-labelledby="dashboard-title">
-        <div class="topbar">
+        <div class="topbar overview-topbar">
           <div>
             <h1 id="dashboard-title">市场总览</h1>
-            <div class="subtle">快速了解今日市场概况、重点信号与研究入口。</div>
+            <div class="subtle">只保留核心当日概况与研究入口；详细榜单、历史趋势分页面查看。</div>
           </div>
           <label class="date-control" for="dashboardDate"><span>采集日</span><select id="dashboardDate" class="date-select"></select></label>
         </div>
 
-        <div class="stats-grid">
-          <div class="metric"><div class="label">今日榜位</div><div class="value" id="metricRows">0</div><div class="subtle">4个平台 Top10</div></div>
-          <div class="metric"><div class="label">不同剧目</div><div class="value" id="metricTitles">0</div><div class="subtle">按片名去重</div></div>
-          <div class="metric"><div class="label">监测平台</div><div class="value" id="metricApps">0</div><div class="subtle">本次完整覆盖</div></div>
-          <div class="metric"><div class="label">记录采集日</div><div class="value" id="metricDates">0</div><div class="subtle">不补编历史</div></div>
-          <button class="metric new-title" type="button" data-status-filter="new"><div class="label">今日新剧</div><div class="value" id="metricNew">0</div><div class="subtle">点击查看首次记录剧目</div></button>
-          <button class="metric continuing-title" type="button" data-status-filter="continuing"><div class="label">继续在榜</div><div class="value" id="metricContinuing">0</div><div class="subtle">点击查看此前已出现剧目</div></button>
+        <div class="system-strip">
+          <span class="status-dot"></span>
+          <strong>数据正常</strong>
+          <span id="overviewStatusText">正在读取采集状态…</span>
         </div>
 
-        <div class="grid-2">
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>题材结构</h2>
-                <div class="subtle" id="genreCoverage">按已确认分类统计。</div>
-              </div>
+        <section class="overview-brief">
+          <div class="overview-brief-head">
+            <div>
+              <div class="eyebrow">AI 今日摘要</div>
+              <h2>今日核心结论</h2>
             </div>
-            <div id="genreBars" class="bars"></div>
-          </section>
+            <button class="text-link" type="button" data-view-button="catalog">查看今日榜单分析 →</button>
+          </div>
+          <div id="overviewConclusions" class="conclusion-list"></div>
+        </section>
 
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>平台榜首</h2>
-                <div class="subtle">点击剧名查看详情。</div>
-              </div>
-            </div>
-            <div id="platformLeaders" class="leader-list"></div>
-          </section>
+        <div class="overview-stats">
+          <div class="metric"><div class="label">今日剧目</div><div class="value" id="metricTitles">0</div><div class="subtle">按剧名去重</div></div>
+          <button class="metric new-title" type="button" data-status-filter="new"><div class="label">今日新剧</div><div class="value" id="metricNew">0</div><div class="subtle">点击查看新剧</div></button>
+          <button class="metric continuing-title" type="button" data-status-filter="continuing"><div class="label">继续在榜</div><div class="value" id="metricContinuing">0</div><div class="subtle">点击查看延续剧目</div></button>
+          <div class="metric"><div class="label">监测平台</div><div class="value" id="metricApps">0</div><div class="subtle">本采集日有效覆盖</div></div>
         </div>
 
-        <div class="grid-2">
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>细分赛道高频词</h2>
-                <div class="subtle">从细分赛道拆分统计。</div>
-              </div>
+        <section class="section overview-focus">
+          <div class="section-head">
+            <div>
+              <h2>今日重点关注</h2>
+              <div class="subtle">只展示需要快速感知的当日信号。</div>
             </div>
-            <div id="laneCloud" class="lane-cloud"></div>
-          </section>
+          </div>
+          <div id="overviewFocus" class="focus-grid"></div>
+        </section>
 
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>受众分布</h2>
-                <div class="subtle" id="audienceCoverage">按已确认分类统计。</div>
-              </div>
+        <section class="section overview-entry-section">
+          <div class="section-head">
+            <div>
+              <h2>进入研究</h2>
+              <div class="subtle">根据任务进入对应分析页面。</div>
             </div>
-            <div id="audienceBars" class="bars"></div>
-          </section>
-        </div>
+          </div>
+          <div class="entry-grid">
+            <button type="button" class="entry-card" data-view-button="catalog">
+              <span>01</span><strong>今日榜单分析</strong><small>当日榜单、新剧、题材和重点剧目</small>
+            </button>
+            <button type="button" class="entry-card blue" data-view-button="lifecycle">
+              <span>02</span><strong>历史趋势分析</strong><small>时间趋势、题材变化和生命周期</small>
+            </button>
+            <button type="button" class="entry-card amber" data-view-button="history-library">
+              <span>03</span><strong>历史剧目库</strong><small>检索全部历史剧目与单剧档案</small>
+            </button>
+            <button type="button" class="entry-card violet" data-view-button="research">
+              <span>04</span><strong>题材 / 剧目研究</strong><small>题材横向对比与内容深研</small>
+            </button>
+          </div>
+        </section>
       </section>
 
       <section id="catalog" class="view" aria-labelledby="catalog-title">
@@ -1374,27 +1440,70 @@
     function renderDashboard() {
       const day = summarizeDate(activeDate);
       $('#dashboardDate').value = activeDate;
-      $('#metricRows').textContent = formatNumber.format(day.totalRows);
       $('#metricTitles').textContent = formatNumber.format(day.uniqueTitles);
       $('#metricApps').textContent = formatNumber.format(day.platforms.length);
-      $('#metricDates').textContent = formatNumber.format(summary.dateCount);
       $('#metricNew').textContent = formatNumber.format(day.newTitles);
       $('#metricContinuing').textContent = formatNumber.format(day.continuingTitles);
-      const genreAnnotated = day.genres.reduce((total, item) => total + item.value, 0);
-      const audienceAnnotated = day.audiences.reduce((total, item) => total + item.value, 0);
-      const genreMissing = Math.max(0, day.totalRows - genreAnnotated);
-      const audienceMissing = Math.max(0, day.totalRows - audienceAnnotated);
-      $('#genreCoverage').textContent = `已标注 ${genreAnnotated} / ${day.totalRows}，待补 ${genreMissing}。`;
-      $('#audienceCoverage').textContent = `已标注 ${audienceAnnotated} / ${day.totalRows}，待补 ${audienceMissing}。`;
-      renderBars($('#genreBars'), genreMissing ? [...day.genres, { name: '待标注', value: genreMissing, missing: true }] : day.genres, '--accent');
-      renderBars($('#audienceBars'), audienceMissing ? [...day.audiences, { name: '待标注', value: audienceMissing, missing: true }] : day.audiences, '--blue');
-      $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
-      $('#laneCloud').innerHTML = day.lanes.length ? day.lanes.map((lane, index) => `
-        <span class="chip ${index % 3 === 1 ? 'amber' : index % 3 === 2 ? 'blue' : ''}">
-          ${escapeHtml(lane.name)}<span style="margin-left:6px; font-variant-numeric:tabular-nums;">${lane.value}</span>
-        </span>
-      `).join('') : '<div class="subtle">该采集日尚无已确认赛道。</div>';
-      $('#platformLeaders').innerHTML = day.topByPlatform.map(item => leaderCard(item)).join('');
+
+      const topGenre = day.genres[0] || { name: '待标注', value: 0 };
+      const female = day.audiences.find(item => item.name === '女频')?.value || 0;
+      const male = day.audiences.find(item => item.name === '男频')?.value || 0;
+      const annotatedAudience = female + male;
+      const femaleShare = annotatedAudience ? Math.round(female / annotatedAudience * 100) : 0;
+      const newShare = day.uniqueTitles ? Math.round(day.newTitles / day.uniqueTitles * 100) : 0;
+      const strongestLeader = day.topByPlatform[0];
+
+      $('#overviewStatusText').textContent =
+        `最近采集 ${activeDate} · ${day.platforms.length} 个平台 · ${day.totalRows} 个榜位`;
+      $('#sidebarDataStatus').textContent =
+        `最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
+
+      const conclusions = [
+        `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部，占比 ${newShare}%。`,
+        `当前题材数量最多的是「${topGenre.name}」，共 ${topGenre.value} 部已标注剧目。`,
+        annotatedAudience
+          ? `已标注受众中，女频 ${female} 部、男频 ${male} 部；女频占比约 ${femaleShare}%。`
+          : '今日男女频标注尚不完整，暂不输出受众结构判断。'
+      ];
+      $('#overviewConclusions').innerHTML = conclusions.map((text, index) =>
+        `<div class="conclusion-item"><span>${index + 1}</span><p>${escapeHtml(text)}</p></div>`
+      ).join('');
+
+      const focusItems = [
+        {
+          type: '重点题材',
+          title: topGenre.name,
+          note: topGenre.value ? `今日已标注 ${topGenre.value} 部` : '等待更多题材标注',
+          tone: 'rose'
+        },
+        {
+          type: '受众结构',
+          title: annotatedAudience ? `女频 ${femaleShare}%` : '待补标注',
+          note: annotatedAudience ? `女频 ${female} 部 · 男频 ${male} 部` : '目前样本不足',
+          tone: 'blue'
+        },
+        {
+          type: '重点剧目',
+          title: strongestLeader ? strongestLeader.title : '暂无',
+          note: strongestLeader ? `${strongestLeader.app} · 当前第${strongestLeader.rank}名` : '等待榜单数据',
+          tone: 'amber',
+          id: strongestLeader?.id || ''
+        }
+      ];
+
+      $('#overviewFocus').innerHTML = focusItems.map(item => `
+        <article class="focus-card ${item.tone}">
+          <div class="focus-type">${escapeHtml(item.type)}</div>
+          ${item.id
+            ? `<button class="focus-title" data-open="${escapeAttr(item.id)}">${escapeHtml(item.title)}</button>`
+            : `<div class="focus-title">${escapeHtml(item.title)}</div>`}
+          <div class="subtle">${escapeHtml(item.note)}</div>
+        </article>
+      `).join('');
+
+      $$('[data-status-filter]').forEach(button =>
+        button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value)
+      );
     }
 
     function leaderCard(item) {
