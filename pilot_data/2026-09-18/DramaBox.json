@@ -80,7 +80,7 @@
       "raw_html_sha256": "452ee812e5a0766478148ac1e01d4311aa2198d8beb6fc7f5a3e13756eb9a013",
       "http_status": 200,
       "collector_version": "dramabox-nextdata-v1",
-      "collected_at": "2026-09-18T08:14:49.350420+00:00"
+      "collected_at": "2026-09-18T08:18:42.744911+00:00"
     },
     "primaryCollectorError": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
     "productionWrite": false

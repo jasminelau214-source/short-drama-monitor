@@ -1,14 +1,13 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T16:16:34.834156+08:00",
+  "generated_at": "2026-09-18T16:20:17.397660+08:00",
   "production_write": false,
   "promotion_requires_user_confirmation": true,
   "overall_state": "PILOT_RUNNING_SCOPE_DECISION_REQUIRED",
-  "exact_web_top10_valid": 6,
+  "exact_web_top10_valid": 7,
   "exact_web_top10_stable": 0,
   "semantic_decision_platforms": [
-    "DramaWave",
-    "ShortMax"
+    "DramaWave"
   ],
   "unresolved_platforms": [],
   "platforms": [
@@ -104,21 +103,15 @@
     },
     {
       "platform": "ShortMax",
-      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
-      "web_rows": 7,
-      "web_status": "PARTIAL",
+      "source_state": "WEB_TOP10_VALIDATING",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
       "web_stable": false,
       "alternate_rows": 10,
       "alternate_target": "Catalog sorted by playNum desc",
       "alternate_semantic_type": "derived_metric_play_num_not_official_shelf_rank",
-      "alternate_stability": {
-        "consecutive_complete_runs": 1,
-        "path_stable": false,
-        "dates": [
-          "2026-09-18"
-        ]
-      },
-      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
     }
   ]
 }

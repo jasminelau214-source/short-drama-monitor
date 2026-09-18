@@ -80,10 +80,10 @@
     "mobileProfile": false,
     "structuredData": "JSON-LD ItemList",
     "itemListName": "Trending Now",
-    "rawHtmlSha256": "ad5b918a7da3a3468ecb22a5a7d06230a551b86c89e07f6d459455262178c115",
+    "rawHtmlSha256": "a59a766565d2717ba0a047634703815c04575852ca476591b0783f1c307524b4",
     "rawHtmlFile": "pilot_evidence/2026-09-18/NetShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/NetShort.png",
-    "screenshotSha256": "743197d240dc031d009e928f92e763e9308385e264a58bb8f388b76b5daefe80"
+    "screenshotSha256": "c923a74753b6b1081cd117fd02466b4a9f75b3069b8eabf2bba2c636bf61a4a0"
   },
   "error": "",
   "production_write": false

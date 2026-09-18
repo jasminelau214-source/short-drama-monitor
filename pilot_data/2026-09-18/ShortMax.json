@@ -42,19 +42,30 @@
       "rank": 7,
       "title": "Don, Your Regret Can’t Keep Me",
       "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+    },
+    {
+      "rank": 8,
+      "title": "Dumped My Ex, Married the Mafia Don",
+      "source_url": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
+    },
+    {
+      "rank": 9,
+      "title": "The Bride They Rejected Became the Mafia Queen",
+      "source_url": "https://www.shorttv.live/drama/the-bride-they-rejected-became-the-mafia-queen-28291"
+    },
+    {
+      "rank": 10,
+      "title": "DOWngrade My Ride?I'll Upgrade My Groom!",
+      "source_url": "https://www.shorttv.live/drama/downgrade-my-rideill-upgrade-my-groom-25800"
     }
   ],
-  "row_count": 7,
-  "status": "PARTIAL",
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
   "audit": {
-    "batchComplete": false,
+    "batchComplete": true,
     "expectedRows": 10,
-    "actualRows": 7,
-    "missingRanks": [
-      8,
-      9,
-      10
-    ],
+    "actualRows": 10,
+    "missingRanks": [],
     "duplicateRanks": [],
     "duplicateTitles": [],
     "emptyTitles": 0
@@ -65,15 +76,15 @@
     "pageUrl": "https://www.shorttv.live/",
     "documentLang": "",
     "httpStatus": 200,
-    "browserAttempt": 2,
-    "mobileProfile": false,
+    "browserAttempt": 1,
+    "mobileProfile": true,
     "structuredData": "ShortMax live DOM Most Popular section",
-    "renderedCardCount": 7,
+    "renderedCardCount": 16,
     "sectionScoped": true,
-    "rawHtmlSha256": "6999d2e99273793350c266a1af65519933f194cfe2e46e5cf81b131fe1f8d769",
-    "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.html.gz",
-    "screenshotFile": "pilot_evidence/2026-09-18/ShortMax-attempt2.png",
-    "screenshotSha256": "bd96b55d350a80dc74ce1df1d3b31f6e6e17b16272b1bf303b6c17940f4f56d2"
+    "rawHtmlSha256": "608f7eccfbf83c25b4609c6fab9e7d594cecd0dd6b767896fccb11a0e3e052a3",
+    "rawHtmlFile": "pilot_evidence/2026-09-18/ShortMax.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-18/ShortMax.png",
+    "screenshotSha256": "e548fe73299e60d63ecd01369283d02a9f98ee729d0ffd2ceef92658102bad76"
   },
   "error": "RuntimeError: SHORTMAX_VERIFIED_PARTIAL:8",
   "production_write": false

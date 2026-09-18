@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T16:16:34.783322+08:00",
+  "generated_at": "2026-09-18T16:20:17.354125+08:00",
   "promotion_requires_user_confirmation": true,
   "production_write": false,
   "decisions": [
@@ -97,15 +97,15 @@
     },
     {
       "platform": "ShortMax",
-      "class": "ALTERNATE_API_COMPLETE_SEMANTIC_MISMATCH",
-      "web_rows": 7,
-      "web_status": "PARTIAL",
+      "class": "WEB_TOP10_VALID",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
       "page_status": 200,
       "api_candidate_count": 0,
       "alternate_rows": 10,
       "alternate_semantic_type": "derived_metric_play_num_not_official_shelf_rank",
       "alternate_target": "Catalog sorted by playNum desc",
-      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION",
+      "next_step": "CONTINUE_STABILITY_VALIDATION",
       "production_write": false
     }
   ]

@@ -11,6 +11,6 @@ Promotion state: **PILOT_RUNNING**
 | MoboReels | PASS_CANDIDATE | 10 | 2 | NO |
 | NetShort | PASS_CANDIDATE | 10 | 2 | NO |
 | ReelShort | PASS_CANDIDATE | 10 | 2 | NO |
-| ShortMax | PARTIAL | 7 | 0 | NO |
+| ShortMax | PASS_CANDIDATE | 10 | 1 | NO |
 
 No pilot result is written to production tables. Core promotion requires explicit user confirmation.
