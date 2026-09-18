@@ -40,10 +40,10 @@
     "mobileProfile": true,
     "structuredData": "DramaBox browser parse failed",
     "parseError": "OfficialWebCollectorError: NEXT_DATA_NOT_FOUND",
-    "rawHtmlSha256": "3461117985306f0f20878b4ecf08c1752e98045bf0ad36bbec8ca7cbd2f1abf2",
+    "rawHtmlSha256": "322f3e32dac9560f2d42ab6e88e373ed093331b935a716890719f8d7d2dadb82",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaBox-attempt2.png",
-    "screenshotSha256": "2b024410ed10b87a5cda6bcc6d9f74fa61c06c5ec70eb0fa6fa8f8eb3e6c83c3",
+    "screenshotSha256": "fba25ca0e022512e492eebf6a097d1ac101dd61dba7d4832ea96e362ba6e2e0d",
     "browserRetryError": "attempt=2 status=403 adapter_found=False"
   },
   "error": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",

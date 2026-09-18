@@ -1,0 +1,159 @@
+{
+  "collection_date": "2026-09-18",
+  "generated_at": "2026-09-18T15:51:48.095347+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "sources": [
+    {
+      "platform": "DramaWave",
+      "source_type": "OFFICIAL_H5_API_PILOT",
+      "semantic_type": "ordered_shelf_not_explicit_rank",
+      "target": "Popular Choices",
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "When Love Finds Its Way Back(Dubbed)",
+          "series_key": "LvLyw1Y7xQ"
+        },
+        {
+          "position": 2,
+          "title": "My Master's Wife",
+          "series_key": "gBEMtUll4S"
+        },
+        {
+          "position": 3,
+          "title": "Apocalypse Chosen Savior",
+          "series_key": "lRpjd61uSw"
+        },
+        {
+          "position": 4,
+          "title": "A Promise Unpaid",
+          "series_key": "ddOSzPed1U"
+        },
+        {
+          "position": 5,
+          "title": "Marrying Into the Wealthy Family with a Child",
+          "series_key": "e5ke8YPyTA"
+        },
+        {
+          "position": 6,
+          "title": "Married My Groom's Brother",
+          "series_key": "tCFgaqVvGB"
+        },
+        {
+          "position": 7,
+          "title": "Winning Our Daddy's Heart",
+          "series_key": "3TevSIwW8m"
+        },
+        {
+          "position": 8,
+          "title": "The Lazy Wife Who Built an Empire",
+          "series_key": "TRGp0qkNsf"
+        },
+        {
+          "position": 9,
+          "title": "Fallen Heiress, Hidden Billionaire",
+          "series_key": "c0jDCRX1eg"
+        },
+        {
+          "position": 10,
+          "title": "Regret After My Death",
+          "series_key": "1pBNSgbBKm"
+        }
+      ],
+      "production_write": false,
+      "notes": "Anonymous H5 API exposes 10 ordered Popular Choices items; this is not the same as the webpage's explicit Most Trending labels.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    },
+    {
+      "platform": "ShortMax",
+      "source_type": "OFFICIAL_WEB_API_PILOT",
+      "semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "target": "Catalog sorted by playNum desc",
+      "catalog_total": 1182,
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Matchmaker for the Demon King",
+          "short_play_id": 33005,
+          "play_num": 289734,
+          "collect_num": 96578
+        },
+        {
+          "position": 2,
+          "title": "My Body Shared With a Detective in Republican China",
+          "short_play_id": 34281,
+          "play_num": 289695,
+          "collect_num": 96565
+        },
+        {
+          "position": 3,
+          "title": "Shattered Ring, Fallen Fiancé",
+          "short_play_id": 32593,
+          "play_num": 289479,
+          "collect_num": 96493
+        },
+        {
+          "position": 4,
+          "title": "Fake Sweetheart on the Show",
+          "short_play_id": 32999,
+          "play_num": 288690,
+          "collect_num": 96230
+        },
+        {
+          "position": 5,
+          "title": "Oops, I Mated an Ancient Dragon",
+          "short_play_id": 32532,
+          "play_num": 283098,
+          "collect_num": 94366
+        },
+        {
+          "position": 6,
+          "title": "Reborn for the Raven Prince",
+          "short_play_id": 35953,
+          "play_num": 282081,
+          "collect_num": 94027
+        },
+        {
+          "position": 7,
+          "title": "I Left the Mafia Don Who Broke My Heart",
+          "short_play_id": 32901,
+          "play_num": 276120,
+          "collect_num": 92040
+        },
+        {
+          "position": 8,
+          "title": "My S-Rank Prisoner Is Obsessed with Me",
+          "short_play_id": 34018,
+          "play_num": 272670,
+          "collect_num": 90890
+        },
+        {
+          "position": 9,
+          "title": "Chasing Love",
+          "short_play_id": 36517,
+          "play_num": 268893,
+          "collect_num": 89631
+        },
+        {
+          "position": 10,
+          "title": "[Dubbed]My Beggar Husband Is a Dragon",
+          "short_play_id": 31841,
+          "play_num": 259302,
+          "collect_num": 86434
+        }
+      ],
+      "production_write": false,
+      "notes": "The official API exposes a catalog and playNum metrics, but no verified Most Popular rank endpoint. Sorting by playNum is a derived metric and must not replace the Web shelf without confirmation.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    }
+  ]
+}
