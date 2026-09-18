@@ -359,12 +359,12 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
   if (!heading) return [];
   const section = heading.closest('section') || heading.parentElement?.parentElement;
   if (!section) return [];
-  const cards = Array.from(section.querySelectorAll('.drama-card'));
+  const cards = Array.from(section.querySelectorAll('.drama-card, .card-item'));
   const out = [];
   const seen = new Set();
   for (const card of cards) {
     const titleEl = card.querySelector('.card-title, .overlay-title, [class*="card-title"]');
-    const linkEl = card.querySelector('a.card-title-layout, a.overlay-title, a[href*="/drama/"]');
+    const linkEl = card.querySelector('a.card-title-layout, a.card-text, a.overlay-title, a[href*="/drama/"]');
     const title = clean(titleEl && titleEl.textContent);
     const href = linkEl && linkEl.href ? String(linkEl.href) : '';
     const key = title.toLowerCase().replace(/[^a-z0-9]+/g, '');
