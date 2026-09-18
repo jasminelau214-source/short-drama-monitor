@@ -50,7 +50,7 @@ def probe_once() -> None:
             row["bytes_read"] = len(body.encode("utf-8", errors="ignore"))
             row["raw_html_sha256"] = hashlib.sha256(body.encode("utf-8", errors="replace")).hexdigest()
 
-            if url.endswith("/channel/trending"):
+            if url == TARGETS[0]:
                 payload = collect_dramabox_channel(
                     channel="trending",
                     collection_date=collection_date(),
