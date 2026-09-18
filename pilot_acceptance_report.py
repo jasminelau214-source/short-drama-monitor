@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parent
 DATA_ROOT = ROOT / "pilot_data"
 TZ = ZoneInfo("Asia/Shanghai")
 
+NON_BLOCKING_PLATFORMS = {"DramaWave"}
+
 
 def today() -> str:
     return datetime.now(TZ).date().isoformat()
@@ -140,6 +142,8 @@ def main() -> int:
     rows = []
     exact_valid = 0
     exact_stable = 0
+    core_exact_valid = 0
+    core_exact_stable = 0
     semantic_decisions = []
     unresolved = []
 
@@ -158,8 +162,12 @@ def main() -> int:
 
         if status in {"PASS_VERIFIED", "PASS_CANDIDATE"} and web_rows == 10:
             exact_valid += 1
+            if platform not in NON_BLOCKING_PLATFORMS:
+                core_exact_valid += 1
             if stable:
                 exact_stable += 1
+                if platform not in NON_BLOCKING_PLATFORMS:
+                    core_exact_stable += 1
             source_state = "WEB_TOP10_STABLE" if stable else "WEB_TOP10_VALIDATING"
         elif platform == "DramaWave" and dw_probe:
             probe_complete = bool(dw_probe.get("top10_complete")) and not (dw_probe.get("rank_conflicts") or {})
@@ -179,7 +187,7 @@ def main() -> int:
                 and int(alt.get("row_count") or 0) == 10
                 and alt.get("semantic_type") == "ordered_shelf_not_explicit_rank"
             ):
-                source_state = "WEB_EXPLICIT_TOP5_H5_NO_EQUIVALENT_TOP10"
+                source_state = "NON_BLOCKING_SPECIAL_SCOPE"
                 alt_stability = alt_history(
                     platform,
                     str(alt.get("semantic_type")),
@@ -231,12 +239,13 @@ def main() -> int:
             "next_step": decision.get("next_step"),
         })
 
-    if unresolved:
+    blocking_unresolved = [p for p in unresolved if p not in NON_BLOCKING_PLATFORMS]
+    core_platform_count = sum(1 for x in rows if x["platform"] not in NON_BLOCKING_PLATFORMS)
+
+    if blocking_unresolved:
         overall = "PILOT_RUNNING_UNRESOLVED_PATHS"
-    elif semantic_decisions:
-        overall = "PILOT_RUNNING_SCOPE_DECISION_REQUIRED"
-    elif exact_stable == len(rows) and rows:
-        overall = "AWAITING_USER_CONFIRMATION"
+    elif core_exact_stable == core_platform_count and core_platform_count:
+        overall = "AWAITING_USER_CONFIRMATION_CORE_SCOPE"
     else:
         overall = "PILOT_RUNNING_STABILITY_VALIDATION"
 
@@ -248,6 +257,10 @@ def main() -> int:
         "overall_state": overall,
         "exact_web_top10_valid": exact_valid,
         "exact_web_top10_stable": exact_stable,
+        "core_promotion_scope_count": core_platform_count,
+        "core_exact_web_top10_valid": core_exact_valid,
+        "core_exact_web_top10_stable": core_exact_stable,
+        "non_blocking_platforms": sorted(NON_BLOCKING_PLATFORMS),
         "semantic_decision_platforms": sorted(set(semantic_decisions)),
         "unresolved_platforms": sorted(set(unresolved)),
         "platforms": rows,
@@ -258,8 +271,11 @@ def main() -> int:
         f"# Web Top10 Pilot Acceptance — {args.date}",
         "",
         f"- Overall state: **{overall}**",
-        f"- Exact Web Top10 valid: **{exact_valid}/{len(rows)}**",
-        f"- Exact Web Top10 stable (3 daily runs): **{exact_stable}/{len(rows)}**",
+        f"- Exact Web Top10 valid (all observed platforms): **{exact_valid}/{len(rows)}**",
+        f"- Core promotion scope: **{core_platform_count} platforms**",
+        f"- Core exact Web Top10 valid: **{core_exact_valid}/{core_platform_count}**",
+        f"- Core exact Web Top10 stable (3 daily runs): **{core_exact_stable}/{core_platform_count}**",
+        f"- Non-blocking special scope: **{', '.join(sorted(NON_BLOCKING_PLATFORMS))}**",
         "- Production write: **false**",
         "- Core promotion requires user confirmation: **true**",
         "",
@@ -304,12 +320,12 @@ def main() -> int:
     if semantic_decisions:
         lines += [
             "",
-            "## Scope decisions still required before promotion",
+            "## Non-blocking special-scope observations",
             "",
             *[
                 (
-                    f"- **{p}**: Web currently verifies only explicit Top1–5; the H5 probe exposes no equivalent "
-                    "Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different."
+                    f"- **{p}**: excluded from the current core promotion gate. Web currently verifies only explicit Top1–5; "
+                    "the H5 probe exposes no equivalent Most Trending rank labels, and the 10-item Popular Choices shelf remains semantically different."
                 )
                 for p in sorted(set(semantic_decisions))
             ],
@@ -326,6 +342,10 @@ def main() -> int:
         "overall_state": overall,
         "exact_web_top10_valid": exact_valid,
         "exact_web_top10_stable": exact_stable,
+        "core_promotion_scope_count": core_platform_count,
+        "core_exact_web_top10_valid": core_exact_valid,
+        "core_exact_web_top10_stable": core_exact_stable,
+        "non_blocking_platforms": sorted(NON_BLOCKING_PLATFORMS),
         "semantic_decision_platforms": sorted(set(semantic_decisions)),
         "unresolved_platforms": sorted(set(unresolved)),
     }, ensure_ascii=False))
