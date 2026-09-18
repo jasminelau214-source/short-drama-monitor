@@ -1,6 +1,6 @@
 {
   "collection_date": "2026-09-18",
-  "generated_at": "2026-09-18T16:29:43.806257+08:00",
+  "generated_at": "2026-09-18T16:32:54.294608+08:00",
   "promotion_requires_user_confirmation": true,
   "production_write": false,
   "decisions": [
@@ -20,7 +20,7 @@
     {
       "platform": "DramaWave",
       "class": "ALTERNATE_API_COMPLETE_SEMANTIC_MISMATCH",
-      "web_rows": 5,
+      "web_rows": 1,
       "web_status": "PARTIAL",
       "page_status": 200,
       "api_candidate_count": 0,

@@ -9,33 +9,21 @@
   "top_n": 10,
   "rows": [
     {
-      "rank": 1,
-      "title": "Swapped Heiress by My Bestie"
-    },
-    {
       "rank": 2,
       "title": "Daddy's Miracle Daughter(Dubbed)"
-    },
-    {
-      "rank": 3,
-      "title": "Slowly, Then Forever"
-    },
-    {
-      "rank": 4,
-      "title": "The Alpha King's Virgin Bride"
-    },
-    {
-      "rank": 5,
-      "title": "Claimed by the Alpha, Nursing His Baby"
     }
   ],
-  "row_count": 5,
+  "row_count": 1,
   "status": "PARTIAL",
   "audit": {
     "batchComplete": false,
     "expectedRows": 10,
-    "actualRows": 5,
+    "actualRows": 1,
     "missingRanks": [
+      1,
+      3,
+      4,
+      5,
       6,
       7,
       8,
@@ -58,10 +46,22 @@
     "cardCount": 20,
     "explicitRankCount1To10": 5,
     "duplicateExplicitRanks": [],
-    "rawHtmlSha256": "9e40dea2b47bc1c4cfee160d5850d67f31b4a0b7e7a822efdb19d0d21d18e8cf",
+    "rankCaptureMethod": "explicit Most Trending labels accumulated while scrolling",
+    "explicitRanksSeen": [
+      2
+    ],
+    "explicitRankConflicts": {},
+    "scrollRounds": 5,
+    "finalScrollMetrics": {
+      "scrollTop": 0,
+      "scrollHeight": 3493,
+      "clientHeight": 3493,
+      "atBottom": true
+    },
+    "rawHtmlSha256": "da20a1b605c56199e7ccba5f7c6077f5f968494112d6188ad91d44c699975d34",
     "rawHtmlFile": "pilot_evidence/2026-09-18/DramaWave.html.gz",
     "screenshotFile": "pilot_evidence/2026-09-18/DramaWave.png",
-    "screenshotSha256": "e4ec9e35922eaea010b53ef03c6342c6d5fc4a1b7a5531d14d913e033fe2cb60"
+    "screenshotSha256": "20160d1a6fe717db3151d3368696b759f24c3b954cea24f7f39c4ba8a6c3e15c"
   },
   "error": "",
   "production_write": false
