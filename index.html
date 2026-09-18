@@ -1075,6 +1075,50 @@
       .daily-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
       .daily-focus-grid { grid-template-columns:1fr; }
     }
+  
+    /* UI REDESIGN V1 HISTORY */
+    .history-library-link { cursor:pointer; }
+    .history-toolbar {
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      margin-bottom:12px; padding:10px 12px; border:1px solid #eceef3; border-radius:10px; background:#fff;
+    }
+    .history-toolbar > div:first-child { display:flex; align-items:center; gap:10px; }
+    .toolbar-label { font-size:13px; color:#667085; font-weight:700; }
+    .history-toolbar select { border:1px solid #dfe3ea; border-radius:8px; padding:8px 30px 8px 10px; background:#fff; color:#344054; }
+    .history-brief { border:1px solid #eadfe1; border-radius:13px; padding:18px 20px; background:linear-gradient(135deg,#fff9fa,#fff); margin-bottom:12px; }
+    .history-stats { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:10px; margin:12px 0; }
+    .history-stats .metric { min-height:94px; }
+    .history-text-value { font-size:20px !important; line-height:1.2 !important; }
+    .history-grid { align-items:stretch; }
+    .history-series { display:flex; align-items:flex-end; gap:10px; min-height:230px; overflow-x:auto; padding:16px 4px 2px; }
+    .series-column { min-width:48px; flex:1; display:grid; grid-template-rows:22px 150px 24px; gap:5px; align-items:end; text-align:center; }
+    .series-value { color:#667085; font-size:12px; font-weight:700; }
+    .series-bar-wrap { height:150px; display:flex; align-items:flex-end; justify-content:center; border-bottom:1px solid #eceef3; }
+    .series-bar { width:24px; min-height:8px; border-radius:6px 6px 2px 2px; background:linear-gradient(180deg,#e85b68,#c92c3c); }
+    .series-date { color:#98a2b3; font-size:11px; white-space:nowrap; }
+    .genre-delta-list { display:grid; gap:8px; }
+    .genre-delta-row { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #f0f1f4; }
+    .genre-delta-row:last-child { border-bottom:0; }
+    .genre-delta-row > div { display:flex; flex-direction:column; gap:3px; }
+    .delta-badge { min-width:42px; text-align:center; padding:5px 8px; border-radius:999px; font-size:12px; font-weight:800; background:#f2f4f7; color:#667085; }
+    .delta-badge.up { background:#fff0f2; color:#b42332; }
+    .delta-badge.down { background:#eaf1ff; color:#2b61b7; }
+    .delta-badge.flat { background:#f2f4f7; color:#667085; }
+    .history-life-section, .history-calendar-section { margin-top:12px; }
+    .lifecycle-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .life-card { border:1px solid #eceef3; border-radius:11px; background:#fff; padding:14px; min-width:0; }
+    .life-card-top { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
+    .life-peak { font-size:12px; font-weight:800; color:#b42332; }
+    .life-title { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:15px; font-weight:800; line-height:1.4; margin-bottom:10px; }
+    .life-title:hover { color:#b42332; }
+    .life-trail { font-variant-numeric:tabular-nums; color:#475467; font-size:13px; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .timeline.compact { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+    .timeline.compact .timeline-row { border:1px solid #eceef3; border-radius:9px; padding:10px; background:#fff; }
+    @media (max-width:1100px) {
+      .history-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .lifecycle-cards { grid-template-columns:1fr; }
+      .history-toolbar { align-items:flex-start; flex-direction:column; }
+    }
   </style>
 </head>
 <body>
@@ -1265,31 +1309,86 @@
         <div class="topbar">
           <div>
             <h1 id="life-title">历史趋势分析</h1>
-            <div class="subtle">基于真实历史采集数据观察题材变化与剧目生命周期。</div>
+            <div class="subtle">只基于真实采集快照分析市场变化，不补造缺失日期与排名。</div>
           </div>
-          <div class="date-pill">2个真实采集日</div>
+          <button class="date-pill history-library-link" type="button" data-view-button="history-library">查看全部历史剧目 →</button>
         </div>
-        <div class="lifecycle">
+
+        <div class="history-toolbar">
+          <div>
+            <span class="toolbar-label">时间范围</span>
+            <select id="historyRange">
+              <option value="7">7天</option>
+              <option value="30">30天</option>
+              <option value="90">90天</option>
+              <option value="180">半年</option>
+              <option value="365">1年</option>
+              <option value="0" selected>全部</option>
+            </select>
+          </div>
+          <div id="historyRangeNote" class="subtle"></div>
+        </div>
+
+        <section class="history-brief">
+          <div class="overview-brief-head">
+            <div>
+              <div class="eyebrow">历史数据分析</div>
+              <h2>趋势核心结论</h2>
+            </div>
+          </div>
+          <div id="historyConclusions" class="conclusion-list"></div>
+        </section>
+
+        <div class="history-stats">
+          <div class="metric"><div class="label">历史剧目</div><div class="value" id="historyMetricTitles">0</div><div class="subtle">选定范围内出现</div></div>
+          <div class="metric"><div class="label">有效采集日</div><div class="value" id="historyMetricDates">0</div><div class="subtle">真实快照数量</div></div>
+          <div class="metric new-title"><div class="label">日均新剧</div><div class="value" id="historyMetricNewAvg">0</div><div class="subtle">按真实采集日计算</div></div>
+          <div class="metric"><div class="label">最新主导题材</div><div class="value history-text-value" id="historyMetricGenre">—</div><div class="subtle">最新采集日已标注数据</div></div>
+        </div>
+
+        <div class="grid-2 history-grid">
           <section class="section">
             <div class="section-head">
               <div>
-                <h2>采集日历</h2>
-                <div class="subtle">后续日期会在这里连续追加。</div>
+                <h2>新剧变化</h2>
+                <div class="subtle">每个真实采集日首次记录剧目数量。</div>
               </div>
             </div>
-            <div class="timeline" id="dateTimeline"></div>
+            <div id="historyNewSeries" class="history-series"></div>
           </section>
+
           <section class="section">
             <div class="section-head">
               <div>
-                <h2>全部剧目生命周期</h2>
-                <div class="subtle">点击剧名可查看该剧具体上榜日期。</div>
+                <h2>题材变化信号</h2>
+                <div class="subtle">比较所选时间范围首尾采集日的题材数量变化。</div>
               </div>
             </div>
-            <div id="lifeList" class="leader-list"></div>
+            <div id="genreDeltaList" class="genre-delta-list"></div>
           </section>
         </div>
+
+        <section class="section history-life-section">
+          <div class="section-head">
+            <div>
+              <h2>代表剧目生命周期</h2>
+              <div class="subtle">按历史记录长度与最高排名排序；点击剧名进入统一单剧详情。</div>
+            </div>
+          </div>
+          <div id="lifeList" class="lifecycle-cards"></div>
+        </section>
+
+        <section class="section history-calendar-section">
+          <div class="section-head">
+            <div>
+              <h2>采集日历</h2>
+              <div class="subtle">只列真实采集日期，便于核查趋势依据。</div>
+            </div>
+          </div>
+          <div class="timeline compact" id="dateTimeline"></div>
+        </section>
       </section>
+
       <section id="history-library" class="view" aria-labelledby="history-library-title">
         <div class="topbar">
           <div>
@@ -1683,23 +1782,109 @@
       return `<span class="chip ${isNew ? 'amber' : 'blue'}">${isNew ? '新剧 · 首次记录' : `继续在榜 · ${recordedPoints}个采集日`}</span>`;
     }
 
+    function selectedHistoryDates() {
+      const days = Number($('#historyRange')?.value || 0);
+      const dates = summary.dates.slice().sort();
+      if (!days || !dates.length) return dates;
+      const end = new Date(dates.at(-1) + 'T00:00:00');
+      const cutoff = new Date(end);
+      cutoff.setDate(cutoff.getDate() - (days - 1));
+      return dates.filter(date => new Date(date + 'T00:00:00') >= cutoff);
+    }
+
+    function setupHistoryTrend() {
+      $('#historyRange').addEventListener('change', renderLifecycle);
+    }
+
     function renderLifecycle() {
-      $('#dateTimeline').innerHTML = summary.dateStats.map(stat => `
+      const dates = selectedHistoryDates();
+      const dateSet = new Set(dates);
+      const stats = summary.dateStats.filter(stat => dateSet.has(stat.date));
+      const rangeRecords = records.filter(r => (r.recordedDates || []).some(date => dateSet.has(date)));
+      const daily = dates.map(date => ({ date, ...summarizeDate(date) }));
+      const first = daily[0] || null;
+      const last = daily.at(-1) || null;
+
+      $('#historyRangeNote').textContent = dates.length
+        ? `当前范围包含 ${dates.length} 个真实采集日 · ${dates[0]} 至 ${dates.at(-1)}`
+        : '当前范围暂无真实采集日';
+
+      $('#historyMetricTitles').textContent = formatNumber.format(rangeRecords.length);
+      $('#historyMetricDates').textContent = formatNumber.format(dates.length);
+      const avgNew = daily.length ? daily.reduce((sum,item) => sum + item.newTitles, 0) / daily.length : 0;
+      $('#historyMetricNewAvg').textContent = avgNew.toFixed(1);
+      $('#historyMetricGenre').textContent = last?.genres?.[0]?.name || '—';
+
+      const firstNew = first?.newTitles ?? 0;
+      const lastNew = last?.newTitles ?? 0;
+      const newDelta = lastNew - firstNew;
+      const latestFemale = last?.audiences?.find(item => item.name === '女频')?.value || 0;
+      const latestMale = last?.audiences?.find(item => item.name === '男频')?.value || 0;
+
+      const notes = dates.length > 1 ? [
+        `所选范围覆盖 ${dates.length} 个真实采集日，共有 ${rangeRecords.length} 部历史剧目出现。`,
+        `首个采集日新剧 ${firstNew} 部，最新采集日新剧 ${lastNew} 部，变化 ${newDelta >= 0 ? '+' : ''}${newDelta} 部。`,
+        `最新采集日已标注受众中，女频 ${latestFemale} 部、男频 ${latestMale} 部；主导题材为「${last?.genres?.[0]?.name || '待标注'}」。`
+      ] : [
+        `当前时间范围只有 ${dates.length} 个真实采集日，趋势判断样本有限。`,
+        `当前范围共有 ${rangeRecords.length} 部历史剧目出现。`,
+        '随着后续采集日累积，这里会自动形成更可靠的周、月、季度趋势。'
+      ];
+      $('#historyConclusions').innerHTML = notes.map((note,index) =>
+        `<div class="conclusion-item"><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
+      ).join('');
+
+      const seriesMax = Math.max(1, ...daily.map(item => item.newTitles));
+      $('#historyNewSeries').innerHTML = daily.map(item => {
+        const height = Math.max(8, Math.round(item.newTitles / seriesMax * 100));
+        return `<div class="series-column" title="${escapeAttr(item.date)} 新剧 ${item.newTitles} 部">
+          <div class="series-value">${item.newTitles}</div>
+          <div class="series-bar-wrap"><div class="series-bar" style="height:${height}%"></div></div>
+          <div class="series-date">${escapeHtml(item.date.slice(5))}</div>
+        </div>`;
+      }).join('') || '<div class="subtle">暂无可展示的采集日。</div>';
+
+      const genreNames = uniq([...(first?.genres || []).map(x => x.name), ...(last?.genres || []).map(x => x.name)]);
+      const deltas = genreNames.map(name => {
+        const start = first?.genres?.find(x => x.name === name)?.value || 0;
+        const end = last?.genres?.find(x => x.name === name)?.value || 0;
+        return { name, start, end, delta: end - start };
+      }).sort((a,b) => Math.abs(b.delta) - Math.abs(a.delta) || b.end - a.end || byText(a.name,b.name)).slice(0,8);
+
+      $('#genreDeltaList').innerHTML = deltas.map(item => `
+        <div class="genre-delta-row">
+          <div><strong>${escapeHtml(item.name)}</strong><span class="subtle">${item.start} → ${item.end}</span></div>
+          <span class="delta-badge ${item.delta > 0 ? 'up' : item.delta < 0 ? 'down' : 'flat'}">${item.delta > 0 ? '+' : ''}${item.delta}</span>
+        </div>
+      `).join('') || '<div class="subtle">当前暂无可比较的题材数据。</div>';
+
+      $('#dateTimeline').innerHTML = stats.map(stat => `
         <div class="timeline-row">
           <strong>${escapeHtml(stat.date)}</strong>
           <div class="dot-line"><span class="dot"></span><span class="subtle">${stat.rows}个榜位，${stat.uniqueTitles}部剧</span></div>
         </div>
       `).join('');
-      $('#lifeList').innerHTML = records
+
+      $('#lifeList').innerHTML = rangeRecords
         .slice()
-        .sort((a, b) => b.daysOnChart - a.daysOnChart || a.highestRank - b.highestRank || byText(a.title, b.title))
-        .map(r => `
-          <div class="leader-item">
-            <div><span class="chip neutral">${escapeHtml(r.recordedDates.join('、'))}</span></div>
-            <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
-            <div class="subtle">${escapeHtml(r.app)} · 历史最高第${r.highestRank}名 · 已记录${r.daysOnChart}个采集日</div>
-          </div>
-        `).join('');
+        .sort((a,b) => b.daysOnChart - a.daysOnChart || a.highestRank - b.highestRank || byText(a.title,b.title))
+        .slice(0,12)
+        .map(r => {
+          const points = (r.history || []).filter(event => dateSet.has(event.date));
+          const trail = points.map(event => '#' + event.rank).join(' → ') || '暂无轨迹';
+          return `<article class="life-card">
+            <div class="life-card-top">
+              <div>
+                <span class="chip neutral">${escapeHtml(r.app)}</span>
+                <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span>
+              </div>
+              <span class="life-peak">最高 #${escapeHtml(String(r.highestRank))}</span>
+            </div>
+            <button class="life-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+            <div class="life-trail">${escapeHtml(trail)}</div>
+            <div class="subtle">${escapeHtml(shown(r.genre))} · 记录 ${points.length} 个采集点</div>
+          </article>`;
+        }).join('') || '<div class="subtle">当前范围暂无剧目生命周期数据。</div>';
     }
 
     function metricText(metrics) {
@@ -1982,6 +2167,7 @@
       setupFilters();
       setupHistoryLibrary();
       setupResearch();
+      setupHistoryTrend();
       renderDashboard();
       renderCatalog();
       renderLifecycle();
