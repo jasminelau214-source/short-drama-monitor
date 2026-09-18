@@ -1,0 +1,22 @@
+name: Audit backfill regression check
+
+on:
+  push:
+    branches:
+      - audit/backfill-2026-09-16-17
+  workflow_dispatch:
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile guarded pipeline
+        run: |
+          python -m py_compile research_guard.py research_validation.py research_pipeline.py research_worker.py live_observations.py live_observations_v2.py collector_import.py
+      - name: Historical regression tests
+        run: |
+          python -m unittest -v             test_research_guard.py             test_research_validation.py             test_web_current_scope.py             test_live_observations_v2.py             test_research_safety.py             test_collector_import.py
