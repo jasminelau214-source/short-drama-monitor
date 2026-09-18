@@ -16,6 +16,7 @@ from research_safety import (
     sanitize_untrusted_evidence,
     validate_search_identity,
 )
+from research_validation import validate_research_payload
 
 TAVILY_SEARCH_URL = 'https://api.tavily.com/search'
 
@@ -267,18 +268,37 @@ def research_task(task: dict) -> dict:
             'error': 'Tavily 未找到通过安全校验的公开来源。',
             'searchMeta': search_meta,
         }
+
     result = analyze_sources(task=task, sources=sources)
+    allowed_urls = {s['url'] for s in sources}
+    contract = validate_research_payload(result, allowed_source_urls=allowed_urls)
+
     missing = [str(x) for x in (result.get('missingFields') or []) if str(x)]
     confidence = str(result.get('confidence') or 'low')
-    needs_gpt = bool(result.get('needsGPT'))
     core_missing = [x for x in CORE_FIELDS if not str(result.get(x) or '').strip()]
-    if len(core_missing) >= 6 or search_meta.get('sanitizedSources', 0) >= 2:
-        needs_gpt = True
-    status = 'NEEDS_GPT' if needs_gpt or confidence == 'low' else 'COMPLETE'
     source_rows = [
         {'url': s['url'], 'title': s['title'], 'official': s['official'], 'score': s['score'], 'safetyNotes': s.get('safetyNotes') or []}
         for s in sources
     ]
+
+    # A malformed model response can never be promoted to COMPLETE. Keep the
+    # evidence/result for audit, but require review instead of writing overrides.
+    if not contract.get('ok'):
+        return {
+            'status': 'REVIEW_REQUIRED',
+            'research': result,
+            'sources': source_rows,
+            'confidence': confidence if confidence in {'high','medium','low'} else 'low',
+            'missingFields': sorted(set(missing + core_missing + contract.get('missingKeys', []))),
+            'error': 'RESEARCH_SCHEMA_INVALID: ' + '; '.join(contract.get('errors') or []),
+            'searchMeta': search_meta,
+        }
+
+    needs_gpt = bool(result.get('needsGPT'))
+    if len(core_missing) >= 6 or search_meta.get('sanitizedSources', 0) >= 2:
+        needs_gpt = True
+    status = 'NEEDS_GPT' if needs_gpt or confidence == 'low' else 'COMPLETE'
+
     result['searchMeta'] = search_meta
     if search_meta.get('safetyNotes'):
         result.setdefault('auditNotes', []).append('网页证据已经过安全清洗：' + ', '.join(search_meta['safetyNotes']))
