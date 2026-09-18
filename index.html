@@ -1210,6 +1210,10 @@
     @media (max-width:1250px) {
       .history-filters { grid-template-columns:repeat(3,minmax(0,1fr)); }
     }
+  
+    /* UI REDESIGN V1 DEEP LINK */
+    .edit-button.secondary { background:#fff; color:#667085; border-color:#dfe3ea; }
+    .edit-button.secondary:hover { color:#b42332; border-color:#e8bcc3; }
   </style>
 </head>
 <body>
@@ -1573,6 +1577,7 @@
           <div id="modalSubtitle" class="subtle"></div>
         </div>
         <div class="modal-actions">
+          <button class="edit-button secondary" id="copyDramaLink" type="button">复制单剧链接</button>
           <button class="edit-button" id="editRecord" type="button">编辑资料</button>
           <button class="close-btn" id="closeModal" aria-label="关闭详情">×</button>
         </div>
@@ -2070,11 +2075,15 @@
       $('#saveOfflineRecord').addEventListener('click', saveOfflineRecord);
     }
 
-    function openDetail(id) {
+    function openDetail(id, syncHash = true) {
       const item = records.find(r => r.id === id);
       if (!item) return;
       currentDetailId = id;
       lastFocusedElement = document.activeElement;
+      if (syncHash && location.protocol !== 'file:') {
+        const nextHash = '#drama=' + encodeURIComponent(id);
+        if (location.hash !== nextHash) history.pushState({ dramaId: id }, '', nextHash);
+      }
       const event = (item.history || []).find(entry => entry.date === activeDate) || item.history.at(-1) || { date: item.date, rank: item.rank, heat: item.heat, metrics: item.platformMetrics || {} };
       $('#modalTitle').textContent = item.title;
       $('#modalSubtitle').textContent = `${item.app} · ${event.date} · 第${event.rank}名 · ${shown(item.genre)} · ${shown(item.audience)}`;
@@ -2212,14 +2221,40 @@
       location.href = '/review?id=' + encodeURIComponent(currentDetailId);
     }
 
-    function closeDetail() {
+    function closeDetail(syncHash = true) {
       if (!$('#modalBackdrop').classList.contains('open')) return;
       $('#modalBackdrop').classList.remove('open');
       document.body.style.overflow = '';
+      if (syncHash && location.protocol !== 'file:' && location.hash.startsWith('#drama=')) {
+        history.replaceState({}, '', location.pathname + location.search);
+      }
       if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus();
     }
 
-    function activateTab(name) {
+    function dramaIdFromHash() {
+      if (!location.hash.startsWith('#drama=')) return '';
+      try { return decodeURIComponent(location.hash.slice('#drama='.length)); } catch { return ''; }
+    }
+
+    async function copyCurrentDramaLink() {
+      if (!currentDetailId) return;
+      const url = location.origin + location.pathname + location.search + '#drama=' + encodeURIComponent(currentDetailId);
+      try {
+        await navigator.clipboard.writeText(url);
+        $('#copyDramaLink').textContent = '已复制';
+        setTimeout(() => { $('#copyDramaLink').textContent = '复制单剧链接'; }, 1200);
+      } catch {
+        window.prompt('复制此链接', url);
+      }
+    }
+
+    function syncDetailFromHash() {
+      const id = dramaIdFromHash();
+      if (id) openDetail(id, false);
+      else if ($('#modalBackdrop').classList.contains('open')) closeDetail(false);
+    }
+
+        function activateTab(name) {
       $$('.tabs button').forEach(button => {
         const active = button.dataset.tab === name;
         button.classList.toggle('active', active);
@@ -2260,7 +2295,9 @@
     });
 
     $('#editRecord').addEventListener('click', openEditor);
+    $('#copyDramaLink').addEventListener('click', copyCurrentDramaLink);
     $('#closeModal').addEventListener('click', closeDetail);
+    window.addEventListener('hashchange', syncDetailFromHash);
     $('#modalBackdrop').addEventListener('click', event => { if (event.target.id === 'modalBackdrop') closeDetail(); });
     document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDetail(); });
     $('#exportEdits').addEventListener('click', exportEdits);
@@ -2429,6 +2466,7 @@
       renderLifecycle();
       renderHistoryLibrary();
       renderResearch();
+      syncDetailFromHash();
     }
 
     initialize();
