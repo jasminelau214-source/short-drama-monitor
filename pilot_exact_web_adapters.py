@@ -333,11 +333,27 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
             response = page.goto(cfg["url"], wait_until="domcontentloaded", timeout=90000)
             page.wait_for_timeout(4000)
 
-            # Trigger common lazy-render/carousel hydration paths without inferring ranks.
-            scroll_rounds = 10 if platform == "DramaWave" else 4
-            for _ in range(scroll_rounds):
-                page.mouse.wheel(0, 1400)
-                page.wait_for_timeout(350)
+            # Trigger lazy rendering without inferring rank. DramaWave is an
+            # infinite recommendation stream, so exhaust rendered cards (bounded)
+            # instead of stopping after an arbitrary number of wheel events.
+            if platform == "DramaWave":
+                stable_rounds = 0
+                last_card_count = -1
+                for _ in range(60):
+                    card_count = int(page.locator("x-drama-card").count())
+                    if card_count == last_card_count:
+                        stable_rounds += 1
+                    else:
+                        stable_rounds = 0
+                        last_card_count = card_count
+                    if stable_rounds >= 5:
+                        break
+                    page.evaluate("window.scrollTo(0, document.documentElement.scrollHeight)")
+                    page.wait_for_timeout(650)
+            else:
+                for _ in range(4):
+                    page.mouse.wheel(0, 1400)
+                    page.wait_for_timeout(350)
             page.evaluate("window.scrollTo(0, 0)")
             page.wait_for_timeout(700)
 
