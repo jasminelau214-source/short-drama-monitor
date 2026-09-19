@@ -1,0 +1,90 @@
+{
+  "platform": "DramaBox",
+  "collection_date": "2026-09-19",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_top10",
+  "ranking_type": "Trending",
+  "source_url": "https://www.dramaboxdb.com/channel/trending",
+  "strategy": "verified_parser",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Guess Who They Miss Now",
+      "source_url": "https://www.dramaboxdb.com/movie/42000015757/guess-who-they-miss-now"
+    },
+    {
+      "rank": 2,
+      "title": "Fear Her, My Mom's the Lady Boss!",
+      "source_url": "https://www.dramaboxdb.com/movie/42000014893/fear-her-my-moms-the-lady-boss"
+    },
+    {
+      "rank": 3,
+      "title": "Lady Diamond's Lost Heiress Returns",
+      "source_url": "https://www.dramaboxdb.com/movie/42000012143/lady-diamonds-lost-heiress-returns"
+    },
+    {
+      "rank": 4,
+      "title": "No Escape as the Dragon King's Mate",
+      "source_url": "https://www.dramaboxdb.com/movie/42000015264/no-escape-as-the-dragon-kings-mate"
+    },
+    {
+      "rank": 5,
+      "title": "Think Again! I'm the Hidden Boss Mom",
+      "source_url": "https://www.dramaboxdb.com/movie/42000010883/think-again-im-the-hidden-boss-mom"
+    },
+    {
+      "rank": 6,
+      "title": "Ruling Over All I See (DUBBED)",
+      "source_url": "https://www.dramaboxdb.com/movie/41000121270/ruling-over-all-i-see-dubbed-"
+    },
+    {
+      "rank": 7,
+      "title": "I'm Nothing but a Mortal (DUBBED)",
+      "source_url": "https://www.dramaboxdb.com/movie/41000111513/im-nothing-but-a-mortal-dubbed"
+    },
+    {
+      "rank": 8,
+      "title": "Forever Was a Lie",
+      "source_url": "https://www.dramaboxdb.com/movie/41000110445/forever-was-a-lie"
+    },
+    {
+      "rank": 9,
+      "title": "Queen Mom Rules",
+      "source_url": "https://www.dramaboxdb.com/movie/41000119953/queen-mom-rules"
+    },
+    {
+      "rank": 10,
+      "title": "Divorced, Now a Lycan Princess",
+      "source_url": "https://www.dramaboxdb.com/movie/41000121134/divorced-now-a-lycan-princess"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_VERIFIED",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "collectorVersion": "dramabox-render-singapore-pilot-v1",
+    "fallbackService": "jsm-dramabox-pilot-probe",
+    "fallbackUrl": "https://jsm-dramabox-pilot-probe.onrender.com/refresh",
+    "sourceUrl": "https://www.dramaboxdb.com/channel/trending",
+    "sourceEvidence": {
+      "egress": "render-singapore",
+      "raw_html_sha256": "452ee812e5a0766478148ac1e01d4311aa2198d8beb6fc7f5a3e13756eb9a013",
+      "http_status": 200,
+      "collector_version": "dramabox-nextdata-v1",
+      "collected_at": "2026-09-19T09:19:11.486399+00:00"
+    },
+    "primaryCollectorError": "RuntimeError: DRAMABOX_NEXT_DATA_FORBIDDEN:dramaboxdb_prod_20260908",
+    "productionWrite": false
+  },
+  "error": "",
+  "production_write": false
+}

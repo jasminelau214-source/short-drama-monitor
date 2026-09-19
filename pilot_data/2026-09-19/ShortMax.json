@@ -1,0 +1,91 @@
+{
+  "platform": "ShortMax",
+  "collection_date": "2026-09-19",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_popular_top10",
+  "ranking_type": "Most Popular",
+  "source_url": "https://www.shorttv.live/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+      "source_url": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
+    },
+    {
+      "rank": 2,
+      "title": "Loved Twice by the Hockey Star",
+      "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+    },
+    {
+      "rank": 3,
+      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+      "source_url": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
+    },
+    {
+      "rank": 4,
+      "title": "Done Being a Lady. Time to Shoot.",
+      "source_url": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
+    },
+    {
+      "rank": 5,
+      "title": "My Crush Lost Me to His Rival",
+      "source_url": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
+    },
+    {
+      "rank": 6,
+      "title": "My Groom Chose My Best Friend",
+      "source_url": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
+    },
+    {
+      "rank": 7,
+      "title": "Don, Your Regret Can’t Keep Me",
+      "source_url": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+    },
+    {
+      "rank": 8,
+      "title": "The Son Who Returned to Expose Their Shame",
+      "source_url": "https://www.shorttv.live/drama/the-son-who-returned-to-expose-their-shame-32527"
+    },
+    {
+      "rank": 9,
+      "title": "Dumped My Ex, Married the Mafia Don",
+      "source_url": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
+    },
+    {
+      "rank": 10,
+      "title": "The Bride They Rejected Became the Mafia Queen",
+      "source_url": "https://www.shorttv.live/drama/the-bride-they-rejected-became-the-mafia-queen-28291"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
+    "pageUrl": "https://www.shorttv.live/",
+    "documentLang": "",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": true,
+    "structuredData": "ShortMax live DOM Most Popular section",
+    "renderedCardCount": 16,
+    "sectionScoped": true,
+    "rawHtmlSha256": "ff3a99a7786b846b56cb9c33779eb759ac0a8fb9f6c2725d7859894fbf29d3ab",
+    "rawHtmlFile": "pilot_evidence/2026-09-19/ShortMax.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-19/ShortMax.png",
+    "screenshotSha256": "aea50250c9380867c149d688860298f918a2d51afb2c94d3efa7f1c95509dedb"
+  },
+  "error": "",
+  "production_write": false
+}

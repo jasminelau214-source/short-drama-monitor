@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-09-19",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Left at the Altar, Married Power"
+    },
+    {
+      "rank": 2,
+      "title": "Oops, My Father's BFF Is In My Bed"
+    },
+    {
+      "rank": 3,
+      "title": "Married The Brother, But Slept With The Don"
+    },
+    {
+      "rank": 4,
+      "title": "The Top Heir's Ugly Wife"
+    },
+    {
+      "rank": 5,
+      "title": "Mr. CEO Has A Secret Child"
+    },
+    {
+      "rank": 6,
+      "title": "The Abandoned God Of Olympus"
+    },
+    {
+      "rank": 7,
+      "title": "Their War, Our Fate"
+    },
+    {
+      "rank": 8,
+      "title": "Married My Ex's Dad, Now I'm Mafia Queen"
+    },
+    {
+      "rank": 9,
+      "title": "Love After Divorce: My Ex-husband Wants Me Back"
+    },
+    {
+      "rank": 10,
+      "title": "One Night With Three Alphas Changed Everything"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "8b748c516535fcf47839413f67c33732da2d977cf7de3c2607bb1ec171f22ae9",
+    "rawHtmlFile": "pilot_evidence/2026-09-19/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-19/MoboReels.png",
+    "screenshotSha256": "88e3dcd12f70367fcd3fe1ee5b210e4a15dbdf0a2793fe550905a203ea47d253"
+  },
+  "error": "",
+  "production_write": false
+}

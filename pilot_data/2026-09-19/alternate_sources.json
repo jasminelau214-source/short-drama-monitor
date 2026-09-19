@@ -1,0 +1,159 @@
+{
+  "collection_date": "2026-09-19",
+  "generated_at": "2026-09-19T17:21:54.951955+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "sources": [
+    {
+      "platform": "DramaWave",
+      "source_type": "OFFICIAL_H5_API_PILOT",
+      "semantic_type": "ordered_shelf_not_explicit_rank",
+      "target": "Popular Choices",
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Bride by Mistake",
+          "series_key": "P8TJA0SZef"
+        },
+        {
+          "position": 2,
+          "title": "Heavenly Blessing: The Arrival of a Little Angel",
+          "series_key": "jOMzphj2oZ"
+        },
+        {
+          "position": 3,
+          "title": "Cooking My Way to Fortune",
+          "series_key": "l08pVxaU6c"
+        },
+        {
+          "position": 4,
+          "title": "Guess Who's Back, Cheater？",
+          "series_key": "hqZP2LSgU8"
+        },
+        {
+          "position": 5,
+          "title": "Fighting Back, Heiress Style",
+          "series_key": "t9eSixxA6M"
+        },
+        {
+          "position": 6,
+          "title": "Runaway Bride: My Boss, My Love",
+          "series_key": "XqWNuN8GE2"
+        },
+        {
+          "position": 7,
+          "title": "His Secret Unveiled",
+          "series_key": "OEqpmYXW4G"
+        },
+        {
+          "position": 8,
+          "title": "Married to My Doting Boss",
+          "series_key": "HrhCSl53RC"
+        },
+        {
+          "position": 9,
+          "title": "The Veiled Great",
+          "series_key": "bIHDpI7Xoe"
+        },
+        {
+          "position": 10,
+          "title": "Tamed Her Tamer(Dubbed)",
+          "series_key": "62s5V6glgR"
+        }
+      ],
+      "production_write": false,
+      "notes": "Anonymous H5 API exposes 10 ordered Popular Choices items; this is not the same as the webpage's explicit Most Trending labels.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    },
+    {
+      "platform": "ShortMax",
+      "source_type": "OFFICIAL_WEB_API_PILOT",
+      "semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "target": "Catalog sorted by playNum desc",
+      "catalog_total": 1152,
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Matchmaker for the Demon King",
+          "short_play_id": 33005,
+          "play_num": 289734,
+          "collect_num": 96578
+        },
+        {
+          "position": 2,
+          "title": "My Body Shared With a Detective in Republican China",
+          "short_play_id": 34281,
+          "play_num": 289704,
+          "collect_num": 96568
+        },
+        {
+          "position": 3,
+          "title": "Shattered Ring, Fallen Fiancé",
+          "short_play_id": 32593,
+          "play_num": 289623,
+          "collect_num": 96541
+        },
+        {
+          "position": 4,
+          "title": "Fake Sweetheart on the Show",
+          "short_play_id": 32999,
+          "play_num": 288690,
+          "collect_num": 96230
+        },
+        {
+          "position": 5,
+          "title": "Oops, I Mated an Ancient Dragon",
+          "short_play_id": 32532,
+          "play_num": 285291,
+          "collect_num": 95097
+        },
+        {
+          "position": 6,
+          "title": "Reborn for the Raven Prince",
+          "short_play_id": 35953,
+          "play_num": 283593,
+          "collect_num": 94531
+        },
+        {
+          "position": 7,
+          "title": "I Left the Mafia Don Who Broke My Heart",
+          "short_play_id": 32901,
+          "play_num": 276501,
+          "collect_num": 92167
+        },
+        {
+          "position": 8,
+          "title": "My S-Rank Prisoner Is Obsessed with Me",
+          "short_play_id": 34018,
+          "play_num": 272922,
+          "collect_num": 90974
+        },
+        {
+          "position": 9,
+          "title": "Chasing Love",
+          "short_play_id": 36517,
+          "play_num": 268896,
+          "collect_num": 89632
+        },
+        {
+          "position": 10,
+          "title": "[Dubbed]My Beggar Husband Is a Dragon",
+          "short_play_id": 31841,
+          "play_num": 259305,
+          "collect_num": 86435
+        }
+      ],
+      "production_write": false,
+      "notes": "The official API exposes a catalog and playNum metrics, but no verified Most Popular rank endpoint. Sorting by playNum is a derived metric and must not replace the Web shelf without confirmation.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    }
+  ]
+}
