@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timezone
 
 from collector_import import CollectorImportError, validate_and_normalize
 
@@ -104,6 +105,13 @@ class CollectorImportTests(unittest.TestCase):
             'target_key': 'web_top_all',
             'collection_method': 'WEB_SCRAPE',
             'locale': 'en-US',
+            'evidence': {
+                'requestedUrl': 'https://reelshort.com/rankings',
+                'httpStatus': 200,
+                'pageUrl': 'https://reelshort.com/rankings',
+                'semanticVerified': True,
+                'fetchedAt': datetime.now(timezone.utc).isoformat(),
+            },
         })
         payload['rows'][0]['source_url'] = 'https://example.com/drama/title-1'
         payload['rows'][0]['episode_url'] = 'https://example.com/episode/title-1-1'
