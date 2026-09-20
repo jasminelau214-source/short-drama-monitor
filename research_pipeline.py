@@ -9,6 +9,7 @@ import urllib.parse
 import urllib.request
 
 from analysis_pipeline import _request as gemini_request, _response_text as gemini_response_text
+from drama_identity import normalize_title
 from research_safety import (
     build_search_query,
     reserve_search_credit,
@@ -16,6 +17,7 @@ from research_safety import (
     sanitize_untrusted_evidence,
     validate_search_identity,
 )
+from research_validation import validate_research_payload
 
 TAVILY_SEARCH_URL = 'https://api.tavily.com/search'
 
@@ -124,11 +126,13 @@ def discover_sources(title: str, platform: str) -> tuple[list[dict], dict]:
     results = [_clean_result(x, platform) for x in (first.get('results') or []) if isinstance(x, dict)]
     results = [x for x in results if x['url'] and x['content']]
 
-    title_norm = re.sub(r'[^a-z0-9]+', '', title.casefold())
+    title_norm = normalize_title(title)
 
     def relevant(x: dict) -> bool:
-        hay = re.sub(r'[^a-z0-9]+', '', (x['title'] + ' ' + x['content'][:1200]).casefold())
-        return bool(title_norm and (title_norm in hay or x['score'] >= 0.45))
+        # Search score alone never establishes work identity.
+        result_title = normalize_title(x['title'])
+        result_excerpt = re.sub(r'[^a-z0-9]+', '', str(x['content'][:2400] or '').casefold())
+        return bool(title_norm and (title_norm in result_title or title_norm in result_excerpt))
 
     useful = [x for x in results if relevant(x)]
     searches = 1
@@ -254,6 +258,41 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
     return result
 
 
+def classify_research_status(*, requested_title: str, result: dict, search_meta: dict) -> tuple[str, list[str]]:
+    """Conservative automatic-completion gate.
+
+    Evidence insufficiency routes to NEEDS_GPT. Identity/source ambiguity routes
+    to REVIEW_REQUIRED. COMPLETE requires every core field and usable evidence.
+    """
+    confidence = str(result.get('confidence') or 'low')
+    core_missing = [field for field in CORE_FIELDS if not str(result.get(field) or '').strip()]
+    needs_gpt = bool(result.get('needsGPT'))
+    audit_notes = [str(x) for x in (result.get('auditNotes') or []) if str(x)]
+    audit_text = ' '.join(audit_notes).casefold()
+    conflict = bool(re.search(r'conflict|ambig|same[- ]?name|identity|alias|冲突|歧义|同名|别名', audit_text))
+    identity_uncertain = str(result.get('newnessResolution') or '') == 'uncertain'
+    canonical = str(result.get('canonicalTitle') or '').strip()
+    alias_without_official = bool(
+        canonical
+        and normalize_title(canonical) != normalize_title(requested_title)
+        and int(search_meta.get('officialCount') or 0) == 0
+    )
+    source_urls = [str(x) for x in (result.get('sourceUrls') or []) if str(x)]
+
+    if needs_gpt or confidence == 'low' or core_missing or not source_urls:
+        return 'NEEDS_GPT', core_missing
+
+    if (
+        conflict
+        or identity_uncertain
+        or alias_without_official
+        or int(search_meta.get('sanitizedSources') or 0) >= 2
+    ):
+        return 'REVIEW_REQUIRED', core_missing
+
+    return 'COMPLETE', core_missing
+
+
 def research_task(task: dict) -> dict:
     title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''))
     sources, search_meta = discover_sources(title, platform)
@@ -268,26 +307,44 @@ def research_task(task: dict) -> dict:
             'searchMeta': search_meta,
         }
     result = analyze_sources(task=task, sources=sources)
+    allowed_urls = {source['url'] for source in sources}
+    validation = validate_research_payload(result, allowed_source_urls=allowed_urls)
+
     missing = [str(x) for x in (result.get('missingFields') or []) if str(x)]
     confidence = str(result.get('confidence') or 'low')
-    needs_gpt = bool(result.get('needsGPT'))
-    core_missing = [x for x in CORE_FIELDS if not str(result.get(x) or '').strip()]
-    if len(core_missing) >= 6 or search_meta.get('sanitizedSources', 0) >= 2:
-        needs_gpt = True
-    status = 'NEEDS_GPT' if needs_gpt or confidence == 'low' else 'COMPLETE'
+    core_missing = [field for field in CORE_FIELDS if not str(result.get(field) or '').strip()]
     source_rows = [
-        {'url': s['url'], 'title': s['title'], 'official': s['official'], 'score': s['score'], 'safetyNotes': s.get('safetyNotes') or []}
-        for s in sources
+        {'url': source['url'], 'title': source['title'], 'official': source['official'], 'score': source['score'], 'safetyNotes': source.get('safetyNotes') or []}
+        for source in sources
     ]
+
+    if not validation.get('ok'):
+        return {
+            'status': 'REVIEW_REQUIRED',
+            'research': result,
+            'sources': source_rows,
+            'confidence': confidence if confidence in {'high','medium','low'} else 'low',
+            'missingFields': sorted(set(missing + core_missing + validation.get('missingKeys', []))),
+            'error': 'RESEARCH_SCHEMA_INVALID: ' + '; '.join(validation.get('errors') or []),
+            'searchMeta': search_meta,
+        }
+
+    status, classified_missing = classify_research_status(
+        requested_title=title,
+        result=result,
+        search_meta=search_meta,
+    )
+
     result['searchMeta'] = search_meta
     if search_meta.get('safetyNotes'):
         result.setdefault('auditNotes', []).append('网页证据已经过安全清洗：' + ', '.join(search_meta['safetyNotes']))
+
     return {
         'status': status,
         'research': result,
         'sources': source_rows,
         'confidence': confidence,
-        'missingFields': sorted(set(missing + core_missing)),
+        'missingFields': sorted(set(missing + core_missing + classified_missing)),
         'error': '',
         'searchMeta': search_meta,
     }
