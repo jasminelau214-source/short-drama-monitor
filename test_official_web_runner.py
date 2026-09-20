@@ -60,7 +60,7 @@ class OfficialWebRunnerTests(unittest.TestCase):
             self.assertEqual(len(saved['rows']), 2)
 
     def test_default_web_plan_contains_verified_targets(self):
-        self.assertEqual(len(TARGETS), 9)
+        self.assertEqual(len(TARGETS), 11)
         self.assertEqual(TARGETS['shortmax_most_popular']['target_key'], 'web_most_popular_all')
         self.assertEqual(TARGETS['shortmax_war_god']['target_key'], 'web_category_war_god')
         self.assertEqual(TARGETS['shortmax_tycoon_life']['target_key'], 'web_category_tycoon_life')
@@ -70,6 +70,8 @@ class OfficialWebRunnerTests(unittest.TestCase):
         self.assertEqual(TARGETS['goodshort_top']['target_key'], 'web_top_goodshort_pilot')
         self.assertEqual(TARGETS['reelshort_top']['target_key'], 'web_top_shelf_all')
         self.assertEqual(TARGETS['moboreels_popular']['target_key'], 'web_popular_series_all')
+        self.assertEqual(TARGETS['netshort_trending']['target_key'], 'web_trending_now_all')
+        self.assertEqual(TARGETS['flextv_top']['target_key'], 'web_top_in_flextv_all')
 
 
 if __name__ == '__main__':
