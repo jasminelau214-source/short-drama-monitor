@@ -13,9 +13,6 @@ on:
       - 'source_evidence_guard.py'
       - 'web_promotion_gate.py'
       - '.github/workflows/integration-itemlist-platform-fault.yml'
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
