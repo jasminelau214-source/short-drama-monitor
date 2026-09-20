@@ -234,6 +234,9 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         episode_url = _clean(raw.get('episode_url') or raw.get('episodeUrl'), 1200)
         if episode_url:
             item['episodeUrl'] = episode_url
+        poster_url = _clean(raw.get('poster_url') or raw.get('posterUrl') or raw.get('cover_url') or raw.get('coverUrl'), 1200)
+        if poster_url:
+            item['posterUrl'] = poster_url
         rows.append(item)
 
     expected_ranks = set(range(1, top_n + 1))
