@@ -25,6 +25,7 @@ from live_observations import merge_analysis_records, build_live_summary
 from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
 from collector_import import CollectorImportError, validate_and_normalize
 from drama_identity import normalize_title
+from research_writeback import select_same_platform_record
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -251,15 +252,22 @@ def known_titles(before_date=''):
 
 
 def apply_research_result(task, research):
-    title=clean(task.get('title'),500); platform=clean(task.get('platform'),40); norm=normalize_title(title)
-    data=public_data(); candidates=[r for r in data['records'] if normalize_title(r.get('title'))==norm]
-    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None) or (candidates[0] if candidates else None)
+    title=clean(task.get('title'),500); platform=clean(task.get('platform'),40)
+    data=public_data()
+    record=select_same_platform_record(data['records'], platform=platform, title=title)
     if not record or not record.get('id'):
-        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND: {platform} {title}')
+        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND_SAME_PLATFORM: {platform} {title}')
     fields={k:clean(research.get(k),6000) for k in EDITABLE_FIELDS if clean(research.get(k),6000)}
     fields['researchStatus']='已研究'
     fields['researchConfidence']=clean(research.get('confidence'),30)
     fields['researchSources']=[clean(x,1000) for x in (research.get('sourceUrls') or []) if clean(x,1000)]
+    fields['researchMissingFields']=[clean(x,120) for x in (research.get('missingFields') or []) if clean(x,120)]
+    fact_fields={'synopsis','openingSummary','payEpisode','paywallSummary'}
+    fields['researchFieldProvenance']={
+        key:('source_fact' if key in fact_fields else 'analysis_judgment')
+        for key in fields
+        if key in EDITABLE_FIELDS
+    }
     drama_id=record['id']
     with connect() as c:
         old=c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone()
