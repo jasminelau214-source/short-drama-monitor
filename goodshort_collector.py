@@ -5,7 +5,12 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin
 
-from official_web_collectors import (\n    OfficialWebCollectorError,\n    _clean,\n    _unique_text,\n    fetch_html_with_metadata,\n)
+from official_web_collectors import (
+    OfficialWebCollectorError,
+    _clean,
+    _unique_text,
+    fetch_html_with_metadata,
+)
 
 
 VOID_TAGS = {
