@@ -1,0 +1,24 @@
+name: JSM Integration Contract Gate
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Compile contract surface
+        run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py test_drama_identity_contract.py
+      - name: Run Drama Identity Contract v1 tests
+        run: python -m unittest -v test_drama_identity_contract.py
