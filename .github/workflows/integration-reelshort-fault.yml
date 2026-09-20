@@ -4,6 +4,15 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'integration_reelshort_fault_audit.py'
+      - 'test_reelshort_fault_integration.py'
+      - 'reelshort_collector.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-reelshort-fault.yml'
   workflow_dispatch:
 
 permissions:
