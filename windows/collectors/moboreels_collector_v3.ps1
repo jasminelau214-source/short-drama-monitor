@@ -385,7 +385,7 @@ while ($page -le 8 -and $ByRank.Count -lt 10) {
                         later_title = $card.title
                         page = $page
                     }
-                    Log "Rank conflict #$rankKey: [$($existing.title)] vs [$($card.title)]" "Red"
+                    Log "Rank conflict #${rankKey}: [$($existing.title)] vs [$($card.title)]" "Red"
                 }
             } else {
                 $ByRank[$rankKey] = $card
