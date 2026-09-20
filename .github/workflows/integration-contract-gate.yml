@@ -44,14 +44,17 @@ jobs:
           python-version: '3.13'
 
       - name: Compile contract surface
-        run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py research_guard.py research_validation.py research_writeback.py research_pipeline.py research_worker.py source_evidence_guard.py source_semantics.py ranking_lifecycle.py app_collector_evidence.py test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py
+        run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py research_guard.py research_validation.py research_writeback.py research_pipeline.py research_worker.py source_evidence_guard.py source_semantics.py ranking_lifecycle.py app_collector_evidence.py web_promotion_gate.py test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py test_web_promotion_gate.py test_web_sync_contract.py test_official_web_collectors.py test_goodshort_collector.py test_dramabox_full_collector.py test_official_web_runner.py
 
       - name: Validate PowerShell collector syntax
         shell: pwsh
         run: |
           $files = @(
             'windows/collectors/netshort_collector_v6.ps1',
-            'windows/collectors/moboreels_collector_v3.ps1'
+            'windows/collectors/moboreels_collector_v3.ps1',
+            'windows/collector_sync.ps1',
+            'windows/run_web_collect_and_sync.ps1',
+            'windows/scheduled_web_collect.ps1'
           )
           foreach ($file in $files) {
             $tokens = $null
@@ -69,7 +72,7 @@ jobs:
           }
 
       - name: Run Python Contract v1 tests
-        run: python -m unittest -v test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py
+        run: python -m unittest -v test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py test_web_promotion_gate.py test_web_sync_contract.py test_official_web_collectors.py test_goodshort_collector.py test_dramabox_full_collector.py test_official_web_runner.py
 
       - name: Ensure PostgreSQL client
         run: |
