@@ -13,6 +13,9 @@ on:
       - 'source_evidence_guard.py'
       - 'web_promotion_gate.py'
       - '.github/workflows/integration-goodshort-fault.yml'
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
