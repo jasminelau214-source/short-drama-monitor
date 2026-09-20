@@ -6,7 +6,7 @@ import re
 # JSM Core Contract v1: release/language labels may decorate a distribution title
 # without creating a new drama identity. Only anchored labels are removable.
 _DUB_MARKER = r'(?:eng(?:lish)?\s+)?dub(?:bed)?'
-_BRACKETED_DUB_MARKER = rf'[\[(]\s*{_DUB_MARKER}\s*[\])]'
+_BRACKETED_DUB_MARKER = rf'[\[(（［【]\s*{_DUB_MARKER}\s*[\])）］】]'
 
 
 def strip_release_markers(value: object) -> str:
