@@ -5,6 +5,8 @@ import json
 import re
 from datetime import datetime, timezone
 
+from drama_identity import normalize_title
+
 
 MAX_TOP_N = 100
 ALLOWED_SOURCE_TYPES = {
@@ -60,8 +62,9 @@ def _list_text(value, limit=100):
     return out
 
 
-def _norm_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+# Backward-compatible alias for existing collectors/tests. The implementation
+# lives only in drama_identity.py.
+_norm_title = normalize_title
 
 
 def _bool_value(value):
