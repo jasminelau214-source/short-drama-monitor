@@ -1,0 +1,310 @@
+{
+  "fixtureVersion": 1,
+  "collectionDate": "2026-09-17",
+  "provenance": "read-only snapshots from production analysis_runs; copied into Integration tests only",
+  "productionWrite": false,
+  "platforms": {
+    "MoboReels": {
+      "sourceRunId": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML_SCROLL",
+      "sourceId": "shortapp_moboreels",
+      "targetKey": "daily_top_all",
+      "rankingType": "Trending Series",
+      "topN": 10,
+      "priorAppTitles": [
+        "Came Back Hotter With Lord's Twins",
+        "His Secretary By Day, His Secret By Night",
+        "Love After Divorce: My Ex-husband Wants Me Back",
+        "Love Slave to the Mafia Boss's Passion",
+        "Married The Brother, But Slept With The Don",
+        "My Alien Life",
+        "Omega and Alpha: Fatal or Fated?",
+        "One Night With Three Alphas Changed Everything",
+        "Oops, My Father's BFF Is In My Bed",
+        "Pregnant The Day His First Love Returned",
+        "That Prince Is A Girl: The Princess And Her Grand King",
+        "The CEO's Wife is a Hidden Tycoon",
+        "The Disguised Bride, Ugly But Stunning",
+        "The Prince Is A Girl: The Slave In A Princess Disguise",
+        "The Secret of Gala Night",
+        "The Top Heir's Ugly Wife",
+        "The Trophy Wife's War",
+        "Their War, Our Fate",
+        "Top Agent Returns For Her Twin"
+      ],
+      "expectedNewTitles": [
+        "Married My Ex's Dad, Now I'm Mafia Queen",
+        "Mated To My Boyfriend's Brother",
+        "Left at the Altar, Married Power",
+        "The King's Physician Bride",
+        "Reborn, I Choose The Other Groom",
+        "Secret Triplets: Second Chance With My Billionaire",
+        "Designing My New Life",
+        "Marrying The Merman King",
+        "Weak Yesterday, Unstoppable Today"
+      ],
+      "expectedOldTitles": [
+        "The Trophy Wife's War"
+      ],
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+          "heat": "5.70M",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 2,
+          "title": "Mated To My Boyfriend's Brother",
+          "heat": "2.89M",
+          "tags": [
+            "Werewolf",
+            "Soulmates",
+            "Comeback",
+            "Revenge",
+            "Broken Heart"
+          ],
+          "metrics": {}
+        },
+        {
+          "rank": 3,
+          "title": "Left at the Altar, Married Power",
+          "heat": "2.86M",
+          "tags": [
+            "Sweetness",
+            "Whirlwind Marriage",
+            "Romance",
+            "Billionaires",
+            "Counterattack"
+          ],
+          "metrics": {}
+        },
+        {
+          "rank": 4,
+          "title": "The King's Physician Bride",
+          "heat": "1.67M",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 5,
+          "title": "The Trophy Wife's War",
+          "heat": "1.25M",
+          "tags": [
+            "Seraphina Reed has spent three years as the silent, decorative wife of tech mogul Ethan Vance. That peace shatters when ",
+            "But she is no ordinary victim. Before marriage, she lived under many names, trained in survival and combat. She chose Et",
+            "Her only ally is Julian Thorne, the ruthless \"Devil’s Advocate\" divorce lawyer who never loses. Initially seeing her as "
+          ],
+          "metrics": {}
+        },
+        {
+          "rank": 6,
+          "title": "Reborn, I Choose The Other Groom",
+          "heat": "842k",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 7,
+          "title": "Secret Triplets: Second Chance With My Billionaire",
+          "heat": "580k",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 8,
+          "title": "Designing My New Life",
+          "heat": "565k",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 9,
+          "title": "Marrying The Merman King",
+          "heat": "547k",
+          "tags": [],
+          "metrics": {}
+        },
+        {
+          "rank": 10,
+          "title": "Weak Yesterday, Unstoppable Today",
+          "heat": "437k",
+          "tags": [],
+          "metrics": {}
+        }
+      ]
+    },
+    "NetShort": {
+      "sourceRunId": "collector-netshort-daily_top_all-20260917-1206d4440b20ab05470f",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML",
+      "sourceId": "shortapp_netshort",
+      "targetKey": "daily_top_all",
+      "rankingType": "Top Trending",
+      "topN": 10,
+      "priorAppTitles": [
+        "Back to 95 - Her Big Comeback",
+        "Broken Arm, Broken Bloodline",
+        "Double-marked: Luna's Revenge",
+        "Dumping My Quarterback After I Slimmed Down",
+        "Forbidden Desire",
+        "HIT",
+        "I Spoke Baby Dragon and Won Everyone Over!",
+        "Phantom Returns",
+        "SSS-Rank: The Slum-Born Thunder God",
+        "The Dragon Tyrant's Secret Heir",
+        "The Heiress's Revenge_Out of My Mansion",
+        "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+        "The Quarterback's Comeback",
+        "Watch Out: I'm Not Just the Mecha King",
+        "When Housewives Turn Deadly",
+        "You Cast Me Aside, He Holds Me Dear"
+      ],
+      "expectedNewTitles": [],
+      "expectedOldTitles": [
+        "Back to 95 - Her Big Comeback",
+        "I Spoke Baby Dragon and Won Everyone Over!",
+        "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+        "Double-marked: Luna's Revenge",
+        "The Quarterback's Comeback",
+        "The Dragon Tyrant's Secret Heir",
+        "When Housewives Turn Deadly",
+        "The Heiress's Revenge_Out of My Mansion",
+        "SSS-Rank: The Slum-Born Thunder God",
+        "Broken Arm, Broken Bloodline"
+      ],
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Back to 95 - Her Big Comeback",
+          "heat": "128.6M",
+          "tags": [
+            "Time Travel",
+            "Second Chance",
+            "Underdog Rise"
+          ],
+          "metrics": {
+            "followers": "406.9K Followers"
+          }
+        },
+        {
+          "rank": 2,
+          "title": "I Spoke Baby Dragon and Won Everyone Over!",
+          "heat": "114.3M",
+          "tags": [
+            "Time Travel",
+            "Life OL",
+            "Wish-Fulfillment"
+          ],
+          "metrics": {
+            "followers": "789.2K Followers"
+          }
+        },
+        {
+          "rank": 3,
+          "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+          "heat": "110.3M",
+          "tags": [
+            "Female Empowerment",
+            "Karma Payback",
+            "Karma"
+          ],
+          "metrics": {
+            "followers": "3.4M Followers"
+          }
+        },
+        {
+          "rank": 4,
+          "title": "Double-marked: Luna's Revenge",
+          "heat": "108.2M",
+          "tags": [
+            "Contract Lovers",
+            "Karma Payback",
+            "Werewolf"
+          ],
+          "metrics": {
+            "followers": "243.2K Followers"
+          }
+        },
+        {
+          "rank": 5,
+          "title": "The Quarterback's Comeback",
+          "heat": "103.6M",
+          "tags": [
+            "Rebirth",
+            "Underdog Rise",
+            "Karma Payback"
+          ],
+          "metrics": {
+            "followers": "616.0K Followers"
+          }
+        },
+        {
+          "rank": 6,
+          "title": "The Dragon Tyrant's Secret Heir",
+          "heat": "86.2M",
+          "tags": [
+            "Runaway Pregnancy",
+            "Underdog Rise",
+            "Sweet Romance"
+          ],
+          "metrics": {
+            "followers": "1.2M Followers"
+          }
+        },
+        {
+          "rank": 7,
+          "title": "When Housewives Turn Deadly",
+          "heat": "68.8M",
+          "tags": [
+            "Mystery",
+            "Karma Payback",
+            "Revenge"
+          ],
+          "metrics": {
+            "followers": "2.2M Followers"
+          }
+        },
+        {
+          "rank": 8,
+          "title": "The Heiress's Revenge_Out of My Mansion",
+          "heat": "48.1M",
+          "tags": [
+            "Modern Romance",
+            "Rich Family Feud"
+          ],
+          "metrics": {
+            "followers": "499.2K Followers"
+          }
+        },
+        {
+          "rank": 9,
+          "title": "SSS-Rank: The Slum-Born Thunder God",
+          "heat": "46.9M",
+          "tags": [
+            "Return of the King",
+            "Feel-Good"
+          ],
+          "metrics": {
+            "followers": "1.7M Followers"
+          }
+        },
+        {
+          "rank": 10,
+          "title": "Broken Arm, Broken Bloodline",
+          "heat": "45.1M",
+          "tags": [
+            "Underdog Rise",
+            "All-Too-Late",
+            "Apocalypse"
+          ],
+          "metrics": {
+            "followers": "652.9K Followers"
+          }
+        }
+      ]
+    }
+  }
+}
