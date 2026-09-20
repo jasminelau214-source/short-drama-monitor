@@ -17,6 +17,12 @@ begin
   actual := public.jsm_normalize_title_v1('Ruling Over All I See (DUBBED)');
   if actual <> 'rulingoverallisee' then raise exception 'suffix dubbed failed: %', actual; end if;
 
+  actual := public.jsm_normalize_title_v1('Serendipitous Love （DUBBED)');
+  if actual <> 'serendipitouslove' then raise exception 'mixed full-width dubbed failed: %', actual; end if;
+
+  actual := public.jsm_normalize_title_v1('【ENG DUB】 Ruling Over All I See');
+  if actual <> 'rulingoverallisee' then raise exception 'full-width eng dub failed: %', actual; end if;
+
   actual := public.jsm_normalize_title_v1('[ENG DUB] Flash Marriage CEO Spoils Me a Lot');
   if actual <> 'flashmarriageceospoilsmealot' then raise exception 'eng dub failed: %', actual; end if;
 
