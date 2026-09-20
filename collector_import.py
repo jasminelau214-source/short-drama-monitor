@@ -6,6 +6,7 @@ import re
 from datetime import datetime, timezone
 
 from drama_identity import normalize_title
+from app_collector_evidence import app_collector_evidence_error
 from source_semantics import source_semantics_error
 
 
@@ -164,6 +165,10 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
     if collection_method not in ALLOWED_COLLECTION_METHODS:
         raise CollectorImportError(f'不支持的 collection_method：{collection_method}')
 
+    app_evidence_error = app_collector_evidence_error(payload)
+    if app_evidence_error:
+        raise CollectorImportError(app_evidence_error)
+
     collection_date = _iso_date(payload.get('collection_date'))
     if not _bool_value(payload.get('batch_complete')):
         raise CollectorImportError('collector 未通过本地审计：batch_complete=false')
@@ -296,6 +301,7 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
             'missingRanks': payload.get('missing_ranks') if isinstance(payload.get('missing_ranks'), list) else [],
             'duplicateRanks': payload.get('duplicate_ranks') if isinstance(payload.get('duplicate_ranks'), list) else [],
             'duplicateTitles': payload.get('duplicate_titles') if isinstance(payload.get('duplicate_titles'), list) else [],
+            'rankConflicts': payload.get('rank_conflicts') if isinstance(payload.get('rank_conflicts'), list) else [],
         },
     }
 
