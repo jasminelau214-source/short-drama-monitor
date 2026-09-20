@@ -4,6 +4,15 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'integration_moboreels_web_fault_audit.py'
+      - 'test_moboreels_web_fault_integration.py'
+      - 'moboreels_web_collector.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-moboreels-web-fault.yml'
   workflow_dispatch:
 
 permissions:
