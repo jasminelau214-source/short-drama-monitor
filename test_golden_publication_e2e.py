@@ -68,9 +68,19 @@ class GoldenPublicationE2ETests(unittest.TestCase):
             'batch_complete': True,
             'rows': item['rows'],
             'provider': 'golden-real-app-fixture',
+            'collector_version': 'golden-fixture-v1',
+            'collected_at': '2026-09-17T09:22:00',
+            'rank_conflicts': [],
             'evidence': {
                 'fixture': 'golden_real_app_20260917',
                 'originalSourceType': item['sourceType'],
+                'semanticVerified': True,
+                'appFocusVerified': True,
+                **(
+                    {'ui_xml': 'fixture://golden/netshort.xml'}
+                    if item['collectionMethod'] == 'APP_UI_XML'
+                    else {'ui_xml_pages': ['fixture://golden/moboreels-page1.xml']}
+                ),
             },
         }
         return validate_and_normalize(payload, item['priorAppTitles'])
