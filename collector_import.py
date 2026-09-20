@@ -6,6 +6,7 @@ import re
 from datetime import datetime, timezone
 
 from drama_identity import normalize_title
+from source_semantics import source_semantics_error
 
 
 MAX_TOP_N = 100
@@ -153,6 +154,9 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         raise CollectorImportError('platform 不能为空')
 
     source_type = _clean(payload.get('source_type'), 80) or 'SHORT_DRAMA_APP'
+    semantics_error = source_semantics_error(payload)
+    if semantics_error:
+        raise CollectorImportError(semantics_error)
     if source_type not in ALLOWED_SOURCE_TYPES:
         raise CollectorImportError(f'不支持的 source_type：{source_type}')
 
