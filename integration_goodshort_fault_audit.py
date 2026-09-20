@@ -75,7 +75,6 @@ def main(argv=None) -> int:
             r'Top\s+in\s+GoodShort',
             'Control Shelf',
             doc,
-            count=1,
             flags=re.I,
         )
         if changed:
@@ -86,12 +85,23 @@ def main(argv=None) -> int:
                 document=mutated_doc,
             )
             semantic_payload = attach_transport(semantic_payload, transport)
-            semantic = expect_rejected(
-                'target_semantic_replaced_but_items_remain',
-                semantic_payload,
-                'TARGET_SEMANTIC_UNVERIFIED',
-            )
-            semantic['mutationApplied'] = True
+            if semantic_payload['evidence'].get('semanticVerified') is not False:
+                semantic = {
+                    'scenario': 'target_semantic_replaced_but_items_remain',
+                    'safe': False,
+                    'classification': 'TEST_BLOCKED',
+                    'reason': 'semantic mutation did not force semanticVerified=false',
+                    'mutationApplied': True,
+                    'mutationCount': changed,
+                }
+            else:
+                semantic = expect_rejected(
+                    'target_semantic_replaced_but_items_remain',
+                    semantic_payload,
+                    'TARGET_SEMANTIC_UNVERIFIED',
+                )
+                semantic['mutationApplied'] = True
+                semantic['mutationCount'] = changed
         else:
             semantic = {
                 'scenario': 'target_semantic_replaced_but_items_remain',
@@ -99,6 +109,7 @@ def main(argv=None) -> int:
                 'classification': 'TEST_BLOCKED',
                 'reason': 'Top in GoodShort label not found in live document',
                 'mutationApplied': False,
+                'mutationCount': 0,
             }
         scenarios.append(semantic)
 
