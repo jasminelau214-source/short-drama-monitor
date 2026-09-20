@@ -1,0 +1,87 @@
+{
+  "incident": "2026-09-17_multiple_complete_app_runs",
+  "productionWrite": false,
+  "collectionDate": "2026-09-17",
+  "runs": [
+    {
+      "id": "collector-moboreels-daily_top_all-20260917-75b8d1fcd9a32d3211ff",
+      "platform": "MoboReels",
+      "updatedAt": "2026-09-17T01:35:29.616396+00:00",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML_SCROLL",
+      "targetKey": "daily_top_all",
+      "titles": [
+        "Married My Ex's Dad, Now I'm Mafia Queen",
+        "Left at the Altar, Married Power",
+        "Mated To My Boyfriend's Brother",
+        "The King's Physician Bride",
+        "The Trophy Wife's War",
+        "His Neglected Wife Is The Top Scientist",
+        "Reborn, I Choose The Other Groom",
+        "Designing My New Life",
+        "Marrying The Merman King",
+        "Secret Triplets: Second Chance With My Billionaire"
+      ]
+    },
+    {
+      "id": "collector-moboreels-daily_top_all-20260917-8f66daceebbb327c025e",
+      "platform": "MoboReels",
+      "updatedAt": "2026-09-17T09:22:39.454880+00:00",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML_SCROLL",
+      "targetKey": "daily_top_all",
+      "titles": [
+        "Married My Ex's Dad, Now I'm Mafia Queen",
+        "Mated To My Boyfriend's Brother",
+        "Left at the Altar, Married Power",
+        "The King's Physician Bride",
+        "The Trophy Wife's War",
+        "Reborn, I Choose The Other Groom",
+        "Secret Triplets: Second Chance With My Billionaire",
+        "Designing My New Life",
+        "Marrying The Merman King",
+        "Weak Yesterday, Unstoppable Today"
+      ]
+    },
+    {
+      "id": "collector-netshort-daily_top_all-20260917-e0fa114e5a925f7d126c",
+      "platform": "NetShort",
+      "updatedAt": "2026-09-17T01:35:31.608602+00:00",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML",
+      "targetKey": "daily_top_all",
+      "titles": [
+        "I Spoke Baby Dragon and Won Everyone Over!",
+        "Back to 95 - Her Big Comeback",
+        "The Quarterback's Comeback",
+        "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+        "The Dragon Tyrant's Secret Heir",
+        "Double-marked: Luna's Revenge",
+        "When Housewives Turn Deadly",
+        "The Heiress's Revenge_Out of My Mansion",
+        "Broken Arm, Broken Bloodline",
+        "Phantom Returns"
+      ]
+    },
+    {
+      "id": "collector-netshort-daily_top_all-20260917-1206d4440b20ab05470f",
+      "platform": "NetShort",
+      "updatedAt": "2026-09-17T09:22:43.564839+00:00",
+      "sourceType": "SHORT_DRAMA_APP",
+      "collectionMethod": "APP_UI_XML",
+      "targetKey": "daily_top_all",
+      "titles": [
+        "Back to 95 - Her Big Comeback",
+        "I Spoke Baby Dragon and Won Everyone Over!",
+        "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+        "Double-marked: Luna's Revenge",
+        "The Quarterback's Comeback",
+        "The Dragon Tyrant's Secret Heir",
+        "When Housewives Turn Deadly",
+        "The Heiress's Revenge_Out of My Mansion",
+        "SSS-Rank: The Slum-Born Thunder God",
+        "Broken Arm, Broken Bloodline"
+      ]
+    }
+  ]
+}
