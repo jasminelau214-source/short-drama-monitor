@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin
 
-from official_web_collectors import OfficialWebCollectorError, _clean, _unique_text, fetch_html
+from official_web_collectors import OfficialWebCollectorError, _clean, _unique_text, fetch_html_with_evidence
 
 
 VOID_TAGS = {
@@ -158,8 +158,12 @@ def collect_goodshort_top(
     if not 1 <= top_n <= 100:
         raise OfficialWebCollectorError(f'INVALID_TOP_N: {top_n}')
 
+    fetch_evidence = {}
     if document is None:
-        document = fetch_html(url)
+        fetched = fetch_html_with_evidence(url)
+        document = str(fetched['document'])
+        fetch_evidence = dict(fetched.get('evidence') or {})
+    semantic_verified = bool(re.search(r'Top\s+in\s+GoodShort', document or '', flags=re.I))
     items = parse_goodshort_channel(document, url)
     if not items:
         raise OfficialWebCollectorError('GOODSHORT_CHANNEL_EMPTY')
@@ -218,9 +222,12 @@ def collect_goodshort_top(
         'locale': 'en-US',
         'evidence': {
             'url': url,
+            'requestedUrl': url,
             'section': 'Top in GoodShort',
             'row_count': len(rows),
             'server_rendered': True,
+            'semanticVerified': semantic_verified,
+            **fetch_evidence,
         },
         'evidence_persistence': 'URL_AND_PARSED_FACTS',
         'provider': 'official-web-stdlib',
