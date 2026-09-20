@@ -271,6 +271,21 @@ def frontend_public_data():
         payload = json.loads(raw.decode('utf-8'))
         if not isinstance(payload, dict) or not isinstance(payload.get('records'), list) or not isinstance(payload.get('summary'), dict):
             raise RuntimeError('REMOTE_FRONTEND_DATA_INVALID')
+
+        # Staging may enrich visual assets locally while ranking/content data stays
+        # read-only from production. Merge only asset fields, never ranking facts.
+        local_records = public_data().get('records') or []
+        local_by_id = {str(r.get('id') or ''): r for r in local_records if r.get('id')}
+        local_by_title = {normalize_title(r.get('title')): r for r in local_records if normalize_title(r.get('title'))}
+        asset_fields = ('posterUrl', 'posterSourceUrl', 'posterUpdatedAt', 'posterEvidence')
+        for record in payload.get('records') or []:
+            local = local_by_id.get(str(record.get('id') or '')) or local_by_title.get(normalize_title(record.get('title')))
+            if not local:
+                continue
+            for field in asset_fields:
+                if not record.get(field) and local.get(field):
+                    record[field] = local[field]
+
         with _FRONTEND_DATA_LOCK:
             _FRONTEND_DATA_CACHE['at'] = now
             _FRONTEND_DATA_CACHE['payload'] = payload
