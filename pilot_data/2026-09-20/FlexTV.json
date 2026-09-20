@@ -1,0 +1,90 @@
+{
+  "platform": "FlexTV",
+  "collection_date": "2026-09-20",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_in_flextv_top10",
+  "ranking_type": "Top in FlexTV",
+  "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Veteran’s Promise",
+      "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+    },
+    {
+      "rank": 2,
+      "title": "When She Stopped Chasing His Love",
+      "source_url": "https://www.flextv.cc/movie/when-she-stopped-chasing-his-love-3xzl83oz2M"
+    },
+    {
+      "rank": 3,
+      "title": "Mr. Williams! Madame Is Dying",
+      "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+    },
+    {
+      "rank": 4,
+      "title": "(DUBBED)The Tiny Tyrant of Go",
+      "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+    },
+    {
+      "rank": 5,
+      "title": "Betrayed at the Alter, She Married a CEO Instead",
+      "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+    },
+    {
+      "rank": 6,
+      "title": "My Three Brothers Finally Chose Me",
+      "source_url": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
+    },
+    {
+      "rank": 7,
+      "title": "I Secretly Gave Birth to God's Five Babies",
+      "source_url": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
+    },
+    {
+      "rank": 8,
+      "title": "(DUBBED)Justice in Blood",
+      "source_url": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
+    },
+    {
+      "rank": 9,
+      "title": "Runaway Billionaire Becomes My Groom",
+      "source_url": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
+    },
+    {
+      "rank": 10,
+      "title": "Mommy Don't Run, We Are Your Twins!",
+      "source_url": "https://www.flextv.cc/movie/mommy-don-t-run-we-are-your-twins-LjZ8GQrn5K"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Loading https://www.flextv.cc/drama/Top-in-FlexTV",
+    "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "",
+    "rawHtmlSha256": "d2bb49eb7d8722bd07f1812b9c948b22599a5bb4ef5e3a267cbb8cceb5101754",
+    "rawHtmlFile": "pilot_evidence/2026-09-20/FlexTV.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-20/FlexTV.png",
+    "screenshotSha256": "4ef3c161845987052c42ce9c24bf66311fee6e13f9526392c9268c3ba701c870"
+  },
+  "error": "",
+  "production_write": false
+}

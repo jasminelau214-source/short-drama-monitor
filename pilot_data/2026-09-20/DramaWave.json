@@ -1,0 +1,98 @@
+{
+  "platform": "DramaWave",
+  "collection_date": "2026-09-20",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_trending_top10",
+  "ranking_type": "Most Trending",
+  "source_url": "https://m.mydramawave.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Swapped Heiress by My Bestie"
+    },
+    {
+      "rank": 2,
+      "title": "Daddy's Miracle Daughter(Dubbed)"
+    },
+    {
+      "rank": 3,
+      "title": "The Alpha King's Virgin Bride"
+    },
+    {
+      "rank": 4,
+      "title": "Slowly, Then Forever"
+    },
+    {
+      "rank": 6,
+      "title": "Claimed by the Alpha, Nursing His Baby"
+    },
+    {
+      "rank": 10,
+      "title": "Love Through the Mist(Dubbed)"
+    }
+  ],
+  "row_count": 6,
+  "status": "PARTIAL",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 6,
+    "missingRanks": [
+      5,
+      7,
+      8,
+      9
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "DramaWave",
+    "pageUrl": "https://m.mydramawave.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 2,
+    "mobileProfile": false,
+    "structuredData": "DramaWave Popular Choices explicit Most Trending labels",
+    "cardCount": 310,
+    "explicitRankCount1To10": 6,
+    "duplicateExplicitRanks": [],
+    "rankCaptureMethod": "explicit Most Trending labels merged from final DOM and scrolling snapshots",
+    "explicitRanksSeen": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      10
+    ],
+    "explicitRankConflicts": {},
+    "scrollRounds": 60,
+    "finalScrollMetrics": {
+      "scrollTop": 42862,
+      "scrollHeight": 43952,
+      "clientHeight": 1090,
+      "atBottom": true
+    },
+    "rawHtmlSha256": "3de205e5ba514519e59669678d4454c4f2cae7f92d0fa66264b998202f2f0d4f",
+    "rawHtmlFile": "pilot_evidence/2026-09-20/DramaWave-attempt2.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-20/DramaWave-attempt2.png",
+    "screenshotSha256": "bfb8524916fced40f59ddc458e1996ffe1c580696093ec7cac4862883a6fe6f2",
+    "profileMergeMethod": "merge explicit Most Trending ranks across mobile and desktop profiles",
+    "profileMergedRanks": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      10
+    ],
+    "profileRankConflicts": {}
+  },
+  "error": "",
+  "production_write": false
+}

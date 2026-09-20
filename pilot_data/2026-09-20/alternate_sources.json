@@ -1,0 +1,161 @@
+{
+  "collection_date": "2026-09-20",
+  "generated_at": "2026-09-20T17:21:14.892108+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "sources": [
+    {
+      "platform": "DramaWave",
+      "source_type": "OFFICIAL_H5_API_PILOT",
+      "semantic_type": "ordered_shelf_not_explicit_rank",
+      "target": "Popular Choices",
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "The Most Familiar Stranger",
+          "series_key": "s4OSABDi9e"
+        },
+        {
+          "position": 2,
+          "title": "Loving Her After Losing Her",
+          "series_key": "Kvl7nHJrFk"
+        },
+        {
+          "position": 3,
+          "title": "The Factory Avenger",
+          "series_key": "N0u9Jx0Dzg"
+        },
+        {
+          "position": 4,
+          "title": "Fired, Then the CEO's Wife",
+          "series_key": "6YG4ifqj2k"
+        },
+        {
+          "position": 5,
+          "title": "Heartless Husband Chasing Me Back",
+          "series_key": "kr9yktKYy5"
+        },
+        {
+          "position": 6,
+          "title": "The Hidden Wolf",
+          "series_key": "W7FXznMn9G"
+        },
+        {
+          "position": 7,
+          "title": "Island Rebirth: Survival Begins",
+          "series_key": "SavP3HmNvx"
+        },
+        {
+          "position": 8,
+          "title": "Suddenly an Heir at Eight",
+          "series_key": "OtIvHm12Bl"
+        },
+        {
+          "position": 9,
+          "title": "Seed of Gratitude",
+          "series_key": "eYBRKT8PZ3"
+        },
+        {
+          "position": 10,
+          "title": "Cherished by My Hidden Billionaire",
+          "series_key": "6iqtmnQKwN"
+        }
+      ],
+      "production_write": false,
+      "notes": "Anonymous H5 API exposes 10 ordered Popular Choices items; this is not the same as the webpage's explicit Most Trending labels.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    },
+    {
+      "platform": "ShortMax",
+      "source_type": "OFFICIAL_WEB_API_PILOT",
+      "semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "target": "Catalog sorted by playNum desc",
+      "catalog_total": 1126,
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Shattered Ring, Fallen Fiancé",
+          "short_play_id": 32593,
+          "play_num": 289755,
+          "collect_num": 96585
+        },
+        {
+          "position": 2,
+          "title": "Matchmaker for the Demon King",
+          "short_play_id": 33005,
+          "play_num": 289737,
+          "collect_num": 96579
+        },
+        {
+          "position": 3,
+          "title": "My Body Shared With a Detective in Republican China",
+          "short_play_id": 34281,
+          "play_num": 289713,
+          "collect_num": 96571
+        },
+        {
+          "position": 4,
+          "title": "Fake Sweetheart on the Show",
+          "short_play_id": 32999,
+          "play_num": 288690,
+          "collect_num": 96230
+        },
+        {
+          "position": 5,
+          "title": "Oops, I Mated an Ancient Dragon",
+          "short_play_id": 32532,
+          "play_num": 285492,
+          "collect_num": 95164
+        },
+        {
+          "position": 6,
+          "title": "Reborn for the Raven Prince",
+          "short_play_id": 35953,
+          "play_num": 285006,
+          "collect_num": 95002
+        },
+        {
+          "position": 7,
+          "title": "I Left the Mafia Don Who Broke My Heart",
+          "short_play_id": 32901,
+          "play_num": 276972,
+          "collect_num": 92324
+        },
+        {
+          "position": 8,
+          "title": "My S-Rank Prisoner Is Obsessed with Me",
+          "short_play_id": 34018,
+          "play_num": 273219,
+          "collect_num": 91073
+        },
+        {
+          "position": 9,
+          "title": "Chasing Love",
+          "short_play_id": 36517,
+          "play_num": 268896,
+          "collect_num": 89632
+        },
+        {
+          "position": 10,
+          "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+          "short_play_id": 33511,
+          "play_num": 262281,
+          "collect_num": 87427
+        }
+      ],
+      "production_write": false,
+      "notes": "The official API exposes a catalog and playNum metrics, but no verified Most Popular rank endpoint. Sorting by playNum is a derived metric and must not replace the Web shelf without confirmation.",
+      "web_overlap": {
+        "count": 1,
+        "titles": [
+          "my catfish victim is actually my bestie’s brother"
+        ]
+      }
+    }
+  ]
+}

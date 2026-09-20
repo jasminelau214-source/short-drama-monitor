@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-09-20",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Left at the Altar, Married Power"
+    },
+    {
+      "rank": 2,
+      "title": "Came Back Hotter With Lord's Twins"
+    },
+    {
+      "rank": 3,
+      "title": "Oops, My Father's BFF Is In My Bed"
+    },
+    {
+      "rank": 4,
+      "title": "One Night With Three Alphas Changed Everything"
+    },
+    {
+      "rank": 5,
+      "title": "The Billionaire's Revenge Bride"
+    },
+    {
+      "rank": 6,
+      "title": "Doctor by Day, Mrs. Dixon by Night"
+    },
+    {
+      "rank": 7,
+      "title": "Married The Brother, But Slept With The Don"
+    },
+    {
+      "rank": 8,
+      "title": "The Prince Is A Girl: The Beast King's Captive Mate"
+    },
+    {
+      "rank": 9,
+      "title": "Mr. CEO Has A Secret Child"
+    },
+    {
+      "rank": 10,
+      "title": "Their War, Our Fate"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "587f4c292c05d80ec7e186159e398efdcd2d9b008a519195d3f86e919b06953f",
+    "rawHtmlFile": "pilot_evidence/2026-09-20/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-20/MoboReels.png",
+    "screenshotSha256": "08f8d48bc6fbfe592540ba04190bedfa5f5608dfb98ddd639a1543591578bebb"
+  },
+  "error": "",
+  "production_write": false
+}

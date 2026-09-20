@@ -1,0 +1,81 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-09-20",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Altarboy"
+    },
+    {
+      "rank": 2,
+      "title": "The Hockey Captain That Hates Me"
+    },
+    {
+      "rank": 3,
+      "title": "Take Me Back to the Night We Met"
+    },
+    {
+      "rank": 4,
+      "title": "You've Been Replaced, First Love"
+    },
+    {
+      "rank": 5,
+      "title": "Salt Kiss"
+    },
+    {
+      "rank": 6,
+      "title": "Art of Falling in Love"
+    },
+    {
+      "rank": 7,
+      "title": "Sweet Temptation"
+    },
+    {
+      "rank": 8,
+      "title": "Move Aside! I'm the Final Boss"
+    },
+    {
+      "rank": 9,
+      "title": "My X-Ray Vision Sees Right Through You"
+    },
+    {
+      "rank": 10,
+      "title": "Cooking My Way Back to Love"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "88f8002a81360364c4a77c808aea24ee6576bc28fed6ae95e2d5fbfb357903b8",
+    "rawHtmlFile": "pilot_evidence/2026-09-20/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-20/ReelShort.png",
+    "screenshotSha256": "6589a8df913130ccf45e98e4d6dfcc7bb6830a4dc550ed200db5f76e0b05778f"
+  },
+  "error": "",
+  "production_write": false
+}
