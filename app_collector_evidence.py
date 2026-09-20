@@ -32,7 +32,9 @@ def app_collector_evidence_error(payload: object) -> str:
         return 'APP_EVIDENCE_APP_FOCUS_UNVERIFIED'
 
     conflicts = payload.get('rank_conflicts')
-    if isinstance(conflicts, list) and conflicts:
+    if not isinstance(conflicts, list):
+        return 'APP_EVIDENCE_RANK_CONFLICT_AUDIT_MISSING'
+    if conflicts:
         return 'APP_EVIDENCE_RANK_CONFLICT'
 
     if method == 'APP_UI_XML':
