@@ -1920,12 +1920,12 @@
           <div class="field"><label for="historyGenreFilter">题材</label><select id="historyGenreFilter"></select></div>
           <div class="field"><label for="historyAudienceFilter">男女频</label><select id="historyAudienceFilter"></select></div>
           <div class="field"><label for="historyStateFilter">状态</label><select id="historyStateFilter"><option value="">全部</option><option value="active">最近采集日在榜</option><option value="inactive">历史出现 / 当前未记录</option></select></div>
-          <div class="field"><label for="historySort">排序</label><select id="historySort"><option value="latest">最近上榜</option><option value="peak">历史最高排名</option><option value="days">记录采集日</option><option value="first">首次上榜</option></select></div>
+          <div class="field"><label for="historySort">排序</label><select id="historySort"><option value="latest">最近上榜</option><option value="peak">本榜最高排名（按榜单分组）</option><option value="days">记录采集日</option><option value="first">首次上榜</option></select></div>
         </div>
         <div class="table-meta"><span id="historyResultCount"></span><span>点击剧名进入统一单剧详情。</span></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>剧名</th><th>平台</th><th>男女频</th><th>题材</th><th>最近排名</th><th>较上次</th><th>首次上榜</th><th>最近上榜</th><th>历史最高</th><th>排名走势</th><th>状态</th></tr></thead>
+            <thead><tr><th>剧名</th><th>平台</th><th>榜单</th><th>男女频</th><th>题材</th><th>最近排名</th><th>较上次</th><th>首次上榜</th><th>最近上榜</th><th>本榜最高</th><th>排名走势</th><th>状态</th></tr></thead>
             <tbody id="historyBody"></tbody>
           </table>
         </div>
@@ -1982,7 +1982,7 @@
           <div class="section-head">
             <div>
               <h2>代表剧目</h2>
-              <div class="subtle">按历史最高排名与在榜记录排序；点击剧名进入统一单剧详情。</div>
+              <div class="subtle">按内容完整度、记录跨度与榜单作用域展示；排名仅作为各自榜单内证据，不做跨平台最高排名排序。</div>
             </div>
           </div>
           <div id="researchTitles" class="research-title-grid"></div>
@@ -2195,14 +2195,44 @@
       return index < 0 ? preferred.length : index;
     }
 
-    function scopeThenRankCompare(a, b) {
+    function rankingScopeCompare(a, b) {
       const platformDelta = platformSortIndex(a.app) - platformSortIndex(b.app);
       if (platformDelta) return platformDelta;
       const platformText = byText(a.app, b.app);
       if (platformText) return platformText;
-      const targetText = byText(rankingTargetKey(a), rankingTargetKey(b));
-      if (targetText) return targetText;
-      return Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title, b.title);
+      return byText(rankingTargetKey(a), rankingTargetKey(b));
+    }
+
+    function scopeThenRankCompare(a, b) {
+      return rankingScopeCompare(a,b) || Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title, b.title);
+    }
+
+    function scopeStableCompare(a,b) {
+      return rankingScopeCompare(a,b) || byText(a.title,b.title);
+    }
+
+    function scopedPointCount(item) {
+      return scopedHistory(item).length;
+    }
+
+    function scopedPeakRank(item) {
+      const ranks = scopedHistory(item).map(event=>Number(event.rank)).filter(rank=>Number.isFinite(rank) && rank>0);
+      return ranks.length ? Math.min(...ranks) : Number(item?.highestRank || 0) || 0;
+    }
+
+    function isHighPositionSample(item) {
+      const topN = Math.max(1, Number(item?.topN || 10));
+      const peak = scopedPeakRank(item);
+      const cutoff = Math.max(3, Math.ceil(topN * 0.3));
+      return peak > 0 && peak <= cutoff;
+    }
+
+    function contentDepthScore(item) {
+      return ['storyCore','storySkin','conflict','payoff','openingSummary','openingType'].reduce((score,key)=>score+(blank(item?.[key])?0:1),0);
+    }
+
+    function representativeSampleCompare(a,b) {
+      return contentDepthScore(b)-contentDepthScore(a) || scopedPointCount(b)-scopedPointCount(a) || scopeStableCompare(a,b);
     }
 
     function observedPlatformOrder(items) {
@@ -2832,24 +2862,24 @@
 
       $('#lifeList').innerHTML = rangeRecords
         .slice()
-        .sort((a,b)=>b.daysOnChart-a.daysOnChart || a.highestRank-b.highestRank || byText(a.title,b.title))
+        .sort((a,b)=>scopedPointCount(b)-scopedPointCount(a) || scopeStableCompare(a,b))
         .slice(0,3)
         .map(r=>{
-          const points=(r.history||[]).filter(h=>dateSet.has(h.date));
+          const points=scopedHistory(r).filter(h=>dateSet.has(h.date));
           const move=points.length>1 ? Number(points.at(-2).rank)-Number(points.at(-1).rank) : null;
           return `<article class="life-card compact">
             ${posterBlock(r,'life-poster-placeholder')}
             <div class="life-card-content">
-              <div class="life-card-top"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='男频'?'blue':r.audience==='女频'?'rose':'neutral'}">${escapeHtml(shown(r.audience))}</span></div>${movementBadge(move,points.length<2)}</div>
+              <div class="life-card-top"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span><span class="chip ${r.audience==='男频'?'blue':r.audience==='女频'?'rose':'neutral'}">${escapeHtml(shown(r.audience))}</span></div>${movementBadge(move,points.length<2)}</div>
               <button class="life-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
               <div class="life-spark">${rankSparkline(r,dates.at(-1)||'')}</div>
-              <div class="life-mini-stats"><span>历史最高 <b>#${r.highestRank}</b></span><span>记录采集点 <b>${points.length}</b></span></div>
+              <div class="life-mini-stats"><span>本榜最高 <b>#${scopedPeakRank(r) || '—'}</b></span><span>记录采集点 <b>${points.length}</b></span></div>
             </div>
           </article>`;
         }).join('') || '<div class="subtle">当前范围暂无足够的生命周期样本。</div>';
 
       // Creative guidance: use higher-performing samples first, without claiming causality.
-      const highSamples=rangeRecords.filter(r=>Number(r.highestRank||999)<=5);
+      const highSamples=rangeRecords.filter(isHighPositionSample);
       const termCounts=creativeTerms(highSamples.length?highSamples:rangeRecords).slice(0,10);
       $('#creativeElements').innerHTML=termCounts.length ? termCounts.map(x=>`<button type="button" class="creative-term" data-research-lane="${escapeAttr(x.name)}"><span>${escapeHtml(x.name)}</span><b>${x.value}</b></button>`).join('') : '<div class="subtle">当前样本的内容标签不足。</div>';
 
@@ -2861,10 +2891,10 @@
       const genderCol=(label,cls,items)=>`<div class="gender-writing-col ${cls}"><h3>${label}</h3>${items.length?items.map(x=>`<span>${escapeHtml(x.name)} <b>${x.value}</b></span>`).join(''):'<small>样本不足</small>'}</div>`;
       $('#creativeGenderDiff').innerHTML=genderCol('♀ 女频','female',femaleTerms)+genderCol('♂ 男频','male',maleTerms);
 
-      const lessons=rangeRecords.slice().sort((a,b)=>a.highestRank-b.highestRank || b.daysOnChart-a.daysOnChart).slice(0,3);
+      const lessons=rangeRecords.slice().sort(representativeSampleCompare).slice(0,3);
       $('#creativeDramaLessons').innerHTML=lessons.map(r=>{
         const lesson=!blank(r.payoff)?r.payoff:!blank(r.conflict)?r.conflict:!blank(r.storyCore)?r.storyCore:shown(r.lane);
-        return `<button class="creative-lesson" data-open="${escapeAttr(r.id)}"><b>${escapeHtml(r.title)}</b><span>最高 #${r.highestRank} · ${escapeHtml(shown(r.genre))}</span><p>${escapeHtml(lesson)}</p></button>`;
+        return `<button class="creative-lesson" data-open="${escapeAttr(r.id)}"><b>${escapeHtml(r.title)}</b><span>${escapeHtml(rankingScopeText(r))} · 本榜最高 #${scopedPeakRank(r) || '—'} · ${escapeHtml(shown(r.genre))}</span><p>${escapeHtml(lesson)}</p></button>`;
       }).join('') || '<div class="subtle">暂无足够代表剧研究字段。</div>';
 
       const coverage=chart.genres.map(genre=>{
@@ -2934,21 +2964,23 @@
         const nextHash = '#drama=' + encodeURIComponent(id);
         if (location.hash !== nextHash) history.pushState({ dramaId: id }, '', nextHash);
       }
-      const event = (item.history || []).find(entry => entry.date === activeDate) || item.history.at(-1) || { date: item.date, rank: item.rank, heat: item.heat, metrics: item.platformMetrics || {} };
+      const itemHistory = scopedHistory(item).slice().sort((a,b)=>a.date.localeCompare(b.date));
+      const event = itemHistory.find(entry => entry.date === activeDate) || itemHistory.at(-1) || { date: item.date, rank: item.rank, heat: item.heat, metrics: item.platformMetrics || {} };
+      const peakRank = scopedPeakRank(item);
       $('#modalTitle').textContent = item.title;
-      $('#modalSubtitle').textContent = `${item.app} · ${event.date} · 第${event.rank}名 · ${shown(item.genre)} · ${shown(item.audience)}`;
+      $('#modalSubtitle').textContent = `${rankingScopeText(item)} · ${event.date} · #${event.rank} · ${shown(item.genre)} · ${shown(item.audience)}`;
       $('#detailSummary').innerHTML = [
-        ['所选日期排名', `第${event.rank}名`],
-        ['已记录最高排名', `第${item.highestRank}名`],
-        ['首次记录日期', item.firstDate],
-        ['已记录采集日', `${item.daysOnChart}天`],
+        ['所选日期本榜排名', `#${event.rank}`],
+        ['本榜已记录最高', peakRank ? `#${peakRank}` : '—'],
+        ['本榜首次记录日期', item.firstDate],
+        ['本榜采集点', `${itemHistory.length}个`],
       ].map(([label, value]) => `<div class="mini-metric"><span>${label}</span><span>${escapeHtml(value)}</span></div>`).join('');
 
       $('#tab-market').innerHTML = `
-        <div class="note-line">当前共记录 ${summary.dateCount} 个真实采集日；缺失日期不插值、不推算。</div>
+        <div class="note-line">排名作用域：${escapeHtml(rankingScopeText(item))}。只展示同一平台、同一榜单口径的真实采集点；缺失日期不插值、不推算。</div>
         <div class="info-grid">
-          <div class="text-block"><h3>上榜轨迹</h3>${item.history.map(h => `<p><strong>${escapeHtml(h.date)}</strong> · 第${h.rank}名 · 热度${detailValue(h.heat)}</p>`).join('')}</div>
-          <div class="text-block"><h3>${escapeHtml(event.date)} 平台数据</h3><p>热度：${detailValue(event.heat)}</p><p>${detailValue(metricText(event.metrics))}</p></div>
+          <div class="text-block"><h3>本榜上榜轨迹</h3>${itemHistory.map(h => `<p><strong>${escapeHtml(h.date)}</strong> · #${h.rank} · 热度${detailValue(h.heat)}</p>`).join('')}</div>
+          <div class="text-block"><h3>${escapeHtml(event.date)} 本榜数据</h3><p>热度：${detailValue(event.heat)}</p><p>${detailValue(metricText(event.metrics))}</p></div>
         </div>
       `;
       $('#tab-positioning').innerHTML = `
@@ -2979,7 +3011,7 @@
         .sort((a,b) => {
           const aGenre = !blank(item.genre) && a.genre === item.genre ? 0 : 1;
           const bGenre = !blank(item.genre) && b.genre === item.genre ? 0 : 1;
-          return aGenre - bGenre || a.highestRank - b.highestRank || byText(a.title,b.title);
+          return aGenre - bGenre || scopedPointCount(b) - scopedPointCount(a) || scopeStableCompare(a,b);
         })
         .slice(0,6);
       $('#tab-compare').innerHTML = related.length ? `
@@ -2989,7 +3021,7 @@
             <article class="compare-card">
               <div class="compare-tags"><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></div>
               <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
-              <p>${escapeHtml(shown(r.genre))} · 历史最高第${escapeHtml(String(r.highestRank))}名</p>
+              <p>${escapeHtml(shown(r.genre))} · ${escapeHtml(rankingScopeText(r))} · 本榜最高 #${escapeHtml(String(scopedPeakRank(r) || '—'))}</p>
               <small>${escapeHtml(shown(r.lane))}</small>
             </article>
           `).join('')}
@@ -3294,33 +3326,34 @@
         })
         .slice()
         .sort((a,b) => {
-          if (sort === 'peak') return a.highestRank - b.highestRank || b.daysOnChart - a.daysOnChart || byText(a.title,b.title);
-          if (sort === 'days') return b.daysOnChart - a.daysOnChart || a.highestRank - b.highestRank || byText(a.title,b.title);
-          if (sort === 'first') return a.firstDate.localeCompare(b.firstDate) || a.highestRank - b.highestRank || byText(a.title,b.title);
-          return b.lastDate.localeCompare(a.lastDate) || a.highestRank - b.highestRank || byText(a.title,b.title);
+          if (sort === 'peak') return rankingScopeCompare(a,b) || scopedPeakRank(a) - scopedPeakRank(b) || byText(a.title,b.title);
+          if (sort === 'days') return scopedPointCount(b) - scopedPointCount(a) || scopeStableCompare(a,b);
+          if (sort === 'first') return a.firstDate.localeCompare(b.firstDate) || scopeStableCompare(a,b);
+          return b.lastDate.localeCompare(a.lastDate) || scopeStableCompare(a,b);
         });
 
       $('#historyMovementSummary').innerHTML = movementSummaryHtml(filtered);
       renderCountTrend('#historyLibraryTrend', summary.dates.slice().sort(), [
         {key:'total',label:'总剧目',className:'total'},
-        {key:'newTitles',label:'新剧',className:'new'},
+        {key:'newTitles',label:'首次上榜',className:'new'},
         {key:'continuing',label:'继续在榜',className:'continuing'}
       ]);
 
-      $('#historyCountPill').textContent = '历史剧目 ' + records.length + ' 部';
-      $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 部`;
+      $('#historyCountPill').textContent = '历史榜单记录 ' + records.length + ' 条';
+      $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 条榜单记录`;
       $('#historyBody').innerHTML = filtered.map(r => {
         const active = r.lastDate === summary.collectionDate;
         return `<tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
+          <td><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span></td>
           <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
           <td>${escapeHtml(shown(r.genre))}</td>
-          <td><span class="rank">#${escapeHtml(String((r.history || []).slice().sort((a,b)=>a.date.localeCompare(b.date)).at(-1)?.rank || r.rank || '—'))}</span></td>
-          <td>${movementBadge(latestRankMovement(r), (r.history || []).length < 2)}</td>
+          <td><span class="rank">#${escapeHtml(String(scopedHistory(r).slice().sort((a,b)=>a.date.localeCompare(b.date)).at(-1)?.rank || r.rank || '—'))}</span></td>
+          <td>${movementBadge(latestRankMovement(r), scopedHistory(r).length < 2)}</td>
           <td>${escapeHtml(shown(r.firstDate))}</td>
           <td>${escapeHtml(shown(r.lastDate))}</td>
-          <td>#${escapeHtml(shown(r.highestRank))}</td>
+          <td>#${escapeHtml(String(scopedPeakRank(r) || '—'))}</td>
           <td>${rankSparkline(r)}</td>
           <td><span class="history-status ${active ? 'active' : ''}">${active ? '最近采集日在榜' : '历史记录'}</span></td>
         </tr>`;
@@ -3350,8 +3383,7 @@
       const female = items.filter(r => r.audience === '女频').length;
       const male = items.filter(r => r.audience === '男频').length;
       const avgDays = items.length ? (items.reduce((sum,r) => sum + Number(r.daysOnChart || 0),0) / items.length).toFixed(1) : '0';
-      const ranks = items.map(r => Number(r.highestRank || 0)).filter(v => Number.isFinite(v) && v > 0);
-      const bestRank = ranks.length ? Math.min(...ranks) : 0;
+      const scopeCount = rankingScopes(items).length;
       const latestCount = items.filter(r => r.lastDate === summary.collectionDate).length;
 
       const laneCounts = countValues(items.flatMap(r => r.laneTerms?.length ? r.laneTerms : splitTerms(r.lane))).slice(0,10);
@@ -3365,7 +3397,7 @@
       const insightNotes = items.length ? [
         `当前筛选共有 ${items.length} 部历史剧目，其中最新采集日仍有 ${latestCount} 部出现。`,
         topLane ? `最高频细分元素为「${topLane.name}」，在 ${topLane.value} 部样本中出现。` : '当前筛选尚无足够的细分元素标注。',
-        topPlatform ? `样本最多的平台为 ${topPlatform.name}（${topPlatform.value} 部）；最佳历史排名为 ${bestRank ? '#' + bestRank : '—'}。` : '当前筛选暂无平台样本。'
+        topPlatform ? `样本最多的平台为 ${topPlatform.name}（${topPlatform.value} 条榜单记录）；当前覆盖 ${scopeCount} 个榜单口径，排名只在各自口径内解释。` : '当前筛选暂无平台样本。'
       ] : ['当前筛选暂无匹配剧目。'];
 
       $('#researchInsights').innerHTML = insightNotes.map((note,index) =>
@@ -3376,7 +3408,7 @@
         ['历史剧目', items.length, '当前筛选样本量'],
         ['女频 / 男频', `${female} / ${male}`, '按已标注受众统计'],
         ['平均记录采集日', avgDays, '基于真实历史快照'],
-        ['最佳历史排名', bestRank ? '#' + bestRank : '—', '样本历史最高表现']
+        ['榜单口径', scopeCount, 'platform + targetKey；禁止跨平台总排名']
       ].map(([label,value,note]) => `<div class="metric"><div class="label">${escapeHtml(label)}</div><div class="value">${escapeHtml(String(value))}</div><div class="subtle">${escapeHtml(note)}</div></div>`).join('');
 
       $('#researchElements').innerHTML = laneCounts.length
@@ -3395,7 +3427,7 @@
 
       const patternSamples = items
         .filter(r => !blank(r.storyCore) || !blank(r.conflict) || !blank(r.payoff))
-        .sort((a,b) => a.highestRank - b.highestRank || byText(a.title,b.title))
+        .sort(representativeSampleCompare)
         .slice(0,4);
       $('#researchPatterns').innerHTML = patternSamples.length
         ? patternSamples.map(r => `<article class="pattern-card">
@@ -3408,13 +3440,13 @@
 
       $('#researchTitles').innerHTML = items
         .slice()
-        .sort((a,b) => a.highestRank - b.highestRank || b.daysOnChart - a.daysOnChart || byText(a.title,b.title))
+        .sort(representativeSampleCompare)
         .slice(0,12)
         .map(r => `<article class="research-title-card">
           <div class="research-title-meta">
             <span class="chip neutral">${escapeHtml(r.app)}</span>
             <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span>
-            <span class="research-rank">最高 #${escapeHtml(String(r.highestRank))}</span>
+            <span class="research-rank">${escapeHtml(rankingListLabel(r))} · 本榜最高 #${escapeHtml(String(scopedPeakRank(r) || '—'))}</span>
           </div>
           <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
           <p>${escapeHtml(shown(r.lane))}</p>
