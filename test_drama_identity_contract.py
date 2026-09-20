@@ -21,6 +21,8 @@ class DramaIdentityContractV1Tests(unittest.TestCase):
         self.assertEqual(normalize_title("(DUBBED) Ruling Over All I See"), base)
         self.assertEqual(normalize_title("[ENG DUB] Ruling Over All I See"), base)
         self.assertEqual(normalize_title("[English Dubbed] Ruling Over All I See"), base)
+        self.assertEqual(normalize_title("Ruling Over All I See （DUBBED)"), base)
+        self.assertEqual(normalize_title("【ENG DUB】 Ruling Over All I See"), base)
 
     def test_explicit_unbracketed_release_markers(self):
         base = normalize_title("Justice in Blood")
