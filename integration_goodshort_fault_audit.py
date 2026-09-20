@@ -1,3 +1,4 @@
+# Integration-only read-only live platform audit.
 from __future__ import annotations
 
 import argparse
