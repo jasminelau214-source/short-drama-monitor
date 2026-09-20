@@ -74,6 +74,12 @@ class StructuredAppEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(CollectorImportError, 'APP_EVIDENCE_RANK_CONFLICT'):
             validate_and_normalize(payload, [])
 
+    def test_missing_rank_conflict_audit_fails_closed(self):
+        payload = valid_payload('APP_UI_XML')
+        payload.pop('rank_conflicts')
+        with self.assertRaisesRegex(CollectorImportError, 'APP_EVIDENCE_RANK_CONFLICT_AUDIT_MISSING'):
+            validate_and_normalize(payload, [])
+
 
 class PowerShellCollectorStaticContractTests(unittest.TestCase):
     @classmethod
