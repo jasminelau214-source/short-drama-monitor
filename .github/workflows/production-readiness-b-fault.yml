@@ -1,0 +1,65 @@
+name: Production Readiness B Audit Execution
+run-name: "AUDIT_EXECUTION_ONLY | B Fault | run #${{ github.run_number }}"
+
+on:
+  push:
+    branches:
+      - audit/production-readiness-b-fault-6platform-2026-09-20
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-readiness-b-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-execution:
+    name: AUDIT_EXECUTION_ONLY (B readiness in summary/artifact)
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install isolated fault-audit runtime
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright pycryptodome
+          python -m playwright install --with-deps chromium
+
+      - name: Compile B audit
+        run: python -m py_compile readiness_fault_audit.py test_readiness_fault_guards.py
+
+      - name: Test structural fail-closed guards
+        run: python -m unittest -v test_readiness_fault_guards.py
+
+      - name: Run six-platform fault and silent-failure audit
+        run: python readiness_fault_audit.py --date 2026-09-20
+
+      - name: Publish B readiness separately from execution
+        if: always()
+        run: |
+          echo "## B readiness result (separate from CI execution)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "A green job means only **AUDIT_EXECUTED_SUCCESSFULLY**." >> "$GITHUB_STEP_SUMMARY"
+          echo "It does not mean **PASS_FAULT** or **PRODUCTION_READY**." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/2026-09-20/phase_b/FAULT_AUDIT.md ]; then
+            cat readiness_audit/2026-09-20/phase_b/FAULT_AUDIT.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload B audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-readiness-b-fault-6platform-${{ github.run_id }}
+          path: readiness_audit/2026-09-20/phase_b/
+          if-no-files-found: warn
+          retention-days: 30
