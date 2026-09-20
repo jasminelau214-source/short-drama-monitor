@@ -246,21 +246,34 @@ def public_data():
     return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
 
 
+def _with_frontend_source(payload, mode, *, remote_configured, failure_type=''):
+    out = dict(payload or {})
+    out['frontendSource'] = {
+        'mode': mode,
+        'remoteConfigured': bool(remote_configured),
+        'failureType': clean(failure_type, 80),
+    }
+    return out
+
+
 def frontend_public_data():
     """Read-only frontend data source for staging.
 
     When JSM_FRONTEND_DATA_SOURCE_URL is set, only the public /api/data payload is
     fetched from that source. All admin/write endpoints continue to use this
     service's isolated local/staging storage.
+
+    frontendSource is deliberately non-sensitive: it reports provenance/health
+    without exposing the configured URL or credentials.
     """
     if not FRONTEND_DATA_SOURCE_URL:
-        return public_data()
+        return _with_frontend_source(public_data(), 'LOCAL', remote_configured=False)
     now = time.time()
     with _FRONTEND_DATA_LOCK:
         cached = _FRONTEND_DATA_CACHE.get('payload')
         cached_at = float(_FRONTEND_DATA_CACHE.get('at') or 0)
         if cached is not None and now - cached_at < FRONTEND_DATA_CACHE_TTL:
-            return cached
+            return _with_frontend_source(cached, 'REMOTE_READ_ONLY_CACHE', remote_configured=True)
     try:
         request = urllib.request.Request(
             FRONTEND_DATA_SOURCE_URL,
@@ -293,10 +306,15 @@ def frontend_public_data():
             f"[frontend-data] read-only source records={len(payload['records'])} "
             f"collectionDate={payload['summary'].get('collectionDate','')}"
         )
-        return payload
+        return _with_frontend_source(payload, 'REMOTE_READ_ONLY', remote_configured=True)
     except Exception as exc:
         print(f'[frontend-data] remote source failed; fallback local: {exc}')
-        return public_data()
+        return _with_frontend_source(
+            public_data(),
+            'LOCAL_FALLBACK',
+            remote_configured=True,
+            failure_type=type(exc).__name__,
+        )
 
 
 def known_titles(before_date=''):
