@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 from drama_identity import normalize_title
 from app_collector_evidence import app_collector_evidence_error
 from source_semantics import source_semantics_error
+from web_promotion_gate import web_promotion_error
 
 
 MAX_TOP_N = 100
@@ -168,6 +169,10 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
     app_evidence_error = app_collector_evidence_error(payload)
     if app_evidence_error:
         raise CollectorImportError(app_evidence_error)
+
+    web_evidence_error = web_promotion_error(payload)
+    if web_evidence_error:
+        raise CollectorImportError(web_evidence_error)
 
     collection_date = _iso_date(payload.get('collection_date'))
     if not _bool_value(payload.get('batch_complete')):
