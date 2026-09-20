@@ -5,6 +5,8 @@ import json
 import re
 from collections import Counter, defaultdict
 
+from drama_identity import normalize_title
+
 
 _RANKING_BADGE_PATTERNS = [
     re.compile(r'^\s*(?:up|down)\s+by\s+\d+\s*$', re.I),
@@ -37,8 +39,7 @@ def _stable_id(platform: str, target_key: str, title: str, normalize_title) -> s
     return f'auto-{slug}-{digest}'
 
 
-def _audit_norm_title(value: object) -> str:
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+_audit_norm_title = normalize_title
 
 
 def _content_tags_and_badges(values) -> tuple[list[str], list[str]]:
