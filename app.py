@@ -24,6 +24,7 @@ from analysis_pipeline import analyze_batch, configured as analysis_configured, 
 from live_observations import merge_analysis_records, build_live_summary
 from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
 from collector_import import CollectorImportError, validate_and_normalize
+from drama_identity import normalize_title
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -47,10 +48,6 @@ def split_lane(value):
     for sep in ['/', '、', ',', '，', ';', '；', '|']:
         s = s.replace(sep, '\n')
     return [x.strip() for x in s.splitlines() if x.strip()]
-
-
-def normalize_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
 
 
 def load_base_data():
