@@ -41,7 +41,7 @@ jobs:
           python-version: '3.13'
 
       - name: Compile contract surface
-        run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py research_guard.py research_validation.py research_writeback.py research_pipeline.py research_worker.py source_evidence_guard.py source_semantics.py ranking_lifecycle.py test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py
+        run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py research_guard.py research_validation.py research_writeback.py research_pipeline.py research_worker.py source_evidence_guard.py source_semantics.py ranking_lifecycle.py test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py
 
       - name: Run Python Contract v1 tests
         run: python -m unittest -v test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py
