@@ -15,7 +15,8 @@ REQUIRED = [
     "function representativeSampleCompare(a,b)",
     "各平台榜单",
     "data-ranking-platform",
-    "FALLBACK · 内嵌测试数据",
+    "FALLBACK · Staging Local",
+    "LIVE · Production Read-only",
     "<th>榜单</th>",
     "本榜最高",
 ]
@@ -40,6 +41,8 @@ for token in FORBIDDEN:
 assert re.search(r"<th>平台</th><th>榜单</th>", HTML), "ranking scope column missing next to platform"
 assert "排名只在同一平台、同一榜单口径内比较" in HTML
 assert "不能证明全系统新剧" in HTML
+assert "REMOTE_READ_ONLY_CACHE" in HTML
+assert "LOCAL_FALLBACK" in HTML
 
 
 def scope_key(row: dict) -> tuple[str, str]:
