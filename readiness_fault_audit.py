@@ -34,6 +34,35 @@ SEMANTIC_LABEL = {
 }
 
 
+SHORTMAX_ITEMS_JS = r"""
+() => {
+  const clean = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+  const headings = Array.from(document.querySelectorAll('h1,h2,h3,h4,[role="heading"]'));
+  const heading = headings.find(el => clean(el.textContent).toLowerCase().startsWith('most popular'));
+  if (!heading) return [];
+  const section = heading.closest('section') || heading.parentElement?.parentElement;
+  if (!section) return [];
+  const cards = Array.from(section.querySelectorAll('.drama-card, .card-item'));
+  const out = [];
+  const seen = new Set();
+  for (const card of cards) {
+    const titleEl = card.querySelector('.card-title, .overlay-title, [class*="card-title"]');
+    const linkEl = card.querySelector(
+      'a.card-title-layout, a.card-text, a.overlay-title, a[href*="/drama/"]'
+    );
+    const title = clean(titleEl && titleEl.textContent);
+    const href = linkEl && linkEl.href ? String(linkEl.href) : '';
+    const key = title.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    if (!title || !key || seen.has(key)) continue;
+    seen.add(key);
+    out.push({title, href});
+    if (out.length >= 20) break;
+  }
+  return out;
+}
+"""
+
+
 def clean(value: object) -> str:
     return re.sub(r"\s+", " ", str(value or "")).strip()
 
@@ -71,16 +100,6 @@ def load_scope() -> dict[str, dict]:
 
 
 def fetch_document(browser, platform: str, cfg: dict) -> dict:
-    if platform == "GoodShort":
-        document = fetch_html(str(cfg["url"]))
-        return {
-            "document": document,
-            "httpStatus": 200,
-            "pageUrl": str(cfg["url"]),
-            "pageTitle": "",
-            "method": "stdlib-official-web",
-        }
-
     mobile = platform == "ShortMax"
     page = browser.new_page(
         viewport={"width": 390, "height": 844} if mobile else {"width": 1440, "height": 1200},
@@ -105,13 +124,57 @@ def fetch_document(browser, platform: str, cfg: dict) -> dict:
             page.mouse.wheel(0, 1400)
             page.wait_for_timeout(300)
         page.evaluate("window.scrollTo(0, 0)")
-        page.wait_for_timeout(400)
+        page.wait_for_timeout(500)
+
+        document = page.content()
+        extra = {}
+        if platform == "ShortMax":
+            live_items = page.evaluate(SHORTMAX_ITEMS_JS) or []
+            mutation_applied = bool(
+                page.evaluate(
+                    r"""
+() => {
+  const clean = (s) => String(s || '').replace(/\s+/g, ' ').trim();
+  const headings = Array.from(document.querySelectorAll('h1,h2,h3,h4,[role="heading"]'));
+  const heading = headings.find(
+    el => clean(el.textContent).toLowerCase().startsWith('most popular')
+  );
+  if (!heading) return false;
+  heading.textContent = 'Control Shelf';
+  return true;
+}
+"""
+                )
+            )
+            after_mutation = page.evaluate(SHORTMAX_ITEMS_JS) or []
+            extra = {
+                "shortMaxLiveRows": [
+                    {
+                        "rank": idx,
+                        "title": clean(item.get("title")),
+                        **({"source_url": clean(item.get("href"))} if item.get("href") else {}),
+                    }
+                    for idx, item in enumerate(live_items[:TOP_N], start=1)
+                    if isinstance(item, dict) and clean(item.get("title"))
+                ],
+                "shortMaxSemanticMutationApplied": mutation_applied,
+                "shortMaxRowsAfterSemanticMutation": [
+                    {
+                        "rank": idx,
+                        "title": clean(item.get("title")),
+                    }
+                    for idx, item in enumerate(after_mutation[:TOP_N], start=1)
+                    if isinstance(item, dict) and clean(item.get("title"))
+                ],
+            }
+
         return {
-            "document": page.content(),
+            "document": document,
             "httpStatus": int(response.status) if response is not None else None,
             "pageUrl": str(page.url or ""),
             "pageTitle": clean(page.title()),
             "method": "playwright-official-web",
+            **extra,
         }
     finally:
         page.close()
@@ -329,7 +392,19 @@ def audit_platform(browser, platform: str, cfg: dict, collection_date: str) -> d
             "scenarios": [],
         }
 
-    rows, parse_evidence, found = parse_document(platform, fetched["document"], collection_date)
+    if platform == "ShortMax":
+        rows = fetched.get("shortMaxLiveRows") or []
+        parse_evidence = {
+            "structuredData": "ShortMax actual live DOM Most Popular adapter",
+            "renderedCardCount": len(rows),
+        }
+        found = bool(rows)
+    else:
+        rows, parse_evidence, found = parse_document(
+            platform,
+            fetched["document"],
+            collection_date,
+        )
     baseline_status, baseline_audit = status_for_rows(
         rows,
         verified=platform == "GoodShort",
@@ -360,23 +435,46 @@ def audit_platform(browser, platform: str, cfg: dict, collection_date: str) -> d
         )
     )
 
-    semantic_doc, changed = mutate_semantic(platform, fetched["document"])
-    if changed:
-        semantic_result = source_fault_result(
-            platform=platform,
-            scenario="target_semantic_replaced_but_items_remain",
-            document=semantic_doc,
-            collection_date=collection_date,
+    if platform == "ShortMax":
+        changed = bool(fetched.get("shortMaxSemanticMutationApplied"))
+        mutated_rows = fetched.get("shortMaxRowsAfterSemanticMutation") or []
+        mutated_status, mutated_audit = status_for_rows(
+            mutated_rows,
+            verified=False,
+            adapter_found=bool(mutated_rows),
         )
-        semantic_result["mutationApplied"] = True
-    else:
         semantic_result = {
             "scenario": "target_semantic_replaced_but_items_remain",
-            "safe": False,
-            "classification": "TEST_BLOCKED",
-            "mutationApplied": False,
-            "reason": "semantic label could not be mutated in fetched source",
+            "safe": bool(changed and not is_pass(mutated_status)),
+            "currentStatus": mutated_status,
+            "rowCount": len(mutated_rows),
+            "audit": mutated_audit,
+            "mutationApplied": changed,
+            "parserEvidence": {
+                "structuredData": "ShortMax actual live DOM adapter after heading mutation"
+            },
         }
+        if not changed:
+            semantic_result["classification"] = "TEST_BLOCKED"
+            semantic_result["reason"] = "Most Popular live heading not found for mutation"
+    else:
+        semantic_doc, changed = mutate_semantic(platform, fetched["document"])
+        if changed:
+            semantic_result = source_fault_result(
+                platform=platform,
+                scenario="target_semantic_replaced_but_items_remain",
+                document=semantic_doc,
+                collection_date=collection_date,
+            )
+            semantic_result["mutationApplied"] = True
+        else:
+            semantic_result = {
+                "scenario": "target_semantic_replaced_but_items_remain",
+                "safe": False,
+                "classification": "TEST_BLOCKED",
+                "mutationApplied": False,
+                "reason": "semantic label could not be mutated in fetched source",
+            }
     scenarios.append(semantic_result)
 
     scenarios.append(timeout_wrapper_test(cfg))
