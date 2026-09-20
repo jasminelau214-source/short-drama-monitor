@@ -13,6 +13,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - name: Python syntax check
+        run: python -m py_compile app.py
       - name: Contract fixtures and forbidden-pattern scan
         run: python scripts/check_p0_1_frontend_contract.py
       - name: Extract inline JavaScript
