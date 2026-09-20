@@ -6,6 +6,7 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from collector_import import CollectorImportError, validate_and_normalize
+from drama_identity import normalize_title
 from research_guard import assess_research_task
 from source_evidence_guard import audit_source_evidence, gate_collector_status
 
@@ -68,6 +69,16 @@ class CollectorFaultGateTests(unittest.TestCase):
         self.assertEqual(result['status'], '已采集')
         self.assertTrue(all(row['newness'] == 'observed' for row in result['result']['rows']))
         self.assertTrue(all(row['pendingChecks'] == [] for row in result['result']['rows']))
+
+    def test_historical_dubbed_collision_is_now_one_identity(self):
+        self.assertEqual(
+            normalize_title('Serendipitous Love （DUBBED)'),
+            normalize_title('Serendipitous Love'),
+        )
+        self.assertEqual(
+            normalize_title('[Dubbed]Last Shelter:The Awakened Zoo'),
+            normalize_title('Last Shelter:The Awakened Zoo'),
+        )
 
 
 class SourceEvidenceFaultGateTests(unittest.TestCase):
