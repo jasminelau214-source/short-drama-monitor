@@ -25,11 +25,19 @@ def make_payload(platform='NetShort', top_n=10):
         'target_key': 'daily_top_all',
         'ranking_type': 'Top Trending' if platform == 'NetShort' else 'Trending Series',
         'collection_method': 'APP_UI_XML',
+        'collector_version': 'test-fixture-v1',
         'collection_date': '2026-09-15',
+        'collected_at': '2026-09-15T09:00:00',
         'top_n': top_n,
         'batch_complete': True,
+        'rank_conflicts': [],
         'rows': rows,
-        'evidence': {'ui_xml': r'D:\\example.xml'},
+        'evidence': {
+            'originalSourceType': 'SHORT_DRAMA_APP',
+            'semanticVerified': True,
+            'appFocusVerified': True,
+            'ui_xml': r'D:\\example.xml',
+        },
     }
 
 
