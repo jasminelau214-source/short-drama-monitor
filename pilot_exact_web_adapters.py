@@ -180,25 +180,47 @@ def _rows_from_reelshort(document: str):
 
 
 def _rows_from_moboreels(document: str):
+    # MoboReels currently serves two official SSR class variants. Keep this
+    # deliberately narrow: both still require the exact "Popular Series" heading.
     heading = re.search(
-        r'<h2[^>]*class=["\'][^"\']*home-list-title[^"\']*["\'][^>]*>\s*Popular Series\s*</h2>',
+        r'<h2[^>]*class=["\'][^"\']*(?:home-list-title|new-released-title)[^"\']*["\'][^>]*>\s*Popular Series\s*</h2>',
         document,
         flags=re.I | re.S,
     )
     if not heading:
-        return [], {"structuredData": "Popular Series heading not found"}, False
+        return [], {
+            "structuredData": "Popular Series heading not found",
+            "semanticVerified": False,
+            "semanticExpected": "Popular Series",
+        }, False
+
+    heading_html = heading.group(0)
+    variant = (
+        "new-released"
+        if "new-released-title" in heading_html
+        else "home-list"
+    )
     start = heading.end()
-    next_section = re.search(r'<div[^>]*class=["\'][^"\']*home-list(?:\s|["\'])', document[start:], flags=re.I)
-    end = start + next_section.start() if next_section else min(len(document), start + 180000)
+    next_section = re.search(
+        r'<div[^>]*class=["\'][^"\']*(?:home-list|new-released)(?:\s|["\'])',
+        document[start:],
+        flags=re.I,
+    )
+    end = (
+        start + next_section.start()
+        if next_section
+        else min(len(document), start + 180000)
+    )
     section = document[start:end]
     titles = [
         base.clean(raw, 500)
         for raw in re.findall(
-            r'<h3[^>]*class=["\'][^"\']*home-list-item-title[^"\']*["\'][^>]*>(.*?)</h3>',
+            r'<h3[^>]*class=["\'][^"\']*(?:home-list-item-title|new-released-item-title)[^"\']*["\'][^>]*>(.*?)</h3>',
             section,
             flags=re.I | re.S,
         )
     ]
+
     rows = []
     seen = set()
     for title in titles:
@@ -209,8 +231,10 @@ def _rows_from_moboreels(document: str):
         rows.append({"rank": len(rows) + 1, "title": title})
         if len(rows) >= TOP_N:
             break
+
     return rows, {
         "structuredData": "MoboReels Popular Series DOM",
+        "domVariant": variant,
         "visibleTitles": len(titles),
         "semanticVerified": True,
         "semanticExpected": "Popular Series",
