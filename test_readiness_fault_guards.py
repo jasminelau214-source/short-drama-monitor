@@ -107,5 +107,7 @@ class SourceControlTests(unittest.TestCase):
         )
         self.assertFalse(result["pass"])
         self.assertIn("TARGET_SEMANTIC_UNVERIFIED", result["errors"])
-\n\nif __name__ == "__main__":
+
+
+if __name__ == "__main__":
     unittest.main()
