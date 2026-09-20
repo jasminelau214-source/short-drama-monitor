@@ -13,18 +13,6 @@ on:
       - 'source_evidence_guard.py'
       - 'web_promotion_gate.py'
       - '.github/workflows/integration-shortmax-fault.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'integration_shortmax_fault_audit.py'
-      - 'test_shortmax_fault_integration.py'
-      - 'official_web_collectors.py'
-      - 'run_official_web_collect.py'
-      - 'collector_import.py'
-      - 'source_evidence_guard.py'
-      - 'web_promotion_gate.py'
-      - '.github/workflows/integration-shortmax-fault.yml'
   workflow_dispatch:
 
 permissions:
