@@ -1,0 +1,65 @@
+name: Production Readiness C Audit Execution
+run-name: "AUDIT_EXECUTION_ONLY | C Path | run #${{ github.run_number }}"
+
+on:
+  push:
+    branches:
+      - audit/production-readiness-c-path-6platform-2026-09-20
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-readiness-c-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit-execution:
+    name: AUDIT_EXECUTION_ONLY (C readiness in summary/artifact)
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install isolated path-audit runtime
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright pycryptodome
+          python -m playwright install --with-deps chromium
+
+      - name: Compile C audit
+        run: python -m py_compile readiness_path_optimization.py test_readiness_path_optimization.py
+
+      - name: Test conservative path-decision rules
+        run: python -m unittest -v test_readiness_path_optimization.py
+
+      - name: Compare current paths with direct official HTTP
+        run: python readiness_path_optimization.py --date 2026-09-20
+
+      - name: Publish C readiness separately from execution
+        if: always()
+        run: |
+          echo "## C path result (separate from CI execution)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "A green job means only **AUDIT_EXECUTED_SUCCESSFULLY**." >> "$GITHUB_STEP_SUMMARY"
+          echo "It does not mean **PRODUCTION_READY** and does not change production paths." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/2026-09-20/phase_c/PATH_OPTIMIZATION.md ]; then
+            cat readiness_audit/2026-09-20/phase_c/PATH_OPTIMIZATION.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload C audit artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-readiness-c-path-6platform-${{ github.run_id }}
+          path: readiness_audit/2026-09-20/phase_c/
+          if-no-files-found: warn
+          retention-days: 30
