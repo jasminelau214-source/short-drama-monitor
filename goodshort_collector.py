@@ -67,12 +67,18 @@ class GoodShortChannelParser(HTMLParser):
                 'synopsis': '',
                 'episode_count': '',
                 'metric': '',
+                'poster_url': '',
             }
         elif self._card is not None and self._card_depth and counts_depth:
             self._card_depth += 1
 
         if self._card is None:
             return
+
+        if tag == 'img' and not self._card.get('poster_url'):
+            src = _attr(attrs, 'data-src') or _attr(attrs, 'data-lazy-src') or _attr(attrs, 'src')
+            if src:
+                self._card['poster_url'] = urljoin(self.base_url, src)
 
         if tag == 'a' and 'book-name' in classes:
             href = _attr(attrs, 'href')
@@ -196,6 +202,9 @@ def collect_goodshort_top(
         source_url = _clean(item.get('url'), 1000)
         if source_url:
             row['source_url'] = source_url
+        poster_url = _clean(item.get('poster_url'), 1200)
+        if poster_url:
+            row['poster_url'] = poster_url
         rows.append(row)
 
     if collection_date is None:
