@@ -17,13 +17,13 @@ begin
   -- Bracketed release labels at either edge.
   text_value := regexp_replace(
     text_value,
-    '^[[:space:]]*[\[(][[:space:]]*(eng(lish)?[[:space:]]+)?dub(bed)?[[:space:]]*[\])][[:space:]]*[:|–—-]*[[:space:]]*',
+    '^[[:space:]]*[\[(（［【][[:space:]]*(eng(lish)?[[:space:]]+)?dub(bed)?[[:space:]]*[\])）］】][[:space:]]*[:|–—-]*[[:space:]]*',
     '',
     'i'
   );
   text_value := regexp_replace(
     text_value,
-    '[[:space:]]*[:|–—-]*[[:space:]]*[\[(][[:space:]]*(eng(lish)?[[:space:]]+)?dub(bed)?[[:space:]]*[\])][[:space:]]*$',
+    '[[:space:]]*[:|–—-]*[[:space:]]*[\[(（［【][[:space:]]*(eng(lish)?[[:space:]]+)?dub(bed)?[[:space:]]*[\])）］】][[:space:]]*$',
     '',
     'i'
   );
