@@ -1,7 +1,8 @@
 param(
     [string]$BaseUrl = "https://short-drama-monitor.onrender.com",
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
-    [string]$Root = "D:\ShortDramaCollector"
+    [string]$Root = "D:\ShortDramaCollector",
+    [string]$ManifestPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,6 +11,40 @@ $ErrorActionPreference = "Stop"
 function Get-CollectorJsonFiles {
     $dateDir = Join-Path $Root $CollectionDate
     if (-not (Test-Path $dateDir)) { throw "COLLECTOR_DATE_DIR_NOT_FOUND: $dateDir" }
+
+    if ($ManifestPath) {
+        if (-not (Test-Path $ManifestPath)) { throw "COLLECTOR_MANIFEST_NOT_FOUND: $ManifestPath" }
+        $manifest = Get-Content -Raw -Encoding UTF8 $ManifestPath | ConvertFrom-Json
+        if ([string]$manifest.date -ne $CollectionDate) {
+            throw "COLLECTOR_MANIFEST_DATE_MISMATCH: expected=$CollectionDate actual=$($manifest.date)"
+        }
+        $manifestFiles = @()
+        foreach ($item in @($manifest.succeeded)) {
+            $path = [string]$item.path
+            if (-not $path -or -not (Test-Path $path)) {
+                throw "COLLECTOR_MANIFEST_FILE_MISSING: $path"
+            }
+            $file = Get-Item -LiteralPath $path
+            $parsed = Get-Content -Raw -Encoding UTF8 $file.FullName | ConvertFrom-Json
+            if (-not $parsed.batch_complete) { throw "COLLECTOR_MANIFEST_INCOMPLETE: $path" }
+            if ([string]$parsed.collection_date -ne $CollectionDate) {
+                throw "COLLECTOR_FILE_DATE_MISMATCH: $path"
+            }
+            $manifestFiles += [PSCustomObject]@{
+                File = $file
+                Platform = [string]$parsed.platform
+                RowCount = [int]$parsed.rows.Count
+                TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                TargetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
+                LastWriteTime = $file.LastWriteTime
+            }
+        }
+        if ($manifestFiles.Count -eq 0) { throw "COLLECTOR_MANIFEST_HAS_NO_SUCCEEDED_FILES: $ManifestPath" }
+        $dupes = @($manifestFiles | Group-Object Platform, TargetKey | Where-Object { $_.Count -gt 1 })
+        if ($dupes.Count -gt 0) { throw "COLLECTOR_MANIFEST_DUPLICATE_TARGET" }
+        return @($manifestFiles | Sort-Object Platform, TargetKey)
+    }
 
     $allValid = @()
     Get-ChildItem -Path $dateDir -Directory | ForEach-Object {
@@ -108,6 +143,7 @@ try {
     Write-Host "Short Drama Collector -> Backend Sync V4 Multi-Platform Multi-Ranking" -ForegroundColor Cyan
     Write-Host "Date: $CollectionDate"
     Write-Host "Backend: $BaseUrl"
+    if ($ManifestPath) { Write-Host "Manifest-only sync: $ManifestPath" }
     Write-Host ""
 
     Write-Host "Step 1/3  Discovering complete collector JSON files..." -ForegroundColor Cyan
