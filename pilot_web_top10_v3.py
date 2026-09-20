@@ -54,6 +54,9 @@ def _dramabox_render_fallback(primary_error: Exception):
     return normalized, evidence
 
 
+DIRECT_PRIMARY_PLATFORMS = {"FlexTV", "MoboReels", "NetShort", "ReelShort"}
+
+
 def _verified_parser(cfg, collection_date):
     platform = cfg.get("platform")
     if platform == "DramaBox":
@@ -61,6 +64,19 @@ def _verified_parser(cfg, collection_date):
             return exact.run_verified_parser(cfg, collection_date)
         except Exception as exc:
             return _dramabox_render_fallback(exc)
+
+    if platform in DIRECT_PRIMARY_PLATFORMS:
+        rows, evidence = exact.run_direct_exact(cfg, collection_date)
+        audit = base.audit_rows(rows)
+        source_control = base.audit_source_evidence(cfg, evidence)
+        if not audit.get("batchComplete") or not source_control.get("pass"):
+            raise RuntimeError(
+                f"DIRECT_PRIMARY_INVALID:{platform}:"
+                f"rows={len(rows)}:"
+                f"source_errors={','.join(source_control.get('errors') or [])}"
+            )
+        return rows, evidence
+
     if platform == "ShortMax":
         rows, evidence = exact.run_verified_parser(cfg, collection_date)
         # The stdlib collector can see only the server-rendered slice. If it is

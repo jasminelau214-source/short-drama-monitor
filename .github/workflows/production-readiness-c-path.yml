@@ -1,5 +1,5 @@
 name: Production Readiness C Audit Execution
-run-name: "AUDIT_EXECUTION_ONLY | C Path | run #${{ github.run_number }}"
+run-name: "AUDIT_EXECUTION_ONLY | C Final Path | run #${{ github.run_number }}"
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
   audit-execution:
     name: AUDIT_EXECUTION_ONLY (C readiness in summary/artifact)
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,32 +34,49 @@ jobs:
           pip install playwright pycryptodome
           python -m playwright install --with-deps chromium
 
-      - name: Compile C audit
-        run: python -m py_compile readiness_path_optimization.py test_readiness_path_optimization.py
+      - name: Compile C audit and regressions
+        run: |
+          python -m py_compile             readiness_path_optimization.py             test_readiness_path_optimization.py             readiness_c_collect_selected.py             readiness_c_truth_regression.py             readiness_c_finalize.py             readiness_fault_audit.py             readiness_truth_audit.py             pilot_web_top10_v3.py             pilot_exact_web_adapters.py
 
       - name: Test conservative path-decision rules
-        run: python -m unittest -v test_readiness_path_optimization.py
+        run: python -m unittest -v test_readiness_path_optimization.py test_readiness_fault_guards.py
 
-      - name: Compare current paths with direct official HTTP
+      - name: Collect four direct-primary candidate paths
+        run: python readiness_c_collect_selected.py --date 2026-09-20
+
+      - name: Re-run focused Truth regression on changed paths
+        run: python readiness_c_truth_regression.py --date 2026-09-20
+
+      - name: Re-run six-platform Fault regression
+        run: python readiness_fault_audit.py --date 2026-09-20
+
+      - name: Re-run final path comparison
         run: python readiness_path_optimization.py --date 2026-09-20
+
+      - name: Finalize C path decision
+        run: python readiness_c_finalize.py --date 2026-09-20
 
       - name: Publish C readiness separately from execution
         if: always()
         run: |
-          echo "## C path result (separate from CI execution)" >> "$GITHUB_STEP_SUMMARY"
+          echo "## C final path result (separate from CI execution)" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "A green job means only **AUDIT_EXECUTED_SUCCESSFULLY**." >> "$GITHUB_STEP_SUMMARY"
           echo "It does not mean **PRODUCTION_READY** and does not change production paths." >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f readiness_audit/2026-09-20/phase_c/PATH_OPTIMIZATION.md ]; then
-            cat readiness_audit/2026-09-20/phase_c/PATH_OPTIMIZATION.md >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/2026-09-20/phase_c/FINAL_PATH_DECISION.md ]; then
+            cat readiness_audit/2026-09-20/phase_c/FINAL_PATH_DECISION.md >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Upload C audit artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: production-readiness-c-path-6platform-${{ github.run_id }}
-          path: readiness_audit/2026-09-20/phase_c/
+          name: production-readiness-c-final-6platform-${{ github.run_id }}
+          path: |
+            readiness_audit/2026-09-20/phase_c/
+            readiness_audit/2026-09-20/phase_b/
+            pilot_data/2026-09-20/
+            pilot_evidence/2026-09-20/
           if-no-files-found: warn
           retention-days: 30

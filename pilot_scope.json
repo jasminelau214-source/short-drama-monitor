@@ -37,11 +37,12 @@
       "url": "https://www.flextv.cc/drama/Top-in-FlexTV",
       "target_key": "web_pilot_top_in_flextv_top10",
       "ranking_type": "Top in FlexTV",
-      "strategy": "browser_probe",
+      "strategy": "verified_parser",
       "heading_keywords": [
         "Top in FlexTV",
         "Top 10 Short Dramas"
-      ]
+      ],
+      "path_optimization": "direct_http_primary_with_browser_fallback"
     },
     {
       "platform": "GoodShort",
@@ -51,40 +52,44 @@
       "strategy": "verified_parser",
       "heading_keywords": [
         "Top in GoodShort"
-      ]
+      ],
+      "path_optimization": "keep_existing_direct"
     },
     {
       "platform": "MoboReels",
       "url": "https://www.moboreels.com/",
       "target_key": "web_pilot_popular_series_top10",
       "ranking_type": "Popular Series",
-      "strategy": "browser_probe",
+      "strategy": "verified_parser",
       "heading_keywords": [
         "Popular Series",
         "Trending Series"
-      ]
+      ],
+      "path_optimization": "direct_http_primary_with_browser_fallback"
     },
     {
       "platform": "NetShort",
       "url": "https://netshort.com/",
       "target_key": "web_pilot_trending_now_top10",
       "ranking_type": "Trending Now",
-      "strategy": "browser_probe",
+      "strategy": "verified_parser",
       "heading_keywords": [
         "Trending Now",
         "Top Trending"
-      ]
+      ],
+      "path_optimization": "direct_http_primary_with_browser_fallback"
     },
     {
       "platform": "ReelShort",
       "url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
       "target_key": "web_pilot_top_shelf_top10",
       "ranking_type": "TOP",
-      "strategy": "browser_probe",
+      "strategy": "verified_parser",
       "heading_keywords": [
         "TOP",
         "Top"
-      ]
+      ],
+      "path_optimization": "direct_http_primary_with_browser_fallback"
     },
     {
       "platform": "ShortMax",
@@ -94,7 +99,8 @@
       "strategy": "browser_probe",
       "heading_keywords": [
         "Most Popular"
-      ]
+      ],
+      "path_optimization": "keep_browser"
     }
   ]
 }

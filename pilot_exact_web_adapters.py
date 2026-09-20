@@ -377,6 +377,40 @@ def _parse_exact(platform: str, document: str, collection_date: str):
     return [], {"structuredData": "No exact browser adapter"}, False
 
 
+def run_direct_exact(cfg: dict[str, Any], collection_date: str):
+    """Run the exact parser against the official HTTP response and freeze the source."""
+    from official_web_collectors import fetch_html_with_metadata
+
+    platform = str(cfg.get("platform") or "")
+    fetched = fetch_html_with_metadata(str(cfg.get("url") or ""))
+    document = str(fetched.get("document") or "")
+    rows, adapter_meta, adapter_found = _parse_exact(
+        platform,
+        document,
+        collection_date,
+    )
+
+    raw = document.encode("utf-8", errors="replace")
+    evidence_dir = base.EVIDENCE_ROOT / collection_date
+    evidence_dir.mkdir(parents=True, exist_ok=True)
+    html_path = evidence_dir / f"{platform}-direct.html.gz"
+    with gzip.open(html_path, "wb", compresslevel=6) as fh:
+        fh.write(raw)
+
+    evidence = {
+        "collectorVersion": "exact-direct-http-v1",
+        "httpStatus": fetched.get("httpStatus"),
+        "pageUrl": base.clean(fetched.get("pageUrl"), 1200),
+        "fetchedAt": base.clean(fetched.get("fetchedAt"), 100),
+        "adapterFound": bool(adapter_found),
+        **(adapter_meta if isinstance(adapter_meta, dict) else {}),
+        "rawHtmlSha256": base.sha256_bytes(raw),
+        "rawHtmlFile": str(html_path.relative_to(base.ROOT)),
+        "productionWrite": False,
+    }
+    return rows, evidence
+
+
 def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_date: str | None = None):
     collection_date = collection_date or base.local_today()
     platform = str(cfg.get("platform") or "")
