@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "integrationBranchPrefix": "integration/",
+  "dE2ERequiresIntegrationBranch": true,
+  "sourceRequirements": [
+    {
+      "role": "production_baseline",
+      "branch": "main",
+      "minimumCommit": "a206bc9c21138a9559aecf5a7a34069167268cfc",
+      "reason": "Current production baseline used when the isolated work began."
+    },
+    {
+      "role": "verified_collectors",
+      "branch": "pilot/web-top10-8platform",
+      "minimumCommit": "955821100795c3ef133544b19b5fb6fc13ff0cca",
+      "reason": "Seven-platform official Web collector paths and accumulated Pilot evidence."
+    },
+    {
+      "role": "research_and_writeback_safety",
+      "branch": "test/e2e-shadow-7platform-2026-09-18",
+      "minimumCommit": "b734b7c69357508629bc941de49176cd087150a0",
+      "reason": "New/old semantics, release-marker normalization, research status gates and same-platform writeback protection."
+    },
+    {
+      "role": "readiness_framework",
+      "branch": "audit/production-readiness-a-truth-7platform-2026-09-20",
+      "minimumCommit": "062011f577a613d94f0cec6f7c5f92e95831a9ea",
+      "reason": "Truth audit baseline before Phase 0 hardening."
+    }
+  ]
+}

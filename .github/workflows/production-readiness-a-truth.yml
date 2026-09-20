@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -26,16 +28,37 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Compile readiness audit
-        run: python -m py_compile production_readiness.py readiness_truth_audit.py test_production_readiness.py
+        run: python -m py_compile production_readiness.py readiness_truth_audit.py branch_version_matrix.py test_production_readiness.py
+
+      - name: Build branch/version matrix
+        run: python branch_version_matrix.py
 
       - name: Test readiness gate compatibility
         run: python -m unittest -v test_production_readiness.py
 
       - name: Collect current seven-platform official Web candidates
-        run: python pilot_web_top10_v3.py --date 2026-09-20
+        run: |
+          python pilot_web_top10_v3.py --date 2026-09-20
+          echo "CANDIDATE_BATCH_COMPLETED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_ENV"
 
       - name: Run independent Truth Test
         run: python readiness_truth_audit.py --date 2026-09-20
+
+      - name: Publish readiness result separately from CI execution
+        if: always()
+        run: |
+          echo "## Readiness result (separate from CI execution)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "A green job means only **AUDIT_EXECUTED_SUCCESSFULLY**." >> "$GITHUB_STEP_SUMMARY"
+          echo "It does not mean **PRODUCTION_READY**." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/2026-09-20/TRUTH_AUDIT.md ]; then
+            cat readiness_audit/2026-09-20/TRUTH_AUDIT.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f readiness_audit/BRANCH_VERSION_MATRIX.md ]; then
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            cat readiness_audit/BRANCH_VERSION_MATRIX.md >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Upload A-phase evidence and results
         if: always()
@@ -43,7 +66,7 @@ jobs:
         with:
           name: production-readiness-a-truth-7platform-${{ github.run_id }}
           path: |
-            readiness_audit/2026-09-20/
+            readiness_audit/
             pilot_evidence/2026-09-20/
             pilot_data/2026-09-20/
           if-no-files-found: warn

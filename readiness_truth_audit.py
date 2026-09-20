@@ -10,7 +10,7 @@ from zoneinfo import ZoneInfo
 
 from playwright.sync_api import sync_playwright
 
-from production_readiness import empty_gate_state, evaluate_readiness
+from production_readiness import (\n    empty_gate_state,\n    evaluate_platform_readiness,\n    evaluate_system_readiness,\n    qualify_truth_evidence,\n)
 
 ROOT = Path(__file__).resolve().parent
 DATA_ROOT = ROOT / "pilot_data"
@@ -247,6 +247,26 @@ def semantic_ok(anchor: str, page_title: str, expected: str) -> bool:
     return expected.casefold() in haystack
 
 
+def candidate_raw_hash(candidate: dict) -> str:
+    evidence = candidate.get("evidence") if isinstance(candidate.get("evidence"), dict) else {}
+    direct = str(evidence.get("rawHtmlSha256") or "").strip()
+    if direct:
+        return direct
+    source = evidence.get("sourceEvidence") if isinstance(evidence.get("sourceEvidence"), dict) else {}
+    return str(source.get("raw_html_sha256") or "").strip()
+
+
+def batch_delay_seconds(observed_at: datetime) -> float | None:
+    raw = os.environ.get("CANDIDATE_BATCH_COMPLETED_AT", "").strip()
+    if not raw:
+        return None
+    try:
+        batch = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        return max(0.0, (observed_at.astimezone(batch.tzinfo) - batch).total_seconds())
+    except Exception:
+        return None
+
+
 def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> dict:
     candidate = load_candidate(collection_date, platform)
     if candidate.get("_error"):
@@ -287,6 +307,8 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
     http_status = None
     oracle = {}
     error = ""
+    witness_html = ""
+    witness_observed_at = datetime.now(TZ)
     try:
         response = page.goto(cfg["url"], wait_until="domcontentloaded", timeout=90000)
         http_status = int(response.status) if response is not None else None
@@ -297,6 +319,8 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         page.evaluate("window.scrollTo(0,0)")
         page.wait_for_timeout(400)
         oracle = page.evaluate(ORACLE_JS, {"platform": platform}) or {}
+        witness_html = page.content()
+        witness_observed_at = datetime.now(TZ)
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
     finally:
@@ -319,6 +343,38 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
     )
     exact_order_match = witness_complete and not diff
 
+    witness_sha256 = ""
+    witness_snapshot_file = ""
+    if witness_html:
+        raw = witness_html.encode("utf-8", errors="replace")
+        witness_sha256 = hashlib.sha256(raw).hexdigest()
+        evidence_dir = OUT_ROOT / collection_date / "evidence"
+        evidence_dir.mkdir(parents=True, exist_ok=True)
+        snapshot = evidence_dir / f"{platform}.witness.html.gz"
+        with gzip.open(snapshot, "wb") as fh:
+            fh.write(raw)
+        witness_snapshot_file = str(snapshot.relative_to(ROOT))
+
+    candidate_sha256 = candidate_raw_hash(candidate)
+    same_snapshot_hash = bool(
+        candidate_sha256 and witness_sha256 and candidate_sha256 == witness_sha256
+    )
+    evidence_mode = (
+        "INDEPENDENT_PARSER_FROZEN"
+        if same_snapshot_hash
+        else "INDEPENDENT_PARSER_LIVE"
+        if witness_complete
+        else "SELF_CHECK"
+    )
+    delay = batch_delay_seconds(witness_observed_at)
+    truth_evidence = qualify_truth_evidence(
+        evidence_mode,
+        exact_match=exact_order_match,
+        official_host=official_host,
+        semantic_anchor=semantic,
+        post_batch_delay_seconds=delay,
+    )
+
     if not structure_ok:
         status = "FAIL_STRUCTURE"
     elif not official_host:
@@ -329,8 +385,28 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         status = "FAIL_SEMANTIC_ANCHOR"
     elif not exact_order_match:
         status = "FAIL_TRUTH_MISMATCH"
+    elif not truth_evidence.get("sufficient"):
+        status = "BLOCKED_TRUTH_EVIDENCE"
     else:
         status = "PASS_TRUTH"
+
+    gates = empty_gate_state()
+    gates["execution"] = "PASS"
+    gates["structure"] = "PASS" if structure_ok else "FAIL"
+    gates["truth"] = (
+        "PASS"
+        if status == "PASS_TRUTH"
+        else "BLOCKED"
+        if status.startswith("BLOCKED_")
+        else "FAIL"
+    )
+    gates["semantic"] = "PASS" if semantic else "FAIL"
+    platform_readiness = evaluate_platform_readiness(
+        platform,
+        gates,
+        truth_evidence=truth_evidence,
+        integration_ready=False,
+    )
 
     return {
         "platform": platform,
@@ -353,6 +429,14 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         "semanticAnchorOk": semantic,
         "witnessComplete": witness_complete,
         "exactOrderedTitleMatch": exact_order_match,
+        "truthEvidence": truth_evidence,
+        "candidateRawHtmlSha256": candidate_sha256,
+        "witnessRawHtmlSha256": witness_sha256,
+        "sameSnapshotHash": same_snapshot_hash,
+        "witnessSnapshotFile": witness_snapshot_file,
+        "witnessObservedAt": witness_observed_at.isoformat(),
+        "postBatchDelaySeconds": delay,
+        "readiness": platform_readiness,
         "oracleRows": [
             {"rank": i, "title": clean(x.get("title")), "href": clean(x.get("href"))}
             for i, x in enumerate(oracle_top, 1)
@@ -370,15 +454,18 @@ def render_markdown(payload: dict) -> str:
         f"Overall A gate: **{payload['truthGate']}**",
         f"Promotion: **{payload['readiness']['status']}**",
         "",
-        "| Platform | Truth status | Candidate | Witness rows | Exact ordered match | Semantic anchor |",
-        "|---|---|---|---:|---:|---:|",
+        "| Platform | Truth status | Evidence | Candidate | Witness rows | Exact ordered match | Next B |",
+        "|---|---|---|---|---:|---:|---:|",
     ]
     for item in payload["platforms"]:
         lines.append(
-            f"| {item['platform']} | {item['status']} | {item.get('candidateStatus','-')} | "
+            f"| {item['platform']} | {item['status']} | "
+            f"L{(item.get('truthEvidence') or {}).get('level', 0)} "
+            f"{(item.get('truthEvidence') or {}).get('mode', '-')} | "
+            f"{item.get('candidateStatus','-')} | "
             f"{len(item.get('oracleRows') or [])}/10 | "
             f"{'YES' if item.get('exactOrderedTitleMatch') else 'NO'} | "
-            f"{'YES' if item.get('semanticAnchorOk') else 'NO'} |"
+            f"{'YES' if ((item.get('readiness') or {}).get('phaseEligibility') or {}).get('B_FAULT_INJECTION') else 'NO'} |"
         )
     lines += [
         "",
@@ -414,15 +501,15 @@ def main() -> int:
         if rows and all(item["status"] == "PASS_TRUTH" for item in rows)
         else "BLOCKED"
     )
-    gates = empty_gate_state()
-    gates["execution"] = "PASS"
-    gates["structure"] = (
-        "PASS"
-        if rows and all(item["status"] != "FAIL_STRUCTURE" for item in rows)
-        else "FAIL"
+    platform_results = {
+        item["platform"]: item.get("readiness") or {}
+        for item in rows
+    }
+    readiness = evaluate_system_readiness(
+        platform_results,
+        required_platforms=list(TARGETS),
+        integration_ready=False,
     )
-    gates["truth"] = truth_gate
-    readiness = evaluate_readiness(gates)
 
     payload = {
         "collectionDate": args.date,
@@ -436,6 +523,7 @@ def main() -> int:
             1 for item in rows if item["status"] != "PASS_TRUTH"
         ),
         "platforms": rows,
+        "platformReadiness": platform_results,
         "readiness": readiness,
     }
 
