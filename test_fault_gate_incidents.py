@@ -81,6 +81,22 @@ class CollectorFaultGateTests(unittest.TestCase):
         )
 
 
+    def test_web_fixture_cannot_be_relabelled_as_app_ranking(self):
+        payload = app_payload(ten_rows(), source_type='SHORT_DRAMA_APP')
+        payload['collection_method'] = 'WEB_SCRAPE'
+        payload['provider'] = 'shadow-e2e'
+        payload['evidence'] = {
+            'shadowFixture': True,
+            'originalSourceType': 'OFFICIAL_WEB_PILOT',
+            'originalTargetKey': 'web_pilot_top_in_goodshort_top10',
+        }
+        with self.assertRaisesRegex(
+            CollectorImportError,
+            'SOURCE_SEMANTIC_UPGRADE_FORBIDDEN',
+        ):
+            validate_and_normalize(payload, known_titles=[])
+
+
 class SourceEvidenceFaultGateTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 9, 20, 8, 0, tzinfo=timezone.utc)
