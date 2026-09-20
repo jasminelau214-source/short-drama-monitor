@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import pathlib
+import sqlite3
 import tempfile
 import threading
 import unittest
@@ -147,6 +148,13 @@ class GoldenLocalHTTPE2ETests(unittest.TestCase):
     def get_text(cls, path):
         with urllib.request.urlopen(cls.base_url + path, timeout=5) as response:
             return response.status, response.read().decode('utf-8')
+
+    def test_connection_context_closes_after_exit(self):
+        conn = app.connect()
+        with conn as active:
+            active.execute('select 1').fetchone()
+        with self.assertRaises(sqlite3.ProgrammingError):
+            conn.execute('select 1')
 
     def test_api_data_exposes_real_app_latest_batch(self):
         status, data = self.get_json('/api/data')
