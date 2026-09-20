@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin
 
-from official_web_collectors import OfficialWebCollectorError, _clean, _unique_text, fetch_html
+from official_web_collectors import (\n    OfficialWebCollectorError,\n    _clean,\n    _unique_text,\n    fetch_html_with_metadata,\n)
 
 
 VOID_TAGS = {
@@ -139,6 +139,15 @@ def parse_goodshort_channel(document: str, base_url: str = 'https://www.goodshor
     return parser.items
 
 
+def _goodshort_semantic_verified(document: str) -> bool:
+    patterns = (
+        r'<title[^>]*>.*?Top\s+in\s+GoodShort.*?</title>',
+        r'<h[1-6][^>]*>.*?Top\s+in\s+GoodShort.*?</h[1-6]>',
+        r'<[^>]+class=["\'][^"\']*(?:channel|title|heading)[^"\']*["\'][^>]*>.*?Top\s+in\s+GoodShort.*?</[^>]+>',
+    )
+    return any(re.search(pattern, document or '', flags=re.I | re.S) for pattern in patterns)
+
+
 def collect_goodshort_top(
     *,
     url: str = 'https://www.goodshort.com/channel/Top-in-GoodShort',
@@ -158,8 +167,15 @@ def collect_goodshort_top(
     if not 1 <= top_n <= 100:
         raise OfficialWebCollectorError(f'INVALID_TOP_N: {top_n}')
 
+    fetch_meta = None
     if document is None:
-        document = fetch_html(url)
+        fetch_meta = fetch_html_with_metadata(url)
+        document = str(fetch_meta.get('document') or '')
+
+    semantic_verified = _goodshort_semantic_verified(document)
+    if not semantic_verified:
+        raise OfficialWebCollectorError('GOODSHORT_SEMANTIC_MISMATCH')
+
     items = parse_goodshort_channel(document, url)
     if not items:
         raise OfficialWebCollectorError('GOODSHORT_CHANNEL_EMPTY')
@@ -221,6 +237,13 @@ def collect_goodshort_top(
             'section': 'Top in GoodShort',
             'row_count': len(rows),
             'server_rendered': True,
+            'httpStatus': int((fetch_meta or {}).get('httpStatus') or 200),
+            'pageUrl': str((fetch_meta or {}).get('pageUrl') or url),
+            'fetchedAt': str(
+                (fetch_meta or {}).get('fetchedAt')
+                or datetime.now(timezone.utc).isoformat()
+            ),
+            'semanticVerified': semantic_verified,
         },
         'evidence_persistence': 'URL_AND_PARSED_FACTS',
         'provider': 'official-web-stdlib',

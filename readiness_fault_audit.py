@@ -5,7 +5,7 @@ import copy
 import json
 import re
 import tempfile
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import urlparse
 from zoneinfo import ZoneInfo
@@ -333,51 +333,38 @@ def timeout_wrapper_test(cfg: dict) -> dict:
 
 
 def metadata_control_findings(platform: str, cfg: dict, baseline_status: str) -> list[dict]:
+    now = datetime.now(timezone.utc)
+    valid = {
+        "httpStatus": 200,
+        "pageUrl": str(cfg.get("url") or ""),
+        "semanticVerified": True,
+        "fetchedAt": now.isoformat(),
+    }
+    cases = [
+        (
+            "parseable_body_with_http_503",
+            {**valid, "httpStatus": 503},
+        ),
+        (
+            "cross_host_redirect_with_parseable_body",
+            {**valid, "pageUrl": "https://example.invalid/control"},
+        ),
+        (
+            "stale_replay_freshness",
+            {**valid, "fetchedAt": (now - timedelta(hours=1)).isoformat()},
+        ),
+    ]
     findings = []
-
-    # Current collector status is derived from rows/audit. Browser evidence records
-    # httpStatus/pageUrl, but collect_one does not feed either into status_from_audit.
-    if platform != "GoodShort":
+    for scenario, evidence in cases:
+        control = base.audit_source_evidence(cfg, evidence, now=now)
         findings.append(
             {
-                "scenario": "parseable_body_with_http_503",
-                "safe": False,
-                "currentStatus": baseline_status,
-                "classification": "CONTROL_MISSING",
-                "reason": "browser path records httpStatus but current promotion status ignores it",
+                "scenario": scenario,
+                "safe": not control.get("pass", False),
+                "currentStatus": "FAIL" if not control.get("pass", False) else baseline_status,
+                "sourceControl": control,
             }
         )
-        findings.append(
-            {
-                "scenario": "cross_host_redirect_with_parseable_body",
-                "safe": False,
-                "currentStatus": baseline_status,
-                "classification": "CONTROL_MISSING",
-                "reason": "browser path records final pageUrl but current promotion status does not validate expected official host",
-                "expectedHost": host(str(cfg.get("url") or "")),
-            }
-        )
-    else:
-        findings.append(
-            {
-                "scenario": "verified_parser_final_url_identity",
-                "safe": False,
-                "currentStatus": baseline_status,
-                "classification": "OBSERVABILITY_GAP",
-                "reason": "verified stdlib path persists configured URL but not the final response URL/redirect chain",
-                "expectedHost": host(str(cfg.get("url") or "")),
-            }
-        )
-
-    findings.append(
-        {
-            "scenario": "stale_replay_freshness",
-            "safe": False,
-            "currentStatus": baseline_status,
-            "classification": "OBSERVABILITY_GAP",
-            "reason": "candidate evidence has no authoritative source freshness signal; accidental replay cannot be distinguished from a legitimately unchanged ranking by rows alone",
-        }
-    )
     return findings
 
 

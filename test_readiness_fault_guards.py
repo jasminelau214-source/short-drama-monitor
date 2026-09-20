@@ -49,5 +49,63 @@ class FaultGateStructureTests(unittest.TestCase):
         self.assertBlocked(rows)
 
 
-if __name__ == "__main__":
+
+
+class SourceControlTests(unittest.TestCase):
+    def setUp(self):
+        self.cfg = {
+            "platform": "FlexTV",
+            "url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+        }
+        self.now = datetime.now(timezone.utc)
+        self.valid = {
+            "httpStatus": 200,
+            "pageUrl": self.cfg["url"],
+            "semanticVerified": True,
+            "fetchedAt": self.now.isoformat(),
+        }
+
+    def test_valid_source_evidence_passes(self):
+        result = base.audit_source_evidence(self.cfg, self.valid, now=self.now)
+        self.assertTrue(result["pass"])
+
+    def test_http_error_fails_closed(self):
+        result = base.audit_source_evidence(
+            self.cfg,
+            {**self.valid, "httpStatus": 503},
+            now=self.now,
+        )
+        self.assertFalse(result["pass"])
+        self.assertIn("HTTP_STATUS_INVALID", result["errors"])
+
+    def test_cross_host_redirect_fails_closed(self):
+        result = base.audit_source_evidence(
+            self.cfg,
+            {**self.valid, "pageUrl": "https://example.invalid/control"},
+            now=self.now,
+        )
+        self.assertFalse(result["pass"])
+        self.assertIn("OFFICIAL_HOST_MISMATCH", result["errors"])
+
+    def test_stale_evidence_fails_closed(self):
+        result = base.audit_source_evidence(
+            self.cfg,
+            {
+                **self.valid,
+                "fetchedAt": (self.now - timedelta(hours=1)).isoformat(),
+            },
+            now=self.now,
+        )
+        self.assertFalse(result["pass"])
+        self.assertIn("FETCH_EVIDENCE_STALE", result["errors"])
+
+    def test_unverified_semantics_fail_closed(self):
+        result = base.audit_source_evidence(
+            self.cfg,
+            {**self.valid, "semanticVerified": False},
+            now=self.now,
+        )
+        self.assertFalse(result["pass"])
+        self.assertIn("TARGET_SEMANTIC_UNVERIFIED", result["errors"])
+\n\nif __name__ == "__main__":
     unittest.main()

@@ -216,7 +216,7 @@ def parse_next_data(document: str) -> dict:
     return value
 
 
-def fetch_html(url: str, timeout: int = 25) -> str:
+def fetch_html_with_metadata(url: str, timeout: int = 25) -> dict:
     request = urllib.request.Request(
         url,
         headers={
@@ -228,9 +228,20 @@ def fetch_html(url: str, timeout: int = 25) -> str:
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             charset = response.headers.get_content_charset() or 'utf-8'
-            return response.read().decode(charset, errors='replace')
+            document = response.read().decode(charset, errors='replace')
+            status = int(getattr(response, 'status', None) or response.getcode() or 0)
+            return {
+                'document': document,
+                'httpStatus': status,
+                'pageUrl': str(response.geturl() or url),
+                'fetchedAt': datetime.now(timezone.utc).isoformat(),
+            }
     except Exception as exc:
         raise OfficialWebCollectorError(f'WEB_FETCH_FAILED: {url}: {exc}') from exc
+
+
+def fetch_html(url: str, timeout: int = 25) -> str:
+    return str(fetch_html_with_metadata(url, timeout=timeout)['document'])
 
 
 def _section_key(value: str) -> str:

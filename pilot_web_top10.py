@@ -6,7 +6,7 @@ import hashlib
 import json
 import re
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from zoneinfo import ZoneInfo
@@ -21,6 +21,16 @@ EVIDENCE_ROOT = ROOT / "pilot_evidence"
 TITLE_BAD_WORDS = {
     "home", "download", "privacy", "terms", "about", "contact", "login", "sign in",
     "watch now", "more", "view more", "see all", "app store", "google play",
+}
+
+
+SOURCE_CONTROL_REQUIRED = {
+    "FlexTV",
+    "GoodShort",
+    "MoboReels",
+    "NetShort",
+    "ReelShort",
+    "ShortMax",
 }
 
 
@@ -77,6 +87,111 @@ def load_scope() -> dict[str, Any]:
 
 def local_today() -> str:
     return datetime.now(TIMEZONE).date().isoformat()
+
+
+def _canonical_host(value: str) -> str:
+    host = (urlparse(str(value or "")).hostname or "").casefold().strip(".")
+    return host[4:] if host.startswith("www.") else host
+
+
+def _source_evidence_layers(evidence: dict[str, Any]) -> list[dict[str, Any]]:
+    layers = []
+    queue = [evidence] if isinstance(evidence, dict) else []
+    seen = set()
+    while queue and len(layers) < 8:
+        item = queue.pop(0)
+        if not isinstance(item, dict) or id(item) in seen:
+            continue
+        seen.add(id(item))
+        layers.append(item)
+        for key in ("payloadEvidence", "sourceEvidence"):
+            child = item.get(key)
+            if isinstance(child, dict):
+                queue.append(child)
+    return layers
+
+
+def _source_field(evidence: dict[str, Any], *names: str) -> Any:
+    for layer in _source_evidence_layers(evidence):
+        for name in names:
+            if name in layer and layer.get(name) not in (None, ""):
+                return layer.get(name)
+    return None
+
+
+def audit_source_evidence(
+    cfg: dict[str, Any],
+    evidence: dict[str, Any],
+    *,
+    now: datetime | None = None,
+    max_age_seconds: int = 900,
+) -> dict[str, Any]:
+    platform = str(cfg.get("platform") or "")
+    required = platform in SOURCE_CONTROL_REQUIRED
+    if not required:
+        return {
+            "required": False,
+            "pass": True,
+            "errors": [],
+        }
+
+    errors = []
+    expected_host = _canonical_host(str(cfg.get("url") or ""))
+
+    raw_status = _source_field(evidence, "httpStatus", "http_status")
+    try:
+        http_status = int(raw_status)
+    except (TypeError, ValueError):
+        http_status = 0
+    if not 200 <= http_status < 400:
+        errors.append("HTTP_STATUS_INVALID")
+
+    page_url = clean(_source_field(evidence, "pageUrl", "finalUrl", "final_url"), 1200)
+    actual_host = _canonical_host(page_url)
+    if not page_url or not actual_host or actual_host != expected_host:
+        errors.append("OFFICIAL_HOST_MISMATCH")
+
+    semantic_verified = _source_field(evidence, "semanticVerified", "semantic_verified") is True
+    if not semantic_verified:
+        errors.append("TARGET_SEMANTIC_UNVERIFIED")
+
+    fetched_raw = clean(_source_field(evidence, "fetchedAt", "fetched_at"), 100)
+    age_seconds = None
+    if not fetched_raw:
+        errors.append("FETCH_TIME_MISSING")
+    else:
+        try:
+            fetched = datetime.fromisoformat(fetched_raw.replace("Z", "+00:00"))
+            if fetched.tzinfo is None:
+                fetched = fetched.replace(tzinfo=timezone.utc)
+            current = now or datetime.now(timezone.utc)
+            if current.tzinfo is None:
+                current = current.replace(tzinfo=timezone.utc)
+            age_seconds = (current.astimezone(timezone.utc) - fetched.astimezone(timezone.utc)).total_seconds()
+            if age_seconds < -60 or age_seconds > max_age_seconds:
+                errors.append("FETCH_EVIDENCE_STALE")
+        except Exception:
+            errors.append("FETCH_TIME_INVALID")
+
+    return {
+        "required": True,
+        "pass": not errors,
+        "errors": errors,
+        "httpStatus": http_status or None,
+        "expectedHost": expected_host,
+        "actualHost": actual_host,
+        "pageUrl": page_url,
+        "semanticVerified": semantic_verified,
+        "fetchedAt": fetched_raw,
+        "ageSeconds": age_seconds,
+        "maxAgeSeconds": max_age_seconds,
+    }
+
+
+def _status_with_source_control(status: str, source_control: dict[str, Any]) -> str:
+    if status in {"PASS_VERIFIED", "PASS_CANDIDATE"} and not source_control.get("pass", False):
+        return "FAIL"
+    return status
 
 
 def ensure_rows(titles: list[str]) -> list[dict[str, Any]]:
@@ -278,6 +393,16 @@ def collect_one(browser, cfg: dict[str, Any], collection_date: str, evidence_dir
         try:
             rows, parser_evidence = run_verified_parser(cfg, collection_date)
             audit = audit_rows(rows)
+            raw_status = status_from_audit(
+                audit,
+                verified_parser=True,
+                adapter_found=True,
+            )
+            source_control = audit_source_evidence(cfg, parser_evidence)
+            parser_evidence = {
+                **parser_evidence,
+                "sourceControl": source_control,
+            }
             return ProbeResult(
                 platform=platform,
                 collection_date=collection_date,
@@ -286,7 +411,7 @@ def collect_one(browser, cfg: dict[str, Any], collection_date: str, evidence_dir
                 source_url=cfg["url"],
                 strategy="verified_parser",
                 rows=rows,
-                extraction_status=status_from_audit(audit, verified_parser=True, adapter_found=True),
+                extraction_status=_status_with_source_control(raw_status, source_control),
                 audit=audit,
                 evidence=parser_evidence,
             )
@@ -297,6 +422,13 @@ def collect_one(browser, cfg: dict[str, Any], collection_date: str, evidence_dir
         rows, browser_evidence, adapter_found = browser_probe(browser, cfg, evidence_dir)
         audit = audit_rows(rows)
         evidence = {"parserFallbackError": parser_error, **parser_evidence, **browser_evidence}
+        raw_status = status_from_audit(
+            audit,
+            verified_parser=False,
+            adapter_found=adapter_found,
+        )
+        source_control = audit_source_evidence(cfg, evidence)
+        evidence["sourceControl"] = source_control
         return ProbeResult(
             platform=platform,
             collection_date=collection_date,
@@ -305,7 +437,7 @@ def collect_one(browser, cfg: dict[str, Any], collection_date: str, evidence_dir
             source_url=cfg["url"],
             strategy="browser_probe" if not verified else "verified_parser+browser_fallback",
             rows=rows,
-            extraction_status=status_from_audit(audit, verified_parser=False, adapter_found=adapter_found),
+            extraction_status=_status_with_source_control(raw_status, source_control),
             audit=audit,
             evidence=evidence,
             error=parser_error,

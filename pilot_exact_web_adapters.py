@@ -6,7 +6,7 @@ import json
 import re
 import urllib.error
 import urllib.request
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -52,6 +52,23 @@ def _strip_markup(value: Any, limit: int = 500) -> str:
     return base.clean(html_lib.unescape(text), limit)
 
 
+def _document_semantic_marker(document: str, expected: str) -> bool:
+    wanted = base.clean(expected, 200).casefold()
+    if not wanted:
+        return False
+    title_match = re.search(r'<title[^>]*>(.*?)</title>', document or '', flags=re.I | re.S)
+    if title_match and wanted in _strip_markup(title_match.group(1), 500).casefold():
+        return True
+    for raw in re.findall(
+        r'<h[1-6][^>]*>(.*?)</h[1-6]>',
+        document or '',
+        flags=re.I | re.S,
+    ):
+        if wanted in _strip_markup(raw, 500).casefold():
+            return True
+    return False
+
+
 def _rows_from_itemlist(document: str, expected_name: str):
     expected = base.clean(expected_name, 200).casefold()
     candidates = []
@@ -61,12 +78,37 @@ def _rows_from_itemlist(document: str, expected_name: str):
             if not isinstance(elems, list):
                 continue
             name = base.clean(itemlist.get("name"), 200)
-            score = 2 if expected and expected in name.casefold() else 1
-            candidates.append((score, len(elems), name, itemlist))
+            named_match = bool(expected and expected in name.casefold())
+            candidates.append((named_match, len(elems), name, itemlist))
+
     if not candidates:
-        return [], {"structuredData": "ItemList not found"}, False
-    candidates.sort(reverse=True, key=lambda x: (x[0], x[1]))
-    _, _, name, best = candidates[0]
+        return [], {
+            "structuredData": "ItemList not found",
+            "semanticVerified": False,
+        }, False
+
+    named = [x for x in candidates if x[0]]
+    page_marker = _document_semantic_marker(document, expected_name)
+    if named:
+        named.sort(reverse=True, key=lambda x: x[1])
+        _, _, name, best = named[0]
+        semantic_verified = True
+        semantic_method = "itemListName"
+    elif page_marker and len(candidates) == 1:
+        _, _, name, best = candidates[0]
+        semantic_verified = True
+        semantic_method = "pageTitleOrHeading+singleItemList"
+    else:
+        return [], {
+            "structuredData": "JSON-LD ItemList",
+            "itemListNames": [x[2] for x in candidates],
+            "itemListCount": len(candidates),
+            "semanticVerified": False,
+            "semanticExpected": expected_name,
+            "pageSemanticMarker": page_marker,
+            "semanticError": "TARGET_ITEMLIST_NOT_IDENTIFIED",
+        }, True
+
     rows = []
     for idx, entry in enumerate(best.get("itemListElement") or [], start=1):
         if not isinstance(entry, dict):
@@ -87,25 +129,53 @@ def _rows_from_itemlist(document: str, expected_name: str):
         if len(rows) >= TOP_N:
             break
     rows.sort(key=lambda x: int(x.get("rank") or 999))
-    return rows, {"structuredData": "JSON-LD ItemList", "itemListName": name}, True
+    return rows, {
+        "structuredData": "JSON-LD ItemList",
+        "itemListName": name,
+        "itemListCount": len(candidates),
+        "semanticVerified": semantic_verified,
+        "semanticMethod": semantic_method,
+        "semanticExpected": expected_name,
+    }, True
 
 
 def _rows_from_reelshort(document: str):
     blocks = _script_json_blocks(document, script_id="__NEXT_DATA__")
     if not blocks:
-        return [], {"structuredData": "__NEXT_DATA__ not found"}, False
+        return [], {
+            "structuredData": "__NEXT_DATA__ not found",
+            "semanticVerified": False,
+        }, False
     pp = blocks[0].get("props", {}).get("pageProps", {})
+    shelf_name = base.clean(pp.get("shelfName"), 200)
+    semantic_verified = shelf_name.casefold() == "top"
     raw_list = pp.get("list")
     if not isinstance(raw_list, list):
-        return [], {"structuredData": "pageProps.list not found"}, False
+        return [], {
+            "structuredData": "pageProps.list not found",
+            "shelfName": shelf_name,
+            "semanticVerified": semantic_verified,
+        }, False
+    if not semantic_verified:
+        return [], {
+            "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+            "shelfName": shelf_name,
+            "total": pp.get("total"),
+            "semanticVerified": False,
+            "semanticExpected": "TOP",
+            "semanticError": "REELSHORT_SHELF_MISMATCH",
+        }, True
+
     rows = []
     for idx, item in enumerate(raw_list[:TOP_N], start=1):
         if isinstance(item, dict) and base.clean(item.get("book_title"), 500):
             rows.append({"rank": idx, "title": base.clean(item.get("book_title"), 500)})
     return rows, {
         "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
-        "shelfName": base.clean(pp.get("shelfName"), 200),
+        "shelfName": shelf_name,
         "total": pp.get("total"),
+        "semanticVerified": True,
+        "semanticExpected": "TOP",
     }, True
 
 
@@ -139,7 +209,12 @@ def _rows_from_moboreels(document: str):
         rows.append({"rank": len(rows) + 1, "title": title})
         if len(rows) >= TOP_N:
             break
-    return rows, {"structuredData": "MoboReels Popular Series DOM", "visibleTitles": len(titles)}, True
+    return rows, {
+        "structuredData": "MoboReels Popular Series DOM",
+        "visibleTitles": len(titles),
+        "semanticVerified": True,
+        "semanticExpected": "Popular Series",
+    }, True
 
 
 def _rows_from_dramawave(document: str):
@@ -211,11 +286,19 @@ def _rows_from_dramabox(document: str, collection_date: str):
 
 
 def _rows_from_goodshort(document: str):
+    semantic_verified = _document_semantic_marker(document, "Top in GoodShort")
+    if not semantic_verified:
+        return [], {
+            "structuredData": "GoodShort rendered channel cards",
+            "semanticVerified": False,
+            "semanticExpected": "Top in GoodShort",
+            "semanticError": "GOODSHORT_SHELF_MISMATCH",
+        }, True
     try:
         from goodshort_collector import parse_goodshort_channel
         items = parse_goodshort_channel(document, "https://www.goodshort.com/")
     except Exception as exc:
-        return [], {"structuredData": "GoodShort rendered DOM parse failed", "parseError": f"{type(exc).__name__}: {exc}"}, False
+        return [], {"structuredData": "GoodShort rendered DOM parse failed", "parseError": f"{type(exc).__name__}: {exc}", "semanticVerified": True}, False
 
     rows = []
     seen = set()
@@ -234,7 +317,12 @@ def _rows_from_goodshort(document: str):
         rows.append(row)
         if len(rows) >= TOP_N:
             break
-    return rows, {"structuredData": "GoodShort rendered channel cards", "cardCount": len(items)}, bool(items)
+    return rows, {
+        "structuredData": "GoodShort rendered channel cards",
+        "cardCount": len(items),
+        "semanticVerified": True,
+        "semanticExpected": "Top in GoodShort",
+    }, bool(items)
 
 
 def _rows_from_shortmax(document: str, collection_date: str):
@@ -264,6 +352,8 @@ def _rows_from_shortmax(document: str, collection_date: str):
     return rows, {
         "structuredData": "ShortMax rendered Most Popular DOM",
         "renderedCardCount": len(payload.get("rows") or []),
+        "semanticVerified": True,
+        "semanticExpected": "Most Popular",
     }, bool(rows)
 
 
@@ -490,6 +580,8 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                     "structuredData": "ShortMax live DOM Most Popular section",
                     "renderedCardCount": len(live_items),
                     "sectionScoped": True,
+                    "semanticVerified": bool(live_items),
+                    "semanticExpected": "Most Popular",
                 }
                 found = bool(live_items)
             else:
@@ -539,6 +631,7 @@ def browser_probe(browser, cfg: dict[str, Any], evidence_dir: Path, collection_d
                 "pageUrl": base.clean(page.url, 1200),
                 "documentLang": base.clean(page.locator("html").get_attribute("lang"), 40),
                 "httpStatus": status_code,
+                "fetchedAt": datetime.now(timezone.utc).isoformat(),
                 "browserAttempt": attempt,
                 "mobileProfile": bool(profile["is_mobile"]),
                 **adapter_meta,
