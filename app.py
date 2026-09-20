@@ -108,8 +108,18 @@ COLLECT_HTML = (ROOT / 'collect.html').read_text(encoding='utf-8')
 RESEARCH_META = json.loads((ROOT / 'research_meta.json').read_text(encoding='utf-8')) if (ROOT/'research_meta.json').exists() else {}
 
 
+class ClosingSQLiteConnection(sqlite3.Connection):
+    """Preserve sqlite transaction context semantics and close on context exit."""
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        try:
+            return super().__exit__(exc_type, exc_value, traceback)
+        finally:
+            self.close()
+
+
 def connect():
-    c = sqlite3.connect(DB_PATH, timeout=30)
+    c = sqlite3.connect(DB_PATH, timeout=30, factory=ClosingSQLiteConnection)
     c.row_factory = sqlite3.Row
     c.executescript('''
     CREATE TABLE IF NOT EXISTS drama_overrides(
