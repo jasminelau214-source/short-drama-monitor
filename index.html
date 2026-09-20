@@ -1519,10 +1519,13 @@
     .overview-navigation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.overview-nav-card{border:1px solid #eceef3;border-radius:10px;background:#fff;padding:14px;display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;text-align:left}.overview-nav-card>span{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:#fff0f2}.overview-nav-card.blue>span{background:#eaf2ff}.overview-nav-card.violet>span{background:#f1ebff}.overview-nav-card.amber>span{background:#fff3e7}.overview-nav-card strong{display:block;color:#20263a}.overview-nav-card small{display:block;color:#98a2b3;margin-top:3px}.overview-nav-card em{font-style:normal;font-size:18px;color:#667085}
 
     .daily-primary-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:10px;margin:12px 0}
-    .daily-top10-table{display:grid}.daily-top10-head,.daily-top10-row{display:grid;grid-template-columns:42px minmax(130px,1.5fr) 90px 80px 74px 120px;gap:8px;align-items:center}
-    .daily-top10-head{padding:8px 10px;background:#f8f9fb;border-radius:8px;color:#8c96a8;font-size:10px}
-    .daily-top10-row{width:100%;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:7px 10px;text-align:left;color:#596579;font-size:10.5px}.daily-top10-row:hover{background:#fff8f9}.daily-top10-row strong{color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top10-rank{width:25px;height:25px;border-radius:7px;background:#f2f4f7;display:grid;place-items:center;font-weight:850;color:#667085}.daily-top10-row:nth-child(2) .top10-rank{background:#ffe9ed;color:#cf263a}.daily-top10-row:nth-child(3) .top10-rank{background:#fff0e1;color:#df7711}.daily-top10-row:nth-child(4) .top10-rank{background:#eaf2ff;color:#316fd6}
+    .daily-ranking-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.daily-ranking-tab{border:1px solid #e7e9ef;border-radius:999px;background:#fff;padding:6px 10px;color:#667085;font-size:10.5px;font-weight:750}.daily-ranking-tab.active{border-color:#e5aeb7;background:#fff4f6;color:#b42332}
+    .daily-ranking-groups{display:grid;gap:10px}.daily-ranking-group{border:1px solid #eceef3;border-radius:10px;overflow:hidden;background:#fff}.daily-ranking-scope-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 10px;background:#fafbfc;border-bottom:1px solid #eef0f3}.daily-ranking-scope-head strong{color:#293246;font-size:11.5px}.daily-ranking-scope-head span{color:#98a2b3;font-size:9.5px}
+    .daily-ranking-table-head,.daily-top10-row{display:grid;grid-template-columns:42px minmax(130px,1.5fr) 110px 80px 74px 120px;gap:8px;align-items:center}.daily-ranking-table-head{padding:7px 10px;background:#fff;color:#8c96a8;font-size:9.5px;border-bottom:1px solid #f0f1f4}
+    .daily-top10-row{width:100%;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:7px 10px;text-align:left;color:#596579;font-size:10.5px}.daily-top10-row:last-child{border-bottom:0}.daily-top10-row:hover{background:#fff8f9}.daily-top10-row strong{color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top10-rank{width:25px;height:25px;border-radius:7px;background:#f2f4f7;display:grid;place-items:center;font-weight:850;color:#667085}.daily-ranking-more{width:100%;border:0;border-top:1px solid #f0f1f4;background:#fff;padding:8px 10px;text-align:right;color:#b42332;font-size:10px}
     .vertical-focus-grid{grid-template-columns:1fr!important}
+    .daily-new-row{grid-template-columns:34px 1fr 135px 70px!important}.daily-new-row>span{width:auto!important;min-width:28px!important;padding:0 4px!important}
+    .poster-rank{width:auto!important;min-width:22px;padding:0 5px}
     .daily-secondary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
     .daily-genre-structure,.daily-new-list,.daily-platform-performance{display:grid;gap:6px}
     .daily-genre-row{display:grid;grid-template-columns:9px 70px 1fr 55px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.genre-color{width:8px;height:8px;border-radius:50%;background:#d62f3f}.genre-color.g1{background:#f08a24}.genre-color.g2{background:#316fd6}.genre-color.g3{background:#7d51b8}.genre-color.g4{background:#e84d72}.genre-color.g5{background:#9aa3b1}.daily-genre-row b{font-size:10.5px;color:#475467}.daily-genre-row i{height:7px;background:#f0f2f5;border-radius:99px;overflow:hidden}.daily-genre-row i::after{content:"";display:block;width:var(--w);height:100%;border-radius:99px;background:#d62f3f}.daily-genre-row em{font-style:normal;color:#8c96a8;font-size:10px;text-align:right}
@@ -1667,7 +1670,7 @@
 
         <div class="daily-stats">
           <button class="metric daily-kpi" type="button" data-daily-filter="all"><div class="label">今日剧目</div><div class="value" id="dailyMetricTitles">0</div><div class="subtle">查看全部剧目 →</div></button>
-          <button class="metric daily-kpi new-title" type="button" data-daily-filter="new"><div class="label">今日新剧</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">筛选首次记录 →</div></button>
+          <button class="metric daily-kpi new-title" type="button" data-daily-filter="new"><div class="label">首次上榜</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">筛选本榜首次记录 →</div></button>
           <button class="metric daily-kpi continuing-title" type="button" data-daily-filter="continuing"><div class="label">继续在榜</div><div class="value" id="dailyMetricContinuing">0</div><div class="subtle">筛选历史已出现 →</div></button>
           <button class="metric daily-kpi" type="button" data-daily-filter="female"><div class="label">女频</div><div class="value" id="dailyMetricFemale">0</div><div class="subtle">筛选女频剧目 →</div></button>
           <button class="metric daily-kpi" type="button" data-daily-filter="male"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">筛选男频剧目 →</div></button>
@@ -1676,18 +1679,16 @@
         <div class="daily-primary-grid">
           <section class="section daily-top10-section">
             <div class="section-head">
-              <div><h2>今日榜单 TOP10</h2><div class="subtle">按当日排名展示；排名变化与走势均基于真实采集点。</div></div>
+              <div><h2>各平台榜单</h2><div class="subtle">排名只在同一平台、同一榜单口径内比较；“全部平台”仅用于并列浏览，不生成跨平台总排名。</div></div>
               <button class="mini-link" type="button" data-scroll-target="dailyDetailTable">查看完整榜单 →</button>
             </div>
-            <div class="daily-top10-table">
-              <div class="daily-top10-head"><span>排名</span><span>剧名</span><span>平台</span><span>题材</span><span>较上次</span><span>走势</span></div>
-              <div id="dailyTop10Rows"></div>
-            </div>
+            <div id="dailyRankingTabs" class="daily-ranking-tabs" aria-label="榜单平台筛选"></div>
+            <div id="dailyTop10Rows" class="daily-ranking-groups"></div>
           </section>
 
           <section class="section daily-focus-section">
             <div class="section-head">
-              <div><h2>今日重点剧目</h2><div class="subtle">按榜位、排名变化和新剧信号筛选。</div></div>
+              <div><h2>今日重点剧目</h2><div class="subtle">按本榜首次上榜、同榜升降和内容完整度筛选，不做跨平台名次比较。</div></div>
             </div>
             <div id="dailyFocusTitles" class="daily-focus-grid vertical-focus-grid"></div>
           </section>
@@ -1700,12 +1701,12 @@
           </section>
 
           <section class="section">
-            <div class="section-head"><div><h2>今日新剧列表</h2><div class="subtle">当日首次记录剧目。</div></div></div>
+            <div class="section-head"><div><h2>今日首次上榜</h2><div class="subtle">当前数据层只能证明“首次出现在该平台/榜单”，不能证明全系统新剧。</div></div></div>
             <div id="dailyNewList" class="daily-new-list"></div>
           </section>
 
           <section class="section">
-            <div class="section-head"><div><h2>平台表现（今日新剧）</h2><div class="subtle">按新剧数量观察平台当天供给。</div></div></div>
+            <div class="section-head"><div><h2>平台表现（首次上榜）</h2><div class="subtle">按首次上榜记录数量观察平台当天新增榜单信号。</div></div></div>
             <div id="dailyPlatformPerformance" class="daily-platform-performance"></div>
           </section>
 
@@ -1728,13 +1729,13 @@
           <div class="field"><label for="genreFilter">题材</label><select id="genreFilter"></select></div>
           <div class="field"><label for="laneFilter">赛道</label><select id="laneFilter"></select></div>
           <div class="field"><label for="audienceFilter">受众</label><select id="audienceFilter"></select></div>
-          <div class="field"><label for="statusFilter">榜单状态</label><select id="statusFilter"><option value="">全部</option><option value="new">新剧</option><option value="continuing">继续在榜</option></select></div>
+          <div class="field"><label for="statusFilter">榜单状态</label><select id="statusFilter"><option value="">全部</option><option value="new">首次上榜</option><option value="continuing">继续在榜</option></select></div>
         </div>
 
         <div class="table-meta"><span id="resultCount"></span><span>点击任一剧目整行进入统一单剧详情；空白字段不补造。</span></div>
         <div class="table-wrap">
           <table>
-            <thead><tr><th>排名</th><th>较上次</th><th>剧名</th><th>平台</th><th>热度</th><th>排名走势</th><th>榜单状态</th><th>题材</th><th>细分赛道</th><th>受众</th></tr></thead>
+            <thead><tr><th>排名</th><th>较上次</th><th>剧名</th><th>平台</th><th>榜单</th><th>热度</th><th>排名走势</th><th>榜单状态</th><th>题材</th><th>细分赛道</th><th>受众</th></tr></thead>
             <tbody id="catalogBody"></tbody>
           </table>
         </div>
@@ -2037,6 +2038,8 @@
     let activeDate = summary.collectionDate;
     let currentDetailId = '';
     let lastFocusedElement = null;
+    let dataSourceMode = location.protocol === 'file:' ? 'EMBEDDED' : 'FALLBACK';
+    let dataSourceError = '';
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -2060,13 +2063,18 @@
       if (location.protocol === 'file:') return;
       try {
         const response = await fetch('/api/data', { headers: { Accept: 'application/json' } });
-        if (!response.ok) return;
+        if (!response.ok) throw new Error('API_HTTP_' + response.status);
         const live = await response.json();
+        if (!live || !Array.isArray(live.records) || !live.summary) throw new Error('API_PAYLOAD_INVALID');
         records.splice(0, records.length, ...live.records);
         Object.keys(summary).forEach(key => delete summary[key]);
         Object.assign(summary, live.summary);
         activeDate = summary.collectionDate;
+        dataSourceMode = 'LIVE';
+        dataSourceError = '';
       } catch (error) {
+        dataSourceMode = 'FALLBACK';
+        dataSourceError = String(error?.message || error || 'UNKNOWN');
         console.warn('Using embedded ranking data.', error);
       }
     }
@@ -2088,10 +2096,14 @@
 
     function recordsOnDate(date) {
       return records.flatMap(record => {
-        const event = (record.history || []).find(entry => entry.date === date);
+        const event = scopedHistory(record).find(entry => entry.date === date);
         if (!event) return [];
         return [{
           ...record,
+          app: event.app || record.app,
+          targetKey: event.targetKey || record.targetKey || 'daily_top_all',
+          rankingType: event.rankingType || record.rankingType || '',
+          topN: Number(event.topN || record.topN || 10),
           date,
           rank: event.rank,
           heat: event.heat ?? record.heat,
@@ -2109,7 +2121,8 @@
 
     function summarizeDate(date) {
       const items = recordsOnDate(date);
-      const platforms = platformOrder.filter(app => items.some(item => item.app === app)).map(name => ({ name, value: items.filter(item => item.app === name).length }));
+      const platformNames = observedPlatformOrder(items);
+      const platforms = platformNames.map(name => ({ name, value: items.filter(item => item.app === name).length }));
       return {
         items,
         totalRows: items.length,
@@ -2118,7 +2131,8 @@
         genres: countValues(items.map(item => item.genre)),
         audiences: countValues(items.map(item => item.audience)),
         lanes: countValues(items.flatMap(item => item.laneTerms?.length ? item.laneTerms : splitTerms(item.lane))).slice(0, 12),
-        topByPlatform: platforms.map(platform => items.filter(item => item.app === platform.name).sort((a, b) => a.rank - b.rank)[0]),
+        topByPlatform: platforms.map(platform => items.filter(item => item.app === platform.name).sort(scopeThenRankCompare)[0]),
+        rankingScopes: rankingScopes(items),
         newTitles: items.filter(item => item.firstDate === date).length,
         continuingTitles: items.filter(item => item.firstDate !== date).length,
       };
@@ -2153,21 +2167,100 @@
     }
 
     let overviewFocusMode = 'new';
+    let dailyRankingPlatform = '';
+
+    function rankingTargetKey(item) {
+      return String(item?.targetKey || 'daily_top_all').trim() || 'daily_top_all';
+    }
+
+    function rankingListLabel(item) {
+      const type = String(item?.rankingType || '').trim();
+      if (type) return type;
+      const target = rankingTargetKey(item);
+      if (target === 'daily_top_all') return '主榜';
+      return target.replace(/^daily_|^web_/, '').replace(/_all$/, '').replace(/_/g, ' ') || '榜单';
+    }
+
+    function rankingScopeKey(item) {
+      return String(item?.app || '') + '::' + rankingTargetKey(item);
+    }
+
+    function rankingScopeText(item) {
+      return String(item?.app || '未知平台') + ' · ' + rankingListLabel(item);
+    }
+
+    function platformSortIndex(name) {
+      const preferred = [...new Set([...(summary.platforms || []).map(x => x.name), ...platformOrder])];
+      const index = preferred.indexOf(name);
+      return index < 0 ? preferred.length : index;
+    }
+
+    function scopeThenRankCompare(a, b) {
+      const platformDelta = platformSortIndex(a.app) - platformSortIndex(b.app);
+      if (platformDelta) return platformDelta;
+      const platformText = byText(a.app, b.app);
+      if (platformText) return platformText;
+      const targetText = byText(rankingTargetKey(a), rankingTargetKey(b));
+      if (targetText) return targetText;
+      return Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title, b.title);
+    }
+
+    function observedPlatformOrder(items) {
+      const observed = uniq(items.map(item => item.app));
+      const preferred = [...new Set([...(summary.platforms || []).map(x => x.name), ...platformOrder])];
+      return [...preferred.filter(name => observed.includes(name)), ...observed.filter(name => !preferred.includes(name))];
+    }
+
+    function rankingScopes(items) {
+      const buckets = new Map();
+      items.forEach(item => {
+        const key = rankingScopeKey(item);
+        if (!buckets.has(key)) {
+          buckets.set(key, {
+            key,
+            platform: item.app || '',
+            targetKey: rankingTargetKey(item),
+            rankingType: rankingListLabel(item),
+            topN: Number(item.topN || 0),
+            rows: [],
+          });
+        }
+        const bucket = buckets.get(key);
+        bucket.rows.push(item);
+        bucket.topN = Math.max(bucket.topN || 0, Number(item.topN || 0), Number(item.rank || 0));
+      });
+      return [...buckets.values()]
+        .map(scope => ({...scope, rows: scope.rows.slice().sort((a,b) => Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title,b.title))}))
+        .sort((a,b) => {
+          const pa = platformSortIndex(a.platform), pb = platformSortIndex(b.platform);
+          return pa - pb || byText(a.platform,b.platform) || byText(a.targetKey,b.targetKey);
+        });
+    }
+
+    function scopedHistory(item) {
+      const app = String(item?.app || '');
+      const targetKey = rankingTargetKey(item);
+      return (item?.history || []).filter(event => {
+        const eventApp = String(event?.app || app);
+        const eventTarget = String(event?.targetKey || targetKey || 'daily_top_all');
+        return eventApp === app && eventTarget === targetKey;
+      });
+    }
 
     function previousEvent(item, date) {
-      const history = (item.history || []).filter(h => h.date < date).sort((a,b) => a.date.localeCompare(b.date));
+      const history = scopedHistory(item).filter(h => h.date < date).sort((a,b) => a.date.localeCompare(b.date));
       return history.at(-1) || null;
     }
 
     function rankMovement(item, date) {
-      const current = (item.history || []).find(h => h.date === date);
+      const current = scopedHistory(item).find(h => h.date === date);
       const previous = previousEvent(item, date);
       if (!current || !previous) return null;
-      return previous.rank - current.rank;
+      return Number(previous.rank) - Number(current.rank);
     }
 
     function latestRankMovement(item) {
-      const history = (item.history || []).slice().sort((a,b) => a.date.localeCompare(b.date));
+      const history = scopedHistory(item).slice().sort((a,b) => a.date.localeCompare(b.date));
       if (history.length < 2) return null;
       return Number(history.at(-2).rank) - Number(history.at(-1).rank);
     }
@@ -2182,7 +2275,7 @@
     }
 
     function rankSparkline(item, throughDate = '') {
-      const points = (item.history || [])
+      const points = scopedHistory(item)
         .filter(h => !throughDate || h.date <= throughDate)
         .slice()
         .sort((a,b) => a.date.localeCompare(b.date))
@@ -2246,7 +2339,7 @@
         <div class="movement-stat up"><span>↑</span><b>${up}</b><small>排名上升</small></div>
         <div class="movement-stat flat"><span>→</span><b>${flat}</b><small>排名持平</small></div>
         <div class="movement-stat down"><span>↓</span><b>${down}</b><small>排名下降</small></div>
-        <div class="movement-stat new"><span>✦</span><b>${newCount}</b><small>新剧 / 单点</small></div>
+        <div class="movement-stat new"><span>✦</span><b>${newCount}</b><small>首次上榜 / 单点</small></div>
       `;
     }
 
@@ -2254,17 +2347,15 @@
       const topGenre = day.genres[0]?.name || '';
       let items = day.items.slice();
       if (overviewFocusMode === 'new') {
-        items = items.filter(r => r.firstDate === activeDate)
-          .sort((a,b) => a.rank - b.rank || byText(a.title,b.title));
+        items = items.filter(r => r.firstDate === activeDate).sort(scopeThenRankCompare);
       } else if (overviewFocusMode === 'rising') {
         items = items.map(r => ({...r, _move: rankMovement(r, activeDate)}))
           .filter(r => Number(r._move) > 0)
-          .sort((a,b) => b._move - a._move || a.rank - b.rank);
+          .sort(scopeThenRankCompare);
       } else {
-        items = items.filter(r => !topGenre || r.genre === topGenre)
-          .sort((a,b) => a.rank - b.rank || byText(a.title,b.title));
+        items = items.filter(r => !topGenre || r.genre === topGenre).sort(scopeThenRankCompare);
       }
-      if (!items.length) items = day.items.slice().sort((a,b) => a.rank-b.rank);
+      if (!items.length) items = day.items.slice().sort(scopeThenRankCompare);
       items = items.slice(0,5);
 
       const posterTones=['tone-red','tone-orange','tone-blue','tone-plum','tone-slate'];
@@ -2276,7 +2367,7 @@
         return `<article class="focus-poster-card">
           <button class="poster-button" type="button" data-open="${escapeAttr(r.id)}" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
             <div class="poster-art ${posterTones[index % posterTones.length]}" ${posterStyle}>
-              <span class="poster-rank">${index+1}</span>
+              <span class="poster-rank">${overviewFocusMode === 'new' ? 'NEW' : overviewFocusMode === 'rising' ? '↑' : '样本'}</span>
               <span class="poster-initials">${escapeHtml(initials)}</span>
               <span class="poster-play" title="进入单剧详情 / 视频资源">▶</span>
             </div>
@@ -2335,44 +2426,53 @@
         function renderDashboard() {
       const day=summarizeDate(activeDate);
       $('#dashboardDate').value=activeDate;
-      $('#sidebarDataStatus').textContent=`最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
-      $('#overviewStatusText').textContent=`数据正常 · ${activeDate} · ${day.platforms.length} 个平台 · ${day.uniqueTitles} 部剧`;
+      const sourceLabel = dataSourceMode === 'LIVE' ? 'LIVE · API只读数据' : dataSourceMode === 'FALLBACK' ? 'FALLBACK · 内嵌测试数据' : 'EMBEDDED · 本地数据';
+      $('#sidebarDataStatus').textContent=`${sourceLabel} · 最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
+      $('#overviewStatusText').textContent=`${sourceLabel} · ${activeDate} · ${day.platforms.length} 个平台 · ${day.totalRows} 条榜单记录`;
+      if (dataSourceMode === 'FALLBACK' && dataSourceError) $('#overviewStatusText').title = dataSourceError;
 
       const topGenre=day.genres[0] || {name:'待标注',value:0};
-      const topRisers=day.items.map(r=>({r,move:rankMovement(r,activeDate)})).filter(x=>Number(x.move)>0).sort((a,b)=>b.move-a.move || a.r.rank-b.r.rank);
-      const topRiser=topRisers[0] || null;
-      const newTop=day.items.filter(r=>r.firstDate===activeDate).sort((a,b)=>a.rank-b.rank)[0] || null;
-      const recurringTop=day.items.filter(r=>r.firstDate!==activeDate).sort((a,b)=>a.rank-b.rank)[0] || null;
+      const ordered=day.items.slice().sort(scopeThenRankCompare);
+      const risingSamples=ordered.map(r=>({r,move:rankMovement(r,activeDate),previous:previousEvent(r,activeDate)})).filter(x=>Number(x.move)>0);
+      const riseSample=risingSamples[0] || null;
+      const firstSeenSample=ordered.find(r=>r.firstDate===activeDate) || null;
+      const continuingSample=ordered.find(r=>r.firstDate!==activeDate) || null;
 
       const notes=[
-        topRiser ? `《${topRiser.r.title}》较上一个真实采集点上升 ${topRiser.move} 位，是今天最明显的排名信号。` : `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部。`,
-        `「${topGenre.name}」是今日样本中数量最多的已标注题材，共 ${topGenre.value} 部，可进入题材研究继续拆解。`,
-        newTop ? `${newTop.app} 新剧《${newTop.title}》首次记录即位于第 ${newTop.rank} 名，建议继续观察后续生命周期。` : '今天暂未出现新的首次记录剧目。'
+        riseSample ? `《${riseSample.r.title}》在 ${rankingScopeText(riseSample.r)} 从 #${riseSample.previous?.rank ?? '—'} 升至 #${riseSample.r.rank}（↑${riseSample.move}），属于可下钻的同榜排名变化。` : `今日共记录 ${day.totalRows} 条榜单记录，覆盖 ${day.platforms.length} 个平台；当前不生成跨平台总排名。`,
+        `「${topGenre.name}」是今日样本中数量最多的已标注题材，共 ${topGenre.value} 条榜单样本，可进入题材研究继续拆解。`,
+        firstSeenSample ? `${rankingScopeText(firstSeenSample)} 的《${firstSeenSample.title}》今日首次上榜，当前 #${firstSeenSample.rank}；在 canonical drama_id 完成前不将其表述为“全系统新剧”。` : '今天暂未出现新的本榜首次记录。'
       ];
       $('#overviewConclusions').innerHTML=notes.map((note,index)=>`<button type="button" class="overview-intel-line" data-intel-index="${index}"><span>${index+1}</span><p>${escapeHtml(note)}</p><em>查看依据 →</em></button>`).join('');
 
-      const drama=topRiser?.r || newTop || recurringTop || day.items[0];
-      $('#overviewDramaSignal').innerHTML=drama ? `<button class="signal-primary" data-open="${escapeAttr(drama.id)}"><b>${escapeHtml(drama.title)}</b><span>${escapeHtml(drama.app)} · 当前第 ${drama.rank} 名</span><p>${topRiser?.r.id===drama.id?`↑ ${topRiser.move} 位，排名变化最明显`:drama.firstDate===activeDate?'NEW · 今日首次记录':'高位持续在榜样本'}</p><em>进入单剧档案 →</em></button>` : '<div class="subtle">暂无剧目信号。</div>';
+      const drama=riseSample?.r || firstSeenSample || continuingSample || ordered[0];
+      $('#overviewDramaSignal').innerHTML=drama ? `<button class="signal-primary" data-open="${escapeAttr(drama.id)}"><b>${escapeHtml(drama.title)}</b><span>${escapeHtml(rankingScopeText(drama))} · 当前 #${drama.rank}</span><p>${riseSample?.r.id===drama.id?`同榜 ↑ ${riseSample.move} 位`:drama.firstDate===activeDate?'本榜首次上榜':'持续在榜样本'}</p><em>进入单剧档案 →</em></button>` : '<div class="subtle">暂无剧目信号。</div>';
 
-      $('#overviewGenreSignal').innerHTML=topGenre.value ? `<button class="signal-primary" data-overview-genre="${escapeAttr(topGenre.name)}"><b>${escapeHtml(topGenre.name)}</b><span>今日已标注 ${topGenre.value} 部</span><p>进入今日榜单查看具体剧目，再进入题材研究判断内容结构。</p><em>查看题材样本 →</em></button>` : '<div class="subtle">暂无题材信号。</div>';
+      $('#overviewGenreSignal').innerHTML=topGenre.value ? `<button class="signal-primary" data-overview-genre="${escapeAttr(topGenre.name)}"><b>${escapeHtml(topGenre.name)}</b><span>今日已标注 ${topGenre.value} 条榜单样本</span><p>进入今日榜单查看具体剧目，再进入题材研究判断内容结构。</p><em>查看题材样本 →</em></button>` : '<div class="subtle">暂无题材信号。</div>';
 
-      const anomaly=newTop || topRiser?.r || day.items[0];
-      $('#overviewAnomalySignal').innerHTML=anomaly ? `<button class="signal-primary" data-open="${escapeAttr(anomaly.id)}"><b>${escapeHtml(anomaly.title)}</b><span>${anomaly.firstDate===activeDate?'新出现样本':'排名变化样本'}</span><p>${anomaly.firstDate===activeDate?'首次记录，需要继续观察后续留榜和走势。':'已有历史记录，可查看生命周期判断是否为持续信号。'}</p><em>查看证据 →</em></button>` : '<div class="subtle">暂无异常信号。</div>';
+      const anomaly=firstSeenSample || riseSample?.r || ordered[0];
+      $('#overviewAnomalySignal').innerHTML=anomaly ? `<button class="signal-primary" data-open="${escapeAttr(anomaly.id)}"><b>${escapeHtml(anomaly.title)}</b><span>${escapeHtml(rankingScopeText(anomaly))}</span><p>${anomaly.firstDate===activeDate?'本榜首次记录，需要继续观察后续留榜和走势。':'已有同榜历史记录，可查看生命周期判断是否形成持续信号。'}</p><em>查看证据 →</em></button>` : '<div class="subtle">暂无异常信号。</div>';
 
-      const candidates=day.items.map(r=>{
-        const move=rankMovement(r,activeDate);
-        let score=(r.firstDate===activeDate?40:0)+(Number(move)>0?Number(move)*8:0)+(11-Math.min(10,Number(r.rank)||10));
-        if(!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff)) score+=12;
-        return {r,move,score};
-      }).sort((a,b)=>b.score-a.score || a.r.rank-b.r.rank).slice(0,3);
+      const picks=[];
+      const addPick=(r,reason,type)=>{
+        if(!r || picks.some(x=>x.r.id===r.id)) return;
+        picks.push({r,reason,type});
+      };
+      addPick(riseSample?.r, riseSample ? `${rankingScopeText(riseSample.r)} 同榜上升 ${riseSample.move} 位，值得确认是否形成持续趋势` : '', '上升');
+      addPick(firstSeenSample, firstSeenSample ? `${rankingScopeText(firstSeenSample)} 首次上榜，适合跟踪后续生命周期` : '', '首次');
+      const researchReady=ordered.find(r=>!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff));
+      addPick(researchReady, researchReady ? '已有内容深研字段，可直接进入结构拆解' : '', '深研');
+      for(const r of ordered) {
+        if(picks.length>=3) break;
+        addPick(r, `${rankingScopeText(r)} 的持续榜单样本，可作为观察对象`, '样本');
+      }
 
-      $('#overviewResearchPicks').innerHTML=candidates.map((x,index)=>{
+      $('#overviewResearchPicks').innerHTML=picks.slice(0,3).map((x,index)=>{
         const r=x.r;
-        const reason=r.firstDate===activeDate ? '新剧首次记录，适合跟踪后续生命周期' : Number(x.move)>0 ? `排名上升 ${x.move} 位，值得确认是否形成持续趋势` : !blank(r.storyCore)||!blank(r.payoff) ? '已有内容深研字段，可直接进入结构拆解' : '高位样本，适合作为当日代表剧观察';
         return `<article class="overview-research-card">
-          <div class="research-pick-no">0${index+1}</div>
+          <div class="research-pick-no">${escapeHtml(x.type)}</div>
           ${posterBlock(r,'research-pick-poster')}
-          <div class="research-pick-copy"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='女频'?'rose':r.audience==='男频'?'blue':'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><p>${escapeHtml(reason)}</p><small>${escapeHtml(shown(r.genre))} · 当前 #${r.rank}</small></div>
+          <div class="research-pick-copy"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='女频'?'rose':r.audience==='男频'?'blue':'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><p>${escapeHtml(x.reason)}</p><small>${escapeHtml(rankingListLabel(r))} · 当前 #${r.rank} · ${escapeHtml(shown(r.genre))}</small></div>
         </article>`;
       }).join('') || '<div class="subtle">暂无可推荐研究剧目。</div>';
     }
@@ -2380,7 +2480,7 @@
     function leaderCard(item) {
       return `
         <div class="leader-item">
-          <div><span class="chip neutral">${escapeHtml(item.app)} · 第${item.rank}名</span></div>
+          <div><span class="chip neutral">${escapeHtml(rankingScopeText(item))} · #${item.rank}</span></div>
           <button data-open="${escapeAttr(item.id)}">${escapeHtml(item.title)}</button>
           <div class="subtle">${escapeHtml(shown(item.genre))} · ${escapeHtml(shown(item.audience))}</div>
         </div>
@@ -2407,6 +2507,7 @@
     function changeActiveDate(date) {
       if (!summary.dates.includes(date)) return;
       activeDate = date;
+      dailyRankingPlatform = '';
       $('#statusFilter').value = '';
       setDateOptions();
       refreshFilterOptions();
@@ -2428,11 +2529,7 @@
         .filter(r => !lane || r.laneTerms?.includes(lane) || r.lane === lane)
         .filter(r => !audience || r.audience === audience)
         .filter(r => !status || (status === 'new' ? r.firstDate === activeDate : r.firstDate !== activeDate))
-        .sort((a, b) => {
-          const aIndex = platformOrder.includes(a.app) ? platformOrder.indexOf(a.app) : platformOrder.length;
-          const bIndex = platformOrder.includes(b.app) ? platformOrder.indexOf(b.app) : platformOrder.length;
-          return a.app === b.app ? a.rank - b.rank : aIndex - bIndex || byText(a.app, b.app);
-        });
+        .sort(scopeThenRankCompare);
     }
 
     function renderCatalog() {
@@ -2442,7 +2539,7 @@
       const female = day.audiences.find(item => item.name === '女频')?.value || 0;
       const male = day.audiences.find(item => item.name === '男频')?.value || 0;
       const topGenre = day.genres[0] || { name: '待标注', value: 0 };
-      const newShare = day.uniqueTitles ? Math.round(day.newTitles / day.uniqueTitles * 100) : 0;
+      const newShare = day.totalRows ? Math.round(day.newTitles / day.totalRows * 100) : 0;
 
       $('#dateFilter').value = activeDate;
       $('#catalogDatePill').textContent = '采集日 ' + activeDate;
@@ -2455,80 +2552,103 @@
       $('#dailyMovementSummary').innerHTML = movementSummaryHtml(dayItems, activeDate);
       renderCountTrend('#dailyTrendChart', summary.dates.slice().sort().filter(d=>d<=activeDate).slice(-7), [
         {key:'total',label:'总剧目',className:'total'},
-        {key:'newTitles',label:'新剧',className:'new'},
+        {key:'newTitles',label:'首次上榜',className:'new'},
         {key:'continuing',label:'继续在榜',className:'continuing'}
       ]);
 
       const dailyNotes = [
-        `今日共记录 ${day.uniqueTitles} 部剧，其中新剧 ${day.newTitles} 部，占比 ${newShare}%。`,
-        `当前数量最多的已标注题材是「${topGenre.name}」，共 ${topGenre.value} 部。`,
-        `已标注受众中，女频 ${female} 部、男频 ${male} 部。`
+        `今日共记录 ${day.totalRows} 条榜单记录、${day.uniqueTitles} 个标题；其中本榜首次记录 ${day.newTitles} 条，占榜单记录 ${newShare}%。`,
+        `当前数量最多的已标注题材是「${topGenre.name}」，共 ${topGenre.value} 条榜单样本。`,
+        `已标注受众中，女频 ${female} 条、男频 ${male} 条；排名只在相同平台与榜单口径内比较。`
       ];
       $('#dailyConclusions').innerHTML = dailyNotes.map((note, index) =>
         `<div><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
       ).join('');
 
-      const priority = dayItems.slice().sort((a,b) => {
-        const aNew = a.firstDate === activeDate ? 0 : 1;
-        const bNew = b.firstDate === activeDate ? 0 : 1;
-        return aNew - bNew || a.rank - b.rank || byText(a.title,b.title);
-      }).slice(0,3);
-      $('#dailyFocusTitles').innerHTML = priority.map((r,index) => `
-        <article class="daily-focus-card with-poster" data-open="${escapeAttr(r.id)}">
-          <div class="daily-focus-rank">${String(index + 1).padStart(2,'0')}</div>
+      const ordered = dayItems.slice().sort(scopeThenRankCompare);
+      const focus=[];
+      const addFocus=(r,label)=>{
+        if(!r || focus.some(x=>x.r.id===r.id)) return;
+        focus.push({r,label});
+      };
+      const rising=ordered.find(r=>Number(rankMovement(r,activeDate))>0);
+      const firstSeen=ordered.find(r=>r.firstDate===activeDate);
+      const researchReady=ordered.find(r=>!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff));
+      addFocus(rising,'上升');
+      addFocus(firstSeen,'首次');
+      addFocus(researchReady,'深研');
+      for(const r of ordered){ if(focus.length>=3) break; addFocus(r,'样本'); }
+
+      $('#dailyFocusTitles').innerHTML = focus.slice(0,3).map(x => {
+        const r=x.r;
+        return `<article class="daily-focus-card with-poster" data-open="${escapeAttr(r.id)}">
+          <div class="daily-focus-rank">${escapeHtml(x.label)}</div>
           ${posterBlock(r,'daily-focus-poster')}
           <div class="daily-focus-copy">
             <div class="daily-focus-meta">
               <span class="chip neutral">${escapeHtml(r.app)}</span>
-              ${r.firstDate === activeDate ? '<span class="chip amber">新剧</span>' : '<span class="chip blue">继续在榜</span>'}
+              <span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span>
+              ${r.firstDate === activeDate ? '<span class="chip amber">首次上榜</span>' : '<span class="chip blue">继续在榜</span>'}
             </div>
             <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
             <div class="daily-focus-footer">
-              <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+              <div class="subtle">本榜 #${r.rank} · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
               ${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}
             </div>
           </div>
-        </article>
-      `).join('');
+        </article>`;
+      }).join('');
 
+      const scopes = rankingScopes(dayItems);
+      const platformNames = observedPlatformOrder(dayItems);
+      if (dailyRankingPlatform && !platformNames.includes(dailyRankingPlatform)) dailyRankingPlatform = '';
+      $('#dailyRankingTabs').innerHTML = [
+        `<button type="button" class="daily-ranking-tab ${dailyRankingPlatform ? '' : 'active'}" data-ranking-platform="">全部平台</button>`,
+        ...platformNames.map(name => `<button type="button" class="daily-ranking-tab ${dailyRankingPlatform===name?'active':''}" data-ranking-platform="${escapeAttr(name)}">${escapeHtml(name)}</button>`)
+      ].join('');
 
-      // Top10: rank movement + sparkline, all rows clickable.
-      const top10=dayItems.slice().sort((a,b)=>a.rank-b.rank || byText(a.title,b.title)).slice(0,10);
-      $('#dailyTop10Rows').innerHTML=top10.map(r=>`<button class="daily-top10-row" type="button" data-open="${escapeAttr(r.id)}">
-        <span class="top10-rank">${r.rank}</span>
-        <strong>${escapeHtml(r.title)}</strong>
-        <span>${escapeHtml(r.app)}</span>
-        <span>${escapeHtml(shown(r.genre))}</span>
-        <span>${movementBadge(rankMovement(r,activeDate),r.firstDate===activeDate)}</span>
-        <span>${rankSparkline(r,activeDate)}</span>
-      </button>`).join('');
+      const visibleScopes = dailyRankingPlatform ? scopes.filter(scope=>scope.platform===dailyRankingPlatform) : scopes;
+      $('#dailyTop10Rows').innerHTML = visibleScopes.map(scope => {
+        const visibleRows = dailyRankingPlatform ? scope.rows : scope.rows.slice(0,3);
+        return `<section class="daily-ranking-group" data-ranking-scope="${escapeAttr(scope.key)}">
+          <div class="daily-ranking-scope-head"><strong>${escapeHtml(scope.platform)} · ${escapeHtml(scope.rankingType)}</strong><span>Top${scope.topN || scope.rows.length} · ${scope.rows.length} 条记录</span></div>
+          <div class="daily-ranking-table-head"><span>排名</span><span>剧名</span><span>榜单</span><span>题材</span><span>较上次</span><span>走势</span></div>
+          ${visibleRows.map(r=>`<button class="daily-top10-row" type="button" data-open="${escapeAttr(r.id)}">
+            <span class="top10-rank">#${r.rank}</span>
+            <strong>${escapeHtml(r.title)}</strong>
+            <span>${escapeHtml(rankingListLabel(r))}</span>
+            <span>${escapeHtml(shown(r.genre))}</span>
+            <span>${movementBadge(rankMovement(r,activeDate),r.firstDate===activeDate)}</span>
+            <span>${rankSparkline(r,activeDate)}</span>
+          </button>`).join('')}
+          ${!dailyRankingPlatform && scope.rows.length>visibleRows.length ? `<button type="button" class="daily-ranking-more" data-ranking-platform="${escapeAttr(scope.platform)}">查看 ${escapeHtml(scope.platform)} 完整榜单 →</button>` : ''}
+        </section>`;
+      }).join('') || '<div class="subtle">当前采集日暂无榜单记录。</div>';
 
-      // Genre structure: clickable distribution.
       const genreRows=day.genres.slice(0,6);
-      const genreTotal=Math.max(1,genreRows.reduce((s,x)=>s+x.value,0));
+      const genreTotal=Math.max(1,genreRows.reduce((sum,x)=>sum+x.value,0));
       $('#dailyGenreStructure').innerHTML=genreRows.map((g,index)=>{
         const pct=Math.round(g.value/genreTotal*100);
         return `<button type="button" class="daily-genre-row" data-daily-genre="${escapeAttr(g.name)}"><span class="genre-color g${index}"></span><b>${escapeHtml(g.name)}</b><i style="--w:${pct}%"></i><em>${g.value} · ${pct}%</em></button>`;
       }).join('') || '<div class="subtle">暂无题材标注。</div>';
 
-      // Today's new releases.
-      const newRows=dayItems.filter(r=>r.firstDate===activeDate).sort((a,b)=>a.rank-b.rank).slice(0,8);
-      $('#dailyNewList').innerHTML=newRows.map((r,index)=>`<button type="button" class="daily-new-row" data-open="${escapeAttr(r.id)}"><span>${index+1}</span><strong>${escapeHtml(r.title)}</strong><small>${escapeHtml(r.app)} · #${r.rank}</small><em>${escapeHtml(shown(r.genre))}</em></button>`).join('') || '<div class="subtle">今日暂无首次记录剧目。</div>';
+      const firstRows=ordered.filter(r=>r.firstDate===activeDate).slice(0,8);
+      $('#dailyNewList').innerHTML=firstRows.map(r=>`<button type="button" class="daily-new-row" data-open="${escapeAttr(r.id)}"><span>NEW</span><strong>${escapeHtml(r.title)}</strong><small>${escapeHtml(rankingScopeText(r))} · #${r.rank}</small><em>${escapeHtml(shown(r.genre))}</em></button>`).join('') || '<div class="subtle">今日暂无本榜首次记录。</div>';
 
-      // Platform performance based on today's new titles; fallback to all titles.
-      const platformRows=countValues((newRows.length?dayItems.filter(r=>r.firstDate===activeDate):dayItems).map(r=>r.app)).slice(0,6);
+      const platformRows=countValues((firstRows.length?dayItems.filter(r=>r.firstDate===activeDate):dayItems).map(r=>r.app)).slice(0,8);
       const platformMax=Math.max(1,...platformRows.map(x=>x.value));
       $('#dailyPlatformPerformance').innerHTML=platformRows.map((x,index)=>`<button type="button" class="daily-platform-row" data-daily-app="${escapeAttr(x.name)}"><span class="platform-badge p${index}">${escapeHtml(x.name.slice(0,1))}</span><strong>${escapeHtml(x.name)}</strong><i><b style="width:${Math.round(x.value/platformMax*100)}%"></b></i><em>${x.value}</em></button>`).join('') || '<div class="subtle">暂无平台数据。</div>';
 
-      const statusLabel = $('#statusFilter').value === 'new' ? ' · 新剧' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
-      $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 部${statusLabel}`;
+      const statusLabel = $('#statusFilter').value === 'new' ? ' · 首次上榜' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
+      $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 条榜单记录${statusLabel}`;
       $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
       $('#catalogBody').innerHTML = filtered.map(r => `
         <tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
-          <td><span class="rank">${r.rank}</span></td>
+          <td><span class="rank">#${r.rank}</span></td>
           <td>${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}</td>
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
+          <td><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span></td>
           <td>${escapeHtml(shown(r.heat))}</td>
           <td>${rankSparkline(r, activeDate)}</td>
           <td>${statusChip(r)}</td>
@@ -2541,9 +2661,9 @@
     }
 
     function statusChip(item) {
-      const recordedPoints = (item.history || []).filter(event => event.date <= activeDate).length;
+      const recordedPoints = scopedHistory(item).filter(event => event.date <= activeDate).length;
       const isNew = item.firstDate === activeDate;
-      return `<span class="chip ${isNew ? 'amber' : 'blue'}">${isNew ? '新剧 · 首次记录' : `继续在榜 · ${recordedPoints}个采集日`}</span>`;
+      return `<span class="chip ${isNew ? 'amber' : 'blue'}">${isNew ? '首次上榜 · 本榜首次记录' : `继续在榜 · ${recordedPoints}个采集点`}</span>`;
     }
 
     function selectedHistoryDates() {
@@ -3095,6 +3215,11 @@
         $('#appFilter').value=dailyApp.dataset.dailyApp;
         renderCatalog();
         document.querySelector('#dailyDetailTable')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const rankingPlatform = event.target.closest('[data-ranking-platform]');
+      if (rankingPlatform) {
+        dailyRankingPlatform = rankingPlatform.dataset.rankingPlatform || '';
+        renderCatalog();
       }
       const scrollButton = event.target.closest('[data-scroll-target]');
       if (scrollButton) document.getElementById(scrollButton.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'});
