@@ -1,3 +1,4 @@
+# Triggered validation checkpoint.
 # Integration-only ShortMax SSR vs rendered-browser route audit.
 from __future__ import annotations
 
