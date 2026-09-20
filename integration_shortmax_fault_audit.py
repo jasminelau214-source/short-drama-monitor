@@ -1,4 +1,4 @@
-# Integration-only read-only ShortMax Top10 audit.
+# Integration-only read-only ShortMax current-target audit.
 from __future__ import annotations
 
 import argparse
@@ -13,6 +13,8 @@ from official_web_collectors import OfficialWebCollectorError, collect_shortmax,
 
 
 URL = 'https://www.shorttv.live/'
+CURRENT_TOP_N = 8
+LEGACY_TOP_N = 10
 
 
 def attach_transport(payload: dict, transport: dict) -> dict:
@@ -59,11 +61,20 @@ def main(argv=None) -> int:
         doc = str(fetched['document'])
         transport = dict(fetched.get('evidence') or {})
 
+        full_shelf = collect_shortmax(
+            url=URL,
+            section='Most Popular',
+            collection_date=args.date,
+            top_n=None,
+            document=doc,
+        )
+        available_count = len(full_shelf.get('rows') or [])
+
         baseline = collect_shortmax(
             url=URL,
             section='Most Popular',
             collection_date=args.date,
-            top_n=10,
+            top_n=CURRENT_TOP_N,
             document=doc,
         )
         baseline = attach_transport(baseline, transport)
@@ -83,7 +94,7 @@ def main(argv=None) -> int:
                     url=URL,
                     section='Most Popular',
                     collection_date=args.date,
-                    top_n=10,
+                    top_n=CURRENT_TOP_N,
                     document=mutated_doc,
                 )
                 semantic_payload = attach_transport(semantic_payload, transport)
@@ -143,7 +154,7 @@ def main(argv=None) -> int:
         scenarios.append(expect_rejected(
             'missing_one_row',
             missing,
-            'Top10',
+            'Top8',
         ))
 
         duplicate = copy.deepcopy(baseline)
@@ -163,9 +174,12 @@ def main(argv=None) -> int:
             'collectionDate': args.date,
             'target': {
                 'rankingType': 'Most Popular',
-                'requestedTopN': 10,
+                'currentTopN': CURRENT_TOP_N,
+                'legacyPilotTopN': LEGACY_TOP_N,
+                'liveAvailableRows': available_count,
+                'legacyTop10CurrentlyAvailable': available_count >= LEGACY_TOP_N,
             },
-            'status': 'PASS_FAULT' if not unsafe else 'BLOCKED_OR_FAIL',
+            'status': 'PASS_FAULT_CURRENT_TARGET' if not unsafe else 'BLOCKED_OR_FAIL',
             'baseline': {
                 'status': normalized['status'],
                 'rowCount': normalized['rowCount'],
@@ -189,7 +203,8 @@ def main(argv=None) -> int:
             'collectionDate': args.date,
             'target': {
                 'rankingType': 'Most Popular',
-                'requestedTopN': 10,
+                'currentTopN': CURRENT_TOP_N,
+                'legacyPilotTopN': LEGACY_TOP_N,
             },
             'status': 'BLOCKED_BASELINE_UNAVAILABLE',
             'error': f'{type(exc).__name__}: {exc}',
@@ -203,10 +218,11 @@ def main(argv=None) -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text + '\n', encoding='utf-8')
         path.with_suffix('.md').write_text(
-            '# ShortMax Integration Top10 Fault Audit\n\n'
+            '# ShortMax Integration Current-Target Fault Audit\n\n'
             f"- Status: **{payload.get('status')}**\n"
-            f"- Requested target: **Most Popular Top10**\n"
-            f"- Baseline rows: **{(payload.get('baseline') or {}).get('rowCount', '-')}**\n"
+            f"- Current target: **Most Popular Top8**\n"
+            f"- Legacy Pilot target: **Top10**\n"
+            f"- Live available rows: **{(payload.get('target') or {}).get('liveAvailableRows', '-')}**\n"
             f"- Scenarios: **{payload.get('scenarioCount', 0)}**\n"
             f"- Unsafe: **{payload.get('unsafeScenarioCount', 0)}**\n",
             encoding='utf-8',
