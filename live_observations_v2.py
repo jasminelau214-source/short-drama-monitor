@@ -299,6 +299,7 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                     **inherited,
                     'history': [],
                     'platformMetrics': {},
+                    'posterUrl': str(item.get('posterUrl') or '').strip(),
                 }
                 records.append(record)
                 by_platform_target_title[(platform, target_key, norm)] = record
@@ -358,6 +359,7 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 'tags': str(latest_event.get('tags') or ''),
                 'rankingBadges': latest_event.get('rankingBadges') if isinstance(latest_event.get('rankingBadges'), list) else [],
                 'platformMetrics': latest_event.get('metrics') if isinstance(latest_event.get('metrics'), dict) else {},
+                'posterUrl': str(item.get('posterUrl') or record.get('posterUrl') or '').strip(),
                 'history': history,
                 'recordedDates': dates,
                 'daysOnChart': len(dates),
