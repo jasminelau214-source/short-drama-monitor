@@ -1,9 +1,9 @@
 name: JSM Integration MoboReels Web Fault Audit
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - integration/core-contract-v1-2026-09-20
     paths:
       - 'integration_moboreels_web_fault_audit.py'
       - 'test_moboreels_web_fault_integration.py'
