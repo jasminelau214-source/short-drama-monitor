@@ -1,0 +1,65 @@
+name: JSM Integration ShortMax Top10 Fault Audit
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - 'integration_shortmax_fault_audit.py'
+      - 'test_shortmax_fault_integration.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-shortmax-fault.yml'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Compile ShortMax Top10 fault surface
+        run: python -m py_compile integration_shortmax_fault_audit.py test_shortmax_fault_integration.py
+
+      - name: Run deterministic ShortMax Top10 fault tests
+        run: python -m unittest -v test_shortmax_fault_integration.py
+
+      - name: Run live read-only ShortMax Top10 fault audit
+        run: |
+          mkdir -p readiness_audit/integration_shortmax
+          python integration_shortmax_fault_audit.py \
+            --date "$(date -u +%F)" \
+            --output readiness_audit/integration_shortmax/fault_audit.json
+
+      - name: Publish audit result separately from execution
+        if: always()
+        run: |
+          echo "## ShortMax Integration Top10 Fault Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "A green job means the audit executed; use the platform audit status below." >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/integration_shortmax/fault_audit.md ]; then
+            cat readiness_audit/integration_shortmax/fault_audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload ShortMax fault evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-shortmax-fault-${{ github.run_id }}
+          path: readiness_audit/integration_shortmax/
+          if-no-files-found: warn
+          retention-days: 30
