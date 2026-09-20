@@ -82,7 +82,7 @@ class ShortMaxSectionParser(HTMLParser):
 
         if 'drama-card' in classes:
             self._card_depth = 1
-            self._card = {'title': '', 'tags': [], 'synopsis': '', 'url': '', 'episodeUrl': ''}
+            self._card = {'title': '', 'tags': [], 'synopsis': '', 'url': '', 'episodeUrl': '', 'posterUrl': ''}
         elif self._card_depth and counts_depth:
             self._card_depth += 1
 
@@ -95,6 +95,11 @@ class ShortMaxSectionParser(HTMLParser):
                 elif 'card-image' in classes or 'card-overlay' in classes:
                     if not self._card.get('episodeUrl'):
                         self._card['episodeUrl'] = absolute
+
+            if tag == 'img' and not self._card.get('posterUrl'):
+                src = _attr(attrs, 'data-src') or _attr(attrs, 'data-lazy-src') or _attr(attrs, 'src')
+                if src:
+                    self._card['posterUrl'] = urljoin(self.base_url, src)
 
             if 'card-title' in classes:
                 self._capture_field = 'title'
@@ -302,6 +307,9 @@ def collect_shortmax(
             row['source_url'] = url_value
         if episode_url:
             row['episode_url'] = episode_url
+        poster_url = _clean(card.get('posterUrl'), 1200)
+        if poster_url:
+            row['poster_url'] = poster_url
         rows.append(row)
 
     return {
