@@ -5,10 +5,20 @@ import time
 from typing import Callable
 
 import persistence
+from research_guard import assess_research_task
 from research_pipeline import configured as research_configured, research_task
+from research_validation import validate_research_payload
 
 _WORKER_LOCK = threading.Lock()
 _WORKER_RUNNING = False
+
+
+def _source_urls(sources: list[dict]) -> set[str]:
+    return {
+        str(item.get('url') or '').strip()
+        for item in sources
+        if isinstance(item, dict) and str(item.get('url') or '').strip()
+    }
 
 
 def configured() -> bool:
@@ -26,6 +36,28 @@ def _run(*, apply_research: Callable[[dict, dict], None], max_tasks: int = 20) -
             task = tasks[0]
             task_id = str(task.get('id') or '')
             try:
+                # Fail before any search/model API spend when a task no longer
+                # belongs to the authoritative same-day App ranking run.
+                runs = persistence.list_analysis_runs(500)
+                guard = assess_research_task(task, runs)
+                if not guard.get('current'):
+                    code = str(guard.get('code') or 'RESEARCH_SCOPE_REVIEW_REQUIRED')
+                    persistence.update_research_task(
+                        task_id,
+                        status='REVIEW_REQUIRED',
+                        research=task.get('research_json') if isinstance(task.get('research_json'), dict) else {},
+                        sources=task.get('sources') if isinstance(task.get('sources'), list) else [],
+                        confidence=str(task.get('confidence') or ''),
+                        missing_fields=[str(x) for x in (task.get('missing_fields') or []) if str(x)],
+                        error=code,
+                    )
+                    print(
+                        f"[research] REVIEW_REQUIRED {task.get('platform')} "
+                        f"#{task.get('rank')} {task.get('title')}: {code}"
+                    )
+                    processed += 1
+                    continue
+
                 outcome = research_task(task)
                 status = str(outcome.get('status') or 'REVIEW_REQUIRED')
                 research = outcome.get('research') if isinstance(outcome.get('research'), dict) else {}
@@ -33,8 +65,19 @@ def _run(*, apply_research: Callable[[dict, dict], None], max_tasks: int = 20) -
                 confidence = str(outcome.get('confidence') or '')
                 missing_fields = [str(x) for x in (outcome.get('missingFields') or []) if str(x)]
                 error = str(outcome.get('error') or '')
+
+                # Final deterministic write gate. Upstream COMPLETE is not enough.
                 if status == 'COMPLETE':
-                    apply_research(task, research)
+                    validation = validate_research_payload(
+                        research,
+                        allowed_source_urls=_source_urls(sources),
+                    )
+                    if not validation.get('ok'):
+                        status = 'REVIEW_REQUIRED'
+                        error = 'RESEARCH_SCHEMA_INVALID: ' + '; '.join(validation.get('errors') or [])
+                    else:
+                        apply_research(task, research)
+
                 persistence.update_research_task(
                     task_id,
                     status=status,
