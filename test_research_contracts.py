@@ -29,6 +29,8 @@ def ranking_run(run_id, date, platform, updated_at, titles, *, source_type='SHOR
 
 def complete_research(title='Example Drama'):
     payload = {field: 'verified' for field in CORE_FIELDS}
+    payload['genre'] = '现代都市'
+    payload['audience'] = '泛受众'
     payload.update({field: '' for field in OPTIONAL_FIELDS})
     payload.update({
         'canonicalTitle': title,
