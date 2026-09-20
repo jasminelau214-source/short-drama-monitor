@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import gzip
+import hashlib
 import json
+import os
 import re
 from datetime import datetime
 from pathlib import Path
@@ -10,7 +13,12 @@ from zoneinfo import ZoneInfo
 
 from playwright.sync_api import sync_playwright
 
-from production_readiness import (\n    empty_gate_state,\n    evaluate_platform_readiness,\n    evaluate_system_readiness,\n    qualify_truth_evidence,\n)
+from production_readiness import (
+    empty_gate_state,
+    evaluate_platform_readiness,
+    evaluate_system_readiness,
+    qualify_truth_evidence,
+)
 
 ROOT = Path(__file__).resolve().parent
 DATA_ROOT = ROOT / "pilot_data"
