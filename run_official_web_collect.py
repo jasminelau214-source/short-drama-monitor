@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import sys
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -151,6 +152,11 @@ def parse_args(argv=None):
         default=str(default_root()),
         help='Collector spool root. Windows default: D:\\ShortDramaCollector.',
     )
+    parser.add_argument(
+        '--manifest',
+        default='',
+        help='Optional path for this exact run manifest. Scheduled sync should consume only this manifest.',
+    )
     return parser.parse_args(argv)
 
 
@@ -160,8 +166,10 @@ def main(argv=None) -> int:
     root = Path(args.root)
     results = []
     failures = []
+    run_id = 'web-' + uuid.uuid4().hex
+    started_at = datetime.now(timezone.utc).isoformat()
 
-    print('Official Web Collector V2 Multi-Target')
+    print('Official Web Collector V3 Promotion-Gated')
     print(f'Date: {args.date}')
     print(f'Root: {root}')
     print(f'Targets: {", ".join(targets)}')
@@ -182,12 +190,23 @@ def main(argv=None) -> int:
 
     summary = {
         'ok': not failures,
+        'runId': run_id,
+        'startedAt': started_at,
+        'finishedAt': datetime.now(timezone.utc).isoformat(),
         'date': args.date,
         'root': str(root),
         'targetCount': len(targets),
         'succeeded': results,
         'failed': failures,
     }
+    if args.manifest:
+        manifest_path = Path(args.manifest)
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2),
+            encoding='utf-8',
+        )
+        print(f'MANIFEST {manifest_path}')
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if not failures else 1
 
