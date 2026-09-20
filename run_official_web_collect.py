@@ -11,6 +11,7 @@ from pathlib import Path
 from collector_import import CollectorImportError, validate_and_normalize
 from dramabox_full_collector import collect_dramabox_channel_all_pages
 from goodshort_collector import collect_goodshort_top
+from itemlist_platform_collectors import collect_flextv_top, collect_netshort_trending
 from moboreels_web_collector import collect_moboreels_popular
 from reelshort_collector import collect_reelshort_top
 from official_web_collectors import (
@@ -93,6 +94,22 @@ TARGETS = {
         'platform': 'MoboReels',
         'target_key': 'web_popular_series_all',
         'collect': lambda date: collect_moboreels_popular(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'netshort_trending': {
+        'platform': 'NetShort',
+        'target_key': 'web_trending_now_all',
+        'collect': lambda date: collect_netshort_trending(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'flextv_top': {
+        'platform': 'FlexTV',
+        'target_key': 'web_top_in_flextv_all',
+        'collect': lambda date: collect_flextv_top(
             collection_date=date,
             top_n=10,
         ),
