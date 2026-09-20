@@ -77,17 +77,30 @@ ORACLE_JS = r"""
 
   const titleFromLink = a => {
     if (!a) return '';
+    const itemprop = a.querySelector('meta[itemprop="name"][content]');
+    const itempropValue = clean(itemprop && itemprop.getAttribute('content'));
+    if (itempropValue && itempropValue.length <= 220) return itempropValue;
+
     const preferred = a.querySelector(
-      'h1,h2,h3,h4,[class*="title"],[class*="name"],img[alt]'
+      'h1,h2,h3,h4,[class*="title"],[class*="name"]'
     );
     if (preferred) {
-      const value = preferred.tagName === 'IMG'
-        ? clean(preferred.getAttribute('alt'))
-        : clean(preferred.textContent);
+      const value = clean(preferred.textContent);
       if (value && value.length <= 220) return value;
     }
+
     const attr = clean(a.getAttribute('title') || a.getAttribute('aria-label'));
-    if (attr && attr.length <= 220) return attr;
+    if (attr && attr.length <= 220) {
+      return attr
+        .replace(/\s+Watch Short Drama Online$/i, '')
+        .replace(/\s+Short Drama Cover$/i, '');
+    }
+
+    const image = a.querySelector('img[alt]');
+    const alt = clean(image && image.getAttribute('alt'))
+      .replace(/\s+Short Drama Cover$/i, '');
+    if (alt && alt.length <= 220) return alt;
+
     const lines = String(a.innerText || '').split(/\n+/).map(clean).filter(Boolean);
     return (lines[0] || '').slice(0, 220);
   };
