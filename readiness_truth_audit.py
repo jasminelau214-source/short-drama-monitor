@@ -152,14 +152,15 @@ ORACLE_JS = r"""
   } else if (platform === 'NetShort') {
     const h = heading(['trending now']);
     anchor = clean(h && h.textContent);
-    rows = scopedLinks(h, 'a[href*="/full-episodes/"]');
-    method = 'independent-live-dom:Trending-Now-full-episode-links';
+    rows = scopedLinks(h, 'a[href*="/episode/"]');
+    if (rows.length < 10) rows = links(document, 'a[href*="/episode/"]');
+    method = 'independent-live-dom:Trending-Now-episode-links';
   } else if (platform === 'FlexTV') {
     const h = heading(['top in flextv']);
     anchor = clean(h && h.textContent) || document.title;
-    rows = scopedLinks(h, 'a[href*="/movie/"]');
-    if (rows.length < 10) rows = links(document, 'a[href*="/movie/"]');
-    method = 'independent-live-dom:Top-in-FlexTV-movie-links';
+    rows = scopedLinks(h, 'a[href*="/episodes/episode-1-"]');
+    if (rows.length < 10) rows = links(document, 'a[href*="/episodes/episode-1-"]');
+    method = 'independent-live-dom:Top-in-FlexTV-episode-links';
   } else if (platform === 'ReelShort') {
     const h = heading(['top']);
     anchor = clean(h && h.textContent) || document.title;
@@ -251,13 +252,23 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         and len({norm(x.get("title")) for x in candidate_rows if norm(x.get("title"))}) == TOP_N
     )
 
+    mobile_witness = platform == "ShortMax"
     page = browser.new_page(
-        viewport={"width": 1440, "height": 1200},
+        viewport={"width": 390, "height": 844}
+        if mobile_witness
+        else {"width": 1440, "height": 1200},
         locale="en-US",
         user_agent=(
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36"
+            "Mozilla/5.0 (Linux; Android 15; Pixel 9 Pro) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Mobile Safari/537.36"
+            if mobile_witness
+            else (
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0 Safari/537.36"
+            )
         ),
+        is_mobile=mobile_witness,
+        has_touch=mobile_witness,
         extra_http_headers={"Accept-Language": "en-US,en;q=0.9"},
     )
     http_status = None
