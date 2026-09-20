@@ -1530,6 +1530,23 @@
     .daily-platform-row{display:grid;grid-template-columns:24px 80px 1fr 20px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.platform-badge{width:22px;height:22px;border-radius:6px;background:#ffe9ed;color:#cf263a;display:grid;place-items:center;font-size:9px;font-weight:800}.platform-badge.p1{background:#eaf2ff;color:#316fd6}.platform-badge.p2{background:#fff0e1;color:#df7711}.daily-platform-row strong{font-size:10.5px;color:#475467}.daily-platform-row i{height:7px;border-radius:99px;background:#f0f2f5;overflow:hidden}.daily-platform-row i b{display:block;height:100%;background:#d62f3f;border-radius:99px}.daily-platform-row em{font-size:10px;color:#8c96a8;font-style:normal}
     .daily-movement-section{margin:10px 0}.daily-detail-anchor{scroll-margin-top:16px}
     @media(max-width:1180px){.overview-signal-grid,.overview-research-grid{grid-template-columns:1fr}.overview-navigation-grid{grid-template-columns:repeat(2,1fr)}.overview-intel-brief{grid-template-columns:1fr}.daily-primary-grid{grid-template-columns:1fr}.daily-secondary-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    /* POSTER / COVER ASSET SUPPORT */
+    .research-pick-poster,.daily-focus-poster,.life-poster-placeholder{
+      position:relative;overflow:hidden;background:linear-gradient(145deg,#f4c7cd,#78535b);color:#fff;
+    }
+    .research-pick-poster img,.daily-focus-poster img,.life-poster-placeholder img{
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;
+    }
+    .poster-fallback{position:relative;z-index:1;font-size:24px;font-weight:900}
+    .research-pick-poster i,.daily-focus-poster i,.life-poster-placeholder i{
+      position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);
+      color:#d62f3f;font-size:9px;display:grid;place-items:center;font-style:normal;z-index:3;
+    }
+    .daily-focus-card.with-poster{display:grid;grid-template-columns:34px 72px 1fr;gap:10px;align-items:start;cursor:pointer}
+    .daily-focus-poster{width:72px;aspect-ratio:3/4;border-radius:8px;display:grid;place-items:center;box-shadow:0 4px 12px rgba(22,30,55,.12)}
+    .daily-focus-copy{min-width:0}.daily-focus-card.with-poster .daily-focus-rank{margin-top:3px}
+    .life-poster-placeholder{display:grid;place-items:center}
   </style>
 </head>
 <body>
@@ -2305,7 +2322,17 @@
       </svg>`;
     }
 
-    function renderDashboard() {
+    function posterUrlFor(item) {
+      return String(item?.posterUrl || item?.coverUrl || item?.thumbnailUrl || item?.imageUrl || '').trim();
+    }
+
+    function posterBlock(item, className = 'drama-poster') {
+      const url = posterUrlFor(item);
+      const initial = escapeHtml(String(item?.title || 'J').trim().slice(0,1).toUpperCase() || 'J');
+      return `<div class="${className}"><span class="poster-fallback">${initial}</span>${url ? `<img data-poster-image loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(item?.title || '')} 海报" onerror="this.style.display='none'">` : ''}<i>▶</i></div>`;
+    }
+
+        function renderDashboard() {
       const day=summarizeDate(activeDate);
       $('#dashboardDate').value=activeDate;
       $('#sidebarDataStatus').textContent=`最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
@@ -2344,7 +2371,7 @@
         const reason=r.firstDate===activeDate ? '新剧首次记录，适合跟踪后续生命周期' : Number(x.move)>0 ? `排名上升 ${x.move} 位，值得确认是否形成持续趋势` : !blank(r.storyCore)||!blank(r.payoff) ? '已有内容深研字段，可直接进入结构拆解' : '高位样本，适合作为当日代表剧观察';
         return `<article class="overview-research-card">
           <div class="research-pick-no">0${index+1}</div>
-          <div class="research-pick-poster">${escapeHtml((r.title||'J').slice(0,1))}<span>▶</span></div>
+          ${posterBlock(r,'research-pick-poster')}
           <div class="research-pick-copy"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='女频'?'rose':r.audience==='男频'?'blue':'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><p>${escapeHtml(reason)}</p><small>${escapeHtml(shown(r.genre))} · 当前 #${r.rank}</small></div>
         </article>`;
       }).join('') || '<div class="subtle">暂无可推荐研究剧目。</div>';
@@ -2447,16 +2474,19 @@
         return aNew - bNew || a.rank - b.rank || byText(a.title,b.title);
       }).slice(0,3);
       $('#dailyFocusTitles').innerHTML = priority.map((r,index) => `
-        <article class="daily-focus-card">
+        <article class="daily-focus-card with-poster" data-open="${escapeAttr(r.id)}">
           <div class="daily-focus-rank">${String(index + 1).padStart(2,'0')}</div>
-          <div class="daily-focus-meta">
-            <span class="chip neutral">${escapeHtml(r.app)}</span>
-            ${r.firstDate === activeDate ? '<span class="chip amber">新剧</span>' : '<span class="chip blue">继续在榜</span>'}
-          </div>
-          <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
-          <div class="daily-focus-footer">
-            <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
-            ${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}
+          ${posterBlock(r,'daily-focus-poster')}
+          <div class="daily-focus-copy">
+            <div class="daily-focus-meta">
+              <span class="chip neutral">${escapeHtml(r.app)}</span>
+              ${r.firstDate === activeDate ? '<span class="chip amber">新剧</span>' : '<span class="chip blue">继续在榜</span>'}
+            </div>
+            <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+            <div class="daily-focus-footer">
+              <div class="subtle">当前第${r.rank}名 · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+              ${movementBadge(rankMovement(r, activeDate), r.firstDate === activeDate)}
+            </div>
           </div>
         </article>
       `).join('');
@@ -2688,7 +2718,7 @@
           const points=(r.history||[]).filter(h=>dateSet.has(h.date));
           const move=points.length>1 ? Number(points.at(-2).rank)-Number(points.at(-1).rank) : null;
           return `<article class="life-card compact">
-            <div class="life-poster-placeholder">${escapeHtml((r.title||'J').slice(0,1))}</div>
+            ${posterBlock(r,'life-poster-placeholder')}
             <div class="life-card-content">
               <div class="life-card-top"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='男频'?'blue':r.audience==='女频'?'rose':'neutral'}">${escapeHtml(shown(r.audience))}</span></div>${movementBadge(move,points.length<2)}</div>
               <button class="life-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
