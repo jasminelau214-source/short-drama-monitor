@@ -59,8 +59,8 @@ class OfficialWebRunnerTests(unittest.TestCase):
             self.assertEqual(saved['target_key'], 'web_most_popular_all')
             self.assertEqual(len(saved['rows']), 2)
 
-    def test_default_web_plan_contains_shortmax_dramabox_and_goodshort(self):
-        self.assertEqual(len(TARGETS), 7)
+    def test_default_web_plan_contains_verified_targets(self):
+        self.assertEqual(len(TARGETS), 8)
         self.assertEqual(TARGETS['shortmax_most_popular']['target_key'], 'web_most_popular_all')
         self.assertEqual(TARGETS['shortmax_war_god']['target_key'], 'web_category_war_god')
         self.assertEqual(TARGETS['shortmax_tycoon_life']['target_key'], 'web_category_tycoon_life')
@@ -68,6 +68,7 @@ class OfficialWebRunnerTests(unittest.TestCase):
         self.assertEqual(TARGETS['shortmax_dragon_clan']['target_key'], 'web_category_dragon_clan')
         self.assertEqual(TARGETS['dramabox_trending']['target_key'], 'web_trending_all')
         self.assertEqual(TARGETS['goodshort_top']['target_key'], 'web_top_goodshort_pilot')
+        self.assertEqual(TARGETS['reelshort_top']['target_key'], 'web_top_shelf_all')
 
 
 if __name__ == '__main__':
