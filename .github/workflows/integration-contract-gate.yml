@@ -12,13 +12,53 @@ permissions:
 jobs:
   contract-gate:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: jsm_integration
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d jsm_integration"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: jsm_integration
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+
       - name: Compile contract surface
         run: python -m py_compile drama_identity.py collector_import.py live_observations.py live_observations_v2.py app.py test_drama_identity_contract.py
-      - name: Run Drama Identity Contract v1 tests
+
+      - name: Run Python Drama Identity Contract v1 tests
         run: python -m unittest -v test_drama_identity_contract.py
+
+      - name: Ensure PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+          fi
+          psql --version
+
+      - name: Prepare ephemeral Integration database
+        run: psql -v ON_ERROR_STOP=1 -f tests/sql/identity_contract_fixture.sql
+
+      - name: Apply Integration-only DB Identity migration
+        run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20260920_01_drama_identity_contract_v1.sql
+
+      - name: Run DB-side Drama Identity Contract v1 tests
+        run: psql -v ON_ERROR_STOP=1 -f tests/sql/test_drama_identity_contract.sql
