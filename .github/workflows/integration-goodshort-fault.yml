@@ -16,6 +16,15 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'integration_goodshort_fault_audit.py'
+      - 'test_goodshort_fault_integration.py'
+      - 'goodshort_collector.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-goodshort-fault.yml'
   workflow_dispatch:
 
 permissions:
