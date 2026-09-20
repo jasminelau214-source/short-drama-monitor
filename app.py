@@ -37,6 +37,11 @@ EDITABLE_FIELDS = {'synopsis','genre','lane','audience','storyCore','storySkin',
 ANALYSIS_TIMERS: dict[str, threading.Timer] = {}
 ANALYSIS_TIMER_LOCK = threading.Lock()
 
+FRONTEND_DATA_SOURCE_URL = os.environ.get('JSM_FRONTEND_DATA_SOURCE_URL', '').strip()
+FRONTEND_DATA_CACHE_TTL = max(10, int(os.environ.get('JSM_FRONTEND_DATA_CACHE_TTL', '60') or 60))
+_FRONTEND_DATA_CACHE = {'at': 0.0, 'payload': None}
+_FRONTEND_DATA_LOCK = threading.Lock()
+
 
 def clean(value, limit=6000):
     return str(value or '').strip()[:limit]
@@ -241,6 +246,44 @@ def public_data():
     return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
 
 
+def frontend_public_data():
+    """Read-only frontend data source for staging.
+
+    When JSM_FRONTEND_DATA_SOURCE_URL is set, only the public /api/data payload is
+    fetched from that source. All admin/write endpoints continue to use this
+    service's isolated local/staging storage.
+    """
+    if not FRONTEND_DATA_SOURCE_URL:
+        return public_data()
+    now = time.time()
+    with _FRONTEND_DATA_LOCK:
+        cached = _FRONTEND_DATA_CACHE.get('payload')
+        cached_at = float(_FRONTEND_DATA_CACHE.get('at') or 0)
+        if cached is not None and now - cached_at < FRONTEND_DATA_CACHE_TTL:
+            return cached
+    try:
+        request = urllib.request.Request(
+            FRONTEND_DATA_SOURCE_URL,
+            headers={'User-Agent': 'JSM-UI-Staging/2.0', 'Accept': 'application/json'},
+        )
+        with urllib.request.urlopen(request, timeout=20) as response:
+            raw = response.read(12 * 1024 * 1024)
+        payload = json.loads(raw.decode('utf-8'))
+        if not isinstance(payload, dict) or not isinstance(payload.get('records'), list) or not isinstance(payload.get('summary'), dict):
+            raise RuntimeError('REMOTE_FRONTEND_DATA_INVALID')
+        with _FRONTEND_DATA_LOCK:
+            _FRONTEND_DATA_CACHE['at'] = now
+            _FRONTEND_DATA_CACHE['payload'] = payload
+        print(
+            f"[frontend-data] read-only source records={len(payload['records'])} "
+            f"collectionDate={payload['summary'].get('collectionDate','')}"
+        )
+        return payload
+    except Exception as exc:
+        print(f'[frontend-data] remote source failed; fallback local: {exc}')
+        return public_data()
+
+
 def known_titles(before_date=''):
     titles=set()
     for r in public_data()['records']:
@@ -406,7 +449,7 @@ class Handler(BaseHTTPRequestHandler):
             if self.authorized(): self.send_bytes(COLLECT_HTML.encode(),'text/html; charset=utf-8')
         elif path=='/review':
             if self.authorized(): self.send_bytes(REVIEW_HTML.encode(),'text/html; charset=utf-8')
-        elif path=='/api/data': self.send_json(public_data())
+        elif path=='/api/data': self.send_json(frontend_public_data())
         elif path=='/api/review-data':
             if self.authorized(): self.send_json({**public_data(),'researchMeta':RESEARCH_META,'accountEmail':'管理员'})
         elif path=='/api/admin/uploads':
