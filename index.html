@@ -2070,8 +2070,17 @@
         Object.keys(summary).forEach(key => delete summary[key]);
         Object.assign(summary, live.summary);
         activeDate = summary.collectionDate;
-        dataSourceMode = 'LIVE';
-        dataSourceError = '';
+        const sourceMode = String(live.frontendSource?.mode || '');
+        if (sourceMode === 'REMOTE_READ_ONLY' || sourceMode === 'REMOTE_READ_ONLY_CACHE') {
+          dataSourceMode = sourceMode === 'REMOTE_READ_ONLY_CACHE' ? 'LIVE_CACHE' : 'LIVE';
+          dataSourceError = '';
+        } else if (sourceMode === 'LOCAL_FALLBACK') {
+          dataSourceMode = 'FALLBACK';
+          dataSourceError = String(live.frontendSource?.failureType || 'REMOTE_SOURCE_FAILED');
+        } else {
+          dataSourceMode = 'LOCAL_API';
+          dataSourceError = '';
+        }
       } catch (error) {
         dataSourceMode = 'FALLBACK';
         dataSourceError = String(error?.message || error || 'UNKNOWN');
@@ -2456,7 +2465,15 @@
         function renderDashboard() {
       const day=summarizeDate(activeDate);
       $('#dashboardDate').value=activeDate;
-      const sourceLabel = dataSourceMode === 'LIVE' ? 'LIVE · API只读数据' : dataSourceMode === 'FALLBACK' ? 'FALLBACK · 内嵌测试数据' : 'EMBEDDED · 本地数据';
+      const sourceLabel = dataSourceMode === 'LIVE'
+        ? 'LIVE · Production Read-only'
+        : dataSourceMode === 'LIVE_CACHE'
+          ? 'LIVE CACHE · Production Read-only'
+          : dataSourceMode === 'FALLBACK'
+            ? 'FALLBACK · Staging Local'
+            : dataSourceMode === 'LOCAL_API'
+              ? 'LOCAL API · Staging Local'
+              : 'EMBEDDED · 本地数据';
       $('#sidebarDataStatus').textContent=`${sourceLabel} · 最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
       $('#overviewStatusText').textContent=`${sourceLabel} · ${activeDate} · ${day.platforms.length} 个平台 · ${day.totalRows} 条榜单记录`;
       if (dataSourceMode === 'FALLBACK' && dataSourceError) $('#overviewStatusText').title = dataSourceError;
