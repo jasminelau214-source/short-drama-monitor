@@ -1,0 +1,52 @@
+name: JSM Integration MoboReels Web Fault Audit
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Compile MoboReels Web fault surface
+        run: python -m py_compile moboreels_web_collector.py integration_moboreels_web_fault_audit.py test_moboreels_web_fault_integration.py
+
+      - name: Run deterministic MoboReels Web fault tests
+        run: python -m unittest -v test_moboreels_web_fault_integration.py
+
+      - name: Run live read-only MoboReels Web fault audit
+        run: |
+          mkdir -p readiness_audit/integration_moboreels_web
+          python integration_moboreels_web_fault_audit.py \
+            --date "$(date -u +%F)" \
+            --output readiness_audit/integration_moboreels_web/fault_audit.json
+
+      - name: Publish audit result separately from execution
+        if: always()
+        run: |
+          echo "## MoboReels Integration Web Fault Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/integration_moboreels_web/fault_audit.md ]; then
+            cat readiness_audit/integration_moboreels_web/fault_audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload MoboReels Web fault evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-moboreels-web-fault-${{ github.run_id }}
+          path: readiness_audit/integration_moboreels_web/
+          if-no-files-found: warn
+          retention-days: 30
