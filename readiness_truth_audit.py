@@ -264,6 +264,60 @@ def candidate_raw_hash(candidate: dict) -> str:
     return str(source.get("raw_html_sha256") or "").strip()
 
 
+def load_candidate_snapshot(candidate: dict) -> dict:
+    evidence = candidate.get("evidence") if isinstance(candidate.get("evidence"), dict) else {}
+    relative = str(evidence.get("rawHtmlFile") or "").strip()
+    if not relative:
+        return {
+            "available": False,
+            "verified": False,
+            "file": "",
+            "sha256": "",
+            "html": "",
+            "error": "NO_FROZEN_CANDIDATE_HTML",
+        }
+
+    path = ROOT / relative
+    if not path.exists():
+        return {
+            "available": False,
+            "verified": False,
+            "file": relative,
+            "sha256": "",
+            "html": "",
+            "error": "FROZEN_CANDIDATE_HTML_NOT_FOUND",
+        }
+
+    try:
+        if path.suffix == ".gz":
+            with gzip.open(path, "rb") as fh:
+                raw = fh.read()
+        else:
+            raw = path.read_bytes()
+    except Exception as exc:
+        return {
+            "available": True,
+            "verified": False,
+            "file": relative,
+            "sha256": "",
+            "html": "",
+            "error": f"FROZEN_CANDIDATE_READ_ERROR:{type(exc).__name__}:{exc}",
+        }
+
+    actual = hashlib.sha256(raw).hexdigest()
+    expected = candidate_raw_hash(candidate)
+    verified = bool(expected and actual == expected)
+    return {
+        "available": True,
+        "verified": verified,
+        "file": relative,
+        "sha256": actual,
+        "expectedSha256": expected,
+        "html": raw.decode("utf-8", errors="replace"),
+        "error": "" if verified else "FROZEN_CANDIDATE_HASH_MISMATCH",
+    }
+
+
 def batch_delay_seconds(observed_at: datetime) -> float | None:
     raw = os.environ.get("CANDIDATE_BATCH_COMPLETED_AT", "").strip()
     if not raw:
@@ -293,6 +347,17 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         and len({norm(x.get("title")) for x in candidate_rows if norm(x.get("title"))}) == TOP_N
     )
 
+    frozen = load_candidate_snapshot(candidate)
+    frozen_attempt = {
+        "available": bool(frozen.get("available")),
+        "verified": bool(frozen.get("verified")),
+        "file": frozen.get("file") or "",
+        "sha256": frozen.get("sha256") or "",
+        "error": frozen.get("error") or "",
+        "used": False,
+        "parserComplete": False,
+    }
+
     mobile_witness = platform == "ShortMax"
     page = browser.new_page(
         viewport={"width": 390, "height": 844}
@@ -317,18 +382,65 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
     error = ""
     witness_html = ""
     witness_observed_at = datetime.now(TZ)
+    used_frozen_snapshot = False
+
     try:
-        response = page.goto(cfg["url"], wait_until="domcontentloaded", timeout=90000)
-        http_status = int(response.status) if response is not None else None
-        page.wait_for_timeout(3500)
-        for _ in range(3):
-            page.mouse.wheel(0, 1200)
-            page.wait_for_timeout(300)
-        page.evaluate("window.scrollTo(0,0)")
-        page.wait_for_timeout(400)
-        oracle = page.evaluate(ORACLE_JS, {"platform": platform}) or {}
-        witness_html = page.content()
-        witness_observed_at = datetime.now(TZ)
+        if frozen.get("verified") and frozen.get("html"):
+            try:
+                page.set_content(str(frozen["html"]), wait_until="domcontentloaded", timeout=30000)
+                frozen_oracle = page.evaluate(ORACLE_JS, {"platform": platform}) or {}
+                frozen_oracle["pageUrl"] = cfg["url"]
+                frozen_rows = (
+                    frozen_oracle.get("rows")
+                    if isinstance(frozen_oracle.get("rows"), list)
+                    else []
+                )
+                frozen_semantic = semantic_ok(
+                    str(frozen_oracle.get("anchor") or ""),
+                    str(frozen_oracle.get("pageTitle") or ""),
+                    cfg["semantic"],
+                )
+                frozen_attempt["parserComplete"] = (
+                    len(frozen_rows[:TOP_N]) == TOP_N
+                    and len(
+                        {
+                            norm(x.get("title"))
+                            for x in frozen_rows[:TOP_N]
+                            if norm(x.get("title"))
+                        }
+                    )
+                    == TOP_N
+                    and frozen_semantic
+                )
+                if frozen_attempt["parserComplete"]:
+                    oracle = frozen_oracle
+                    witness_html = str(frozen["html"])
+                    witness_observed_at = datetime.now(TZ)
+                    evidence = (
+                        candidate.get("evidence")
+                        if isinstance(candidate.get("evidence"), dict)
+                        else {}
+                    )
+                    http_status = int(evidence.get("httpStatus") or 200)
+                    used_frozen_snapshot = True
+                    frozen_attempt["used"] = True
+            except Exception as exc:
+                frozen_attempt["error"] = (
+                    f"FROZEN_INDEPENDENT_PARSE_ERROR:{type(exc).__name__}:{exc}"
+                )
+
+        if not used_frozen_snapshot:
+            response = page.goto(cfg["url"], wait_until="domcontentloaded", timeout=90000)
+            http_status = int(response.status) if response is not None else None
+            page.wait_for_timeout(3500)
+            for _ in range(3):
+                page.mouse.wheel(0, 1200)
+                page.wait_for_timeout(300)
+            page.evaluate("window.scrollTo(0,0)")
+            page.wait_for_timeout(400)
+            oracle = page.evaluate(ORACLE_JS, {"platform": platform}) or {}
+            witness_html = page.content()
+            witness_observed_at = datetime.now(TZ)
     except Exception as exc:
         error = f"{type(exc).__name__}: {exc}"
     finally:
@@ -356,16 +468,22 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
     if witness_html:
         raw = witness_html.encode("utf-8", errors="replace")
         witness_sha256 = hashlib.sha256(raw).hexdigest()
-        evidence_dir = OUT_ROOT / collection_date / "evidence"
-        evidence_dir.mkdir(parents=True, exist_ok=True)
-        snapshot = evidence_dir / f"{platform}.witness.html.gz"
-        with gzip.open(snapshot, "wb") as fh:
-            fh.write(raw)
-        witness_snapshot_file = str(snapshot.relative_to(ROOT))
+        if used_frozen_snapshot:
+            witness_snapshot_file = str(frozen.get("file") or "")
+        else:
+            evidence_dir = OUT_ROOT / collection_date / "evidence"
+            evidence_dir.mkdir(parents=True, exist_ok=True)
+            snapshot = evidence_dir / f"{platform}.witness.html.gz"
+            with gzip.open(snapshot, "wb") as fh:
+                fh.write(raw)
+            witness_snapshot_file = str(snapshot.relative_to(ROOT))
 
     candidate_sha256 = candidate_raw_hash(candidate)
     same_snapshot_hash = bool(
-        candidate_sha256 and witness_sha256 and candidate_sha256 == witness_sha256
+        used_frozen_snapshot
+        and candidate_sha256
+        and witness_sha256
+        and candidate_sha256 == witness_sha256
     )
     evidence_mode = (
         "INDEPENDENT_PARSER_FROZEN"
@@ -374,7 +492,7 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         if witness_complete
         else "SELF_CHECK"
     )
-    delay = batch_delay_seconds(witness_observed_at)
+    delay = None if same_snapshot_hash else batch_delay_seconds(witness_observed_at)
     truth_evidence = qualify_truth_evidence(
         evidence_mode,
         exact_match=exact_order_match,
@@ -438,6 +556,7 @@ def audit_platform(browser, collection_date: str, platform: str, cfg: dict) -> d
         "witnessComplete": witness_complete,
         "exactOrderedTitleMatch": exact_order_match,
         "truthEvidence": truth_evidence,
+        "frozenCandidateEvidence": frozen_attempt,
         "candidateRawHtmlSha256": candidate_sha256,
         "witnessRawHtmlSha256": witness_sha256,
         "sameSnapshotHash": same_snapshot_hash,
@@ -532,6 +651,24 @@ def main() -> int:
         ),
         "platforms": rows,
         "platformReadiness": platform_results,
+        "phaseAEligibleForB": [
+            item["platform"]
+            for item in rows
+            if (
+                ((item.get("readiness") or {}).get("phaseEligibility") or {}).get(
+                    "B_FAULT_INJECTION"
+                )
+            )
+        ],
+        "phaseABlockedPlatforms": [
+            item["platform"]
+            for item in rows
+            if not (
+                ((item.get("readiness") or {}).get("phaseEligibility") or {}).get(
+                    "B_FAULT_INJECTION"
+                )
+            )
+        ],
         "readiness": readiness,
     }
 
