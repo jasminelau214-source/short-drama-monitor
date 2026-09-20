@@ -26,6 +26,7 @@ from research_worker import schedule as schedule_research_worker, configured as 
 from collector_import import CollectorImportError, validate_and_normalize
 from drama_identity import normalize_title
 from research_writeback import select_same_platform_record
+from ranking_lifecycle import known_app_ranked_titles as lifecycle_known_app_ranked_titles
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -240,15 +241,13 @@ def public_data():
 
 
 def known_titles(before_date=''):
-    titles=set()
-    for r in public_data()['records']:
-        title=clean(r.get('title'),500)
-        if not title: continue
-        if before_date:
-            prior=any(clean(h.get('date'),20) < before_date for h in (r.get('history') or []) if clean(h.get('date'),20))
-            if not prior: continue
-        titles.add(title)
-    return sorted(titles)
+    """Backward-compatible name for authoritative prior App-ranking titles.
+
+    Newness for SHORT_DRAMA_APP must never be consumed by Official Web or other
+    secondary observations. Legacy V1/V1.2 histories are retained as reviewed
+    App-ranking screenshot facts by ranking_lifecycle.
+    """
+    return lifecycle_known_app_ranked_titles(public_data()['records'], before_date)
 
 
 def apply_research_result(task, research):
