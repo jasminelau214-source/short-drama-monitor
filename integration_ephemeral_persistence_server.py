@@ -12,6 +12,13 @@ TOKEN = os.environ.get('MONITOR_PERSISTENCE_TOKEN', 'integration-phase-b-token')
 HOST = os.environ.get('INTEGRATION_PERSISTENCE_HOST', '127.0.0.1')
 PORT = int(os.environ.get('INTEGRATION_PERSISTENCE_PORT', '9009'))
 
+if os.environ.get('JSM_ALLOW_INTEGRATION_STUB', '').strip() != '1':
+    raise RuntimeError('INTEGRATION_STUB_NOT_EXPLICITLY_ENABLED')
+if HOST not in {'127.0.0.1', 'localhost', '::1'}:
+    raise RuntimeError(f'INTEGRATION_STUB_LOOPBACK_ONLY:{HOST}')
+if os.environ.get('PGHOST', '').strip() not in {'localhost', '127.0.0.1', '::1'}:
+    raise RuntimeError('INTEGRATION_STUB_POSTGRES_MUST_BE_LOCAL')
+
 
 def _sql_json(value: object) -> str:
     raw = json.dumps(value, ensure_ascii=False, separators=(',', ':')).encode('utf-8')
