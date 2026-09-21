@@ -24,6 +24,11 @@ on:
       - .github/workflows/integration-contract-gate.yml
       - .github/workflows/integration-ephemeral-full-staging.yml
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
     branches:
       - main
     paths:
