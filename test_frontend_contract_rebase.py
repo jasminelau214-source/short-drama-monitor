@@ -32,6 +32,11 @@ class FrontendStaticContractTests(unittest.TestCase):
         self.assertNotIn('posterUrl || item?.coverUrl', html)
         self.assertNotIn('local_by_title', html)
 
+    def test_runtime_patch_skips_rebased_ui(self):
+        patch = (ROOT / 'runtime_ui_patch.py').read_text(encoding='utf-8')
+        self.assertIn("if 'UI REDESIGN V1 FOUNDATION' in html:", patch)
+        self.assertIn('return', patch)
+
     def test_research_and_quality_states_are_visible(self):
         html = (ROOT / 'index.html').read_text(encoding='utf-8')
         self.assertIn('researchTaskBlock(item)', html)

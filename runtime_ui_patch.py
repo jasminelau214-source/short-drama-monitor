@@ -15,6 +15,11 @@ def replace_once(text: str, old: str, new: str, label: str) -> str:
 def main() -> None:
     html = INDEX_PATH.read_text(encoding='utf-8')
 
+    # The redesigned frontend owns its structure directly. Legacy string patches
+    # target the pre-V2 prototype and must not mutate or reject the rebased UI.
+    if 'UI REDESIGN V1 FOUNDATION' in html:
+        return
+
     html = replace_once(
         html,
         '<button data-view-button="catalog">今日40部榜单</button>',
