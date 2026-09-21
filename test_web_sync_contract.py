@@ -31,6 +31,12 @@ class ScheduledWebSyncContractTests(unittest.TestCase):
         self.assertIn('COLLECTOR_MANIFEST_FILE_MISSING', self.sync)
         self.assertIn('COLLECTOR_MANIFEST_DATE_MISMATCH', self.sync)
 
+    def test_directory_scan_rejects_stale_collector_outputs(self):
+        self.assertIn('MaxCollectorAgeMinutes = 90', self.sync)
+        self.assertIn('COLLECTOR_MAX_AGE_INVALID', self.sync)
+        self.assertIn('Skip stale collector JSON', self.sync)
+        self.assertIn('$freshCutoff', self.sync)
+
     def test_partial_collection_keeps_failure_signal(self):
         self.assertIn('exit 2', self.collect_and_sync)
         self.assertIn('PARTIAL:', self.scheduled)
