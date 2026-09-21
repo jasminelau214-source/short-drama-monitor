@@ -12,6 +12,9 @@ on:
 permissions:
   contents: read
 
+env:
+  INTEGRATION_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   contract-gate:
     runs-on: ubuntu-latest
@@ -38,6 +41,8 @@ jobs:
       PGDATABASE: jsm_integration
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.INTEGRATION_HEAD_SHA }}
 
       - uses: actions/setup-python@v5
         with:
