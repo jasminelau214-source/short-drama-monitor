@@ -8,7 +8,7 @@ from pathlib import Path
 
 import app
 from drama_identity import normalize_title
-from live_observations_v2 import merge_analysis_records
+from live_observations_v2 import build_live_summary, merge_analysis_records
 
 ROOT = Path(__file__).resolve().parent
 
@@ -125,6 +125,23 @@ class PublicationContractTests(unittest.TestCase):
         self.assertEqual(normalize_title('Example Drama (Dubbed)'), normalize_title('Example Drama'))
         self.assertEqual(normalize_title('English Dub: Example Drama'), normalize_title('Example Drama'))
 
+
+class SummaryNewnessContractTests(unittest.TestCase):
+    def test_summary_uses_explicit_app_newness_not_first_date(self):
+        records = [
+            {
+                'id':'new','title':'Explicit New','app':'NetShort','targetKey':'daily_top_all','firstDate':'2026-09-17',
+                'history':[{'date':'2026-09-17','app':'NetShort','targetKey':'daily_top_all','rank':1,'appRankingNewness':'NEW','dataQuality':'VALID','metrics':{}}],
+            },
+            {
+                'id':'unknown','title':'Unknown Newness','app':'NetShort','targetKey':'daily_top_all','firstDate':'2026-09-17',
+                'history':[{'date':'2026-09-17','app':'NetShort','targetKey':'daily_top_all','rank':2,'appRankingNewness':'UNKNOWN','dataQuality':'VALID','metrics':{}}],
+            },
+        ]
+        summary = build_live_summary(records, ['NetShort'], lambda v: str(v or '').strip(), _split_lane)
+        self.assertEqual(summary['newTitles'], 1)
+        self.assertEqual(summary['continuingTitles'], 0)
+        self.assertEqual(summary['unknownNewness'], 1)
 
 class ResearchProjectionTests(unittest.TestCase):
     def _valid_research(self):
