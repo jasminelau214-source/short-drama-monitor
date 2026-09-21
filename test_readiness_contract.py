@@ -30,7 +30,7 @@ class ReadinessContractTests(unittest.TestCase):
         for key in ENV_KEYS:
             os.environ.pop(key, None)
 
-        app.connect = lambda: sqlite3.connect(':memory:')
+        app.connect = lambda: sqlite3.connect(':memory:', factory=app.ClosingSQLiteConnection)
         app.persistence.configured = lambda: False
         app.persistence.healthcheck = lambda timeout=5.0: {'ok': True}
         app.analysis_configured = lambda: False
