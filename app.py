@@ -29,6 +29,7 @@ from research_writeback import select_same_platform_record
 from research_validation import validate_research_payload
 from ranking_lifecycle import known_app_ranked_titles as lifecycle_known_app_ranked_titles
 import persistence
+import test_snapshot
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
@@ -226,6 +227,10 @@ def connect():
 
 
 def sync_persistent_cache():
+    if test_snapshot.available():
+        seeded = test_snapshot.seed_local(connect)
+        print(f"[test-snapshot] seeded isolated frontend data: {seeded}")
+        return
     if not persistence.configured():
         print('[persistence] not configured; local cache only')
         return
@@ -409,12 +414,15 @@ def _select_app_research_tasks(tasks, run_source_types):
 
 
 def _attach_research_task_projection(records):
-    if not persistence.configured():
-        return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0}
-    try:
-        tasks = persistence.list_research_tasks(limit=500)
-    except Exception as exc:
-        return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0, 'errorType': type(exc).__name__}
+    if test_snapshot.available():
+        tasks = test_snapshot.list_research_tasks(limit=500)
+    else:
+        if not persistence.configured():
+            return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0}
+        try:
+            tasks = persistence.list_research_tasks(limit=500)
+        except Exception as exc:
+            return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0, 'errorType': type(exc).__name__}
 
     run_source_types = _research_run_source_types()
     latest, excluded_non_app, excluded_unknown_origin = _select_app_research_tasks(tasks, run_source_types)
@@ -462,6 +470,9 @@ def public_data():
     research_projection=_attach_research_task_projection(records)
     summary=build_live_summary(records, PLATFORM_ORDER, clean, split_lane)
     summary['researchProjection']=research_projection
+    if test_snapshot.available():
+        summary['testSnapshot']=test_snapshot.snapshot_meta()
+        summary['researchQueue']=test_snapshot.research_queue_view()
     return {'records':records,'summary':summary}
 
 
@@ -657,13 +668,16 @@ class Handler(BaseHTTPRequestHandler):
             d=public_data()
             with connect() as c:
                 upload_rows=c.execute('SELECT storage_path FROM collection_uploads').fetchall(); upload_count=len(upload_rows); available_count=sum(1 for r in upload_rows if str(r['storage_path']).startswith('supabase:') or Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
-            self.send_json({'ok':True,'liveness':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'version':'1.4-collector','gitCommit':clean(os.environ.get('RENDER_GIT_COMMIT',''),80)})
+            self.send_json({'ok':True,'liveness':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'testSnapshot':test_snapshot.snapshot_meta() if test_snapshot.available() else None,'version':'1.4-collector','gitCommit':clean(os.environ.get('RENDER_GIT_COMMIT',''),80)})
         elif path=='/ready':
             status=readiness_status()
             self.send_json(status,200 if status.get('ready') else 503)
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
+        if test_snapshot.available():
+            self.send_json({'error':'READ_ONLY_TEST_FRONTEND','note':'This isolated frontend uses a frozen production snapshot and rejects all writes.'},403)
+            return
         if path=='/api/admin/collector-import':
             if not self.authorized(): return
             try:
@@ -725,6 +739,9 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
         except Exception as e: self.send_json({'error':'持久化存储失败：'+clean(e,2000)},502)
     def do_PUT(self):
+        if test_snapshot.available():
+            self.send_json({'error':'READ_ONLY_TEST_FRONTEND','note':'This isolated frontend uses a frozen production snapshot and rejects all writes.'},403)
+            return
         path=urlparse(self.path).path; prefix='/api/reviews/'
         if not path.startswith(prefix): self.send_json({'error':'页面不存在'},404); return
         if not self.authorized(): return
