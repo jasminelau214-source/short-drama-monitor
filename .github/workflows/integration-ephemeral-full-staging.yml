@@ -105,6 +105,7 @@ jobs:
             'windows/collectors/moboreels_collector_v3.ps1',
             'windows/collector_sync.ps1',
             'windows/run_app_collect_and_sync.ps1',
+            'windows/run_app_device_acceptance.ps1',
             'windows/run_web_collect_and_sync.ps1',
             'windows/scheduled_web_collect.ps1'
           )
