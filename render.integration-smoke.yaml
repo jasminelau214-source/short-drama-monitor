@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: short-drama-monitor-integration-smoke
+    runtime: python
+    plan: free
+    branch: integration/core-contract-v1-2026-09-20
+    autoDeploy: false
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py --host 0.0.0.0 --port $PORT --no-open
+    healthCheckPath: /ready
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.15
+      - key: JSM_READINESS_REQUIRE_PERSISTENCE
+        value: "false"
+      - key: JSM_READINESS_REQUIRE_ANALYSIS
+        value: "false"
+      - key: JSM_READINESS_REQUIRE_RESEARCH
+        value: "false"
