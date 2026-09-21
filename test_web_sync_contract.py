@@ -31,6 +31,13 @@ class ScheduledWebSyncContractTests(unittest.TestCase):
         self.assertIn('COLLECTOR_MANIFEST_FILE_MISSING', self.sync)
         self.assertIn('COLLECTOR_MANIFEST_DATE_MISMATCH', self.sync)
 
+    def test_integration_sync_is_local_by_default_and_prod_requires_opt_in(self):
+        for script in (self.sync, self.collect_and_sync, self.scheduled):
+            self.assertIn('http://127.0.0.1:4173', script)
+            self.assertIn('AllowProductionWrite', script)
+        self.assertIn('PRODUCTION_WRITE_BLOCKED', self.sync)
+        self.assertIn('short-drama-monitor.onrender.com', self.sync)
+
     def test_directory_scan_rejects_stale_collector_outputs(self):
         self.assertIn('MaxCollectorAgeMinutes = 90', self.sync)
         self.assertIn('COLLECTOR_MAX_AGE_INVALID', self.sync)
