@@ -1,7 +1,9 @@
 param(
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
     [string]$Root = "D:\ShortDramaCollector",
-    [string]$PythonCommand = "python"
+    [string]$PythonCommand = "python",
+    [string]$BaseUrl = "http://127.0.0.1:4173",
+    [switch]$AllowProductionWrite
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,7 +34,16 @@ try {
 
     Write-Host ""
     Write-Host "Step 2/2  Syncing all complete platform + ranking targets..." -ForegroundColor Cyan
-    & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $sync -CollectionDate $CollectionDate -Root $Root -ManifestPath $manifestPath
+    if ($AllowProductionWrite.IsPresent) {
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $sync `
+            -CollectionDate $CollectionDate -Root $Root -ManifestPath $manifestPath `
+            -BaseUrl $BaseUrl -AllowProductionWrite
+    }
+    else {
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $sync `
+            -CollectionDate $CollectionDate -Root $Root -ManifestPath $manifestPath `
+            -BaseUrl $BaseUrl
+    }
     $syncExit = $LASTEXITCODE
     if ($syncExit -ne 0) { throw "COLLECTOR_SYNC_FAILED: exit=$syncExit" }
 
