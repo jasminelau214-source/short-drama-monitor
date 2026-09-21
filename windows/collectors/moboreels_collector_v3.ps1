@@ -15,7 +15,8 @@
 param(
     [string]$AdbExe = "C:\Program Files\BlueStacks_nxt\HD-Adb.exe",
     [string]$OutputRoot = "D:\ShortDramaCollector",
-    [string]$AdbSerial = $env:JSM_ADB_SERIAL
+    [string]$AdbSerial = $env:JSM_ADB_SERIAL,
+    [int]$UiDumpTimeoutSec = 10
 )
 
 $ErrorActionPreference = "Stop"
@@ -78,6 +79,58 @@ function Adb([string[]]$CommandArgs) {
     return Host-Adb (@("-s",$Serial) + $CommandArgs)
 }
 
+
+# UIAutomator may hang indefinitely on some BlueStacks/App states.
+# Run evidence-critical ADB commands in a child process with a hard timeout.
+function Invoke-AdbWithTimeout {
+    param(
+        [string[]]$CommandArgs,
+        [int]$TimeoutSec = $UiDumpTimeoutSec
+    )
+
+    if ($TimeoutSec -lt 1 -or $TimeoutSec -gt 120) {
+        throw "INVALID_ADB_TIMEOUT:$TimeoutSec"
+    }
+
+    $stdout = [System.IO.Path]::GetTempFileName()
+    $stderr = [System.IO.Path]::GetTempFileName()
+
+    try {
+        $allArgs = @("-s",$Serial) + $CommandArgs
+        $argLine = ($allArgs | ForEach-Object {
+            if ($_ -match '[\s"]') {
+                '"' + ($_ -replace '"','\"') + '"'
+            } else {
+                $_
+            }
+        }) -join ' '
+
+        $process = Start-Process -FilePath $AdbExe -ArgumentList $argLine -PassThru -NoNewWindow `
+            -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+
+        if (-not $process.WaitForExit($TimeoutSec * 1000)) {
+            try { $process.Kill() } catch {}
+            try { [void]$process.WaitForExit(2000) } catch {}
+            return @{
+                TimedOut = $true
+                ExitCode = $null
+                Output = ""
+                Error = "TIMEOUT"
+            }
+        }
+
+        return @{
+            TimedOut = $false
+            ExitCode = $process.ExitCode
+            Output = (Get-Content $stdout -Raw -ErrorAction SilentlyContinue)
+            Error = (Get-Content $stderr -Raw -ErrorAction SilentlyContinue)
+        }
+    }
+    finally {
+        Remove-Item $stdout,$stderr -Force -ErrorAction SilentlyContinue
+    }
+}
+
 function Current-Focus {
     $out = (Adb @("shell","dumpsys","window","windows")) -join "`n"
     $m = [regex]::Match($out,'mCurrentFocus=.*? ([A-Za-z0-9._-]+/[A-Za-z0-9._$-]+)')
@@ -106,11 +159,42 @@ function Try-Dump-Ui([string]$Name,[int]$Attempts=4) {
         if (Test-Path $local) {
             Remove-Item $local -Force -ErrorAction SilentlyContinue
         }
+            $null = Adb @("shell","rm","-f",$remote)
 
-        $null = Adb @("shell","rm","-f",$remote)
-        $dumpOut = (Adb @("shell","uiautomator","dump","--compressed",$remote)) -join "`n"
-        Start-Sleep -Milliseconds 700
-        $pullOut = (Adb @("pull",$remote,$local)) -join "`n"
+            $dumpResult = Invoke-AdbWithTimeout `
+                -CommandArgs @("shell","uiautomator","dump","--compressed",$remote) `
+                -TimeoutSec $UiDumpTimeoutSec
+
+            if ($dumpResult.TimedOut) {
+                Log "UI dump attempt $i/$Attempts timed out after $UiDumpTimeoutSec seconds." "Yellow"
+                Start-Sleep -Seconds 2
+                continue
+            }
+            if ($dumpResult.ExitCode -ne 0) {
+                Log "UI dump attempt $i/$Attempts failed exit=$($dumpResult.ExitCode) stderr=[$($dumpResult.Error)]" "Yellow"
+                Start-Sleep -Seconds 2
+                continue
+            }
+
+            Start-Sleep -Milliseconds 700
+
+            $pullResult = Invoke-AdbWithTimeout `
+                -CommandArgs @("pull",$remote,$local) `
+                -TimeoutSec $UiDumpTimeoutSec
+
+            if ($pullResult.TimedOut) {
+                Log "UI pull attempt $i/$Attempts timed out after $UiDumpTimeoutSec seconds." "Yellow"
+                Start-Sleep -Seconds 2
+                continue
+            }
+            if ($pullResult.ExitCode -ne 0) {
+                Log "UI pull attempt $i/$Attempts failed exit=$($pullResult.ExitCode) stderr=[$($pullResult.Error)]" "Yellow"
+                Start-Sleep -Seconds 2
+                continue
+            }
+
+            $dumpOut = [string]$dumpResult.Output
+            $pullOut = [string]$pullResult.Output
 
         if ((Test-Path $local) -and (Get-Item $local).Length -gt 100) {
             Log "UI dump OK: $Name" "Green"
