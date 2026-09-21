@@ -45,6 +45,90 @@ def clean(value, limit=6000):
     return str(value or '').strip()[:limit]
 
 
+def env_flag(name: str, default: bool = False) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return bool(default)
+    return str(raw).strip().casefold() in {'1', 'true', 'yes', 'on'}
+
+
+def readiness_status() -> dict:
+    """Return deployment readiness without performing any write-side action."""
+    required = {
+        'persistence': env_flag('JSM_READINESS_REQUIRE_PERSISTENCE', False),
+        'analysis': env_flag('JSM_READINESS_REQUIRE_ANALYSIS', False),
+        'research': env_flag('JSM_READINESS_REQUIRE_RESEARCH', False),
+    }
+    checks = {}
+
+    try:
+        with connect() as c:
+            c.execute('SELECT 1').fetchone()
+        checks['localDb'] = {'ok': True, 'required': True}
+    except Exception as exc:
+        checks['localDb'] = {
+            'ok': False,
+            'required': True,
+            'errorType': type(exc).__name__,
+        }
+
+    persistence_configured = persistence.configured()
+    if required['persistence']:
+        if not persistence_configured:
+            checks['persistence'] = {
+                'ok': False,
+                'required': True,
+                'configured': False,
+                'errorType': 'NOT_CONFIGURED',
+            }
+        else:
+            try:
+                persistence.healthcheck(timeout=5.0)
+                checks['persistence'] = {
+                    'ok': True,
+                    'required': True,
+                    'configured': True,
+                }
+            except Exception as exc:
+                checks['persistence'] = {
+                    'ok': False,
+                    'required': True,
+                    'configured': True,
+                    'errorType': type(exc).__name__,
+                }
+    else:
+        checks['persistence'] = {
+            'ok': True,
+            'required': False,
+            'configured': persistence_configured,
+            'probed': False,
+        }
+
+    analysis_ok = analysis_configured()
+    checks['analysis'] = {
+        'ok': bool(analysis_ok or not required['analysis']),
+        'required': required['analysis'],
+        'configured': bool(analysis_ok),
+    }
+
+    research_ok = research_configured()
+    checks['research'] = {
+        'ok': bool(research_ok or not required['research']),
+        'required': required['research'],
+        'configured': bool(research_ok),
+    }
+
+    ready = all(bool(item.get('ok')) for item in checks.values())
+    return {
+        'ready': ready,
+        'checks': checks,
+        'required': required,
+        'version': '1.4-collector',
+        'gitCommit': clean(os.environ.get('RENDER_GIT_COMMIT', ''), 80),
+        'serviceName': clean(os.environ.get('RENDER_SERVICE_NAME', ''), 120),
+    }
+
+
 def split_lane(value):
     s = str(value or '')
     for sep in ['/', '、', ',', '，', ';', '；', '|']:
@@ -442,7 +526,10 @@ class Handler(BaseHTTPRequestHandler):
             d=public_data()
             with connect() as c:
                 upload_rows=c.execute('SELECT storage_path FROM collection_uploads').fetchall(); upload_count=len(upload_rows); available_count=sum(1 for r in upload_rows if str(r['storage_path']).startswith('supabase:') or Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
-            self.send_json({'ok':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'version':'1.4-collector'})
+            self.send_json({'ok':True,'liveness':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'version':'1.4-collector','gitCommit':clean(os.environ.get('RENDER_GIT_COMMIT',''),80)})
+        elif path=='/ready':
+            status=readiness_status()
+            self.send_json(status,200 if status.get('ready') else 503)
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
