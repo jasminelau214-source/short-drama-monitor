@@ -30,5 +30,8 @@ jobs:
           assert '<script>' in html and '</script>' in html
           assert html.count('data-view=') >= 8
           assert 'READ ONLY' in html
+          script=html.split('<script>',1)[1].split('</script>',1)[0]
+          Path('/tmp/test_frontend.js').write_text(script,encoding='utf-8')
           print('FRONTEND_STATIC_STRUCTURE_PASS')
           PY
+          node --check /tmp/test_frontend.js
