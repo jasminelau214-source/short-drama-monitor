@@ -14,6 +14,15 @@ from live_observations_v2 import build_live_summary, merge_analysis_records
 ROOT = pathlib.Path(__file__).resolve().parent
 
 
+
+class ClosingSQLiteConnection(sqlite3.Connection):
+    def __exit__(self, exc_type, exc_value, traceback):
+        try:
+            return super().__exit__(exc_type, exc_value, traceback)
+        finally:
+            self.close()
+
+
 class GoldenPublicationE2ETests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -41,7 +50,7 @@ class GoldenPublicationE2ETests(unittest.TestCase):
         self.temp.cleanup()
 
     def connect(self):
-        conn = sqlite3.connect(self.db_path)
+        conn = sqlite3.connect(self.db_path, factory=ClosingSQLiteConnection)
         conn.row_factory = sqlite3.Row
         return conn
 
