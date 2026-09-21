@@ -93,9 +93,9 @@ class StateSemanticsTests(unittest.TestCase):
             self.assertTrue(is_analysis_run_terminal(state))
 
     def test_collector_import_uses_stage_contract(self):
-        web = validate_and_normalize(payload("OFFICIAL_WEB"), [])
-        self.assertEqual(web["status"], ANALYSIS_RUN_COLLECTED)
-
+        # Official-Web projection is covered directly above. Full Web imports
+        # additionally require Source Promotion evidence and should not be
+        # weakened merely to exercise the state mapper here.
         app_new = validate_and_normalize(payload("SHORT_DRAMA_APP"), [])
         self.assertEqual(app_new["status"], ANALYSIS_RUN_RESEARCH_PENDING)
 
