@@ -119,6 +119,12 @@ class PowerShellCollectorStaticContractTests(unittest.TestCase):
             self.assertIn('$dumpResult.ExitCode -ne 0', script)
             self.assertIn('$pullResult.ExitCode -ne 0', script)
 
+    def test_runtime_banner_matches_hardened_version(self):
+        self.assertIn('NetShort Collector V6 complete', self.net)
+        self.assertNotIn('NetShort Collector V5 complete', self.net)
+        self.assertIn('MoboReels Collector V3 complete', self.mobo)
+        self.assertNotIn('MoboReels Collector V2 complete', self.mobo)
+
     def test_audit_failure_returns_nonzero(self):
         for script in (self.net, self.mobo):
             self.assertIn('RESULT: AUDIT_FAILED', script)
