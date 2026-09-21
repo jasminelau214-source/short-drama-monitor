@@ -2,7 +2,8 @@ param(
     [string]$BaseUrl = "https://short-drama-monitor.onrender.com",
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
     [string]$Root = "D:\ShortDramaCollector",
-    [string]$ManifestPath = ""
+    [string]$ManifestPath = "",
+    [int]$MaxCollectorAgeMinutes = 90
 )
 
 $ErrorActionPreference = "Stop"
@@ -46,27 +47,37 @@ function Get-CollectorJsonFiles {
         return @($manifestFiles | Sort-Object Platform, TargetKey)
     }
 
+    if ($MaxCollectorAgeMinutes -lt 1 -or $MaxCollectorAgeMinutes -gt 1440) {
+        throw "COLLECTOR_MAX_AGE_INVALID: $MaxCollectorAgeMinutes"
+    }
+    $freshCutoff = (Get-Date).AddMinutes(-$MaxCollectorAgeMinutes)
+
     $allValid = @()
     Get-ChildItem -Path $dateDir -Directory | ForEach-Object {
         $platformDir = $_
         Get-ChildItem -Path $platformDir.FullName -Filter "*.json" -File | ForEach-Object {
-            try {
-                $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
-                if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
-                    $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
-                    $allValid += [PSCustomObject]@{
-                        File = $_
-                        Platform = [string]$parsed.platform
-                        RowCount = [int]$parsed.rows.Count
-                        TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
-                        TargetKey = $targetKey
-                        SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
-                        LastWriteTime = $_.LastWriteTime
+            if ($_.LastWriteTime -lt $freshCutoff) {
+                Write-Host ("Skip stale collector JSON (> " + $MaxCollectorAgeMinutes + " min): " + $_.FullName) -ForegroundColor DarkYellow
+            }
+            else {
+                try {
+                    $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
+                    if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
+                        $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                        $allValid += [PSCustomObject]@{
+                            File = $_
+                            Platform = [string]$parsed.platform
+                            RowCount = [int]$parsed.rows.Count
+                            TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                            TargetKey = $targetKey
+                            SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
+                            LastWriteTime = $_.LastWriteTime
+                        }
                     }
                 }
-            }
-            catch {
-                Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+                catch {
+                    Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+                }
             }
         }
     }
