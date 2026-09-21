@@ -28,6 +28,13 @@ from drama_identity import normalize_title
 from research_writeback import select_same_platform_record
 from research_validation import validate_research_payload
 from ranking_lifecycle import known_app_ranked_titles as lifecycle_known_app_ranked_titles
+from state_semantics import (
+    ANALYSIS_RUN_ANALYZING,
+    ANALYSIS_RUN_COMPLETE,
+    ANALYSIS_RUN_FAILED,
+    ANALYSIS_RUN_RESEARCH_PENDING,
+    require_stage_state,
+)
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -513,11 +520,11 @@ def run_analysis_batch(collection_date, platform):
         return
     upload_ids=[r['id'] for r in rows]
     with connect() as c:
-        c.execute('INSERT OR REPLACE INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),'分析中','{}','',analysis_model_name(),now,now))
-        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[('分析中',x) for x in upload_ids]); c.commit()
+        c.execute('INSERT OR REPLACE INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),ANALYSIS_RUN_ANALYZING,'{}','',analysis_model_name(),now,now))
+        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[(ANALYSIS_RUN_ANALYZING,x) for x in upload_ids]); c.commit()
     if persistence.configured():
-        persistence.update_upload_status(upload_ids,'分析中')
-        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status='分析中',result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
+        persistence.update_upload_status(upload_ids,ANALYSIS_RUN_ANALYZING)
+        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=ANALYSIS_RUN_ANALYZING,result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
     try:
         result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=rows,known_titles=known_titles(collection_date))
         existing={normalize_title(t):t for t in known_titles(collection_date)}
@@ -526,10 +533,11 @@ def run_analysis_batch(collection_date, platform):
             if norm and norm in existing:
                 item['newness']='old'; item['matchedExistingTitle']=existing[norm]
         needs_research=any((x.get('newness') in {'new','uncertain'} or x.get('pendingChecks')) for x in (result.get('rows') or []))
-        status='已识别-待深研' if needs_research else '已分析'; error=''
+        status=ANALYSIS_RUN_RESEARCH_PENDING if needs_research else ANALYSIS_RUN_COMPLETE; error=''
     except Exception as exc:
-        result={}; status='分析失败'; error=clean(exc,4000)
+        result={}; status=ANALYSIS_RUN_FAILED; error=clean(exc,4000)
         print(f'[analysis] failed {collection_date} {platform}: {error}')
+    status=require_stage_state('analysis_run', status)
     updated=datetime.now(timezone.utc).isoformat()
     with connect() as c:
         c.execute('UPDATE analysis_runs SET status=?,result_json=?,error=?,updated_at=? WHERE id=?',(status,json.dumps(result,ensure_ascii=False),error,updated,run_id))
@@ -537,7 +545,7 @@ def run_analysis_batch(collection_date, platform):
     if persistence.configured():
         persistence.update_upload_status(upload_ids,status)
         persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=status,result=result,error=error,model=analysis_model_name(),created_at=now,updated_at=updated)
-    if status=='已识别-待深研':
+    if status==ANALYSIS_RUN_RESEARCH_PENDING:
         schedule_research_worker(apply_research=apply_research_result, delay=0.5)
     print(f'[analysis] {status} {collection_date} {platform} run={run_id}')
 
