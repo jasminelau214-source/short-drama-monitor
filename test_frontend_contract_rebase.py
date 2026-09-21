@@ -83,6 +83,31 @@ class PublicationContractTests(unittest.TestCase):
         finally:
             Path(path).unlink(missing_ok=True)
 
+    def test_duplicate_canonical_title_invalidates_batch(self):
+        path, connect = self._db()
+        try:
+            result = {'batchComplete': True, 'collector': {'sourceType': 'SHORT_DRAMA_APP', 'targetKey': 'daily_top_all', 'rankingType': 'Daily Top', 'topN': 2}, 'rows': [
+                {'rank': 1, 'title': 'Example Drama', 'newness': 'new'},
+                {'rank': 2, 'title': 'Example Drama (Dubbed)', 'newness': 'new'},
+            ]}
+            self._insert(connect, run_id='duplicate-identity', date='2026-09-18', platform='ReelShort', result=result, updated='2026-09-18T10:00:00Z')
+            records = merge_analysis_records([], connect, normalize_title, _split_lane)
+            self.assertEqual(records, [])
+        finally:
+            Path(path).unlink(missing_ok=True)
+
+    def test_blank_title_invalidates_batch(self):
+        path, connect = self._db()
+        try:
+            result = {'batchComplete': True, 'collector': {'sourceType': 'SHORT_DRAMA_APP', 'targetKey': 'daily_top_all', 'rankingType': 'Daily Top', 'topN': 2}, 'rows': [
+                {'rank': 1, 'title': 'Valid Drama', 'newness': 'old'},
+                {'rank': 2, 'title': '   ', 'newness': 'new'},
+            ]}
+            self._insert(connect, run_id='blank-title', date='2026-09-18', platform='ReelShort', result=result, updated='2026-09-18T10:00:00Z')
+            records = merge_analysis_records([], connect, normalize_title, _split_lane)
+            self.assertEqual(records, [])
+        finally:
+            Path(path).unlink(missing_ok=True)
     def test_same_platform_different_target_keys_remain_separate(self):
         path, connect = self._db()
         try:

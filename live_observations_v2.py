@@ -183,7 +183,7 @@ def _app_ranking_newness(item: dict) -> str:
     return 'UNKNOWN'
 
 
-def _latest_complete_runs(connect) -> list[dict]:
+def _latest_complete_runs(connect, normalize_title) -> list[dict]:
     """Return latest complete imported ranking run for each date/platform/source/target.
 
     Old V1 runs had no collector metadata; those are treated as SHORT_DRAMA_APP / daily_top_all.
@@ -211,6 +211,7 @@ def _latest_complete_runs(connect) -> list[dict]:
         if not result.get('batchComplete') or not 1 <= top_n <= 100 or len(parsed_rows) != top_n:
             continue
         ranks = set()
+        titles = set()
         valid = True
         for item in parsed_rows:
             try:
@@ -218,11 +219,14 @@ def _latest_complete_runs(connect) -> list[dict]:
             except (TypeError, ValueError, AttributeError):
                 valid = False
                 break
-            if not 1 <= rank <= top_n or rank in ranks:
+            title = str(item.get('title') or '').strip()
+            norm = normalize_title(title)
+            if not 1 <= rank <= top_n or rank in ranks or not title or not norm or norm in titles:
                 valid = False
                 break
             ranks.add(rank)
-        if not valid or ranks != set(range(1, top_n + 1)):
+            titles.add(norm)
+        if not valid or ranks != set(range(1, top_n + 1)) or len(titles) != top_n:
             continue
         key = (
             str(row['collection_date'] or ''),
@@ -264,7 +268,7 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
         'localizationLevel', 'localizationJudgment', 'mismatch',
     ]
 
-    for run in _latest_complete_runs(connect):
+    for run in _latest_complete_runs(connect, normalize_title):
         date = run['collection_date']
         platform = run['platform']
         target_key = run['target_key']
