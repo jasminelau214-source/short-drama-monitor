@@ -68,7 +68,7 @@ jobs:
     env:
       DATA_DIR: /tmp/jsm-full-staging-${{ github.run_id }}
       PORT: "8765"
-      RENDER_GIT_COMMIT: ${{ env.INTEGRATION_HEAD_SHA }}
+      RENDER_GIT_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
       RENDER_SERVICE_NAME: jsm-integration-ephemeral
       JSM_READINESS_REQUIRE_PERSISTENCE: "false"
       JSM_READINESS_REQUIRE_ANALYSIS: "false"
