@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JSM 全数据测试前端 V1</title>
+<style>
+:root{--bg:#f6f7fb;--panel:#fff;--line:#e6e8ef;--text:#20263a;--muted:#697386;--red:#c92d3c;--redsoft:#fff0f2;--blue:#316fd6;--bluesoft:#eaf1ff;--amber:#b76713;--ambersoft:#fff3e6;--rose:#bd3155;--rosesoft:#fdeaf0;--shadow:0 8px 24px rgba(24,33,58,.06);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#fffafb 0,#f7f8fb 220px);color:var(--text)}button,input,select{font:inherit}button{cursor:pointer}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}.side{position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:18px}.brand{display:flex;gap:10px;align-items:center;font-weight:800}.logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#b91c2b,#e64c59);color:#fff;display:grid;place-items:center}.nav{display:grid;gap:6px}.nav button{border:1px solid transparent;background:transparent;text-align:left;padding:10px 12px;border-radius:9px;color:#596174}.nav button.active{background:var(--redsoft);color:#a92533;border-color:#f3cbd0;font-weight:750}.side-note{margin-top:auto;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:12px;color:var(--muted);line-height:1.6}
+main{padding:24px 28px 40px;min-width:0}.view{display:none}.view.active{display:block}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:18px}.top h1{margin:0 0 5px;font-size:28px}.sub{color:var(--muted);font-size:13px;line-height:1.5}.pill{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px}
+.stats{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px;margin-bottom:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px;box-shadow:var(--shadow)}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:24px;font-weight:820;margin-top:5px}.metric small{color:var(--muted)}
+.card{background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}.card h2{margin:0 0 10px;font-size:18px}.filters{display:grid;grid-template-columns:repeat(4,minmax(140px,1fr));gap:10px;margin-bottom:12px}.field{display:grid;gap:5px}.field label{font-size:12px;color:var(--muted)}input,select{border:1px solid #dfe3ea;border-radius:8px;background:#fff;padding:9px 10px;color:var(--text)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;background:#fff}.table-meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin:8px 2px}table{width:100%;border-collapse:collapse;min-width:980px}th,td{border-bottom:1px solid #eef0f4;padding:10px 11px;text-align:left;font-size:13px;vertical-align:top}th{position:sticky;top:0;background:#fafbfc;color:#596174;z-index:1}tr:hover td{background:#fff9fa}.rank{display:inline-grid;min-width:30px;height:26px;place-items:center;border-radius:7px;background:#f1f3f6;font-weight:800}.title-btn{border:0;background:transparent;padding:0;text-align:left;color:var(--text);font-weight:800}.title-btn:hover{color:var(--red)}
+.chip{display:inline-flex;padding:3px 7px;border-radius:999px;font-size:11px;font-weight:750;background:#f2f4f7;color:#667085}.chip.blue{background:var(--bluesoft);color:#2b61b7}.chip.red{background:var(--rosesoft);color:var(--rose)}.chip.amber{background:var(--ambersoft);color:var(--amber)}.chip.gray{background:#f2f4f7;color:#667085}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.list{display:grid;gap:8px}.row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid #eef0f4;padding:9px 0}.bar{height:8px;background:#eef0f4;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#d62f3f,#e66c77)}
+.trend{font-variant-numeric:tabular-nums;color:#475467}.warn{border-left:4px solid #e09a32;background:#fff8ea;padding:10px 12px;border-radius:7px;color:#76501a;font-size:12px;line-height:1.55}.ok{border-left:4px solid var(--blue);background:#eef4ff;padding:10px 12px;border-radius:7px;color:#284f94;font-size:12px;line-height:1.55}
+.modal-bg{position:fixed;inset:0;background:rgba(20,27,43,.42);display:none;place-items:center;padding:18px;z-index:20}.modal-bg.open{display:grid}.modal{width:min(1050px,100%);max-height:calc(100vh - 36px);overflow:auto;background:var(--bg);border-radius:12px;border:1px solid var(--line)}.modal-head{position:sticky;top:0;background:rgba(255,255,255,.96);padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;z-index:2}.modal-head h2{margin:0}.close{border:1px solid var(--line);background:#fff;border-radius:8px;width:36px;height:36px}.modal-body{padding:16px}.detail-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}.detail{background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px}.detail small{display:block;color:var(--muted);margin-bottom:5px}.detail b{word-break:break-word}.poster{width:90px;aspect-ratio:3/4;border-radius:9px;background:linear-gradient(135deg,#fff0f2,#eaf1ff);display:grid;place-items:center;color:#9b4650;font-weight:900;border:1px solid var(--line);overflow:hidden}.poster img{width:100%;height:100%;object-fit:cover}.detail-flex{display:flex;gap:14px;align-items:flex-start;margin-bottom:14px}
+@media(max-width:1050px){.shell{grid-template-columns:1fr}.side{position:static;height:auto}.nav{grid-template-columns:repeat(4,minmax(0,1fr))}.side-note{margin-top:0}.stats{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){main{padding:16px}.nav{grid-template-columns:1fr 1fr}.stats,.filters,.grid2,.detail-grid{grid-template-columns:1fr}.top{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+<div class="brand"><div class="logo">JSM</div><div>海外AI短剧动态情报<br><span class="sub">全数据测试前端 V1</span></div></div>
+<nav class="nav" id="nav">
+<button class="active" data-view="dashboard">市场总览</button>
+<button data-view="ranking">今日榜单</button>
+<button data-view="history">历史趋势</button>
+<button data-view="library">剧目库</button>
+<button data-view="research">题材 / 剧目研究</button>
+<button data-view="web">Official Web</button>
+<button data-view="queue">Research Queue</button>
+<button data-view="audit">数据审计</button>
+</nav>
+<div class="side-note"><b>测试环境</b><br>数据来源：生产只读快照<br>写入能力：关闭<br>App Ranking 与 Official Web：分层<br><span id="snapshotTime"></span></div>
+</aside>
+<main>
+<section id="dashboard" class="view active"></section>
+<section id="ranking" class="view"></section>
+<section id="history" class="view"></section>
+<section id="library" class="view"></section>
+<section id="research" class="view"></section>
+<section id="web" class="view"></section>
+<section id="queue" class="view"></section>
+<section id="audit" class="view"></section>
+</main>
+</div>
+<div class="modal-bg" id="modalBg"><article class="modal"><header class="modal-head"><div><h2 id="modalTitle"></h2><div class="sub" id="modalSub"></div></div><button class="close" id="closeModal">×</button></header><div class="modal-body" id="modalBody"></div></article></div>
+<script>
+var STATE={};
+function q(s){return document.querySelector(s)}
+function qa(s){return Array.from(document.querySelectorAll(s))}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function stripReleaseMarkers(v){
+ var text=String(v||'').toLowerCase().trim();if(!text)return '';
+ text=text.replace(/^\s*[\[(（［【]\s*(?:(?:eng(?:lish)?\s+)?dub(?:bed)?)\s*[\])）］】]\s*[:|–—-]*\s*/i,'');
+ text=text.replace(/\s*[:|–—-]*\s*[\[(（［【]\s*(?:(?:eng(?:lish)?\s+)?dub(?:bed)?)\s*[\])）］】]\s*$/i,'');
+ text=text.replace(/^\s*(?:(?:eng(?:lish)?\s+)dub(?:bed)?\b\s*[:|–—-]+\s*|(?:eng(?:lish)?\s+)dub(?:bed)?\b\s+)/i,'');
+ text=text.replace(/\s*[:|–—-]+\s*dub(?:bed)?\s*$/i,'');
+ text=text.replace(/\s+(?:eng(?:lish)?\s+)dub(?:bed)?\s*$/i,'');
+ return text.trim();
+}
+function norm(v){return stripReleaseMarkers(v).replace(/[^a-z0-9]+/g,'')}
+function sourceType(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.sourceType||'SHORT_DRAMA_APP')}
+function targetKey(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.targetKey||'daily_top_all')}
+function rankingType(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.rankingType||'主榜')}
+function topN(run){var c=(run.result_json&&run.result_json.collector)||{};var rows=(run.result_json&&run.result_json.rows)||[];return Number(c.topN||rows.length||10)}
+function scopeInferred(run){return !(run.result_json&&run.result_json.collector&&run.result_json.collector.sourceType)}
+function validBatch(run){
+ var r=run.result_json||{},rows=Array.isArray(r.rows)?r.rows:[],n=topN(run);
+ if(r.batchComplete!==true||rows.length!==n||n<1)return false;
+ var ranks=new Set(),titles=new Set();
+ for(var i=0;i<rows.length;i++){var rank=Number(rows[i].rank);var t=norm(rows[i].title);if(!Number.isInteger(rank)||rank<1||rank>n||ranks.has(rank)||!t||titles.has(t))return false;ranks.add(rank);titles.add(t)}
+ return ranks.size===n;
+}
+function latestAuthoritative(runs){
+ var m=new Map();
+ runs.filter(function(r){return sourceType(r)==='SHORT_DRAMA_APP'&&validBatch(r)}).forEach(function(r){
+  var k=[r.collection_date,r.platform,sourceType(r),targetKey(r)].join('::'),p=m.get(k);
+  if(!p||String(r.updated_at||'')>String(p.updated_at||''))m.set(k,r);
+ });
+ return Array.from(m.values()).sort(function(a,b){return String(a.collection_date).localeCompare(String(b.collection_date))||String(a.platform).localeCompare(String(b.platform))});
+}
+function latestTaskMap(tasks,runs){
+ var runMap=new Map(runs.map(function(r){return [String(r.id),r]})),m=new Map();
+ tasks.forEach(function(t){
+  var run=runMap.get(String(t.analysis_run_id)),src=run?sourceType(run):'UNKNOWN';
+  if(src!=='SHORT_DRAMA_APP')return;
+  var tk=run?targetKey(run):'';
+  var k=String(t.platform||'')+'::'+tk+'::'+norm(t.normalized_title||t.title),p=m.get(k);
+  if(!p||String(t.updated_at||'')>String(p.updated_at||''))m.set(k,t);
+ });
+ return m;
+}
+function applyResearch(rec,task){
+ if(!task)return;
+ rec.researchTask=task;
+ var r=task.research_json&&typeof task.research_json==='object'?task.research_json:{};
+ ['synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff','openingSummary','openingType','payEpisode','paywallSummary','paywallType','localizationLevel','localizationJudgment','mismatch','posterUrl'].forEach(function(k){if(!rec[k]&&r[k])rec[k]=r[k]});
+}
+function buildRecords(base,runs,tasks,overrides){
+ var recMap=new Map(),overrideMap=new Map(overrides.map(function(o){return [String(o.drama_id),o.fields_json||{}]}));
+ (base.records||[]).forEach(function(x){
+  var r=Object.assign({},x,{targetKey:'daily_top_all',rankingType:'主榜',sourceType:'SHORT_DRAMA_APP',scopeInferred:true,dataQuality:'LEGACY_REVIEWED'});
+  r.history=(r.history||[]).map(function(h){return Object.assign({},h,{targetKey:'daily_top_all',rankingType:'主榜',sourceType:'SHORT_DRAMA_APP',scopeInferred:true,analysisRunId:'legacy:data.json'})});
+  Object.assign(r,overrideMap.get(String(r.id))||{});
+  recMap.set(String(r.app)+'::daily_top_all::'+norm(r.title),r);
+ });
+ latestAuthoritative(runs).forEach(function(run){
+  var rows=run.result_json.rows||[],tk=targetKey(run),rt=rankingType(run),inf=scopeInferred(run);
+  rows.forEach(function(x){
+   var key=String(run.platform)+'::'+tk+'::'+norm(x.title),r=recMap.get(key);
+   if(!r){r={id:'scope-'+btoa(unescape(encodeURIComponent(key))).replace(/[^a-zA-Z0-9]/g,'').slice(0,18),title:x.title,app:run.platform,targetKey:tk,rankingType:rt,sourceType:'SHORT_DRAMA_APP',history:[],scopeInferred:inf};recMap.set(key,r)}
+   var ev={date:String(run.collection_date),app:run.platform,targetKey:tk,rankingType:rt,sourceType:'SHORT_DRAMA_APP',rank:Number(x.rank),heat:x.heat||'',tags:Array.isArray(x.tags)?x.tags.join(', '):(x.tags||''),metrics:x.metrics||{},scopeInferred:inf,analysisRunId:run.id,dataQuality:'VALID'};
+   r.history=(r.history||[]).filter(function(h){return !(h.date===ev.date&&String(h.app||r.app)===ev.app&&String(h.targetKey||r.targetKey||'daily_top_all')===tk)});r.history.push(ev);r.history.sort(function(a,b){return String(a.date).localeCompare(String(b.date))});
+   var last=r.history[r.history.length-1];r.date=last.date;r.rank=last.rank;r.heat=last.heat;r.tags=last.tags;r.platformMetrics=last.metrics;r.scopeInferred=inf;r.analysisRunId=run.id;r.dataQuality='VALID';
+   r.recordedDates=Array.from(new Set(r.history.map(function(h){return h.date}))).sort();r.firstDate=r.recordedDates[0];r.lastDate=r.recordedDates[r.recordedDates.length-1];r.daysOnChart=r.recordedDates.length;
+   var rr=r.history.map(function(h){return Number(h.rank)}).filter(function(v){return Number.isFinite(v)});r.highestRank=rr.length?Math.min.apply(null,rr):r.rank;
+   if(x.posterUrl)r.posterUrl=x.posterUrl;
+  });
+ });
+ var tm=latestTaskMap(tasks,runs);
+ recMap.forEach(function(r){applyResearch(r,tm.get(String(r.app)+'::'+String(r.targetKey||'daily_top_all')+'::'+norm(r.title)));r.firstSeenAppRanking=r.firstDate||'';r.appRankingNewness='RECORDED_FIRST_SEEN'});
+ return Array.from(recMap.values());
+}
+function taskSource(t,runMap){var r=runMap.get(String(t.analysis_run_id));return r?sourceType(r):'UNKNOWN'}
+function buildWeb(runs,tasks){
+ var taskBy=new Map();
+ tasks.forEach(function(t){taskBy.set(String(t.analysis_run_id)+'::'+norm(t.title),t)});
+ var rows=[];
+ runs.filter(function(r){return sourceType(r)==='OFFICIAL_WEB'}).forEach(function(run){
+  var rr=(run.result_json&&run.result_json.rows)||[],tk=targetKey(run),rt=rankingType(run),valid=validBatch(run);
+  rr.forEach(function(x,i){var t=taskBy.get(String(run.id)+'::'+norm(x.title));rows.push({date:run.collection_date,platform:run.platform,targetKey:tk,rankingType:rt,rank:Number(x.rank||x.position||i+1),title:x.title,tags:Array.isArray(x.tags)?x.tags.join(', '):(x.tags||''),metrics:x.metrics||{},batchComplete:run.result_json.batchComplete===true,batchValid:valid,runStatus:run.status,task:t||null,analysisRunId:run.id})});
+ });
+ return rows;
+}
+function groupCount(arr,keyfn){var m=new Map();arr.forEach(function(x){var k=keyfn(x)||'未标注';m.set(k,(m.get(k)||0)+1)});return Array.from(m.entries()).map(function(x){return {name:x[0],value:x[1]}}).sort(function(a,b){return b.value-a.value||String(a.name).localeCompare(String(b.name))})}
+function chipState(s){s=String(s||'UNKNOWN').toUpperCase();return s==='COMPLETE'?'blue':(s==='FAILED'||s==='REVIEW_REQUIRED')?'red':(s==='PENDING'||s==='UNKNOWN')?'gray':'amber'}
+function view(name){qa('.view').forEach(function(v){v.classList.toggle('active',v.id===name)});qa('[data-view]').forEach(function(b){b.classList.toggle('active',b.dataset.view===name)})}
+function posterHtml(r){if(r.posterUrl)return '<div class="poster"><img src="'+esc(r.posterUrl)+'" onerror="this.parentNode.textContent=\\'NO POSTER\\'"></div>';return '<div class="poster">NO POSTER</div>'}
+function openDetail(id){var r=STATE.records.find(function(x){return x.id===id});if(!r)return;q('#modalTitle').textContent=r.title;q('#modalSub').textContent=(r.app||'')+' · '+(r.rankingType||r.targetKey||'')+' · scope identity';var task=r.researchTask||{};var hist=(r.history||[]).filter(function(h){return String(h.app||r.app)===String(r.app)&&String(h.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')});var sources=Array.isArray(task.sources)?task.sources:[];var missing=Array.isArray(task.missing_fields)?task.missing_fields:[];var body='<div class="detail-flex">'+posterHtml(r)+'<div><div class="ok">前端不跨平台合并 Drama Identity；当前详情实体为 platform + targetKey + normalized title 的测试作用域记录。</div></div></div>';
+ body+='<div class="detail-grid"><div class="detail"><small>当前排名</small><b>#'+esc(r.rank||'—')+'</b></div><div class="detail"><small>本榜最高</small><b>#'+esc(r.highestRank||'—')+'</b></div><div class="detail"><small>首次记录上榜</small><b>'+esc(r.firstDate||'—')+'</b></div><div class="detail"><small>最近记录</small><b>'+esc(r.lastDate||'—')+'</b></div><div class="detail"><small>Research State</small><b><span class="chip '+chipState(task.status)+'">'+esc(task.status||'UNKNOWN')+'</span></b></div><div class="detail"><small>Confidence</small><b>'+esc(task.confidence||'—')+'</b></div><div class="detail"><small>Evidence</small><b>'+esc(sources.length)+'</b></div><div class="detail"><small>Missing Fields</small><b>'+esc(missing.join('、')||'—')+'</b></div></div>';
+ body+='<div class="grid2"><div class="card"><h2>排名轨迹</h2><div class="trend">'+hist.map(function(h){return esc(h.date)+' #'+esc(h.rank)}).join(' → ')+'</div><div class="sub">只比较同平台、同 targetKey；无前序点显示未知，不自动标 NEW。</div></div><div class="card"><h2>数据质量</h2><div>'+esc(r.dataQuality||'UNKNOWN')+'</div><div class="sub">'+(r.scopeInferred?'Legacy scope inferred：历史兼容解释，不视为强契约来源声明。':'collector scope metadata explicit')+'</div></div></div>';
+ body+='<div class="grid2"><div class="card"><h2>内容定位</h2><p>'+esc(r.synopsis||'暂无可靠数据')+'</p><p><b>题材：</b>'+esc(r.genre||'—')+'</p><p><b>赛道：</b>'+esc(r.lane||'—')+'</p><p><b>受众：</b>'+esc(r.audience||'—')+'</p></div><div class="card"><h2>深度研究</h2><p><b>故事核：</b>'+esc(r.storyCore||'—')+'</p><p><b>故事皮：</b>'+esc(r.storySkin||'—')+'</p><p><b>冲突：</b>'+esc(r.conflict||'—')+'</p><p><b>爽点：</b>'+esc(r.payoff||'—')+'</p></div></div>';
+ q('#modalBody').innerHTML=body;q('#modalBg').classList.add('open')}
+function renderDashboard(){
+ var rec=STATE.records,dates=Array.from(new Set(rec.flatMap(function(r){return (r.history||[]).map(function(h){return h.date})}))).sort(),latest=dates[dates.length-1]||'',today=rec.filter(function(r){return (r.history||[]).some(function(h){return h.date===latest})}),validRuns=latestAuthoritative(STATE.runs),complete=STATE.tasks.filter(function(t){return t.status==='COMPLETE'}).length,pending=STATE.tasks.filter(function(t){return t.status==='PENDING'}).length;
+ q('#dashboard').innerHTML='<div class="top"><div><h1>市场总览</h1><div class="sub">全数据测试前端 · 生产只读快照 · '+esc(latest)+'</div></div><div class="pill">READ ONLY</div></div><div class="stats">'+[['历史作用域剧目',rec.length,'不跨平台强合并'],['最新榜单记录',today.length,'有效 App publication'],['有效 App runs',validRuns.length,'仅完整批次'],['Research COMPLETE',complete,'formal task state'],['Research PENDING',pending,'包含历史 Web 污染'],['Official Web 行',STATE.webRows.length,'Observation only']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="grid2"><div class="card"><h2>最新榜单平台</h2><div class="list">'+groupCount(today,function(r){return r.app}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div><div class="card"><h2>Research 状态</h2><div class="list">'+groupCount(STATE.tasks,function(t){return t.status}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div></div><div class="warn">测试页不会把 Web observation 标记为 App 新剧，也不会让 incomplete/later failed run 覆盖 earlier complete run。115 条 OFFICIAL_WEB PENDING 在 Research Queue 中完整展示，但不执行。</div>';
+}
+function recordOnDate(r,date){var h=(r.history||[]).filter(function(x){return x.date===date&&String(x.app||r.app)===String(r.app)&&String(x.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')});return h[h.length-1]}
+function renderRanking(){
+ var dates=Array.from(new Set(STATE.records.flatMap(function(r){return (r.history||[]).map(function(h){return h.date})}))).sort(),latest=dates[dates.length-1]||'',rows=STATE.records.map(function(r){var h=recordOnDate(r,latest);return h?Object.assign({},r,{rank:h.rank,heat:h.heat,tags:h.tags}):null}).filter(Boolean).sort(function(a,b){return String(a.app).localeCompare(String(b.app))||String(a.targetKey).localeCompare(String(b.targetKey))||a.rank-b.rank});
+ q('#ranking').innerHTML='<div class="top"><div><h1>今日榜单</h1><div class="sub">'+esc(latest)+' · 只使用 authoritative valid App runs；排名不跨平台比较。</div></div></div><div class="table-meta"><span>'+rows.length+' 条有效榜位</span><span>NEW = JSM 首次记录上榜；没有 previous rank ≠ NEW</span></div><div class="table-wrap"><table><thead><tr><th>平台</th><th>榜单</th><th>Rank</th><th>剧名</th><th>首次记录</th><th>变化</th><th>Research</th><th>质量</th></tr></thead><tbody>'+rows.map(function(r){var hs=(r.history||[]).filter(function(h){return String(h.app||r.app)===r.app&&String(h.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')}).sort(function(a,b){return String(a.date).localeCompare(String(b.date))}),prev=hs.length>1?hs[hs.length-2]:null,move=prev?Number(prev.rank)-Number(r.rank):null,isFirst=String(r.firstDate)===latest;return '<tr><td>'+esc(r.app)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td><span class="rank">'+esc(r.rank)+'</span></td><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.firstDate||'—')+(isFirst?' <span class="chip red">FIRST SEEN</span>':'')+'</td><td>'+(move==null?'—':move>0?'↑'+move:move<0?'↓'+Math.abs(move):'→0')+'</td><td><span class="chip '+chipState((r.researchTask||{}).status)+'">'+esc((r.researchTask||{}).status||'UNKNOWN')+'</span></td><td>'+esc(r.scopeInferred?'VALID · LEGACY SCOPE':'VALID')+'</td></tr>'}).join('')+'</tbody></table></div>';
+}
+function renderHistory(){
+ var rows=STATE.records.slice().sort(function(a,b){return (b.daysOnChart||0)-(a.daysOnChart||0)});
+ q('#history').innerHTML='<div class="top"><div><h1>历史趋势</h1><div class="sub">每条趋势严格限定 platform + targetKey；不补造缺失日期。</div></div></div><div class="table-wrap"><table><thead><tr><th>剧名</th><th>平台</th><th>榜单</th><th>首次</th><th>最近</th><th>最高</th><th>采集点</th><th>轨迹</th></tr></thead><tbody>'+rows.map(function(r){var hs=(r.history||[]).filter(function(h){return String(h.app||r.app)===r.app&&String(h.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')}).sort(function(a,b){return String(a.date).localeCompare(String(b.date))});return '<tr><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.app)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td>'+esc(r.firstDate||'—')+'</td><td>'+esc(r.lastDate||'—')+'</td><td>#'+esc(r.highestRank||'—')+'</td><td>'+hs.length+'</td><td class="trend">'+hs.map(function(h){return h.date.slice(5)+' #'+h.rank}).join(' → ')+'</td></tr>'}).join('')+'</tbody></table></div>';
+}
+function renderLibrary(){
+ var rows=STATE.records.slice().sort(function(a,b){return String(a.title).localeCompare(String(b.title))});
+ q('#library').innerHTML='<div class="top"><div><h1>历史剧目库</h1><div class="sub">全部作用域记录；相同标题跨平台暂不自动合并 canonical drama。</div></div></div><div class="filters"><div class="field"><label>搜索</label><input id="libSearch"></div><div class="field"><label>平台</label><select id="libPlatform"><option value="">全部</option>'+Array.from(new Set(rows.map(function(r){return r.app}))).sort().map(function(x){return '<option>'+esc(x)+'</option>'}).join('')+'</select></div><div class="field"><label>题材</label><select id="libGenre"><option value="">全部</option>'+Array.from(new Set(rows.map(function(r){return r.genre}).filter(Boolean))).sort().map(function(x){return '<option>'+esc(x)+'</option>'}).join('')+'</select></div><div class="field"><label>Research</label><select id="libTask"><option value="">全部</option>'+Array.from(new Set(rows.map(function(r){return (r.researchTask||{}).status||'UNKNOWN'}))).sort().map(function(x){return '<option>'+esc(x)+'</option>'}).join('')+'</select></div></div><div id="libTable"></div>';
+ function draw(){var qq=q('#libSearch').value.toLowerCase(),p=q('#libPlatform').value,g=q('#libGenre').value,t=q('#libTask').value,rr=rows.filter(function(r){return(!qq||r.title.toLowerCase().includes(qq))&&(!p||r.app===p)&&(!g||r.genre===g)&&(!t||((r.researchTask||{}).status||'UNKNOWN')===t)});q('#libTable').innerHTML='<div class="table-meta"><span>'+rr.length+' / '+rows.length+' 条</span></div><div class="table-wrap"><table><thead><tr><th>剧名</th><th>平台</th><th>榜单</th><th>题材</th><th>受众</th><th>首次</th><th>最近</th><th>Research</th></tr></thead><tbody>'+rr.map(function(r){return '<tr><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.app)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td>'+esc(r.genre||'—')+'</td><td>'+esc(r.audience||'—')+'</td><td>'+esc(r.firstDate||'—')+'</td><td>'+esc(r.lastDate||'—')+'</td><td><span class="chip '+chipState((r.researchTask||{}).status)+'">'+esc((r.researchTask||{}).status||'UNKNOWN')+'</span></td></tr>'}).join('')+'</tbody></table></div>'}
+ ['libSearch','libPlatform','libGenre','libTask'].forEach(function(id){q('#'+id).addEventListener('input',draw)});draw();
+}
+function renderResearch(){
+ var rec=STATE.records,genres=groupCount(rec,function(r){return r.genre}),aud=groupCount(rec,function(r){return r.audience}),lanes=groupCount(rec.flatMap(function(r){return String(r.lane||'').split(/[\\/、,，;；|]+/).filter(Boolean)}),function(x){return x});
+ q('#research').innerHTML='<div class="top"><div><h1>题材 / 剧目研究</h1><div class="sub">只使用已有内容字段和正式 Research Task；缺失保持为空。</div></div></div><div class="grid2"><div class="card"><h2>题材分布</h2>'+genres.slice(0,12).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div><div class="card"><h2>受众分布</h2>'+aud.map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div><div class="card"><h2>高频细分元素</h2>'+lanes.slice(0,20).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div><div class="card"><h2>代表剧目（按研究字段覆盖，不跨平台排名）</h2><div class="table-wrap"><table><thead><tr><th>剧名</th><th>平台</th><th>题材</th><th>故事核</th><th>冲突</th><th>爽点</th><th>Research</th></tr></thead><tbody>'+rec.filter(function(r){return r.storyCore||r.conflict||r.payoff}).slice(0,40).map(function(r){return '<tr><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.app)+'</td><td>'+esc(r.genre||'—')+'</td><td>'+esc(r.storyCore||'—')+'</td><td>'+esc(r.conflict||'—')+'</td><td>'+esc(r.payoff||'—')+'</td><td><span class="chip '+chipState((r.researchTask||{}).status)+'">'+esc((r.researchTask||{}).status||'UNKNOWN')+'</span></td></tr>'}).join('')+'</tbody></table></div></div>';
+}
+function renderWeb(){
+ var rows=STATE.webRows;
+ q('#web').innerHTML='<div class="top"><div><h1>Official Web 采集分析</h1><div class="sub">全部 Web observation；与 App ranking 严格分层。</div></div></div><div class="stats">'+[['Web rows',rows.length,'全部历史记录'],['Platforms',new Set(rows.map(function(r){return r.platform})).size,'来源平台'],['Targets',new Set(rows.map(function(r){return r.platform+'::'+r.targetKey})).size,'采集目标'],['Valid batches',new Set(rows.filter(function(r){return r.batchValid}).map(function(r){return r.date+'::'+r.platform+'::'+r.targetKey})).size,'结构完整'],['PENDING tasks',rows.filter(function(r){return r.task&&r.task.status==='PENDING'}).length,'仅展示'],['Invalid rows',rows.filter(function(r){return !r.batchValid}).length,'不晋升 App fact']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="table-wrap"><table><thead><tr><th>日期</th><th>平台</th><th>Target</th><th>Rank</th><th>剧名</th><th>Batch</th><th>Run status</th><th>Research</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.platform)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td>'+esc(r.rank)+'</td><td>'+esc(r.title)+'</td><td><span class="chip '+(r.batchValid?'blue':'red')+'">'+(r.batchValid?'VALID':'NOT VALID')+'</span></td><td>'+esc(r.runStatus||'—')+'</td><td><span class="chip '+chipState(r.task&&r.task.status)+'">'+esc(r.task&&r.task.status||'—')+'</span></td></tr>'}).join('')+'</tbody></table></div>';
+}
+function renderQueue(){
+ var runMap=new Map(STATE.runs.map(function(r){return [String(r.id),r]})),rows=STATE.tasks;
+ q('#queue').innerHTML='<div class="top"><div><h1>Research Queue · 只读审计</h1><div class="sub">全部 '+rows.length+' 条任务；任务存在不等于执行授权。</div></div></div><div class="stats">'+['PENDING','RESEARCHING','COMPLETE','NEEDS_GPT','REVIEW_REQUIRED','FAILED'].map(function(s){var n=rows.filter(function(t){return t.status===s}).length;return '<div class="metric"><div class="label">'+s+'</div><div class="value">'+n+'</div><small>formal task state</small></div>'}).join('')+'</div><div class="table-wrap"><table><thead><tr><th>日期</th><th>平台</th><th>Rank</th><th>剧名</th><th>Source</th><th>State</th><th>Confidence</th><th>Evidence</th><th>Missing / Error</th></tr></thead><tbody>'+rows.map(function(t){var src=taskSource(t,runMap),e=Array.isArray(t.sources)?t.sources.length:0,m=(Array.isArray(t.missing_fields)?t.missing_fields:[]).join('、')||t.error||'—';return '<tr><td>'+esc(t.collection_date)+'</td><td>'+esc(t.platform)+'</td><td>'+esc(t.rank)+'</td><td>'+esc(t.title)+'</td><td><span class="chip '+(src==='OFFICIAL_WEB'?'red':'gray')+'">'+esc(src)+'</span></td><td><span class="chip '+chipState(t.status)+'">'+esc(t.status)+'</span></td><td>'+esc(t.confidence||'—')+'</td><td>'+e+'</td><td>'+esc(m)+'</td></tr>'}).join('')+'</tbody></table></div>';
+}
+function rawJson(v){return '<details><summary>完整 JSON</summary><pre style="white-space:pre-wrap;max-width:760px;max-height:280px;overflow:auto;font-size:11px">'+esc(JSON.stringify(v,null,2))+'</pre></details>'}
+function auditTable(title,subtitle,headers,rows){
+ return '<div class="card"><h2>'+esc(title)+'</h2><div class="sub" style="margin-bottom:10px">'+esc(subtitle)+'</div><div class="table-wrap"><table><thead><tr>'+headers.map(function(h){return '<th>'+esc(h)+'</th>'}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div></div>';
+}
+function fieldCoverageMatrix(){
+ var rows=[
+  ['Drama title','榜单 / 历史 / 剧目库 / 详情','analysis_runs.rows.title + data.json','READY','保留 raw title；Identity 只用于关联'],
+  ['platform','全局','analysis_runs.platform / records.app','READY','不跨平台生成总排名'],
+  ['sourceType','榜单 / Web / Queue / 审计','result_json.collector.sourceType','DERIVABLE','19 个 legacy run 为兼容推断'],
+  ['targetKey','榜单 / 历史 / Research','result_json.collector.targetKey','DERIVABLE','历史默认 daily_top_all，仅内部标记 inferred'],
+  ['rankingType','榜单 / Web / 详情','collector.rankingType','READY / LEGACY GAP','有值显示；legacy 不虚构具体榜名'],
+  ['rank','榜单 / 历史','rows.rank','READY','只使用 valid authoritative App run'],
+  ['previous rank / movement','榜单','同 scope 前一有效 observation','DERIVABLE','无 previous 显示 —，不自动 NEW'],
+  ['first seen App ranking','榜单 / 详情','同 scope 最早 observation','DERIVABLE','测试页称首次记录上榜，不替代最终 Newness 契约'],
+  ['posterUrl','剧目详情','row/override/research 中已有 posterUrl','MISSING / OPTIONAL','缺失占位；禁止跨平台 title fallback'],
+  ['genre / audience / lane','Research / 详情','overrides / research_json / base','PRESENT','缺失显示 —，不自动补网'],
+  ['storyCore / storySkin / conflict / payoff','Research / 详情','research_json / overrides','PRESENT','仅展示已有研究结果'],
+  ['Research Task State','榜单 / 详情 / Queue','research_tasks.status','READY','六状态原样展示'],
+  ['Research confidence','详情 / Queue','research_tasks.confidence','READY','不用于 UI 自行升级 COMPLETE'],
+  ['Research evidence','详情 / Queue','research_tasks.sources','READY','显示数量；无证据保留风险'],
+  ['Research missing fields','详情 / Queue','research_tasks.missing_fields','READY','optional 缺失不自动判假 COMPLETE'],
+  ['batchComplete / Batch Validity','榜单 / Web / 审计','analysis_runs.result_json','READY','TopN/rank/title 完整校验后才发布 App ranking'],
+  ['Authoritative Run','榜单 / 历史','date+platform+sourceType+targetKey','DERIVABLE','latest structurally complete wins'],
+  ['collection job state','Web / 审计','collection_jobs.status','READY','与 Research 状态分离'],
+  ['source registry / target config','审计','source_registry / collection_targets','READY','只读显示，不修改配置'],
+  ['Drama canonical content identity','审计 / 详情','Integration Identity Contract','BLOCKED_BY_CONTRACT','当前测试仅 publication scope identity，不跨平台合并']
+ ];
+ return '<div class="card"><h2>Frontend Field Coverage Matrix</h2><div class="sub" style="margin-bottom:10px">页面字段 → 当前真实来源 → 可用性 → V1处理。用于检查“有字段”与“字段语义可信”不是一回事。</div><div class="table-wrap"><table style="min-width:1100px"><thead><tr><th>字段</th><th>页面</th><th>真实来源</th><th>状态</th><th>V1处理</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td><b>'+esc(r[0])+'</b></td><td>'+esc(r[1])+'</td><td>'+esc(r[2])+'</td><td><span class="chip '+(String(r[3]).indexOf('BLOCKED')>=0?'red':String(r[3]).indexOf('MISSING')>=0?'amber':'blue')+'">'+esc(r[3])+'</span></td><td>'+esc(r[4])+'</td></tr>'}).join('')+'</tbody></table></div></div>';
+}
+function renderRawDatasets(){
+ var targetMap=new Map(STATE.targets.map(function(t){return [String(t.id),t]}));
+ var runRows=STATE.runs.map(function(r){var result=r.result_json||{},rows=Array.isArray(result.rows)?result.rows:[];return '<tr><td>'+esc(r.collection_date)+'</td><td>'+esc(r.platform)+'</td><td>'+esc(sourceType(r))+'</td><td>'+esc(targetKey(r))+'</td><td>'+esc(r.status||'—')+'</td><td>'+esc(result.batchComplete==null?'—':String(result.batchComplete))+'</td><td>'+rows.length+'</td><td><span class="chip '+(validBatch(r)?'blue':'red')+'">'+(validBatch(r)?'VALID':'NOT VALID')+'</span></td><td>'+esc(r.updated_at||'')+'</td><td>'+rawJson(r)+'</td></tr>'});
+ var jobRows=STATE.jobs.map(function(j){var t=targetMap.get(String(j.target_id))||{};return '<tr><td>'+esc(j.collection_date)+'</td><td>'+esc(t.source_name||j.target_id)+'</td><td>'+esc(t.target_key||'—')+'</td><td><span class="chip '+(j.status==='SUCCEEDED'?'blue':j.status==='FAILED'?'red':'amber')+'">'+esc(j.status||'—')+'</span></td><td>'+esc(j.extracted_row_count==null?'—':j.extracted_row_count)+'</td><td>'+esc(j.evidence_count==null?'—':j.evidence_count)+'</td><td>'+esc(j.error||'—')+'</td><td>'+rawJson(j)+'</td></tr>'});
+ var targetRows=STATE.targets.map(function(t){return '<tr><td>'+esc(t.source_name||'')+'</td><td>'+esc(t.source_group||'')+'</td><td>'+esc(t.target_key||'')+'</td><td>'+esc(t.ranking_type||'')+'</td><td>'+esc(t.category||'')+'</td><td>'+esc(t.top_n==null?'—':t.top_n)+'</td><td>'+esc(t.collection_method||'')+'</td><td>'+esc(String(t.enabled))+'</td><td>'+rawJson(t)+'</td></tr>'});
+ var sourceRows=STATE.sources.map(function(x){return '<tr><td>'+esc(x.name||'')+'</td><td>'+esc(x.source_group||'')+'</td><td>'+esc(Array.isArray(x.access_surfaces)?x.access_surfaces.join(' / '):x.access_surfaces||'')+'</td><td>'+esc(x.primary_collection_method||'')+'</td><td>'+esc(x.adapter_key||'')+'</td><td>'+esc(x.region_scope||'')+'</td><td>'+esc(String(x.enabled))+'</td><td>'+rawJson(x)+'</td></tr>'});
+ var overrideRows=STATE.overrides.map(function(o){var fields=o.fields_json&&typeof o.fields_json==='object'?Object.keys(o.fields_json):[];return '<tr><td>'+esc(o.drama_id||'')+'</td><td>'+esc(fields.join('、')||'—')+'</td><td>'+fields.length+'</td><td>'+esc(o.updated_at||'')+'</td><td>'+rawJson(o)+'</td></tr>'});
+ return auditTable('analysis_runs · 全量 36','原始运行全部展示；只有通过结构校验且属于 App ranking 的 run 才进入正式榜单。',['日期','平台','Source','Target','状态','batchComplete','Rows','Validity','更新时间','原始记录'],runRows)
+  +auditTable('collection_jobs · 全量 15','采集状态机独立展示，不把 SUCCEEDED 等同于 Research COMPLETE。',['日期','来源/目标','TargetKey','Job State','Rows','Evidence','Error','原始记录'],jobRows)
+  +auditTable('collection_targets · 全量 20','采集目标配置只读展示。',['Source','Group','TargetKey','RankingType','Category','TopN','Method','Enabled','原始记录'],targetRows)
+  +auditTable('source_registry · 全量 16','App / Official Web / 其他来源维度分开。',['Name','Group','Access','Method','Adapter','Region','Enabled','原始记录'],sourceRows)
+  +auditTable('drama_overrides · 全量 104','研究/人工覆盖字段只读展示；不在测试页写回。',['Drama ID','字段','字段数','更新时间','原始记录'],overrideRows);
+}
+function renderAudit(){
+ var runs=STATE.runs,legacy=runs.filter(scopeInferred),bad=runs.filter(function(r){return !validBatch(r)}),good=latestAuthoritative(runs),sameTitle=new Map();
+ STATE.records.forEach(function(r){var k=norm(r.title),set=sameTitle.get(k)||new Set();set.add(r.app);sameTitle.set(k,set)});
+ var multi=Array.from(sameTitle.entries()).filter(function(x){return x[1].size>1});
+ q('#audit').innerHTML='<div class="top"><div><h1>数据审计</h1><div class="sub">红蓝对抗视图：区分原始 run、权威 publication、Research 状态和 Identity 风险。</div></div></div><div class="stats">'+[['analysis_runs',runs.length,'原始运行'],['authoritative App runs',good.length,'发布候选'],['invalid / incomplete runs',bad.length,'不得覆盖'],['legacy scope inferred',legacy.length,'兼容历史'],['cross-platform same title',multi.length,'不自动合并'],['research tasks',STATE.tasks.length,'正式状态机']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="grid2"><div class="card"><h2>红队风险</h2><div class="warn">Legacy runs 缺 collector scope metadata；页面仅做历史兼容解释。跨平台同名不自动合并。Web PENDING 不自动执行。COMPLETE 仅展示 DB 状态与证据，不由 UI 自行升级。</div></div><div class="card"><h2>蓝队防线</h2><div class="ok">榜单只选择 latest structurally complete same-scope App run；later incomplete/failed 不覆盖。Research 投影绑定 platform + targetKey + title；Official Web task 绑定 analysis_run_id。Poster 缺失使用占位图，不跨平台按标题补图。</div></div></div><div class="card"><h2>跨平台同名候选</h2><div class="list">'+multi.slice(0,50).map(function(x){return '<div class="row"><span>'+esc(x[0])+'</span><b>'+esc(Array.from(x[1]).join(' / '))+'</b></div>'}).join('')+'</div></div>'+fieldCoverageMatrix()+renderRawDatasets();
+}
+async function load(){
+ var paths=['data.json','testdata/analysis_runs.json','testdata/research_tasks.json','testdata/drama_overrides.json','testdata/collection_jobs.json','testdata/collection_targets.json','testdata/source_registry.json'];
+ var vals=await Promise.all(paths.map(function(p){return fetch(p,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(p+' HTTP '+r.status);return r.json()})}));
+ STATE.base=vals[0];STATE.runs=vals[1];STATE.tasks=vals[2];STATE.overrides=vals[3];STATE.jobs=vals[4];STATE.targets=vals[5];STATE.sources=vals[6];
+ STATE.records=buildRecords(STATE.base,STATE.runs,STATE.tasks,STATE.overrides);STATE.webRows=buildWeb(STATE.runs,STATE.tasks);
+ renderDashboard();renderRanking();renderHistory();renderLibrary();renderResearch();renderWeb();renderQueue();renderAudit();
+ q('#snapshotTime').textContent='快照内容：'+STATE.runs.length+' runs / '+STATE.tasks.length+' tasks / '+STATE.overrides.length+' overrides';
+}
+q('#nav').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(b)view(b.dataset.view)});
+document.addEventListener('click',function(e){var b=e.target.closest('[data-open]');if(b)openDetail(b.dataset.open)});
+q('#closeModal').addEventListener('click',function(){q('#modalBg').classList.remove('open')});q('#modalBg').addEventListener('click',function(e){if(e.target.id==='modalBg')q('#modalBg').classList.remove('open')});
+load().catch(function(err){q('#dashboard').innerHTML='<div class="warn">测试数据加载失败：'+esc(err.message)+'</div>';console.error(err)});
+</script>
+</body>
+</html>
