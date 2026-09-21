@@ -36,6 +36,7 @@ create table public.research_tasks (
   research_json jsonb not null default '{}'::jsonb,
   sources jsonb not null default '[]'::jsonb,
   confidence text not null default '',
+  created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   error text not null default ''
 );
