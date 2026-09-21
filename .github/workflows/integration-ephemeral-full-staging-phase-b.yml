@@ -1,0 +1,271 @@
+# Validation-only. Zero production writes and zero paid staging resources.
+name: JSM Ephemeral Full Integration Staging Phase B
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - app.py
+      - persistence.py
+      - research_worker.py
+      - research_guard.py
+      - research_validation.py
+      - research_writeback.py
+      - collector_import.py
+      - app_collector_evidence.py
+      - integration_ephemeral_persistence_server.py
+      - integration_phase_b_research_driver.py
+      - 'tests/sql/**'
+      - 'tests/fixtures/**'
+      - .github/workflows/integration-ephemeral-full-staging-phase-b.yml
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
+    paths:
+      - app.py
+      - persistence.py
+      - research_worker.py
+      - research_guard.py
+      - research_validation.py
+      - research_writeback.py
+      - collector_import.py
+      - app_collector_evidence.py
+      - integration_ephemeral_persistence_server.py
+      - integration_phase_b_research_driver.py
+      - 'tests/sql/**'
+      - 'tests/fixtures/**'
+      - .github/workflows/integration-ephemeral-full-staging-phase-b.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  INTEGRATION_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+concurrency:
+  group: jsm-ephemeral-full-integration-staging-phase-b
+  cancel-in-progress: true
+
+jobs:
+  full-staging-phase-b:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: jsm_phase_b
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d jsm_phase_b"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: jsm_phase_b
+      DATA_DIR: /tmp/jsm-phase-b-${{ github.run_id }}
+      PORT: "8766"
+      INTEGRATION_PERSISTENCE_PORT: "9009"
+      SUPABASE_PERSISTENCE_URL: "http://127.0.0.1:9009"
+      MONITOR_PERSISTENCE_TOKEN: "integration-phase-b-token"
+      ADMIN_USER: "admin"
+      ADMIN_PASSWORD: "integration-phase-b-admin"
+      RENDER_GIT_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      RENDER_SERVICE_NAME: "jsm-integration-phase-b"
+      JSM_READINESS_REQUIRE_PERSISTENCE: "true"
+      JSM_READINESS_REQUIRE_ANALYSIS: "false"
+      JSM_READINESS_REQUIRE_RESEARCH: "false"
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.INTEGRATION_HEAD_SHA }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Ensure PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+          fi
+          psql --version
+
+      - name: Compile Phase B integration tools
+        run: >
+          python -m py_compile
+          integration_ephemeral_persistence_server.py
+          integration_phase_b_research_driver.py
+          app.py persistence.py research_worker.py
+
+      - name: Prepare ephemeral persistence database
+        run: |
+          psql -v ON_ERROR_STOP=1 -f tests/sql/full_staging_phase_b_fixture.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/migrations/20260920_01_drama_identity_contract_v1.sql
+
+      - name: Start local persistence-compatible service
+        shell: bash
+        run: |
+          set -euo pipefail
+          python integration_ephemeral_persistence_server.py > /tmp/jsm-phase-b-persistence.log 2>&1 &
+          echo $! > /tmp/jsm-phase-b-persistence.pid
+          for i in $(seq 1 30); do
+            if curl --fail --silent "http://127.0.0.1:$INTEGRATION_PERSISTENCE_PORT/health" >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/jsm-phase-b-persistence.log
+          exit 1
+
+      - name: Start actual JSM application with required remote persistence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$DATA_DIR"
+          python app.py --host 127.0.0.1 --port "$PORT" --no-open > /tmp/jsm-phase-b-app.log 2>&1 &
+          echo $! > /tmp/jsm-phase-b-app.pid
+          for i in $(seq 1 30); do
+            code=$(curl --silent --output /tmp/phase-b-ready.json --write-out "%{http_code}" "http://127.0.0.1:$PORT/ready" || true)
+            if [ "$code" = "200" ]; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/phase-b-ready.json || true
+          cat /tmp/jsm-phase-b-app.log
+          exit 1
+
+      - name: Import real MoboReels App fixture through HTTP and persistence protocol
+        run: |
+          python - <<'PY'
+          import base64, json, os, urllib.request
+
+          payload = json.load(open('tests/fixtures/collector_output_moboreels_v3_20260917.json', encoding='utf-8'))
+          raw = json.dumps(payload, ensure_ascii=False).encode('utf-8')
+          auth = base64.b64encode(
+              f"{os.environ['ADMIN_USER']}:{os.environ['ADMIN_PASSWORD']}".encode()
+          ).decode()
+          req = urllib.request.Request(
+              f"http://127.0.0.1:{os.environ['PORT']}/api/admin/collector-import",
+              data=raw,
+              headers={
+                  'Content-Type': 'application/json',
+                  'Authorization': 'Basic ' + auth,
+              },
+              method='POST',
+          )
+          with urllib.request.urlopen(req, timeout=20) as response:
+              body = json.loads(response.read().decode('utf-8'))
+              assert response.status == 201, (response.status, body)
+          assert body['persistent'] is True, body
+          assert body['newTitleCount'] == 9, body
+          assert body['researchWorkerScheduled'] is False, body
+          print(json.dumps({
+              'status': 'PASS_PHASE_B_COLLECTOR_TO_REMOTE_PERSISTENCE',
+              'newTitleCount': body['newTitleCount'],
+              'persistent': body['persistent'],
+          }, ensure_ascii=False))
+          PY
+
+          pending=$(psql -A -t -c "select count(*) from public.research_tasks where status='PENDING';")
+          test "$pending" = "9"
+
+      - name: Run deterministic research stub through real queue guards and writeback
+        run: python integration_phase_b_research_driver.py
+
+      - name: Verify remote task completion, override persistence and frontend projection
+        run: |
+          python - <<'PY'
+          import json, os, urllib.request
+
+          complete = int(os.popen(
+              "psql -A -t -c \"select count(*) from public.research_tasks where status='COMPLETE';\""
+          ).read().strip())
+          overrides = int(os.popen(
+              "psql -A -t -c \"select count(*) from public.drama_overrides;\""
+          ).read().strip())
+          assert complete == 9, complete
+          assert overrides == 9, overrides
+
+          with urllib.request.urlopen(f"http://127.0.0.1:{os.environ['PORT']}/api/data", timeout=10) as response:
+              data = json.loads(response.read().decode('utf-8'))
+          record = next(
+              x for x in data['records']
+              if x.get('title') == 'Left at the Altar, Married Power'
+              and x.get('app') == 'MoboReels'
+          )
+          assert record.get('researchStatus') == '已研究', record
+          assert record.get('researchConfidence') == 'medium', record
+
+          with urllib.request.urlopen(f"http://127.0.0.1:{os.environ['PORT']}/ready", timeout=10) as response:
+              ready = json.loads(response.read().decode('utf-8'))
+          assert ready['ready'] is True, ready
+          assert ready['required']['persistence'] is True, ready
+          assert ready['checks']['persistence']['ok'] is True, ready
+
+          print(json.dumps({
+              'status': 'PASS_EPHEMERAL_FULL_STAGING_PHASE_B',
+              'persistenceProtocol': 'LOCAL_COMPATIBILITY_STUB',
+              'postgres': 'EPHEMERAL_POSTGRES_16',
+              'researchProvider': 'DETERMINISTIC_STUB_NOT_REAL_PROVIDER',
+              'completeTasks': complete,
+              'persistedOverrides': overrides,
+              'frontendResearchProjected': True,
+          }, ensure_ascii=False))
+          PY
+
+      - name: Prove required persistence failure is visible
+        shell: bash
+        run: |
+          set -euo pipefail
+          kill "$(cat /tmp/jsm-phase-b-persistence.pid)"
+          wait "$(cat /tmp/jsm-phase-b-persistence.pid)" 2>/dev/null || true
+          sleep 1
+          code=$(curl --silent --output /tmp/phase-b-dependency-failure.json --write-out "%{http_code}"             "http://127.0.0.1:$PORT/ready" || true)
+          cat /tmp/phase-b-dependency-failure.json
+          test "$code" = "503"
+          python - <<'PY'
+          import json
+          data=json.load(open('/tmp/phase-b-dependency-failure.json',encoding='utf-8'))
+          assert data['ready'] is False, data
+          assert data['checks']['persistence']['required'] is True, data
+          assert data['checks']['persistence']['configured'] is True, data
+          assert data['checks']['persistence']['ok'] is False, data
+          print('PASS_PHASE_B_FAIL_VISIBLE_PERSISTENCE_OUTAGE')
+          PY
+
+      - name: Stop isolated application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/jsm-phase-b-app.pid ]; then
+            kill "$(cat /tmp/jsm-phase-b-app.pid)" || true
+          fi
+          if [ -f /tmp/jsm-phase-b-persistence.pid ]; then
+            kill "$(cat /tmp/jsm-phase-b-persistence.pid)" || true
+          fi
+
+      - name: Upload Phase B logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsm-ephemeral-full-staging-phase-b-${{ github.run_id }}
+          path: |
+            /tmp/jsm-phase-b-app.log
+            /tmp/jsm-phase-b-persistence.log
+            /tmp/phase-b-ready.json
+            /tmp/phase-b-dependency-failure.json
+          if-no-files-found: warn
+          retention-days: 14
