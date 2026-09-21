@@ -6,6 +6,7 @@ import re
 from datetime import datetime, timezone
 
 from drama_identity import normalize_title
+from state_semantics import analysis_run_status_for
 from app_collector_evidence import app_collector_evidence_error
 from source_semantics import source_semantics_error
 from web_promotion_gate import web_promotion_error
@@ -316,7 +317,10 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         'collector': collector_meta,
         'importedAt': datetime.now(timezone.utc).isoformat(),
     }
-    status = ('已采集' if source_type != 'SHORT_DRAMA_APP' else ('已识别-待深研' if new_titles else '已分析'))
+    status = analysis_run_status_for(
+        source_type=source_type,
+        has_new_titles=bool(new_titles),
+    )
     return {
         'runId': run_id,
         'collectionDate': collection_date,
