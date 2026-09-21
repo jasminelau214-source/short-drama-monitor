@@ -1,13 +1,28 @@
 param(
-    [string]$BaseUrl = "https://short-drama-monitor.onrender.com",
+    [string]$BaseUrl = "http://127.0.0.1:4173",
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
     [string]$Root = "D:\ShortDramaCollector",
     [string]$ManifestPath = "",
-    [int]$MaxCollectorAgeMinutes = 90
+    [int]$MaxCollectorAgeMinutes = 90,
+    [switch]$AllowProductionWrite
 )
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+try {
+    $targetUri = [Uri]$BaseUrl
+}
+catch {
+    throw "SYNC_BASE_URL_INVALID: $BaseUrl"
+}
+if ($targetUri.Scheme -notin @("http","https")) {
+    throw "SYNC_BASE_URL_SCHEME_INVALID: $($targetUri.Scheme)"
+}
+$productionHosts = @("short-drama-monitor.onrender.com")
+if (($productionHosts -contains $targetUri.Host) -and -not $AllowProductionWrite.IsPresent) {
+    throw "PRODUCTION_WRITE_BLOCKED: pass -AllowProductionWrite explicitly to target $($targetUri.Host)"
+}
 
 function Get-CollectorJsonFiles {
     $dateDir = Join-Path $Root $CollectionDate
