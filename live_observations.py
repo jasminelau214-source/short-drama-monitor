@@ -32,7 +32,6 @@ _apply_runtime_ui_patch()
 from live_observations_v2 import build_live_summary as _build_live_summary
 from live_observations_v2 import merge_analysis_records as _merge_analysis_records
 import persistence
-import test_snapshot
 
 
 def _platform_slug(platform):
@@ -175,13 +174,10 @@ def _build_web_collection(monitoring):
     jobs = monitoring.get('jobs') or []
 
     task_by_key = {}
-    if test_snapshot.available():
-        tasks = test_snapshot.list_research_tasks(limit=500)
-    else:
-        try:
-            tasks = persistence.list_research_tasks(limit=500)
-        except Exception:
-            tasks = []
+    try:
+        tasks = persistence.list_research_tasks(limit=500)
+    except Exception:
+        tasks = []
     for task in tasks:
         if str(task.get('collection_date') or '') != collection_date:
             continue
@@ -289,20 +285,7 @@ def build_live_summary(records, platform_order, clean, split_lane):
         'targetStatus': [],
         'jobs': [],
     }
-    if test_snapshot.available():
-        remote = test_snapshot.monitoring_status()
-        coverage = remote.get('coverage')
-        monitoring.update({
-            'available': True,
-            'collectionDate': str(remote.get('collectionDate') or ''),
-            'registry': remote.get('registry') or {},
-            'coverage': coverage,
-            'statusCounts': _coverage_status_counts(coverage, remote.get('statusCounts') or {}),
-            'targetStatus': remote.get('targetStatus') or [],
-            'jobs': remote.get('jobs') or [],
-            'sourceMode': 'READ_ONLY_PRODUCTION_SNAPSHOT',
-        })
-    elif persistence.configured():
+    if persistence.configured():
         try:
             remote = persistence.monitoring_status()
             coverage = remote.get('coverage')
