@@ -1,0 +1,259 @@
+[
+  {
+    "id": "officialweb_dramabox",
+    "name": "DramaBox Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "dramabox_official_web",
+    "homepage_url": "https://www.dramaboxdb.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可读取 Trending、Must-sees、Hidden Gems；与 App 榜单分层存储",
+    "created_at": "2026-09-16 10:27:57.100068+00",
+    "updated_at": "2026-09-16 10:27:57.100068+00"
+  },
+  {
+    "id": "officialweb_flextv",
+    "name": "FlexTV Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "flextv_official_web",
+    "homepage_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可读取Top in FlexTV，页面约100条；与App榜单分层存储",
+    "created_at": "2026-09-16 10:14:35.525195+00",
+    "updated_at": "2026-09-16 10:14:35.525195+00"
+  },
+  {
+    "id": "officialweb_goodshort",
+    "name": "GoodShort Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "goodshort_official_web",
+    "homepage_url": "https://www.goodshort.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可读取Top in GoodShort；不同locale展示顺序可能不同",
+    "created_at": "2026-09-16 10:14:35.525195+00",
+    "updated_at": "2026-09-16 10:14:35.525195+00"
+  },
+  {
+    "id": "officialweb_moboreels",
+    "name": "MoboReels Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "moboreels_official_web",
+    "homepage_url": "https://www.moboreels.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可读取Trending Series等；需记录locale，不能默认等同App榜单",
+    "created_at": "2026-09-16 10:14:35.525195+00",
+    "updated_at": "2026-09-16 10:14:35.525195+00"
+  },
+  {
+    "id": "officialweb_netshort",
+    "name": "NetShort Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "netshort_official_web",
+    "homepage_url": "https://netshort.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可读取Top10与Trending/New Releases；与App榜单分层存储",
+    "created_at": "2026-09-16 10:14:35.525195+00",
+    "updated_at": "2026-09-16 10:14:35.525195+00"
+  },
+  {
+    "id": "officialweb_reelshort",
+    "name": "ReelShort Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "reelshort_official_web",
+    "homepage_url": "https://www.reelshort.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "ReelShort 官方网页来源；与 App 榜单分层存储，不默认等同 App Daily Top",
+    "created_at": "2026-09-09 11:27:00.678549+00",
+    "updated_at": "2026-09-09 11:27:00.678549+00"
+  },
+  {
+    "id": "officialweb_shortmax",
+    "name": "ShortMax Official Web",
+    "source_group": "OFFICIAL_WEB",
+    "access_surfaces": [
+      "WEB"
+    ],
+    "primary_collection_method": "WEB_SCRAPE",
+    "adapter_key": "shortmax_official_web",
+    "homepage_url": "https://www.shorttv.live/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "V2九平台测试：官方网页可稳定读取 Most Popular 与多个题材内容区；与 App 榜单分层存储",
+    "created_at": "2026-09-16 10:27:57.100068+00",
+    "updated_at": "2026-09-16 10:27:57.100068+00"
+  },
+  {
+    "id": "shortapp_dramabox",
+    "name": "DramaBox",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "APP_AUTOMATION",
+    "adapter_key": "dramabox_app",
+    "homepage_url": "https://www.dramaboxdb.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "九平台扩容样本；App榜单口径待验证，Official Web 单独存储",
+    "created_at": "2026-09-16 10:13:50.098568+00",
+    "updated_at": "2026-09-16 10:53:13.09427+00"
+  },
+  {
+    "id": "shortapp_dramawave",
+    "name": "DramaWave",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "MANUAL_SCREENSHOT",
+    "adapter_key": "dramawave",
+    "homepage_url": null,
+    "region_scope": [],
+    "enabled": true,
+    "notes": "首批验证平台",
+    "created_at": "2026-09-09 11:18:53.624247+00",
+    "updated_at": "2026-09-09 11:18:53.624247+00"
+  },
+  {
+    "id": "shortapp_flextv",
+    "name": "FlexTV",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "APP_AUTOMATION",
+    "adapter_key": "flextv_app",
+    "homepage_url": "https://www.flextv.cc/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "九平台扩容样本；App榜单口径待验证，Official Web 单独存储",
+    "created_at": "2026-09-16 10:13:50.098568+00",
+    "updated_at": "2026-09-16 10:53:13.09427+00"
+  },
+  {
+    "id": "shortapp_freereels",
+    "name": "FreeReels",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "APP_AUTOMATION",
+    "adapter_key": "freereels_app",
+    "homepage_url": "https://free-reels.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "九平台扩容样本；公开Web无有效剧目榜单，优先App路线",
+    "created_at": "2026-09-16 10:13:50.098568+00",
+    "updated_at": "2026-09-16 10:53:13.09427+00"
+  },
+  {
+    "id": "shortapp_goodshort",
+    "name": "GoodShort",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "APP_AUTOMATION",
+    "adapter_key": "goodshort_app",
+    "homepage_url": "https://www.goodshort.com/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "九平台扩容样本；App榜单口径待验证，Official Web 单独存储",
+    "created_at": "2026-09-16 10:13:50.098568+00",
+    "updated_at": "2026-09-16 10:53:13.09427+00"
+  },
+  {
+    "id": "shortapp_moboreels",
+    "name": "MoboReels",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "MANUAL_SCREENSHOT",
+    "adapter_key": "moboreels",
+    "homepage_url": null,
+    "region_scope": [],
+    "enabled": true,
+    "notes": "首批验证平台",
+    "created_at": "2026-09-09 11:18:53.624247+00",
+    "updated_at": "2026-09-09 11:18:53.624247+00"
+  },
+  {
+    "id": "shortapp_netshort",
+    "name": "NetShort",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP",
+      "WEB"
+    ],
+    "primary_collection_method": "MANUAL_SCREENSHOT",
+    "adapter_key": "netshort",
+    "homepage_url": null,
+    "region_scope": [],
+    "enabled": true,
+    "notes": "首批验证平台",
+    "created_at": "2026-09-09 11:18:53.624247+00",
+    "updated_at": "2026-09-09 11:18:53.624247+00"
+  },
+  {
+    "id": "shortapp_reelshort",
+    "name": "ReelShort",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "MANUAL_SCREENSHOT",
+    "adapter_key": "reelshort",
+    "homepage_url": null,
+    "region_scope": [],
+    "enabled": true,
+    "notes": "首批验证平台；后续优先评估网页/APP自动采集",
+    "created_at": "2026-09-09 11:18:53.624247+00",
+    "updated_at": "2026-09-09 11:27:00.678549+00"
+  },
+  {
+    "id": "shortapp_shortmax",
+    "name": "ShortMax",
+    "source_group": "SHORT_DRAMA_APP",
+    "access_surfaces": [
+      "APP"
+    ],
+    "primary_collection_method": "APP_AUTOMATION",
+    "adapter_key": "shortmax_app",
+    "homepage_url": "https://www.shorttv.live/",
+    "region_scope": [],
+    "enabled": true,
+    "notes": "九平台扩容样本；App榜单口径待验证，Official Web 单独存储",
+    "created_at": "2026-09-16 10:13:50.098568+00",
+    "updated_at": "2026-09-16 10:53:13.09427+00"
+  }
+]
