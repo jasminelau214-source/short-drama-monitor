@@ -3,7 +3,7 @@ name: JSM Frontend All-Data Snapshot Check
 on:
   push:
     branches:
-      - test/frontend-all-data-v1-20260921
+      - test/frontend-all-data-v2-20260921
   workflow_dispatch:
 
 permissions:
