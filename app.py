@@ -364,16 +364,38 @@ def _research_task_view(task):
     }
 
 
-def _attach_research_task_projection(records):
-    if not persistence.configured():
-        return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0}
+def _research_run_source_types():
+    out = {}
     try:
-        tasks = persistence.list_research_tasks(limit=500)
-    except Exception as exc:
-        return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'errorType': type(exc).__name__}
+        with connect() as c:
+            rows = c.execute('SELECT id,result_json FROM analysis_runs').fetchall()
+    except Exception:
+        return out
+    for row in rows:
+        try:
+            raw = row['result_json']
+            result = raw if isinstance(raw, dict) else json.loads(raw or '{}')
+        except (TypeError, json.JSONDecodeError):
+            continue
+        collector = result.get('collector') if isinstance(result, dict) and isinstance(result.get('collector'), dict) else {}
+        explicit = clean(collector.get('sourceType'), 80)
+        out[clean(row['id'], 200)] = explicit or 'LEGACY_INFERRED'
+    return out
 
+
+def _select_app_research_tasks(tasks, run_source_types):
     latest = {}
+    excluded_non_app = 0
+    excluded_unknown_origin = 0
     for task in tasks:
+        run_id = clean(task.get('analysis_run_id'), 200)
+        source_type = clean(run_source_types.get(run_id), 80) or 'UNKNOWN'
+        if source_type == 'UNKNOWN':
+            excluded_unknown_origin += 1
+            continue
+        if source_type not in {'SHORT_DRAMA_APP', 'LEGACY_INFERRED'}:
+            excluded_non_app += 1
+            continue
         platform = clean(task.get('platform'), 80)
         norm = normalize_title(task.get('normalized_title') or task.get('title'))
         if not platform or not norm:
@@ -382,23 +404,43 @@ def _attach_research_task_projection(records):
         stamp = (clean(task.get('updated_at'), 80), clean(task.get('created_at'), 80), clean(task.get('id'), 120))
         previous = latest.get(key)
         if previous is None or stamp > previous[0]:
-            latest[key] = (stamp, task)
+            latest[key] = (stamp, task, source_type)
+    return latest, excluded_non_app, excluded_unknown_origin
 
+
+def _attach_research_task_projection(records):
+    if not persistence.configured():
+        return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0}
+    try:
+        tasks = persistence.list_research_tasks(limit=500)
+    except Exception as exc:
+        return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0, 'errorType': type(exc).__name__}
+
+    run_source_types = _research_run_source_types()
+    latest, excluded_non_app, excluded_unknown_origin = _select_app_research_tasks(tasks, run_source_types)
     matched = 0
     for record in records:
         key = (clean(record.get('app'), 80), normalize_title(record.get('title')))
         selected = latest.get(key)
         if selected:
-            record['researchTask'] = _research_task_view(selected[1])
+            view = _research_task_view(selected[1])
+            view['sourceType'] = selected[2]
+            record['researchTask'] = view
             matched += 1
         else:
             record['researchTask'] = {
                 'status': 'UNKNOWN', 'confidence': '', 'missingFields': [],
                 'evidenceCount': 0, 'contractValid': False, 'validationIssueCount': 0,
                 'errorCode': '', 'identityConflict': False, 'sourceConflict': False,
-                'updatedAt': '', 'collectionDate': '', 'analysisRunId': '',
+                'updatedAt': '', 'collectionDate': '', 'analysisRunId': '', 'sourceType': 'UNKNOWN',
             }
-    return {'state': 'AVAILABLE', 'taskCount': len(tasks), 'matchedRecords': matched}
+    return {
+        'state': 'AVAILABLE',
+        'taskCount': len(tasks),
+        'matchedRecords': matched,
+        'excludedNonAppTasks': excluded_non_app,
+        'excludedUnknownOrigin': excluded_unknown_origin,
+    }
 
 def public_data():
     with connect() as c:

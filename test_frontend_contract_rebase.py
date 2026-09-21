@@ -137,6 +137,25 @@ class ResearchProjectionTests(unittest.TestCase):
             'auditNotes':[],'sourceUrls':['https://example.com/evidence'],'needsGPT':False,
         }
 
+    def test_official_web_pending_cannot_override_app_complete(self):
+        tasks = [
+            {
+                'id':'app-task','analysis_run_id':'app-run','platform':'NetShort','title':'Back to 95 - Her Big Comeback',
+                'normalized_title':'backto95herbigcomeback','status':'COMPLETE','updated_at':'2026-09-17T10:00:00Z','created_at':'2026-09-17T09:00:00Z'
+            },
+            {
+                'id':'web-task','analysis_run_id':'web-run','platform':'NetShort','title':'Back to 95 - Her Big Comeback',
+                'normalized_title':'backto95herbigcomeback','status':'PENDING','updated_at':'2026-09-18T10:00:00Z','created_at':'2026-09-18T09:00:00Z'
+            },
+        ]
+        latest, excluded_non_app, excluded_unknown = app._select_app_research_tasks(
+            tasks, {'app-run':'SHORT_DRAMA_APP','web-run':'OFFICIAL_WEB'}
+        )
+        selected = latest[('NetShort', normalize_title('Back to 95 - Her Big Comeback'))]
+        self.assertEqual(selected[1]['id'], 'app-task')
+        self.assertEqual(selected[2], 'SHORT_DRAMA_APP')
+        self.assertEqual(excluded_non_app, 1)
+        self.assertEqual(excluded_unknown, 0)
     def test_complete_requires_contract_evidence(self):
         view = app._research_task_view({
             'status':'COMPLETE','research_json':self._valid_research(),

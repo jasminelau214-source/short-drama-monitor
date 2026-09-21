@@ -2233,6 +2233,7 @@
           <div class="mini-metric"><span>Confidence</span><span>${escapeHtml(String(task.confidence || '—'))}</span></div>
           <div class="mini-metric"><span>Evidence</span><span>${evidenceCount} 条</span></div>
           <div class="mini-metric"><span>Contract</span><span>${escapeHtml(contractText)}</span></div>
+          <div class="mini-metric"><span>Source</span><span>${escapeHtml(String(task.sourceType || 'UNKNOWN'))}</span></div>
         </div>
         <div class="info-grid">
           <div class="text-block"><h3>缺失字段</h3><p>${escapeHtml(missing)}</p></div>
