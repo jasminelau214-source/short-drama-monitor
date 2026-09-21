@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-09-21",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Rogue Brother's Claimed Omega"
+    },
+    {
+      "rank": 2,
+      "title": "Back With The Prince's Twins"
+    },
+    {
+      "rank": 3,
+      "title": "The Chauffeur She Cheated On Was A Billionaire"
+    },
+    {
+      "rank": 4,
+      "title": "Oops, My Father's BFF Is In My Bed"
+    },
+    {
+      "rank": 5,
+      "title": "The Prince Is A Girl: The Beast King's Captive Mate"
+    },
+    {
+      "rank": 6,
+      "title": "Miss Urologist And Her CEO Patient"
+    },
+    {
+      "rank": 7,
+      "title": "The Abandoned God Of Olympus"
+    },
+    {
+      "rank": 8,
+      "title": "Doctor by Day, Mrs. Dixon by Night"
+    },
+    {
+      "rank": 9,
+      "title": "The Billionaire's Revenge Bride"
+    },
+    {
+      "rank": 10,
+      "title": "Married The Brother, But Slept With The Don"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "ff9753327ed354d3290e6b802af013388543a512166eae8540d2d0bd50d66a07",
+    "rawHtmlFile": "pilot_evidence/2026-09-21/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-21/MoboReels.png",
+    "screenshotSha256": "0ff71a7b7d0f238d221a166acd993b93204044ed8bf6ed6aa8d903cf83a12e84"
+  },
+  "error": "",
+  "production_write": false
+}

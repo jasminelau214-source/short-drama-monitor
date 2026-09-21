@@ -1,0 +1,220 @@
+{
+  "collection_date": "2026-09-21",
+  "generated_at": "2026-09-21T17:23:42.750084+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "overall_state": "PILOT_RUNNING_STABILITY_VALIDATION",
+  "exact_web_top10_valid": 6,
+  "exact_web_top10_stable": 6,
+  "core_promotion_scope_count": 7,
+  "core_exact_web_top10_valid": 6,
+  "core_exact_web_top10_stable": 6,
+  "non_blocking_platforms": [
+    "DramaWave"
+  ],
+  "semantic_decision_platforms": [
+    "DramaWave",
+    "ShortMax"
+  ],
+  "unresolved_platforms": [],
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://www.dramaboxdb.com/channel/trending",
+      "ranking_meaning": "Trending",
+      "strategy": "verified_parser",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
+      "web_stable": true,
+      "consecutive_valid_runs": 4,
+      "evidence_summary": "official Trending page via render-singapore; HTTP 200",
+      "fallback_path": "independent cloud egress (jsm-dramabox-pilot-probe); still reads official Web source",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "DramaWave",
+      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
+      "source_url": "https://m.mydramawave.com/",
+      "ranking_meaning": "Most Trending",
+      "strategy": "browser_probe",
+      "web_rows": 6,
+      "web_status": "PARTIAL",
+      "web_stable": false,
+      "consecutive_valid_runs": 0,
+      "evidence_summary": "explicit Most Trending labels [1, 2, 3, 4, 7, 8]; rendered cards=310",
+      "fallback_path": "NONE_EQUIVALENT; H5 Popular Choices is diagnostic only, not Most Trending",
+      "rank_probe": {
+        "status": "NO_EXPLICIT_RANKS",
+        "explicit_rank_count": 0,
+        "top10_complete": false,
+        "missing_top10_ranks": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "stability": {
+          "consecutive_complete_runs": 0,
+          "path_stable": false,
+          "dates": [
+            "2026-09-19",
+            "2026-09-20",
+            "2026-09-21"
+          ],
+          "explicit_counts": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "alternate_rows": 10,
+      "alternate_target": "Popular Choices",
+      "alternate_semantic_type": "ordered_shelf_not_explicit_rank",
+      "alternate_stability": {
+        "consecutive_complete_runs": 4,
+        "path_stable": true,
+        "dates": [
+          "2026-09-19",
+          "2026-09-20",
+          "2026-09-21"
+        ]
+      },
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+    },
+    {
+      "platform": "FlexTV",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+      "ranking_meaning": "Top in FlexTV",
+      "strategy": "browser_probe",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": true,
+      "consecutive_valid_runs": 5,
+      "evidence_summary": "JSON-LD ItemList",
+      "fallback_path": "same official Web page via alternate browser profile; no cross-source substitution",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "GoodShort",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://www.goodshort.com/channel/Top-in-GoodShort",
+      "ranking_meaning": "Top in GoodShort",
+      "strategy": "verified_parser",
+      "web_rows": 10,
+      "web_status": "PASS_VERIFIED",
+      "web_stable": true,
+      "consecutive_valid_runs": 4,
+      "evidence_summary": "server-rendered official Top in GoodShort; rows=10",
+      "fallback_path": "same official page via rendered-browser adapter",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "MoboReels",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://www.moboreels.com/",
+      "ranking_meaning": "Popular Series",
+      "strategy": "browser_probe",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": true,
+      "consecutive_valid_runs": 5,
+      "evidence_summary": "MoboReels Popular Series DOM",
+      "fallback_path": "same official Web page via alternate browser profile; no cross-source substitution",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "NetShort",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://netshort.com/",
+      "ranking_meaning": "Trending Now",
+      "strategy": "browser_probe",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": true,
+      "consecutive_valid_runs": 5,
+      "evidence_summary": "JSON-LD ItemList (Trending Now)",
+      "fallback_path": "same official Web page via alternate browser profile; no cross-source substitution",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "ReelShort",
+      "source_state": "WEB_TOP10_STABLE",
+      "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+      "ranking_meaning": "TOP",
+      "strategy": "browser_probe",
+      "web_rows": 10,
+      "web_status": "PASS_CANDIDATE",
+      "web_stable": true,
+      "consecutive_valid_runs": 5,
+      "evidence_summary": "Next.js __NEXT_DATA__ pageProps.list (shelf=TOP)",
+      "fallback_path": "same official Web page via alternate browser profile; no cross-source substitution",
+      "rank_probe": null,
+      "alternate_rows": 0,
+      "alternate_target": null,
+      "alternate_semantic_type": null,
+      "alternate_stability": null,
+      "next_step": "CONTINUE_STABILITY_VALIDATION"
+    },
+    {
+      "platform": "ShortMax",
+      "source_state": "ALT_TOP10_SEMANTIC_DECISION",
+      "source_url": "https://www.shorttv.live/",
+      "ranking_meaning": "Most Popular",
+      "strategy": "browser_probe",
+      "web_rows": 7,
+      "web_status": "PARTIAL",
+      "web_stable": false,
+      "consecutive_valid_runs": 0,
+      "evidence_summary": "ShortMax live DOM Most Popular section; section-scoped DOM; rendered cards=7",
+      "fallback_path": "NONE_EQUIVALENT; playNum-derived ordering is rejected",
+      "rank_probe": null,
+      "alternate_rows": 10,
+      "alternate_target": "Catalog sorted by playNum desc",
+      "alternate_semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "alternate_stability": {
+        "consecutive_complete_runs": 4,
+        "path_stable": true,
+        "dates": [
+          "2026-09-19",
+          "2026-09-20",
+          "2026-09-21"
+        ]
+      },
+      "next_step": "CONTINUE_ALT_STABILITY_BUT_DO_NOT_PROMOTE_WITHOUT_SCOPE_CONFIRMATION"
+    }
+  ]
+}

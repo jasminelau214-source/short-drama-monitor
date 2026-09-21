@@ -1,0 +1,90 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-09-21",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Double-marked: Luna's Revenge",
+      "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+    },
+    {
+      "rank": 2,
+      "title": "Not Your Average Crow",
+      "source_url": "https://netshort.com/full-episodes/not-your-average-crow-2097959125560745985"
+    },
+    {
+      "rank": 3,
+      "title": "The Slave Who Became Dragon King",
+      "source_url": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
+    },
+    {
+      "rank": 4,
+      "title": "Back to 95 - Her Big Comeback",
+      "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+    },
+    {
+      "rank": 5,
+      "title": "My Sister’s Boyfriend Arrested Me",
+      "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+    },
+    {
+      "rank": 6,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+    },
+    {
+      "rank": 7,
+      "title": "I Spoke Baby Dragon and Won Everyone Over!",
+      "source_url": "https://netshort.com/full-episodes/i-spoke-baby-dragon-and-won-everyone-over-2094674901238480897"
+    },
+    {
+      "rank": 8,
+      "title": "The Dragon Tyrant's Secret Heir",
+      "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
+    },
+    {
+      "rank": 9,
+      "title": "The Quarterback's Comeback",
+      "source_url": "https://netshort.com/full-episodes/the-quarterbacks-comeback-2094669491412594689"
+    },
+    {
+      "rank": 10,
+      "title": "Destroy My Fiancé, Marry the Shadow Don",
+      "source_url": "https://netshort.com/full-episodes/destroy-my-fianc%C3%A9-marry-the-shadow-don-2099039971508273153"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "168b0d55ec48757c85e0d67d41aead238a5ceb47dc3df5f36dedb66cd634ac5a",
+    "rawHtmlFile": "pilot_evidence/2026-09-21/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-21/NetShort.png",
+    "screenshotSha256": "dab933ec32a3fa381cb0b5a9e6c6b797fb065f6cab0282597287398fb01e7055"
+  },
+  "error": "",
+  "production_write": false
+}

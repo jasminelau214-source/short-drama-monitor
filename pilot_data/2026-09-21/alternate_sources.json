@@ -1,0 +1,159 @@
+{
+  "collection_date": "2026-09-21",
+  "generated_at": "2026-09-21T17:23:25.576827+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "sources": [
+    {
+      "platform": "DramaWave",
+      "source_type": "OFFICIAL_H5_API_PILOT",
+      "semantic_type": "ordered_shelf_not_explicit_rank",
+      "target": "Popular Choices",
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Fierce Mommy, Twins in Tow",
+          "series_key": "3UqKLtrDiD"
+        },
+        {
+          "position": 2,
+          "title": "The Secretary's Secret",
+          "series_key": "sY2pGtoUX0"
+        },
+        {
+          "position": 3,
+          "title": "The CEO's Contract Lover",
+          "series_key": "0XYaRJcWUz"
+        },
+        {
+          "position": 4,
+          "title": "Rise, Starting from Mastering Time",
+          "series_key": "ds1V6NictN"
+        },
+        {
+          "position": 5,
+          "title": "The CEO's Wild Wife",
+          "series_key": "r0ppC2o2Cq"
+        },
+        {
+          "position": 6,
+          "title": "Forcibly Wed: The Haughty CEO's Unwilling Bride",
+          "series_key": "0Ghg4EHtkN"
+        },
+        {
+          "position": 7,
+          "title": "Arranged to Wed, Chosen to Love(Dubbed)",
+          "series_key": "u7CjvlHhts"
+        },
+        {
+          "position": 8,
+          "title": "Young Master's Bold Breakout",
+          "series_key": "LwF3jYATtX"
+        },
+        {
+          "position": 9,
+          "title": "Rebirth Before Dawn",
+          "series_key": "IKrIHr6zIf"
+        },
+        {
+          "position": 10,
+          "title": "Wearing His First Love's Face",
+          "series_key": "aX5FuacnyI"
+        }
+      ],
+      "production_write": false,
+      "notes": "Anonymous H5 API exposes 10 ordered Popular Choices items; this is not the same as the webpage's explicit Most Trending labels.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    },
+    {
+      "platform": "ShortMax",
+      "source_type": "OFFICIAL_WEB_API_PILOT",
+      "semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "target": "Catalog sorted by playNum desc",
+      "catalog_total": 1052,
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Matchmaker for the Demon King",
+          "short_play_id": 33005,
+          "play_num": 289737,
+          "collect_num": 96579
+        },
+        {
+          "position": 2,
+          "title": "My Body Shared With a Detective in Republican China",
+          "short_play_id": 34281,
+          "play_num": 289716,
+          "collect_num": 96572
+        },
+        {
+          "position": 3,
+          "title": "Swapped Twin Babies: My Silent Billionaire Baby Daddy",
+          "short_play_id": 31222,
+          "play_num": 289692,
+          "collect_num": 96564
+        },
+        {
+          "position": 4,
+          "title": "The Demon Queen's Reluctant Groom",
+          "short_play_id": 31812,
+          "play_num": 289239,
+          "collect_num": 96413
+        },
+        {
+          "position": 5,
+          "title": "Fake Sweetheart on the Show",
+          "short_play_id": 32999,
+          "play_num": 288690,
+          "collect_num": 96230
+        },
+        {
+          "position": 6,
+          "title": "My Own Family Swapped Out My Mafia Heir（醉）",
+          "short_play_id": 32741,
+          "play_num": 287175,
+          "collect_num": 95725
+        },
+        {
+          "position": 7,
+          "title": "Chasing Love",
+          "short_play_id": 36517,
+          "play_num": 268905,
+          "collect_num": 89635
+        },
+        {
+          "position": 8,
+          "title": "Don't Touch the Alpha Queen's daughter",
+          "short_play_id": 32796,
+          "play_num": 268752,
+          "collect_num": 89584
+        },
+        {
+          "position": 9,
+          "title": "He gave me a steed，I promised him my lifetime",
+          "short_play_id": 31960,
+          "play_num": 265746,
+          "collect_num": 88582
+        },
+        {
+          "position": 10,
+          "title": "The Blind Bride's Vengeance",
+          "short_play_id": 31166,
+          "play_num": 262992,
+          "collect_num": 87664
+        }
+      ],
+      "production_write": false,
+      "notes": "The official API exposes a catalog and playNum metrics, but no verified Most Popular rank endpoint. Sorting by playNum is a derived metric and must not replace the Web shelf without confirmation.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    }
+  ]
+}

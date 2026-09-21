@@ -1,0 +1,81 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-09-21",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Altarboy"
+    },
+    {
+      "rank": 2,
+      "title": "Take Me Back to the Night We Met"
+    },
+    {
+      "rank": 3,
+      "title": "The Hockey Captain That Hates Me"
+    },
+    {
+      "rank": 4,
+      "title": "You've Been Replaced, First Love"
+    },
+    {
+      "rank": 5,
+      "title": "High Society"
+    },
+    {
+      "rank": 6,
+      "title": "Move Aside! I'm the Final Boss"
+    },
+    {
+      "rank": 7,
+      "title": "Salt Kiss"
+    },
+    {
+      "rank": 8,
+      "title": "Brothers in Arms"
+    },
+    {
+      "rank": 9,
+      "title": "Art of Falling in Love"
+    },
+    {
+      "rank": 10,
+      "title": "Mistaken as His Mate: The Luna’s Regret"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "4a3d60e2fb02261fb91b27eea1a28842de064a7a6032f3a91cb8e1b1c1ca6ca5",
+    "rawHtmlFile": "pilot_evidence/2026-09-21/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-21/ReelShort.png",
+    "screenshotSha256": "1a2b07d15d90cb32114f16e136ed5d247440827af3522e724932112bdfe37319"
+  },
+  "error": "",
+  "production_write": false
+}
