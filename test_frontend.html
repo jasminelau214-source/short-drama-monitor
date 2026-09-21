@@ -52,7 +52,16 @@ var STATE={};
 function q(s){return document.querySelector(s)}
 function qa(s){return Array.from(document.querySelectorAll(s))}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-function norm(v){return String(v||'').toLowerCase().replace(/\\([^)]*(dubbed|english dub)[^)]*\\)/g,'').replace(/\\b(dubbed|english dub)\\b/g,'').replace(/[^a-z0-9]+/g,'')}
+function stripReleaseMarkers(v){
+ var text=String(v||'').toLowerCase().trim();if(!text)return '';
+ text=text.replace(/^\s*[\[(（［【]\s*(?:(?:eng(?:lish)?\s+)?dub(?:bed)?)\s*[\])）］】]\s*[:|–—-]*\s*/i,'');
+ text=text.replace(/\s*[:|–—-]*\s*[\[(（［【]\s*(?:(?:eng(?:lish)?\s+)?dub(?:bed)?)\s*[\])）］】]\s*$/i,'');
+ text=text.replace(/^\s*(?:(?:eng(?:lish)?\s+)dub(?:bed)?\b\s*[:|–—-]+\s*|(?:eng(?:lish)?\s+)dub(?:bed)?\b\s+)/i,'');
+ text=text.replace(/\s*[:|–—-]+\s*dub(?:bed)?\s*$/i,'');
+ text=text.replace(/\s+(?:eng(?:lish)?\s+)dub(?:bed)?\s*$/i,'');
+ return text.trim();
+}
+function norm(v){return stripReleaseMarkers(v).replace(/[^a-z0-9]+/g,'')}
 function sourceType(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.sourceType||'SHORT_DRAMA_APP')}
 function targetKey(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.targetKey||'daily_top_all')}
 function rankingType(run){var c=(run.result_json&&run.result_json.collector)||{};return String(c.rankingType||'主榜')}
@@ -77,8 +86,9 @@ function latestTaskMap(tasks,runs){
  var runMap=new Map(runs.map(function(r){return [String(r.id),r]})),m=new Map();
  tasks.forEach(function(t){
   var run=runMap.get(String(t.analysis_run_id)),src=run?sourceType(run):'UNKNOWN';
-  if(src!=='SHORT_DRAMA_APP'&&src!=='LEGACY_INFERRED')return;
-  var k=String(t.platform||'')+'::'+norm(t.normalized_title||t.title),p=m.get(k);
+  if(src!=='SHORT_DRAMA_APP')return;
+  var tk=run?targetKey(run):'';
+  var k=String(t.platform||'')+'::'+tk+'::'+norm(t.normalized_title||t.title),p=m.get(k);
   if(!p||String(t.updated_at||'')>String(p.updated_at||''))m.set(k,t);
  });
  return m;
@@ -111,17 +121,17 @@ function buildRecords(base,runs,tasks,overrides){
   });
  });
  var tm=latestTaskMap(tasks,runs);
- recMap.forEach(function(r){applyResearch(r,tm.get(String(r.app)+'::'+norm(r.title)));r.firstSeenAppRanking=r.firstDate||'';r.appRankingNewness='RECORDED_FIRST_SEEN'});
+ recMap.forEach(function(r){applyResearch(r,tm.get(String(r.app)+'::'+String(r.targetKey||'daily_top_all')+'::'+norm(r.title)));r.firstSeenAppRanking=r.firstDate||'';r.appRankingNewness='RECORDED_FIRST_SEEN'});
  return Array.from(recMap.values());
 }
 function taskSource(t,runMap){var r=runMap.get(String(t.analysis_run_id));return r?sourceType(r):'UNKNOWN'}
 function buildWeb(runs,tasks){
- var runMap=new Map(runs.map(function(r){return [String(r.id),r]})),taskBy=new Map();
- tasks.forEach(function(t){var k=String(t.collection_date)+'::'+String(t.platform)+'::'+norm(t.title);taskBy.set(k,t)});
+ var taskBy=new Map();
+ tasks.forEach(function(t){taskBy.set(String(t.analysis_run_id)+'::'+norm(t.title),t)});
  var rows=[];
  runs.filter(function(r){return sourceType(r)==='OFFICIAL_WEB'}).forEach(function(run){
   var rr=(run.result_json&&run.result_json.rows)||[],tk=targetKey(run),rt=rankingType(run),valid=validBatch(run);
-  rr.forEach(function(x,i){var t=taskBy.get(String(run.collection_date)+'::'+String(run.platform)+'::'+norm(x.title));rows.push({date:run.collection_date,platform:run.platform,targetKey:tk,rankingType:rt,rank:Number(x.rank||x.position||i+1),title:x.title,tags:Array.isArray(x.tags)?x.tags.join(', '):(x.tags||''),metrics:x.metrics||{},batchComplete:run.result_json.batchComplete===true,batchValid:valid,runStatus:run.status,task:t||null})});
+  rr.forEach(function(x,i){var t=taskBy.get(String(run.id)+'::'+norm(x.title));rows.push({date:run.collection_date,platform:run.platform,targetKey:tk,rankingType:rt,rank:Number(x.rank||x.position||i+1),title:x.title,tags:Array.isArray(x.tags)?x.tags.join(', '):(x.tags||''),metrics:x.metrics||{},batchComplete:run.result_json.batchComplete===true,batchValid:valid,runStatus:run.status,task:t||null,analysisRunId:run.id})});
  });
  return rows;
 }
