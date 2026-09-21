@@ -109,6 +109,16 @@ class PowerShellCollectorStaticContractTests(unittest.TestCase):
         self.assertIn('Rank conflict #', self.mobo)
         self.assertIn('rank_conflicts = @($rankConflicts)', self.mobo)
 
+    def test_ui_evidence_commands_have_hard_timeout(self):
+        for script in (self.net, self.mobo):
+            self.assertIn('UiDumpTimeoutSec = 10', script)
+            self.assertIn('function Invoke-AdbWithTimeout', script)
+            self.assertIn('-TimeoutSec $UiDumpTimeoutSec', script)
+            self.assertIn('$dumpResult.TimedOut', script)
+            self.assertIn('$pullResult.TimedOut', script)
+            self.assertIn('$dumpResult.ExitCode -ne 0', script)
+            self.assertIn('$pullResult.ExitCode -ne 0', script)
+
     def test_audit_failure_returns_nonzero(self):
         for script in (self.net, self.mobo):
             self.assertIn('RESULT: AUDIT_FAILED', script)
