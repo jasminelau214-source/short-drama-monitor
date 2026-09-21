@@ -516,7 +516,7 @@ $rows | ForEach-Object {
 
 Write-Host ""
 Write-Host "==============================" -ForegroundColor Cyan
-Write-Host "NetShort Collector V5 complete" -ForegroundColor Cyan
+Write-Host "NetShort Collector V6 complete" -ForegroundColor Cyan
 Write-Host "==============================" -ForegroundColor Cyan
 Write-Host "Rows: $($rows.Count)"
 Write-Host "Complete: $complete"
