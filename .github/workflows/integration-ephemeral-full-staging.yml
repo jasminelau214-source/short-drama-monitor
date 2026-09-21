@@ -23,6 +23,27 @@ on:
       - integration_render_smoke.py
       - .github/workflows/integration-contract-gate.yml
       - .github/workflows/integration-ephemeral-full-staging.yml
+  pull_request:
+    branches:
+      - main
+    paths:
+      - app.py
+      - collector_import.py
+      - drama_identity.py
+      - live_observations.py
+      - live_observations_v2.py
+      - 'research_*.py'
+      - persistence.py
+      - ranking_lifecycle.py
+      - 'source_*.py'
+      - render.yaml
+      - requirements.txt
+      - 'tests/**'
+      - 'test_*.py'
+      - 'windows/**'
+      - integration_render_smoke.py
+      - .github/workflows/integration-contract-gate.yml
+      - .github/workflows/integration-ephemeral-full-staging.yml
   workflow_dispatch:
 
 permissions:
@@ -72,6 +93,7 @@ jobs:
             'windows/collectors/netshort_collector_v6.ps1',
             'windows/collectors/moboreels_collector_v3.ps1',
             'windows/collector_sync.ps1',
+            'windows/run_app_collect_and_sync.ps1',
             'windows/run_web_collect_and_sync.ps1',
             'windows/scheduled_web_collect.ps1'
           )
@@ -94,6 +116,7 @@ jobs:
           python -m unittest -v
           test_golden_publication_e2e.py
           test_golden_local_http_e2e.py
+          test_app_collect_sync_contract.py
           test_web_sync_contract.py
           test_readiness_contract.py
 
