@@ -35,6 +35,9 @@ class LiveObservationsV2Tests(unittest.TestCase):
     def connect(self):
         return self.db
 
+    def tearDown(self):
+        self.db.close()
+
     def add_run(self, run_id, platform, top_n=20, source_type='SHORT_DRAMA_APP', target='daily_top_all'):
         rows = [
             {'rank': i, 'title': f'{platform} Title {i}', 'tags': ['Fantasy'], 'metrics': {'views': f'{i}K'}}
