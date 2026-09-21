@@ -1,0 +1,1343 @@
+[
+  {
+    "id": "50c101f2-b86c-42d3-858d-462f9ba59aa3",
+    "target_id": "985a8864-62ba-4740-8545-cd9a472ec030",
+    "collection_date": "2026-09-09",
+    "status": "SUCCEEDED",
+    "collector_version": "reelshort_official_web.py@c7b3bdc",
+    "evidence_count": 1,
+    "extracted_row_count": 10,
+    "error": "",
+    "started_at": "2026-09-09 11:30:37.48194+00",
+    "finished_at": "2026-09-09 11:30:37.48194+00",
+    "created_at": "2026-09-09 11:30:37.48194+00",
+    "result_json": {
+      "source_id": "officialweb_reelshort",
+      "target_key": "web_top_all_pilot",
+      "http_status": 200,
+      "source_group": "OFFICIAL_WEB",
+      "batch_complete": true,
+      "candidate_titles": [
+        "Altarboy",
+        "You've Been Replaced, First Love",
+        "A Zombie Girl’s Journey Home",
+        "My X-Ray Vision Sees Right Through You",
+        "The Lost Quarterback Returns",
+        "Keeping the Cowboy's Baby",
+        "Take Me Back to the Night We Met",
+        "Cooking My Way Back to Love",
+        "Falling for My Ex's Mafia Dad",
+        "Ms. CEO's Baby Daddy Is the Merchant of Death"
+      ]
+    },
+    "audit_json": {
+      "note": "官方 Web TOP 与 App Daily Top 仅 1/10 重合，不能替代 App 榜单采集。",
+      "decision": "KEEP_AS_SEPARATE_OFFICIAL_WEB_SIGNAL",
+      "overlap_count": 1,
+      "overlap_titles": [
+        "You've Been Replaced, First Love"
+      ],
+      "compared_against": "shortapp_reelshort / Daily Top / All / 2026-09-09",
+      "equivalent_to_app_daily_top": false
+    }
+  },
+  {
+    "id": "5080a108-3b03-4a60-b520-643a29b192a6",
+    "target_id": "f8511ca4-346c-4da4-9f8e-0e5b6ad641c5",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 8,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "My Catfish Victim Is Actually My Bestie’s Brother"
+        },
+        {
+          "rank": 2,
+          "title": "Loved Twice by the Hockey Star"
+        },
+        {
+          "rank": 3,
+          "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR"
+        },
+        {
+          "rank": 4,
+          "title": "My Crush Lost Me to His Rival"
+        },
+        {
+          "rank": 5,
+          "title": "Done Being a Lady. Time to Shoot."
+        },
+        {
+          "rank": 6,
+          "title": "My Groom Chose My Best Friend"
+        },
+        {
+          "rank": 7,
+          "title": "Dumped My Ex, Married the Mafia Don"
+        },
+        {
+          "rank": 8,
+          "title": "Don, Your Regret Can’t Keep Me"
+        }
+      ],
+      "platform": "ShortMax",
+      "targetKey": "web_most_popular_all",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.shorttv.live/",
+      "provisional": true,
+      "rankingType": "Most Popular",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "官方网页 Most Popular 完整显示8条",
+      "scope": "official_web_only",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "d9f139ed-8f47-435c-9d75-46aebc53c6a8",
+    "target_id": "0262f68a-e69b-413d-bc82-8a0dda70ba9d",
+    "collection_date": "2026-09-16",
+    "status": "PARTIAL",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 6,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Love by Contract"
+        },
+        {
+          "rank": 2,
+          "title": "Blood and Bones of the Disowned Daughter"
+        },
+        {
+          "rank": 3,
+          "title": "Becoming My Ex’s Mother in Law"
+        },
+        {
+          "rank": 4,
+          "title": "Don't Challenge the Lady Billionaire"
+        },
+        {
+          "rank": 5,
+          "title": "Perfect Love"
+        },
+        {
+          "rank": 6,
+          "title": "A Blind Date with my Mr. Meant-to-Be"
+        }
+      ],
+      "platform": "GoodShort",
+      "targetKey": "web_top_goodshort_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.goodshort.com/",
+      "provisional": true,
+      "rankingType": "Top in GoodShort",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "英语网页当前稳定提取6条；语言/地区可能改变展示顺序",
+      "scope": "official_web_only",
+      "missingRanks": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "localeSensitive": true,
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "79643758-a944-4577-bf70-8e977fc19180",
+    "target_id": "9cf678c2-55f0-4548-a2e9-7678f53dca86",
+    "collection_date": "2026-09-16",
+    "status": "PARTIAL",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 2,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "The Veteran’s Promise"
+        },
+        {
+          "rank": 2,
+          "title": "Mr. Williams! Madame Is Dying"
+        }
+      ],
+      "platform": "FlexTV",
+      "targetKey": "web_top_flextv_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+      "provisional": true,
+      "rankingType": "Top in FlexTV",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "仅保存已验证前列结果，不补猜其余名次",
+      "scope": "official_web_only",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "6e4e4e05-a250-4719-91f2-f0ed649910f5",
+    "target_id": "535e94bb-d9d7-4da4-afc8-9cb32697560f",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 10,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Double-marked: Luna's Revenge"
+        },
+        {
+          "rank": 2,
+          "title": "Back to 95 - Her Big Comeback"
+        },
+        {
+          "rank": 3,
+          "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire"
+        },
+        {
+          "rank": 4,
+          "title": "The Quarterback's Comeback"
+        },
+        {
+          "rank": 5,
+          "title": "I Spoke Baby Dragon and Won Everyone Over!"
+        },
+        {
+          "rank": 6,
+          "title": "Escaping the R18 Mafia Bosses Together"
+        },
+        {
+          "rank": 7,
+          "title": "The Dragon Tyrant's Secret Heir"
+        },
+        {
+          "rank": 8,
+          "title": "When Housewives Turn Deadly"
+        },
+        {
+          "rank": 9,
+          "title": "The Heiress's Revenge_Out of My Mansion"
+        },
+        {
+          "rank": 10,
+          "title": "Broken Arm, Broken Bloodline"
+        }
+      ],
+      "platform": "NetShort",
+      "targetKey": "web_home_top10_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://netshort.com/",
+      "provisional": true,
+      "rankingType": "Homepage Top10",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "9/16 官方网页快照；不得替代 App 榜单",
+      "scope": "official_web_only",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "fd622565-ab75-4f75-a6ce-759bfde8f722",
+    "target_id": "58b188ea-f945-41b1-8809-ffce5e6355e1",
+    "collection_date": "2026-09-16",
+    "status": "PARTIAL",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 8,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "That Prince Is A Girl: The Princess And Her Grand King"
+        },
+        {
+          "rank": 2,
+          "title": "The Secret of Gala Night"
+        },
+        {
+          "rank": 3,
+          "title": "The 7-Year-Old Boxing Champion"
+        },
+        {
+          "rank": 4,
+          "title": "Addicted To Her Scent"
+        },
+        {
+          "rank": 5,
+          "title": "When Love Is Gone"
+        },
+        {
+          "rank": 6,
+          "title": "Left at the Altar, Married Power"
+        },
+        {
+          "rank": 7,
+          "title": "The Trophy Wife's War"
+        },
+        {
+          "rank": 8,
+          "title": "Married My Bestie's Dad"
+        }
+      ],
+      "platform": "MoboReels",
+      "targetKey": "web_trending_series_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.moboreels.com/",
+      "provisional": true,
+      "rankingType": "Trending Series",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "网页当前只稳定提取8条",
+      "scope": "official_web_only",
+      "missingRanks": [
+        9,
+        10
+      ],
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "8a9e8002-7d96-4272-ae00-a804290dc9b7",
+    "target_id": "98f3cb92-53a1-4193-9886-d0b2fac831dc",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 6,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Guess Who They Miss Now"
+        },
+        {
+          "rank": 2,
+          "title": "Fear Her, My Mom's the Lady Boss!"
+        },
+        {
+          "rank": 3,
+          "title": "Lady Diamond's Lost Heiress Returns"
+        },
+        {
+          "rank": 4,
+          "title": "No Escape as the Dragon King's Mate"
+        },
+        {
+          "rank": 5,
+          "title": "Think Again! I'm the Hidden Boss Mom"
+        },
+        {
+          "rank": 6,
+          "title": "Ruling Over All I See (DUBBED)"
+        }
+      ],
+      "platform": "DramaBox",
+      "targetKey": "web_trending_all",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.dramaboxdb.com/",
+      "provisional": true,
+      "rankingType": "Trending",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "官方网页 Trending 当前完整展示6条",
+      "scope": "official_web_only",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "3c01e249-0dc4-4223-b30b-d8d8420ffc81",
+    "target_id": "985a8864-62ba-4740-8545-cd9a472ec030",
+    "collection_date": "2026-09-16",
+    "status": "NEEDS_REVIEW",
+    "collector_version": "official-web-provisional-v1",
+    "evidence_count": 1,
+    "extracted_row_count": 10,
+    "error": "",
+    "started_at": "2026-09-16 10:29:04.687504+00",
+    "finished_at": "2026-09-16 10:29:04.687504+00",
+    "created_at": "2026-09-16 10:29:04.687504+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "You've Been Replaced, First Love"
+        },
+        {
+          "rank": 2,
+          "title": "Sweet Temptation"
+        },
+        {
+          "rank": 3,
+          "title": "Altarboy"
+        },
+        {
+          "rank": 4,
+          "title": "Take Me Back to the Night We Met"
+        },
+        {
+          "rank": 5,
+          "title": "Carter Reed"
+        },
+        {
+          "rank": 6,
+          "title": "The Hockey Captain That Hates Me"
+        },
+        {
+          "rank": 7,
+          "title": "Mistaken as His Mate: The Luna’s Regret"
+        },
+        {
+          "rank": 8,
+          "title": "Salt Kiss"
+        },
+        {
+          "rank": 9,
+          "title": "My X-Ray Vision Sees Right Through You"
+        },
+        {
+          "rank": 10,
+          "title": "Obsessed with His Silent Bride"
+        }
+      ],
+      "platform": "ReelShort",
+      "targetKey": "web_top_all_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.reelshort.com/",
+      "provisional": true,
+      "rankingType": "TOP",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "官方 TOP 页面顺序；需再次自动化复核具体 canonical shelf",
+      "scope": "official_web_only",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "6f64ec8b-d324-4a50-8e33-57cee8ac8965",
+    "target_id": "98f3cb92-53a1-4193-9886-d0b2fac831dc",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "dramabox-nextdata-v1-verified",
+    "evidence_count": 1,
+    "extracted_row_count": 18,
+    "error": "",
+    "started_at": "2026-09-16 10:48:47.314101+00",
+    "finished_at": "2026-09-16 10:48:47.314101+00",
+    "created_at": "2026-09-16 10:48:47.314101+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Guess Who They Miss Now",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000015757/guess-who-they-miss-now"
+        },
+        {
+          "rank": 2,
+          "title": "Fear Her, My Mom's the Lady Boss!",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000014893/fear-her-my-moms-the-lady-boss"
+        },
+        {
+          "rank": 3,
+          "title": "Lady Diamond's Lost Heiress Returns",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000012143/lady-diamonds-lost-heiress-returns"
+        },
+        {
+          "rank": 4,
+          "title": "No Escape as the Dragon King's Mate",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000015264/no-escape-as-the-dragon-kings-mate"
+        },
+        {
+          "rank": 5,
+          "title": "Think Again! I'm the Hidden Boss Mom",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000010883/think-again-im-the-hidden-boss-mom"
+        },
+        {
+          "rank": 6,
+          "title": "Ruling Over All I See (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121270/ruling-over-all-i-see-dubbed-"
+        },
+        {
+          "rank": 7,
+          "title": "I'm Nothing but a Mortal (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000111513/im-nothing-but-a-mortal-dubbed"
+        },
+        {
+          "rank": 8,
+          "title": "Forever Was a Lie",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000110445/forever-was-a-lie"
+        },
+        {
+          "rank": 9,
+          "title": "Queen Mom Rules",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000119953/queen-mom-rules"
+        },
+        {
+          "rank": 10,
+          "title": "Divorced, Now a Lycan Princess",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121134/divorced-now-a-lycan-princess"
+        },
+        {
+          "rank": 11,
+          "title": "Pucked by My Brother's Rival",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121351/pucked-by-my-brothers-rival"
+        },
+        {
+          "rank": 12,
+          "title": "Watch Out, I'm The Lady Boss",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121776/watch-out-im-the-lady-boss"
+        },
+        {
+          "rank": 13,
+          "title": "Fake Dating My Rich Nemesis",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000119532/fake-dating-my-rich-nemesis"
+        },
+        {
+          "rank": 14,
+          "title": "Addicted to Your Kiss",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000003785/addicted-to-your-kiss"
+        },
+        {
+          "rank": 15,
+          "title": "One Fateful Night with My Boss",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000103356/one-fateful-night-with-my-boss"
+        },
+        {
+          "rank": 16,
+          "title": "Reveal, Rise and Reign (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000110123/reveal-rise-and-reign-dubbed"
+        },
+        {
+          "rank": 17,
+          "title": "The Wedding Day Divorce (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000110319/the-wedding-day-divorce-dubbed"
+        },
+        {
+          "rank": 18,
+          "title": "I Became Mrs Grayson by Bragging",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000111309/i-became-mrs-grayson-by-bragging"
+        }
+      ],
+      "topN": 18,
+      "platform": "DramaBox",
+      "sourceId": "officialweb_dramabox",
+      "targetKey": "web_trending_all",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.dramaboxdb.com/channel/trending",
+      "provisional": true,
+      "rankingType": "Trending",
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "2026-09-16 live verified channel page 1; 18 ordered items. Stored separately from App ranking.",
+      "page": 1,
+      "scope": "official_web_only",
+      "parser": "next_data",
+      "pagesObserved": 4,
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "b7e51b94-6652-4531-95c1-91b11fe0f89f",
+    "target_id": "c1bf62b9-7734-49ec-99d0-5426fea88922",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "shortmax-category-web-v1-provisional",
+    "evidence_count": 1,
+    "extracted_row_count": 8,
+    "error": "",
+    "started_at": "2026-09-16 10:57:04.798267+00",
+    "finished_at": "2026-09-16 10:57:04.798267+00",
+    "created_at": "2026-09-16 10:57:04.798267+00",
+    "result_json": {
+      "rows": [
+        {
+          "title": "North Dragon Rise After Rejection",
+          "position": 1
+        },
+        {
+          "title": "The Priest Is Actually A Seraph",
+          "position": 2
+        },
+        {
+          "title": "This Beggar is a Dragon God",
+          "position": 3
+        },
+        {
+          "title": "The Discarded Prince Awakens the Sea",
+          "position": 4
+        },
+        {
+          "title": "Wrath of the Dragon God",
+          "position": 5
+        },
+        {
+          "title": "[Dubbed]Destiny's Keeper",
+          "position": 6
+        },
+        {
+          "title": "[Dubbed]Veiled War God: Protect the Heiress",
+          "position": 7
+        },
+        {
+          "title": "[Dubbed]Path Beyond Eternity",
+          "position": 8
+        }
+      ],
+      "topN": 8,
+      "category": "War God",
+      "platform": "ShortMax",
+      "sourceId": "officialweb_shortmax",
+      "targetKey": "web_category_war_god",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.shorttv.live/",
+      "provisional": true,
+      "rankingType": "Category Shelf",
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "Official ShortMax homepage shelf order captured on 2026-09-16; do not interpret as App ranking without separate validation.",
+      "scope": "official_web_only",
+      "displaySemantics": "ordered_shelf",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "5d4f5181-d7ae-4a80-b483-b8338ffacc56",
+    "target_id": "d3c28b51-e021-46be-8f7d-2d05a7f710d5",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "shortmax-category-web-v1-provisional",
+    "evidence_count": 1,
+    "extracted_row_count": 8,
+    "error": "",
+    "started_at": "2026-09-16 10:57:04.798267+00",
+    "finished_at": "2026-09-16 10:57:04.798267+00",
+    "created_at": "2026-09-16 10:57:04.798267+00",
+    "result_json": {
+      "rows": [
+        {
+          "title": "The Eight-Year-Old Captain",
+          "position": 1
+        },
+        {
+          "title": "The Foster Son of the Iron Crown",
+          "position": 2
+        },
+        {
+          "title": "[Dubbed] Little Pilot, Big Hero",
+          "position": 3
+        },
+        {
+          "title": "Regret！Your Husband is A Tycoon!",
+          "position": 4
+        },
+        {
+          "title": "[Dubbed]Am I A Taxi Driver?",
+          "position": 5
+        },
+        {
+          "title": "Beware the Man in Rags",
+          "position": 6
+        },
+        {
+          "title": "The Billionaire System",
+          "position": 7
+        },
+        {
+          "title": "[Dubbed]My Dad is a Super Rich Guard",
+          "position": 8
+        }
+      ],
+      "topN": 8,
+      "category": "Tycoon Life",
+      "platform": "ShortMax",
+      "sourceId": "officialweb_shortmax",
+      "targetKey": "web_category_tycoon_life",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.shorttv.live/",
+      "provisional": true,
+      "rankingType": "Category Shelf",
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "Official ShortMax homepage shelf order captured on 2026-09-16; do not interpret as App ranking without separate validation.",
+      "scope": "official_web_only",
+      "displaySemantics": "ordered_shelf",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "709872ab-c616-4117-a4d9-739764edbd21",
+    "target_id": "ccb6fcb5-5eaa-47cf-bc0d-75afbcea321c",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "shortmax-category-web-v1-provisional",
+    "evidence_count": 1,
+    "extracted_row_count": 8,
+    "error": "",
+    "started_at": "2026-09-16 10:57:04.798267+00",
+    "finished_at": "2026-09-16 10:57:04.798267+00",
+    "created_at": "2026-09-16 10:57:04.798267+00",
+    "result_json": {
+      "rows": [
+        {
+          "title": "[Dubbed]Apocalypse: My Infinite RV Upgrade",
+          "position": 1
+        },
+        {
+          "title": "[Dubbed] Cataclysm Arrives: I Have a Mobile Fortress",
+          "position": 2
+        },
+        {
+          "title": "Apocalypse: I have a super fortress in advance",
+          "position": 3
+        },
+        {
+          "title": "[Dubbed]Last Shelter:The Awakened Zoo",
+          "position": 4
+        },
+        {
+          "title": "[Dubbed] Boss of the Apocalypse",
+          "position": 5
+        },
+        {
+          "title": "[Dubbed] The Godslayer Devourer",
+          "position": 6
+        },
+        {
+          "title": "[Dubbed] Doomsday Supermarket",
+          "position": 7
+        },
+        {
+          "title": "[Dubbed]The Source War",
+          "position": 8
+        }
+      ],
+      "topN": 8,
+      "category": "Apocalypse",
+      "platform": "ShortMax",
+      "sourceId": "officialweb_shortmax",
+      "targetKey": "web_category_apocalypse",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.shorttv.live/",
+      "provisional": true,
+      "rankingType": "Category Shelf",
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "Official ShortMax homepage shelf order captured on 2026-09-16; do not interpret as App ranking without separate validation.",
+      "scope": "official_web_only",
+      "displaySemantics": "ordered_shelf",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "e2831799-9965-42f3-9d92-acdcc4d0716b",
+    "target_id": "d78bb418-3efc-4ddd-85b6-fc45ba25127f",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "shortmax-category-web-v1-provisional",
+    "evidence_count": 1,
+    "extracted_row_count": 3,
+    "error": "",
+    "started_at": "2026-09-16 10:57:04.798267+00",
+    "finished_at": "2026-09-16 10:57:04.798267+00",
+    "created_at": "2026-09-16 10:57:04.798267+00",
+    "result_json": {
+      "rows": [
+        {
+          "title": "Marked by Him I Became the Dragon Clan's Forbidden Toy",
+          "position": 1
+        },
+        {
+          "title": "Secret Dragon",
+          "position": 2
+        },
+        {
+          "title": "Claimed by His Father",
+          "position": 3
+        }
+      ],
+      "topN": 3,
+      "category": "Dragon Clan",
+      "platform": "ShortMax",
+      "sourceId": "officialweb_shortmax",
+      "targetKey": "web_category_dragon_clan",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.shorttv.live/",
+      "provisional": true,
+      "rankingType": "Category Shelf",
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "Official ShortMax homepage shelf order captured on 2026-09-16; do not interpret as App ranking without separate validation.",
+      "scope": "official_web_only",
+      "displaySemantics": "ordered_shelf",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "4c98cdf5-bed7-426d-a584-aa9843803683",
+    "target_id": "98f3cb92-53a1-4193-9886-d0b2fac831dc",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "dramabox-nextdata-full-v1-verified",
+    "evidence_count": 4,
+    "extracted_row_count": 60,
+    "error": "",
+    "started_at": "2026-09-16 11:01:24.22833+00",
+    "finished_at": "2026-09-16 11:01:24.22833+00",
+    "created_at": "2026-09-16 11:01:24.22833+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Guess Who They Miss Now",
+          "sourcePage": 1
+        },
+        {
+          "rank": 2,
+          "title": "Fear Her, My Mom's the Lady Boss!",
+          "sourcePage": 1
+        },
+        {
+          "rank": 3,
+          "title": "Lady Diamond's Lost Heiress Returns",
+          "sourcePage": 1
+        },
+        {
+          "rank": 4,
+          "title": "No Escape as the Dragon King's Mate",
+          "sourcePage": 1
+        },
+        {
+          "rank": 5,
+          "title": "Think Again! I'm the Hidden Boss Mom",
+          "sourcePage": 1
+        },
+        {
+          "rank": 6,
+          "title": "Ruling Over All I See (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 7,
+          "title": "I'm Nothing but a Mortal (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 8,
+          "title": "Forever Was a Lie",
+          "sourcePage": 1
+        },
+        {
+          "rank": 9,
+          "title": "Queen Mom Rules",
+          "sourcePage": 1
+        },
+        {
+          "rank": 10,
+          "title": "Divorced, Now a Lycan Princess",
+          "sourcePage": 1
+        },
+        {
+          "rank": 11,
+          "title": "Pucked by My Brother's Rival",
+          "sourcePage": 1
+        },
+        {
+          "rank": 12,
+          "title": "Watch Out, I'm The Lady Boss",
+          "sourcePage": 1
+        },
+        {
+          "rank": 13,
+          "title": "Fake Dating My Rich Nemesis",
+          "sourcePage": 1
+        },
+        {
+          "rank": 14,
+          "title": "Addicted to Your Kiss",
+          "sourcePage": 1
+        },
+        {
+          "rank": 15,
+          "title": "One Fateful Night with My Boss",
+          "sourcePage": 1
+        },
+        {
+          "rank": 16,
+          "title": "Reveal, Rise and Reign (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 17,
+          "title": "The Wedding Day Divorce (DUBBED)",
+          "sourcePage": 1
+        },
+        {
+          "rank": 18,
+          "title": "I Became Mrs Grayson by Bragging",
+          "sourcePage": 1
+        },
+        {
+          "rank": 19,
+          "title": "Love The Way You Lie",
+          "sourcePage": 2
+        },
+        {
+          "rank": 20,
+          "title": "Daddy Mommy Don't Divorce",
+          "sourcePage": 2
+        },
+        {
+          "rank": 21,
+          "title": "Tied to My Dangerous Mafia Husband",
+          "sourcePage": 2
+        },
+        {
+          "rank": 22,
+          "title": "Love Me All You Like",
+          "sourcePage": 2
+        },
+        {
+          "rank": 23,
+          "title": "Mafia's Good Girl",
+          "sourcePage": 2
+        },
+        {
+          "rank": 24,
+          "title": "Spoiled by Four Billionaires",
+          "sourcePage": 2
+        },
+        {
+          "rank": 25,
+          "title": "How to Divorce a Billionaire",
+          "sourcePage": 2
+        },
+        {
+          "rank": 26,
+          "title": "The Best Mistake Ever",
+          "sourcePage": 2
+        },
+        {
+          "rank": 27,
+          "title": "Waking Up Married To My Crush!",
+          "sourcePage": 2
+        },
+        {
+          "rank": 28,
+          "title": "Ascension to the Lost Throne",
+          "sourcePage": 2
+        },
+        {
+          "rank": 29,
+          "title": "Her Journey Beyond the Script",
+          "sourcePage": 2
+        },
+        {
+          "rank": 30,
+          "title": "Hidden Hero: His Time to Shine",
+          "sourcePage": 2
+        },
+        {
+          "rank": 31,
+          "title": "One Night to Forever",
+          "sourcePage": 2
+        },
+        {
+          "rank": 32,
+          "title": "Harvest of Ambition: A CEO's Odyssey",
+          "sourcePage": 2
+        },
+        {
+          "rank": 33,
+          "title": "Back to the 80s",
+          "sourcePage": 2
+        },
+        {
+          "rank": 34,
+          "title": "Spoiling My Sweet Wife to Her Core",
+          "sourcePage": 2
+        },
+        {
+          "rank": 35,
+          "title": "Profit Prophecy",
+          "sourcePage": 2
+        },
+        {
+          "rank": 36,
+          "title": "Sweetheart Wife",
+          "sourcePage": 2
+        },
+        {
+          "rank": 37,
+          "title": "She’s the Apple of Their Eye",
+          "sourcePage": 3
+        },
+        {
+          "rank": 38,
+          "title": "The Lovers' Saga",
+          "sourcePage": 3
+        },
+        {
+          "rank": 39,
+          "title": "Rebel in Devil's Shackle",
+          "sourcePage": 3
+        },
+        {
+          "rank": 40,
+          "title": "Revenge Marriage Sweet Love",
+          "sourcePage": 3
+        },
+        {
+          "rank": 41,
+          "title": "Fated to My Cruel CEO",
+          "sourcePage": 3
+        },
+        {
+          "rank": 42,
+          "title": "Mated with My Fiance's Alpha Daddy",
+          "sourcePage": 3
+        },
+        {
+          "rank": 43,
+          "title": "After Divorce: I Become Heiress",
+          "sourcePage": 3
+        },
+        {
+          "rank": 44,
+          "title": "The Scheming Maid",
+          "sourcePage": 3
+        },
+        {
+          "rank": 45,
+          "title": "Serendipitous Love （DUBBED)",
+          "sourcePage": 3
+        },
+        {
+          "rank": 46,
+          "title": "Pampered by Him",
+          "sourcePage": 3
+        },
+        {
+          "rank": 47,
+          "title": "Love at First Sight",
+          "sourcePage": 3
+        },
+        {
+          "rank": 48,
+          "title": "How I See Through You",
+          "sourcePage": 3
+        },
+        {
+          "rank": 49,
+          "title": "Hi, Mr. Capricious",
+          "sourcePage": 3
+        },
+        {
+          "rank": 50,
+          "title": "Ark on Time",
+          "sourcePage": 3
+        },
+        {
+          "rank": 51,
+          "title": "Love Blooms in Contracted Hearts",
+          "sourcePage": 3
+        },
+        {
+          "rank": 52,
+          "title": "Nothing Else Compares",
+          "sourcePage": 3
+        },
+        {
+          "rank": 53,
+          "title": "Dark Web of Desire",
+          "sourcePage": 3
+        },
+        {
+          "rank": 54,
+          "title": "A Woman Scorned",
+          "sourcePage": 3
+        },
+        {
+          "rank": 55,
+          "title": "Married a Secret Millionaire as a Substitute",
+          "sourcePage": 4
+        },
+        {
+          "rank": 56,
+          "title": "Let me go, My Queen!",
+          "sourcePage": 4
+        },
+        {
+          "rank": 57,
+          "title": "Sleeping Handsome, Let's Mate!",
+          "sourcePage": 4
+        },
+        {
+          "rank": 58,
+          "title": "The Spoiled Wife Is Acting Up Again",
+          "sourcePage": 4
+        },
+        {
+          "rank": 59,
+          "title": "Serendipitous Love",
+          "sourcePage": 4
+        },
+        {
+          "rank": 60,
+          "title": "Forget Me Not: Omega’s Return",
+          "sourcePage": 4
+        }
+      ],
+      "topN": 60,
+      "platform": "DramaBox",
+      "sourceId": "officialweb_dramabox",
+      "targetKey": "web_trending_all",
+      "sourceType": "OFFICIAL_WEB",
+      "provisional": true,
+      "rankingType": "Trending",
+      "evidenceUrls": [
+        "https://www.dramaboxdb.com/channel/trending",
+        "https://www.dramaboxdb.com/channel/trending/2",
+        "https://www.dramaboxdb.com/channel/trending/3",
+        "https://www.dramaboxdb.com/channel/trending/4"
+      ],
+      "batchComplete": true,
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "2026-09-16 live verified DramaBox Trending web channel pagination: 60 ordered items across four pages. Web evidence only; not asserted equivalent to App ranking.",
+      "pages": 4,
+      "scope": "official_web_only",
+      "pageItemCounts": [
+        18,
+        18,
+        18,
+        6
+      ],
+      "displaySemantics": "ordered_channel_pagination",
+      "equivalentToAppDailyTop": false
+    }
+  },
+  {
+    "id": "84e3dfb0-957f-4bf7-ae2c-5395ead4710b",
+    "target_id": "0262f68a-e69b-413d-bc82-8a0dda70ba9d",
+    "collection_date": "2026-09-16",
+    "status": "SUCCEEDED",
+    "collector_version": "goodshort-live-page-v1-verified",
+    "evidence_count": 1,
+    "extracted_row_count": 10,
+    "error": "",
+    "started_at": "2026-09-16 11:58:10.085654+00",
+    "finished_at": "2026-09-16 11:58:10.085654+00",
+    "created_at": "2026-09-16 11:58:10.085654+00",
+    "result_json": {
+      "rows": [
+        {
+          "rank": 1,
+          "tags": [
+            "Strong Female Lead",
+            "Marriage",
+            "Dynamic Duo",
+            "Comeback",
+            "Female CEO"
+          ],
+          "title": "Don't Challenge the Lady Billionaire",
+          "metrics": {
+            "episode_count": "83",
+            "plays_display": "25.8M"
+          }
+        },
+        {
+          "rank": 2,
+          "tags": [
+            "Pregnancy",
+            "Sweet",
+            "CEO"
+          ],
+          "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+          "metrics": {
+            "episode_count": "75",
+            "plays_display": "32.9M"
+          }
+        },
+        {
+          "rank": 3,
+          "tags": [
+            "Family",
+            "Heiress",
+            "Regret"
+          ],
+          "title": "Blood and Bones of the Disowned Daughter",
+          "metrics": {
+            "episode_count": "64",
+            "plays_display": "38.6M"
+          }
+        },
+        {
+          "rank": 4,
+          "tags": [
+            "Little Cupids",
+            "Sweet",
+            "Destiny",
+            "Cute Kids"
+          ],
+          "title": "A Blind Date with my Mr. Meant-to-Be",
+          "metrics": {
+            "episode_count": "72",
+            "plays_display": "23.5M"
+          }
+        },
+        {
+          "rank": 5,
+          "tags": [
+            "Marriage",
+            "Redemption",
+            "Cinderella",
+            "CEO",
+            "Misidentification"
+          ],
+          "title": "Will You Be My Love Again?",
+          "metrics": {
+            "episode_count": "72",
+            "plays_display": "10.7M"
+          }
+        },
+        {
+          "rank": 6,
+          "tags": [
+            "Marriage",
+            "CEO",
+            "Billionaire",
+            "Contract Marriage"
+          ],
+          "title": "Love by Contract",
+          "metrics": {
+            "episode_count": "65",
+            "plays_display": "8.9M"
+          }
+        },
+        {
+          "rank": 7,
+          "tags": [
+            "Sweet",
+            "CEO",
+            "Flash-Marriage"
+          ],
+          "title": "[ENG DUB] Flash Marriage CEO Spoils Me a Lot",
+          "metrics": {
+            "episode_count": "100",
+            "plays_display": "8.8M"
+          }
+        },
+        {
+          "rank": 8,
+          "tags": [
+            "Marriage",
+            "Mafia",
+            "Heiress",
+            "Flash-Marriage"
+          ],
+          "title": "Fated Deal with the Mafia King",
+          "metrics": {
+            "episode_count": "89",
+            "plays_display": "13.4M"
+          }
+        },
+        {
+          "rank": 9,
+          "tags": [
+            "Sweet",
+            "Marriage",
+            "CEO",
+            "Crush-to-love"
+          ],
+          "title": "Perfect Love",
+          "metrics": {
+            "episode_count": "56",
+            "plays_display": "8.6M"
+          }
+        },
+        {
+          "rank": 10,
+          "tags": [
+            "Sweet",
+            "Destiny",
+            "Cinderella",
+            "Age Gap"
+          ],
+          "title": "Becoming My Ex’s Mother in Law",
+          "metrics": {
+            "episode_count": "73",
+            "plays_display": "6.8M"
+          }
+        }
+      ],
+      "locale": "en-US",
+      "platform": "GoodShort",
+      "targetKey": "web_top_goodshort_pilot",
+      "sourceType": "OFFICIAL_WEB",
+      "evidenceUrl": "https://www.goodshort.com/channel/Top-in-GoodShort",
+      "provisional": false,
+      "rankingType": "Top in GoodShort",
+      "collectionDate": "2026-09-16"
+    },
+    "audit_json": {
+      "note": "9/16 live page verified as complete 10-card ordered shelf; formal parser added separately.",
+      "scope": "official_web_only",
+      "locale": "en-US",
+      "verification": "live_server_rendered_html_top10",
+      "equivalentToAppDailyTop": false
+    }
+  }
+]
