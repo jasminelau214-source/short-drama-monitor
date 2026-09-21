@@ -28,8 +28,14 @@ from drama_identity import normalize_title
 from research_writeback import select_same_platform_record
 from research_validation import validate_research_payload
 from ranking_lifecycle import known_app_ranked_titles as lifecycle_known_app_ranked_titles
+from state_semantics import (
+    ANALYSIS_RUN_ANALYZING,
+    ANALYSIS_RUN_COMPLETE,
+    ANALYSIS_RUN_FAILED,
+    ANALYSIS_RUN_RESEARCH_PENDING,
+    require_stage_state,
+)
 import persistence
-import test_snapshot
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
@@ -227,10 +233,6 @@ def connect():
 
 
 def sync_persistent_cache():
-    if test_snapshot.available():
-        seeded = test_snapshot.seed_local(connect)
-        print(f"[test-snapshot] seeded isolated frontend data: {seeded}")
-        return
     if not persistence.configured():
         print('[persistence] not configured; local cache only')
         return
@@ -414,15 +416,12 @@ def _select_app_research_tasks(tasks, run_source_types):
 
 
 def _attach_research_task_projection(records):
-    if test_snapshot.available():
-        tasks = test_snapshot.list_research_tasks(limit=500)
-    else:
-        if not persistence.configured():
-            return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0}
-        try:
-            tasks = persistence.list_research_tasks(limit=500)
-        except Exception as exc:
-            return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0, 'errorType': type(exc).__name__}
+    if not persistence.configured():
+        return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0}
+    try:
+        tasks = persistence.list_research_tasks(limit=500)
+    except Exception as exc:
+        return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'excludedNonAppTasks': 0, 'excludedUnknownOrigin': 0, 'errorType': type(exc).__name__}
 
     run_source_types = _research_run_source_types()
     latest, excluded_non_app, excluded_unknown_origin = _select_app_research_tasks(tasks, run_source_types)
@@ -470,9 +469,6 @@ def public_data():
     research_projection=_attach_research_task_projection(records)
     summary=build_live_summary(records, PLATFORM_ORDER, clean, split_lane)
     summary['researchProjection']=research_projection
-    if test_snapshot.available():
-        summary['testSnapshot']=test_snapshot.snapshot_meta()
-        summary['researchQueue']=test_snapshot.research_queue_view()
     return {'records':records,'summary':summary}
 
 
@@ -524,11 +520,11 @@ def run_analysis_batch(collection_date, platform):
         return
     upload_ids=[r['id'] for r in rows]
     with connect() as c:
-        c.execute('INSERT OR REPLACE INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),'分析中','{}','',analysis_model_name(),now,now))
-        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[('分析中',x) for x in upload_ids]); c.commit()
+        c.execute('INSERT OR REPLACE INTO analysis_runs VALUES(?,?,?,?,?,?,?,?,?,?)',(run_id,collection_date,platform,json.dumps(upload_ids),ANALYSIS_RUN_ANALYZING,'{}','',analysis_model_name(),now,now))
+        c.executemany('UPDATE collection_uploads SET status=? WHERE id=?',[(ANALYSIS_RUN_ANALYZING,x) for x in upload_ids]); c.commit()
     if persistence.configured():
-        persistence.update_upload_status(upload_ids,'分析中')
-        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status='分析中',result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
+        persistence.update_upload_status(upload_ids,ANALYSIS_RUN_ANALYZING)
+        persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=ANALYSIS_RUN_ANALYZING,result={},error='',model=analysis_model_name(),created_at=now,updated_at=now)
     try:
         result=analyze_batch(collection_date=collection_date,platform=platform,image_rows=rows,known_titles=known_titles(collection_date))
         existing={normalize_title(t):t for t in known_titles(collection_date)}
@@ -537,10 +533,11 @@ def run_analysis_batch(collection_date, platform):
             if norm and norm in existing:
                 item['newness']='old'; item['matchedExistingTitle']=existing[norm]
         needs_research=any((x.get('newness') in {'new','uncertain'} or x.get('pendingChecks')) for x in (result.get('rows') or []))
-        status='已识别-待深研' if needs_research else '已分析'; error=''
+        status=ANALYSIS_RUN_RESEARCH_PENDING if needs_research else ANALYSIS_RUN_COMPLETE; error=''
     except Exception as exc:
-        result={}; status='分析失败'; error=clean(exc,4000)
+        result={}; status=ANALYSIS_RUN_FAILED; error=clean(exc,4000)
         print(f'[analysis] failed {collection_date} {platform}: {error}')
+    status=require_stage_state('analysis_run', status)
     updated=datetime.now(timezone.utc).isoformat()
     with connect() as c:
         c.execute('UPDATE analysis_runs SET status=?,result_json=?,error=?,updated_at=? WHERE id=?',(status,json.dumps(result,ensure_ascii=False),error,updated,run_id))
@@ -548,7 +545,7 @@ def run_analysis_batch(collection_date, platform):
     if persistence.configured():
         persistence.update_upload_status(upload_ids,status)
         persistence.save_analysis_run(run_id=run_id,collection_date=collection_date,platform=platform,upload_ids=upload_ids,status=status,result=result,error=error,model=analysis_model_name(),created_at=now,updated_at=updated)
-    if status=='已识别-待深研':
+    if status==ANALYSIS_RUN_RESEARCH_PENDING:
         schedule_research_worker(apply_research=apply_research_result, delay=0.5)
     print(f'[analysis] {status} {collection_date} {platform} run={run_id}')
 
@@ -668,16 +665,13 @@ class Handler(BaseHTTPRequestHandler):
             d=public_data()
             with connect() as c:
                 upload_rows=c.execute('SELECT storage_path FROM collection_uploads').fetchall(); upload_count=len(upload_rows); available_count=sum(1 for r in upload_rows if str(r['storage_path']).startswith('supabase:') or Path(r['storage_path']).is_file()); run_count=c.execute('SELECT COUNT(*) FROM analysis_runs').fetchone()[0]
-            self.send_json({'ok':True,'liveness':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'testSnapshot':test_snapshot.snapshot_meta() if test_snapshot.available() else None,'version':'1.4-collector','gitCommit':clean(os.environ.get('RENDER_GIT_COMMIT',''),80)})
+            self.send_json({'ok':True,'liveness':True,'records':len(d['records']),'collectionDate':d['summary'].get('collectionDate'),'latestRows':d['summary'].get('totalRows'),'newTitles':d['summary'].get('newTitles'),'uploads':upload_count,'availableUploads':available_count,'analysisRuns':run_count,'analysisConfigured':analysis_configured(),'analysisModel':analysis_model_name(),'persistenceConfigured':persistence.configured(),'version':'1.4-collector','gitCommit':clean(os.environ.get('RENDER_GIT_COMMIT',''),80)})
         elif path=='/ready':
             status=readiness_status()
             self.send_json(status,200 if status.get('ready') else 503)
         else: self.send_json({'error':'页面不存在'},404)
     def do_POST(self):
         path=urlparse(self.path).path
-        if test_snapshot.available():
-            self.send_json({'error':'READ_ONLY_TEST_FRONTEND','note':'This isolated frontend uses a frozen production snapshot and rejects all writes.'},403)
-            return
         if path=='/api/admin/collector-import':
             if not self.authorized(): return
             try:
@@ -739,9 +733,6 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError,json.JSONDecodeError,binascii.Error) as e: self.send_json({'error':str(e)},400)
         except Exception as e: self.send_json({'error':'持久化存储失败：'+clean(e,2000)},502)
     def do_PUT(self):
-        if test_snapshot.available():
-            self.send_json({'error':'READ_ONLY_TEST_FRONTEND','note':'This isolated frontend uses a frozen production snapshot and rejects all writes.'},403)
-            return
         path=urlparse(self.path).path; prefix='/api/reviews/'
         if not path.startswith(prefix): self.send_json({'error':'页面不存在'},404); return
         if not self.authorized(): return
