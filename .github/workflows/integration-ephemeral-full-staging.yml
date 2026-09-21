@@ -15,10 +15,13 @@ on:
       - persistence.py
       - ranking_lifecycle.py
       - 'source_*.py'
+      - render.yaml
+      - requirements.txt
       - 'tests/**'
-      - test_golden_local_http_e2e.py
-      - test_golden_publication_e2e.py
+      - 'test_*.py'
+      - 'windows/**'
       - integration_render_smoke.py
+      - .github/workflows/integration-contract-gate.yml
       - .github/workflows/integration-ephemeral-full-staging.yml
   workflow_dispatch:
 
@@ -62,11 +65,37 @@ jobs:
           research_pipeline.py research_worker.py persistence.py
           ranking_lifecycle.py integration_render_smoke.py
 
+      - name: Validate Windows scheduler and collector syntax
+        shell: pwsh
+        run: |
+          $files = @(
+            'windows/collectors/netshort_collector_v6.ps1',
+            'windows/collectors/moboreels_collector_v3.ps1',
+            'windows/collector_sync.ps1',
+            'windows/run_web_collect_and_sync.ps1',
+            'windows/scheduled_web_collect.ps1'
+          )
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile(
+              $file,
+              [ref]$tokens,
+              [ref]$errors
+            )
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error "$file :: $($_.Message)" }
+              exit 1
+            }
+          }
+
       - name: Run Golden publication and HTTP E2E
         run: >
           python -m unittest -v
           test_golden_publication_e2e.py
           test_golden_local_http_e2e.py
+          test_web_sync_contract.py
+          test_readiness_contract.py
 
       - name: Start actual application process in isolated mode
         shell: bash
