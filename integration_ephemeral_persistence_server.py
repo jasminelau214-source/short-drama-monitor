@@ -70,16 +70,18 @@ def handle_action(body: dict) -> dict:
         return {'ok': True, 'rows': [], 'integrationStub': True}
 
     if action == 'list_uploads':
-        return {'rows': _rows('collection_uploads', body.get('limit') or 500, 'created_at desc')}
+        limit = min(max(int(body.get('limit') or 100), 1), 500)
+        return {'ok': True, 'rows': _rows('collection_uploads', limit, 'created_at desc')}
 
     if action == 'list_analysis_runs':
-        return {'rows': _rows('analysis_runs', body.get('limit') or 200, 'updated_at desc, id')}
+        limit = min(max(int(body.get('limit') or 30), 1), 200)
+        return {'ok': True, 'rows': _rows('analysis_runs', limit, 'created_at desc, id')}
 
     if action == 'list_overrides':
-        return {'rows': _rows('drama_overrides', 1000, 'updated_at desc, drama_id')}
+        return {'ok': True, 'rows': _rows('drama_overrides', 1000, 'updated_at desc, drama_id')}
 
     if action == 'list_research_tasks':
-        limit = max(1, min(int(body.get('limit') or 100), 1000))
+        limit = min(max(int(body.get('limit') or 100), 1), 500)
         statuses = [str(x) for x in (body.get('statuses') or []) if str(x)]
         where = ''
         if statuses:
@@ -91,16 +93,18 @@ def handle_action(body: dict) -> dict:
             from (
               select * from public.research_tasks
               {where}
-              order by priority desc, updated_at asc, id
+              order by priority desc, created_at asc, id
               limit {limit}
             ) t;
             """,
             [],
         )
-        return {'rows': rows}
+        return {'ok': True, 'rows': rows}
 
     if action == 'save_analysis_run':
         run = body.get('run') if isinstance(body.get('run'), dict) else {}
+        if not run.get('id'):
+            raise RuntimeError('INVALID_RUN_PAYLOAD')
         payload = _sql_json(run)
         _psql(
             f"""
@@ -144,13 +148,13 @@ def handle_action(body: dict) -> dict:
               select id
               from public.research_tasks
               where status='PENDING'
-              order by priority desc, updated_at asc, id
+              order by priority desc, created_at asc, id
               limit {limit}
               for update skip locked
             ),
             changed as (
               update public.research_tasks t
-              set status='RESEARCHING', updated_at=now()
+              set status='RESEARCHING', updated_at=now(), error=''
               from picked
               where t.id=picked.id
               returning t.*
@@ -160,9 +164,16 @@ def handle_action(body: dict) -> dict:
             """,
             [],
         )
-        return {'rows': rows}
+        return {'ok': True, 'rows': rows}
 
     if action == 'update_research_task':
+        task_id = str(body.get('id') or '')
+        status = str(body.get('status') or '')
+        allowed = {'PENDING','RESEARCHING','COMPLETE','NEEDS_GPT','REVIEW_REQUIRED','FAILED'}
+        if not task_id or not status:
+            raise RuntimeError('INVALID_RESEARCH_TASK_PAYLOAD')
+        if status not in allowed:
+            raise RuntimeError('INVALID_RESEARCH_STATUS')
         payload = _sql_json(body)
         _psql(
             f"""
@@ -187,6 +198,8 @@ def handle_action(body: dict) -> dict:
 
     if action == 'save_override':
         drama_id = str(body.get('dramaId') or '')
+        if not drama_id:
+            raise RuntimeError('INVALID_OVERRIDE_PAYLOAD')
         fields = body.get('fields') if isinstance(body.get('fields'), dict) else {}
         _psql(
             f"""
@@ -200,12 +213,12 @@ def handle_action(body: dict) -> dict:
         return {'ok': True}
 
     if action == 'get_batch':
-        return {'rows': []}
+        return {'ok': True, 'rows': []}
 
     if action == 'update_upload_status':
         return {'ok': True}
 
-    raise RuntimeError(f'UNSUPPORTED_ACTION:{action}')
+    raise RuntimeError(f'UNKNOWN_ACTION:{action}')
 
 
 class Handler(BaseHTTPRequestHandler):
