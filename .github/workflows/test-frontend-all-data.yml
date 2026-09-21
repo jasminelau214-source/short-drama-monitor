@@ -1,0 +1,34 @@
+name: JSM Frontend All-Data Snapshot Check
+
+on:
+  push:
+    branches:
+      - test/frontend-all-data-v1-20260921
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Python snapshot contract
+        run: python -m unittest -v test_frontend_snapshot_contract.py
+      - name: Compile test snapshot adapter
+        run: python -m py_compile test_snapshot.py app.py live_observations.py
+      - name: Verify static frontend structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('test_frontend.html').read_text(encoding='utf-8')
+          assert '<script>' in html and '</script>' in html
+          assert html.count('data-view=') >= 8
+          assert 'READ ONLY' in html
+          print('FRONTEND_STATIC_STRUCTURE_PASS')
+          PY
