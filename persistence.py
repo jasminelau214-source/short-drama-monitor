@@ -11,7 +11,7 @@ def configured() -> bool:
     return bool(os.environ.get('SUPABASE_PERSISTENCE_URL', '').strip() and os.environ.get('MONITOR_PERSISTENCE_TOKEN', '').strip())
 
 
-def _call(action: str, **payload):
+def _call(action: str, *, request_timeout: float = 180, **payload):
     url = os.environ.get('SUPABASE_PERSISTENCE_URL', '').strip()
     token = os.environ.get('MONITOR_PERSISTENCE_TOKEN', '').strip()
     if not url or not token:
@@ -24,7 +24,7 @@ def _call(action: str, **payload):
         method='POST',
     )
     try:
-        with urllib.request.urlopen(req, timeout=180) as resp:
+        with urllib.request.urlopen(req, timeout=request_timeout) as resp:
             data = json.loads(resp.read().decode('utf-8'))
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode('utf-8', errors='replace')[:4000]
@@ -121,3 +121,11 @@ def monitoring_status(collection_date: str = '') -> dict:
     collection coverage and health, including provisional Official Web targets.
     """
     return _call('monitoring_status', collectionDate=collection_date or '')
+
+
+def healthcheck(timeout: float = 5.0) -> dict:
+    """Read-only dependency probe for service readiness."""
+    data = _call('monitoring_status', request_timeout=max(1.0, min(float(timeout), 15.0)), collectionDate='')
+    if not isinstance(data, dict):
+        raise RuntimeError('SUPABASE_HEALTHCHECK_INVALID_RESPONSE')
+    return {'ok': True}
