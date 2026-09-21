@@ -247,6 +247,138 @@ jobs:
           print('PASS_PHASE_B_FAIL_VISIBLE_PERSISTENCE_OUTAGE')
           PY
 
+      - name: Recover persistence and prove idempotent replay
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          python integration_ephemeral_persistence_server.py > /tmp/jsm-phase-b-persistence-recovered.log 2>&1 &
+          echo $! > /tmp/jsm-phase-b-persistence.pid
+          for i in $(seq 1 30); do
+            if curl --fail --silent "http://127.0.0.1:$INTEGRATION_PERSISTENCE_PORT/health" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          code=$(curl --silent --output /tmp/phase-b-ready-recovered.json --write-out "%{http_code}"             "http://127.0.0.1:$PORT/ready" || true)
+          test "$code" = "200"
+
+          python - <<'PY'
+          import base64, json, os, urllib.request
+
+          payload=json.load(open('tests/fixtures/collector_output_moboreels_v3_20260917.json',encoding='utf-8'))
+          raw=json.dumps(payload,ensure_ascii=False).encode()
+          auth=base64.b64encode(
+              f"{os.environ['ADMIN_USER']}:{os.environ['ADMIN_PASSWORD']}".encode()
+          ).decode()
+          req=urllib.request.Request(
+              f"http://127.0.0.1:{os.environ['PORT']}/api/admin/collector-import",
+              data=raw,
+              headers={'Content-Type':'application/json','Authorization':'Basic '+auth},
+              method='POST',
+          )
+          with urllib.request.urlopen(req,timeout=20) as response:
+              body=json.loads(response.read().decode())
+              assert response.status == 201, (response.status, body)
+          assert body['newTitleCount'] == 9, body
+          print('PASS_PHASE_B_IDEMPOTENT_HTTP_REPLAY')
+          PY
+
+          runs=$(psql -A -t -c "select count(*) from public.analysis_runs;")
+          tasks=$(psql -A -t -c "select count(*) from public.research_tasks;")
+          complete=$(psql -A -t -c "select count(*) from public.research_tasks where status='COMPLETE';")
+          pending=$(psql -A -t -c "select count(*) from public.research_tasks where status='PENDING';")
+          overrides=$(psql -A -t -c "select count(*) from public.drama_overrides;")
+
+          test "$runs" = "1"
+          test "$tasks" = "9"
+          test "$complete" = "9"
+          test "$pending" = "0"
+          test "$overrides" = "9"
+
+          echo "PASS_PHASE_B_REPLAY_PRESERVES_COMPLETE"
+
+      - name: Rebuild a fresh local cache from recovered persistence
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          kill "$(cat /tmp/jsm-phase-b-app.pid)"
+          wait "$(cat /tmp/jsm-phase-b-app.pid)" 2>/dev/null || true
+
+          RECOVERED_DATA="/tmp/jsm-phase-b-recovered-${GITHUB_RUN_ID}"
+          rm -rf "$RECOVERED_DATA"
+          mkdir -p "$RECOVERED_DATA"
+
+          DATA_DIR="$RECOVERED_DATA" python app.py --host 127.0.0.1 --port "$PORT" --no-open             > /tmp/jsm-phase-b-app-recovered.log 2>&1 &
+          echo $! > /tmp/jsm-phase-b-app.pid
+
+          for i in $(seq 1 30); do
+            code=$(curl --silent --output /tmp/phase-b-ready-fresh-cache.json --write-out "%{http_code}"               "http://127.0.0.1:$PORT/ready" || true)
+            if [ "$code" = "200" ]; then
+              break
+            fi
+            sleep 1
+          done
+
+          python - <<'PY'
+          import json, os, urllib.request
+          base=f"http://127.0.0.1:{os.environ['PORT']}"
+          with urllib.request.urlopen(base+'/api/data',timeout=10) as response:
+              data=json.loads(response.read().decode())
+          record=next(
+              x for x in data['records']
+              if x.get('title') == 'Left at the Altar, Married Power'
+              and x.get('app') == 'MoboReels'
+          )
+          assert record.get('researchStatus') == '已研究', record
+          assert record.get('researchConfidence') == 'medium', record
+          print('PASS_PHASE_B_FRESH_CACHE_RECOVERY')
+          PY
+
+      - name: Smoke current production baseline as rollback reader
+        shell: bash
+        env:
+          MAIN_BASE_SHA: a206bc9c21138a9559aecf5a7a34069167268cfc
+          ROLLBACK_PORT: "8767"
+        run: |
+          set -euo pipefail
+          git worktree add /tmp/jsm-main-rollback "$MAIN_BASE_SHA"
+
+          ROLLBACK_DATA="/tmp/jsm-main-rollback-data-${GITHUB_RUN_ID}"
+          mkdir -p "$ROLLBACK_DATA"
+
+          (
+            cd /tmp/jsm-main-rollback
+            DATA_DIR="$ROLLBACK_DATA" python app.py --host 127.0.0.1 --port "$ROLLBACK_PORT" --no-open               > /tmp/jsm-main-rollback.log 2>&1 &
+            echo $! > /tmp/jsm-main-rollback.pid
+          )
+
+          for i in $(seq 1 30); do
+            if curl --fail --silent "http://127.0.0.1:$ROLLBACK_PORT/health" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+
+          python - <<'PY'
+          import json, os, urllib.request
+          base=f"http://127.0.0.1:{os.environ['ROLLBACK_PORT']}"
+          with urllib.request.urlopen(base+'/api/data',timeout=10) as response:
+              data=json.loads(response.read().decode())
+          record=next(
+              x for x in data['records']
+              if x.get('title') == 'Left at the Altar, Married Power'
+              and x.get('app') == 'MoboReels'
+          )
+          assert record.get('researchStatus') == '已研究', record
+          print('PASS_MAIN_BASELINE_ROLLBACK_READER_SMOKE')
+          PY
+
+          kill "$(cat /tmp/jsm-main-rollback.pid)" || true
+          wait "$(cat /tmp/jsm-main-rollback.pid)" 2>/dev/null || true
+
       - name: Stop isolated application
         if: always()
         shell: bash
@@ -266,7 +398,12 @@ jobs:
           path: |
             /tmp/jsm-phase-b-app.log
             /tmp/jsm-phase-b-persistence.log
+            /tmp/jsm-phase-b-persistence-recovered.log
+            /tmp/jsm-phase-b-app-recovered.log
+            /tmp/jsm-main-rollback.log
             /tmp/phase-b-ready.json
+            /tmp/phase-b-ready-recovered.json
+            /tmp/phase-b-ready-fresh-cache.json
             /tmp/phase-b-dependency-failure.json
           if-no-files-found: warn
           retention-days: 14
