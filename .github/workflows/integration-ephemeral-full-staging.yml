@@ -1,0 +1,138 @@
+name: JSM Ephemeral Full Integration Staging
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - app.py
+      - collector_import.py
+      - drama_identity.py
+      - live_observations.py
+      - live_observations_v2.py
+      - research_*.py
+      - persistence.py
+      - ranking_lifecycle.py
+      - source_*.py
+      - tests/**
+      - test_golden_local_http_e2e.py
+      - test_golden_publication_e2e.py
+      - integration_render_smoke.py
+      - .github/workflows/integration-ephemeral-full-staging.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jsm-ephemeral-full-integration-staging
+  cancel-in-progress: true
+
+jobs:
+  full-staging-phase-a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      DATA_DIR: ${{ runner.temp }}/jsm-full-staging
+      PORT: "8765"
+      RENDER_GIT_COMMIT: ${{ github.sha }}
+      RENDER_SERVICE_NAME: jsm-integration-ephemeral
+      JSM_READINESS_REQUIRE_PERSISTENCE: "false"
+      JSM_READINESS_REQUIRE_ANALYSIS: "false"
+      JSM_READINESS_REQUIRE_RESEARCH: "false"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install application dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Compile integrated runtime surface
+        run: |
+          python -m py_compile             app.py collector_import.py drama_identity.py             live_observations.py live_observations_v2.py             research_guard.py research_validation.py research_writeback.py             research_pipeline.py research_worker.py persistence.py             ranking_lifecycle.py integration_render_smoke.py
+
+      - name: Run Golden publication and HTTP E2E
+        run: |
+          python -m unittest -v             test_golden_publication_e2e.py             test_golden_local_http_e2e.py
+
+      - name: Start actual application process in isolated mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$DATA_DIR"
+          python app.py --host 127.0.0.1 --port "$PORT" --no-open > /tmp/jsm-integration-staging.log 2>&1 &
+          echo $! > /tmp/jsm-integration-staging.pid
+
+          for i in $(seq 1 30); do
+            if curl --fail --silent "http://127.0.0.1:$PORT/health" >/dev/null; then
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Application did not become healthy"
+          cat /tmp/jsm-integration-staging.log
+          exit 1
+
+      - name: Verify process-level readiness, API and commit provenance
+        run: |
+          python integration_render_smoke.py             --base-url "http://127.0.0.1:$PORT"             --expected-commit "$GITHUB_SHA"
+
+      - name: Assert staging isolation
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+
+          base = f"http://127.0.0.1:{os.environ['PORT']}"
+
+          def get(path):
+              with urllib.request.urlopen(base + path, timeout=10) as r:
+                  return json.loads(r.read().decode("utf-8"))
+
+          health = get("/health")
+          ready = get("/ready")
+          data = get("/api/data")
+
+          assert health["persistenceConfigured"] is False, health
+          assert ready["ready"] is True, ready
+          assert ready["required"] == {
+              "persistence": False,
+              "analysis": False,
+              "research": False,
+          }, ready
+          assert isinstance(data.get("records"), list), data
+          assert isinstance(data.get("summary"), dict), data
+
+          print(json.dumps({
+              "status": "PASS_EPHEMERAL_FULL_STAGING_PHASE_A",
+              "persistenceConfigured": health["persistenceConfigured"],
+              "ready": ready["ready"],
+              "recordCount": len(data["records"]),
+              "collectionDate": data["summary"].get("collectionDate"),
+              "gitCommit": ready.get("gitCommit"),
+          }, ensure_ascii=False))
+          PY
+
+      - name: Stop isolated application
+        if: always()
+        shell: bash
+        run: |
+          if [ -f /tmp/jsm-integration-staging.pid ]; then
+            kill "$(cat /tmp/jsm-integration-staging.pid)" || true
+          fi
+
+      - name: Upload staging runtime log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsm-ephemeral-full-integration-staging-${{ github.run_id }}
+          path: /tmp/jsm-integration-staging.log
+          if-no-files-found: warn
+          retention-days: 14
