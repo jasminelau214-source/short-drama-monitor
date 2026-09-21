@@ -84,6 +84,7 @@ jobs:
       JSM_READINESS_REQUIRE_PERSISTENCE: "true"
       JSM_READINESS_REQUIRE_ANALYSIS: "false"
       JSM_READINESS_REQUIRE_RESEARCH: "false"
+      JSM_ALLOW_INTEGRATION_STUB: "1"
 
     steps:
       - uses: actions/checkout@v4
