@@ -10,11 +10,11 @@ on:
       - drama_identity.py
       - live_observations.py
       - live_observations_v2.py
-      - research_*.py
+      - 'research_*.py'
       - persistence.py
       - ranking_lifecycle.py
-      - source_*.py
-      - tests/**
+      - 'source_*.py'
+      - 'tests/**'
       - test_golden_local_http_e2e.py
       - test_golden_publication_e2e.py
       - integration_render_smoke.py
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      DATA_DIR: ${{ runner.temp }}/jsm-full-staging
+      DATA_DIR: /tmp/jsm-full-staging-${{ github.run_id }}
       PORT: "8765"
       RENDER_GIT_COMMIT: ${{ github.sha }}
       RENDER_SERVICE_NAME: jsm-integration-ephemeral
@@ -53,12 +53,19 @@ jobs:
           pip install -r requirements.txt
 
       - name: Compile integrated runtime surface
-        run: |
-          python -m py_compile             app.py collector_import.py drama_identity.py             live_observations.py live_observations_v2.py             research_guard.py research_validation.py research_writeback.py             research_pipeline.py research_worker.py persistence.py             ranking_lifecycle.py integration_render_smoke.py
+        run: >
+          python -m py_compile
+          app.py collector_import.py drama_identity.py
+          live_observations.py live_observations_v2.py
+          research_guard.py research_validation.py research_writeback.py
+          research_pipeline.py research_worker.py persistence.py
+          ranking_lifecycle.py integration_render_smoke.py
 
       - name: Run Golden publication and HTTP E2E
-        run: |
-          python -m unittest -v             test_golden_publication_e2e.py             test_golden_local_http_e2e.py
+        run: >
+          python -m unittest -v
+          test_golden_publication_e2e.py
+          test_golden_local_http_e2e.py
 
       - name: Start actual application process in isolated mode
         shell: bash
@@ -67,23 +74,24 @@ jobs:
           mkdir -p "$DATA_DIR"
           python app.py --host 127.0.0.1 --port "$PORT" --no-open > /tmp/jsm-integration-staging.log 2>&1 &
           echo $! > /tmp/jsm-integration-staging.pid
-
           for i in $(seq 1 30); do
             if curl --fail --silent "http://127.0.0.1:$PORT/health" >/dev/null; then
               exit 0
             fi
             sleep 1
           done
-
           echo "Application did not become healthy"
           cat /tmp/jsm-integration-staging.log
           exit 1
 
       - name: Verify process-level readiness, API and commit provenance
-        run: |
-          python integration_render_smoke.py             --base-url "http://127.0.0.1:$PORT"             --expected-commit "$GITHUB_SHA"
+        run: >
+          python integration_render_smoke.py
+          --base-url "http://127.0.0.1:$PORT"
+          --expected-commit "$GITHUB_SHA"
 
       - name: Assert staging isolation
+        shell: bash
         run: |
           python - <<'PY'
           import json
@@ -93,8 +101,8 @@ jobs:
           base = f"http://127.0.0.1:{os.environ['PORT']}"
 
           def get(path):
-              with urllib.request.urlopen(base + path, timeout=10) as r:
-                  return json.loads(r.read().decode("utf-8"))
+              with urllib.request.urlopen(base + path, timeout=10) as response:
+                  return json.loads(response.read().decode("utf-8"))
 
           health = get("/health")
           ready = get("/ready")
