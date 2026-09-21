@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import json
-import re
 import unittest
 from pathlib import Path
+
+from drama_identity import normalize_title
 
 ROOT = Path(__file__).resolve().parent
 
@@ -11,10 +12,7 @@ def load(name):
     return json.loads((ROOT / name).read_text(encoding="utf-8"))
 
 def norm(value):
-    text = str(value or "").casefold()
-    text = re.sub(r"\([^)]*(?:dubbed|english dub)[^)]*\)", "", text)
-    text = re.sub(r"\b(?:dubbed|english dub)\b", "", text)
-    return re.sub(r"[^a-z0-9]+", "", text)
+    return normalize_title(value)
 
 def collector(run):
     result = run.get("result_json") or {}
@@ -102,6 +100,30 @@ class FrontendSnapshotContract(unittest.TestCase):
         self.assertNotIn("r.poster || r.cover", self.html)
         self.assertNotIn("title-only", self.html)
         self.assertIn("不跨平台合并 Drama Identity", self.html)
+
+    def test_identity_matches_integration_contract(self):
+        self.assertEqual(norm("(DUBBED) Justice in Blood"), norm("Justice in Blood"))
+        self.assertEqual(norm("Ruling Over All I See (DUBBED)"), norm("Ruling Over All I See"))
+        self.assertEqual(norm("English Dub Flash Marriage CEO Spoils Me a Lot"), norm("Flash Marriage CEO Spoils Me a Lot"))
+        self.assertNotEqual(norm("The Boy Dubbed King"), norm("The Boy King"))
+        self.assertIn("function stripReleaseMarkers(v)", self.html)
+
+    def test_research_projection_is_scope_safe(self):
+        self.assertIn("String(t.platform||'')+'::'+tk+'::'+norm", self.html)
+        self.assertIn("String(t.analysis_run_id)+'::'+norm", self.html)
+        self.assertIn("Research 投影绑定 platform + targetKey + title", self.html)
+
+    def test_full_raw_datasets_and_field_matrix_are_visible(self):
+        for marker in [
+            "Frontend Field Coverage Matrix",
+            "analysis_runs · 全量 36",
+            "collection_jobs · 全量 15",
+            "collection_targets · 全量 20",
+            "source_registry · 全量 16",
+            "drama_overrides · 全量 104",
+            "完整 JSON",
+        ]:
+            self.assertIn(marker, self.html)
 
 if __name__ == "__main__":
     unittest.main()
