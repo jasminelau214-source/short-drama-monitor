@@ -75,7 +75,7 @@ foreach ($definition in $definitions) {
         & powershell.exe @args
         $collectorExit = $LASTEXITCODE
         if ($collectorExit -ne 0) {
-            throw "COLLECTOR_EXIT_NONZERO:$platform:$collectorExit"
+            throw ("COLLECTOR_EXIT_NONZERO:{0}:{1}" -f $platform,$collectorExit)
         }
 
         $platformDir = Join-Path (Join-Path $OutputRoot $CollectionDate) $platform
@@ -95,25 +95,25 @@ foreach ($definition in $definitions) {
 
         $payload = Get-Content -Raw -Encoding UTF8 $output.FullName | ConvertFrom-Json
         if ([string]$payload.platform -ne $platform) {
-            throw "OUTPUT_PLATFORM_MISMATCH:$platform:$($payload.platform)"
+            throw ("OUTPUT_PLATFORM_MISMATCH:{0}:{1}" -f $platform,$payload.platform)
         }
         if ([string]$payload.collection_date -ne $CollectionDate) {
-            throw "OUTPUT_DATE_MISMATCH:$platform:$($payload.collection_date)"
+            throw ("OUTPUT_DATE_MISMATCH:{0}:{1}" -f $platform,$payload.collection_date)
         }
         if (-not [bool]$payload.batch_complete) {
             throw "OUTPUT_BATCH_INCOMPLETE:$platform"
         }
         if ([string]$payload.source_type -ne "SHORT_DRAMA_APP") {
-            throw "OUTPUT_SOURCE_TYPE_INVALID:$platform:$($payload.source_type)"
+            throw ("OUTPUT_SOURCE_TYPE_INVALID:{0}:{1}" -f $platform,$payload.source_type)
         }
         if ([string]$payload.collection_method -ne $definition.ExpectedMethod) {
-            throw "OUTPUT_METHOD_MISMATCH:$platform:$($payload.collection_method)"
+            throw ("OUTPUT_METHOD_MISMATCH:{0}:{1}" -f $platform,$payload.collection_method)
         }
         if ([string]$payload.target_key -ne $definition.ExpectedTarget) {
-            throw "OUTPUT_TARGET_MISMATCH:$platform:$($payload.target_key)"
+            throw ("OUTPUT_TARGET_MISMATCH:{0}:{1}" -f $platform,$payload.target_key)
         }
         if ([string]$payload.collector_version -ne $definition.ExpectedVersion) {
-            throw "OUTPUT_VERSION_MISMATCH:$platform:$($payload.collector_version)"
+            throw ("OUTPUT_VERSION_MISMATCH:{0}:{1}" -f $platform,$payload.collector_version)
         }
         if (@($payload.rows).Count -ne [int]$payload.top_n) {
             throw "OUTPUT_TOPN_ROWCOUNT_MISMATCH:$platform"
