@@ -344,7 +344,10 @@ jobs:
           ROLLBACK_PORT: "8767"
         run: |
           set -euo pipefail
-          git worktree add /tmp/jsm-main-rollback "$MAIN_BASE_SHA"
+          # actions/checkout is shallow by default; fetch the pinned rollback
+          # baseline explicitly so this rehearsal does not depend on local Git history.
+          git fetch --no-tags --depth=1 origin "$MAIN_BASE_SHA"
+          git worktree add --detach /tmp/jsm-main-rollback "$MAIN_BASE_SHA"
 
           ROLLBACK_DATA="/tmp/jsm-main-rollback-data-${GITHUB_RUN_ID}"
           mkdir -p "$ROLLBACK_DATA"
