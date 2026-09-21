@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 import json
+import os
 import re
+
+if os.environ.get('JSM_ALLOW_INTEGRATION_STUB', '').strip() != '1':
+    raise RuntimeError('INTEGRATION_STUB_NOT_EXPLICITLY_ENABLED')
 
 import app
 import persistence
