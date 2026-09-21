@@ -594,7 +594,7 @@ $rows | ForEach-Object {
 
 Write-Host ""
 Write-Host "==============================" -ForegroundColor Cyan
-Write-Host "MoboReels Collector V2 complete" -ForegroundColor Cyan
+Write-Host "MoboReels Collector V3 complete" -ForegroundColor Cyan
 Write-Host "==============================" -ForegroundColor Cyan
 Write-Host "Rows: $($rows.Count)"
 Write-Host "Complete: $complete"
