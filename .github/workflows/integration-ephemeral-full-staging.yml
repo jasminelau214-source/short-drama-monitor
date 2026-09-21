@@ -7,6 +7,7 @@ on:
       - integration/core-contract-v1-2026-09-20
     paths:
       - app.py
+      - index.html
       - collector_import.py
       - drama_identity.py
       - live_observations.py
@@ -129,6 +130,7 @@ jobs:
           test_app_collect_sync_contract.py
           test_web_sync_contract.py
           test_readiness_contract.py
+          test_frontend_contract_rebase.py
 
       - name: Start actual application process in isolated mode
         shell: bash

@@ -174,6 +174,15 @@ def _run_scope(result: dict) -> tuple[str, str, str, int]:
     return source_type, target_key, ranking_type, top_n
 
 
+def _app_ranking_newness(item: dict) -> str:
+    raw = str(item.get('newness') or '').strip().casefold()
+    if raw == 'new':
+        return 'NEW'
+    if raw == 'old':
+        return 'EXISTING'
+    return 'UNKNOWN'
+
+
 def _latest_complete_runs(connect) -> list[dict]:
     """Return latest complete imported ranking run for each date/platform/source/target.
 
@@ -190,6 +199,11 @@ def _latest_complete_runs(connect) -> list[dict]:
             result = json.loads(row['result_json'] or '{}')
         except (TypeError, json.JSONDecodeError):
             continue
+        collector_meta = _collector_meta(result)
+        scope_inferred = not (
+            str(collector_meta.get('sourceType') or '').strip()
+            and str(collector_meta.get('targetKey') or '').strip()
+        )
         parsed_rows = result.get('rows') if isinstance(result.get('rows'), list) else []
         source_type, target_key, ranking_type, top_n = _run_scope(result)
         if source_type != 'SHORT_DRAMA_APP':
@@ -225,6 +239,7 @@ def _latest_complete_runs(connect) -> list[dict]:
             'ranking_type': ranking_type,
             'top_n': top_n,
             'status': str(row['status'] or ''),
+            'scope_inferred': scope_inferred,
             'updated_at': str(row['updated_at'] or ''),
             'result': result,
         }
@@ -300,6 +315,10 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                     **inherited,
                     'history': [],
                     'platformMetrics': {},
+                    'posterUrl': str(item.get('posterUrl') or '').strip(),
+                    'appRankingNewness': _app_ranking_newness(item),
+                    'scopeInferred': bool(run.get('scope_inferred')),
+                    'dataQuality': 'VALID',
                 }
                 records.append(record)
                 by_platform_target_title[(platform, target_key, norm)] = record
@@ -319,6 +338,11 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 'tags': clean_tags,
                 'rankingBadges': ranking_badges,
                 'metrics': clean_metrics,
+                'posterUrl': str(item.get('posterUrl') or '').strip(),
+                'appRankingNewness': _app_ranking_newness(item),
+                'scopeInferred': bool(run.get('scope_inferred')),
+                'dataQuality': 'VALID',
+                'analysisRunId': run['id'],
                 'source': f"analysis_run:{run['id']}",
             }
             history = [
@@ -359,6 +383,10 @@ def merge_analysis_records(base_records: list[dict], connect, normalize_title, s
                 'tags': str(latest_event.get('tags') or ''),
                 'rankingBadges': latest_event.get('rankingBadges') if isinstance(latest_event.get('rankingBadges'), list) else [],
                 'platformMetrics': latest_event.get('metrics') if isinstance(latest_event.get('metrics'), dict) else {},
+                'posterUrl': str(latest_event.get('posterUrl') or record.get('posterUrl') or '').strip(),
+                'appRankingNewness': str(latest_event.get('appRankingNewness') or 'UNKNOWN'),
+                'scopeInferred': bool(latest_event.get('scopeInferred')),
+                'dataQuality': str(latest_event.get('dataQuality') or 'VALID'),
                 'history': history,
                 'recordedDates': dates,
                 'daysOnChart': len(dates),
@@ -402,6 +430,11 @@ def build_live_summary(records: list[dict], platform_order: list[str], clean, sp
                 'tags': h.get('tags', r.get('tags', '')),
                 'rankingBadges': h.get('rankingBadges', r.get('rankingBadges', [])),
                 'platformMetrics': h.get('metrics') or {},
+                'posterUrl': h.get('posterUrl') or r.get('posterUrl') or '',
+                'appRankingNewness': h.get('appRankingNewness') or 'UNKNOWN',
+                'scopeInferred': bool(h.get('scopeInferred')),
+                'dataQuality': h.get('dataQuality') or r.get('dataQuality') or 'UNKNOWN',
+                'analysisRunId': h.get('analysisRunId') or r.get('analysisRunId') or '',
             })
             current.append(x)
 

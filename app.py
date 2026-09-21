@@ -26,6 +26,7 @@ from research_worker import schedule as schedule_research_worker, configured as 
 from collector_import import CollectorImportError, validate_and_normalize
 from drama_identity import normalize_title
 from research_writeback import select_same_platform_record
+from research_validation import validate_research_payload
 from ranking_lifecycle import known_app_ranked_titles as lifecycle_known_app_ranked_titles
 import persistence
 
@@ -314,6 +315,91 @@ def build_summary(records):
     }
 
 
+def _research_source_urls(sources):
+    urls = set()
+    for item in sources if isinstance(sources, list) else []:
+        if isinstance(item, dict):
+            value = clean(item.get('url') or item.get('sourceUrl'), 1200)
+        else:
+            value = clean(item, 1200)
+        if value:
+            urls.add(value)
+    return urls
+
+
+def _research_task_view(task):
+    status = clean(task.get('status'), 40).upper() or 'UNKNOWN'
+    research = task.get('research_json') if isinstance(task.get('research_json'), dict) else {}
+    sources = task.get('sources') if isinstance(task.get('sources'), list) else []
+    allowed_urls = _research_source_urls(sources)
+    confidence = clean(task.get('confidence') or research.get('confidence'), 40).lower()
+    missing_fields = [clean(x, 120) for x in (task.get('missing_fields') or []) if clean(x, 120)]
+    error_raw = clean(task.get('error'), 1000)
+    error_code = clean(error_raw.split(':', 1)[0], 120) if error_raw else ''
+    validation = validate_research_payload(research, allowed_source_urls=allowed_urls) if status == 'COMPLETE' else {'ok': False, 'errors': [], 'blankFields': []}
+    blank_core = [clean(x, 120) for x in (validation.get('blankFields') or []) if clean(x, 120)]
+    combined_missing = list(dict.fromkeys(missing_fields + blank_core))
+    contract_valid = bool(
+        status == 'COMPLETE'
+        and validation.get('ok')
+        and not blank_core
+        and confidence in {'medium', 'high'}
+        and bool(allowed_urls)
+        and not error_code
+    )
+    upper_error = error_code.upper()
+    return {
+        'status': status,
+        'confidence': confidence or '',
+        'missingFields': combined_missing,
+        'evidenceCount': len(allowed_urls),
+        'contractValid': contract_valid,
+        'validationIssueCount': len(validation.get('errors') or []),
+        'errorCode': error_code,
+        'identityConflict': 'IDENTITY' in upper_error or 'SAME_PLATFORM' in upper_error,
+        'sourceConflict': 'SOURCE' in upper_error or 'AUTHORITATIVE' in upper_error or 'SUPERSEDED' in upper_error,
+        'updatedAt': clean(task.get('updated_at'), 80),
+        'collectionDate': clean(task.get('collection_date'), 20),
+        'analysisRunId': clean(task.get('analysis_run_id'), 200),
+    }
+
+
+def _attach_research_task_projection(records):
+    if not persistence.configured():
+        return {'state': 'NOT_CONFIGURED', 'taskCount': 0, 'matchedRecords': 0}
+    try:
+        tasks = persistence.list_research_tasks(limit=500)
+    except Exception as exc:
+        return {'state': 'UNAVAILABLE', 'taskCount': 0, 'matchedRecords': 0, 'errorType': type(exc).__name__}
+
+    latest = {}
+    for task in tasks:
+        platform = clean(task.get('platform'), 80)
+        norm = normalize_title(task.get('normalized_title') or task.get('title'))
+        if not platform or not norm:
+            continue
+        key = (platform, norm)
+        stamp = (clean(task.get('updated_at'), 80), clean(task.get('created_at'), 80), clean(task.get('id'), 120))
+        previous = latest.get(key)
+        if previous is None or stamp > previous[0]:
+            latest[key] = (stamp, task)
+
+    matched = 0
+    for record in records:
+        key = (clean(record.get('app'), 80), normalize_title(record.get('title')))
+        selected = latest.get(key)
+        if selected:
+            record['researchTask'] = _research_task_view(selected[1])
+            matched += 1
+        else:
+            record['researchTask'] = {
+                'status': 'UNKNOWN', 'confidence': '', 'missingFields': [],
+                'evidenceCount': 0, 'contractValid': False, 'validationIssueCount': 0,
+                'errorCode': '', 'identityConflict': False, 'sourceConflict': False,
+                'updatedAt': '', 'collectionDate': '', 'analysisRunId': '',
+            }
+    return {'state': 'AVAILABLE', 'taskCount': len(tasks), 'matchedRecords': matched}
+
 def public_data():
     with connect() as c:
         rows=c.execute('SELECT drama_id,fields_json FROM drama_overrides').fetchall()
@@ -331,7 +417,10 @@ def public_data():
     # again to make completed research visible without requiring a restart.
     for r in records:
         r.update(overrides.get(r.get('id'),{})); r['laneTerms']=split_lane(r.get('lane'))
-    return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
+    research_projection=_attach_research_task_projection(records)
+    summary=build_live_summary(records, PLATFORM_ORDER, clean, split_lane)
+    summary['researchProjection']=research_projection
+    return {'records':records,'summary':summary}
 
 
 def known_titles(before_date=''):

@@ -810,23 +810,765 @@
         align-items: flex-start;
       }
     }
+  
+    /* UI REDESIGN V1 FOUNDATION */
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --panel-soft: #fff9fa;
+      --ink: #20263a;
+      --muted: #697386;
+      --line: #e7e9ef;
+      --strong: #18213a;
+      --accent: #d62f3f;
+      --accent-soft: #fdebed;
+      --amber: #f08a24;
+      --amber-soft: #fff1e4;
+      --rose: #e84d72;
+      --rose-soft: #fdeaf0;
+      --blue: #316fd6;
+      --blue-soft: #eaf1ff;
+      --shadow: 0 10px 28px rgba(22, 30, 55, 0.07);
+      --radius: 10px;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 86% 0%, rgba(214, 47, 63, .07), transparent 26%),
+        linear-gradient(180deg, #fffafb 0, #f8f9fc 210px, #f7f8fb 100%);
+    }
+
+    .app-shell { grid-template-columns: 220px minmax(0, 1fr); }
+
+    .sidebar {
+      padding: 20px 14px;
+      background: rgba(255,255,255,.96);
+      border-right: 1px solid #eceef3;
+      gap: 20px;
+    }
+
+    .brand {
+      align-items: flex-start;
+      color: var(--strong);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #b91c2b 0%, #e64c59 100%);
+      box-shadow: 0 8px 18px rgba(214, 47, 63, .18);
+      font-size: 11px;
+      letter-spacing: .3px;
+    }
+
+    .nav { gap: 6px; }
+
+    .nav button {
+      min-height: 42px;
+      border-radius: 9px;
+      padding: 10px 12px;
+      color: #596174;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .nav button:hover {
+      background: #fff6f7;
+      color: #9e2632;
+    }
+
+    .nav button.active {
+      background: linear-gradient(90deg, #fff0f2 0%, #fff8f9 100%);
+      color: #b42332;
+      border-color: #f3cbd0;
+      box-shadow: none;
+    }
+
+    .side-note {
+      background: #fff;
+      border-color: var(--line);
+      box-shadow: none;
+    }
+
+    main { padding: 24px 28px 34px; }
+
+    h1, h2 { color: var(--strong); }
+
+    .date-pill,
+    .date-select,
+    .metric,
+    .section,
+    .table-wrap,
+    .leader-item,
+    .modal {
+      background: #fff;
+      border-color: var(--line);
+    }
+
+    .metric,
+    .section {
+      box-shadow: 0 6px 18px rgba(22, 30, 55, .035);
+    }
+
+    .metric .value { color: var(--strong); }
+    .metric.new-title .value { color: var(--accent); }
+    .metric.continuing-title .value { color: var(--blue); }
+
+    table { background: #fff; }
+    thead th { background: #fafbfc; color: #596174; }
+    tbody tr { background: #fff; }
+    tbody tr:hover { background: #fff8f9; }
+
+    .rank {
+      background: #f1f3f6;
+      color: #4f596b;
+      border-radius: 7px;
+    }
+
+    tbody tr:nth-child(1) .rank {
+      background: #ffe5e8;
+      color: #bd1e2e;
+    }
+
+    tbody tr:nth-child(2) .rank {
+      background: #e8f0ff;
+      color: #275fbd;
+    }
+
+    tbody tr:nth-child(3) .rank {
+      background: #fff0df;
+      color: #c9670a;
+    }
+
+    .chip.rose {
+      background: var(--rose-soft);
+      color: #bd3155;
+    }
+
+    .chip.blue {
+      background: var(--blue-soft);
+      color: #2b61b7;
+    }
+
+    .chip.amber {
+      background: var(--amber-soft);
+      color: #b75b08;
+    }
+
+    .title-button,
+    .leader-item button {
+      color: #20263a;
+    }
+
+    .title-button:hover,
+    .leader-item button:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 980px) {
+      .app-shell { grid-template-columns: 190px minmax(0, 1fr); }
+      main { padding: 20px; }
+    }
+  
+  
+    /* UI REDESIGN V1 NAV + LIBRARY */
+    .nav-admin { display:flex; align-items:center; justify-content:space-between; }
+    .nav-admin span { font-size:10px; padding:2px 6px; border-radius:999px; background:#fff0f2; color:#b42332; }
+    .history-filters { grid-template-columns:minmax(220px,1.5fr) repeat(4,minmax(130px,1fr)); }
+    .research-select { width:220px; min-width:0; }
+    .research-summary { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; margin:18px 0; }
+    .research-summary .metric { min-height:96px; }
+    .history-status { display:inline-flex; font-size:12px; font-weight:700; padding:5px 8px; border-radius:999px; background:#f2f4f7; color:#667085; }
+    .history-status.active { background:#eaf7ef; color:#237a45; }
+    @media (max-width:1100px) {
+      .history-filters { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .research-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+  
+    /* UI REDESIGN V1 OVERVIEW */
+    .overview-topbar { margin-bottom: 14px; }
+    .system-strip {
+      display:flex; align-items:center; gap:10px; min-height:38px;
+      padding:8px 12px; margin-bottom:14px; border:1px solid #eceef3;
+      border-radius:10px; background:rgba(255,255,255,.9); color:#667085; font-size:13px;
+    }
+    .system-strip strong { color:#344054; }
+    .status-dot { width:8px; height:8px; border-radius:50%; background:#36a269; box-shadow:0 0 0 4px #eaf7ef; }
+    .overview-brief {
+      border:1px solid #f0d9dd; border-radius:14px; padding:20px 22px;
+      background:linear-gradient(135deg,#fff7f8 0%,#fff 62%); box-shadow:0 10px 24px rgba(145,36,52,.04);
+    }
+    .overview-brief-head { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:14px; }
+    .eyebrow { color:#b42332; font-size:12px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; margin-bottom:4px; }
+    .text-link { border:0; background:transparent; color:#b42332; font-weight:700; padding:4px 0; }
+    .conclusion-list { display:grid; gap:10px; }
+    .conclusion-item { display:grid; grid-template-columns:28px 1fr; align-items:flex-start; gap:10px; }
+    .conclusion-item span {
+      width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+      background:#fff; border:1px solid #f1cfd4; color:#b42332; font-size:12px; font-weight:800;
+    }
+    .conclusion-item p { margin:1px 0 0; line-height:1.65; color:#344054; }
+
+    .overview-stats {
+      display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:12px; margin:14px 0;
+    }
+    .overview-stats .metric { min-height:100px; }
+
+    .overview-focus { margin-top:14px; }
+    .focus-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    .focus-card { position:relative; overflow:hidden; border:1px solid #eceef3; border-radius:12px; padding:16px; background:#fff; min-height:118px; }
+    .focus-card::before { content:""; position:absolute; inset:0 auto 0 0; width:3px; background:#d62f3f; }
+    .focus-card.blue::before { background:#316fd6; }
+    .focus-card.amber::before { background:#f08a24; }
+    .focus-type { color:#98a2b3; font-size:12px; font-weight:700; margin-bottom:9px; }
+    .focus-title { display:block; width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:17px; font-weight:800; line-height:1.35; margin-bottom:8px; }
+    button.focus-title:hover { color:#b42332; }
+
+    .overview-entry-section { margin-top:14px; }
+    .entry-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }
+    .entry-card {
+      min-height:116px; border:1px solid #f0d9dd; border-radius:12px; padding:14px;
+      background:#fffafa; color:#344054; text-align:left; display:flex; flex-direction:column; gap:7px;
+      transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease;
+    }
+    .entry-card:hover { transform:translateY(-1px); border-color:#e7b5bd; box-shadow:0 8px 18px rgba(145,36,52,.06); }
+    .entry-card span { color:#b42332; font-size:12px; font-weight:900; }
+    .entry-card strong { color:#20263a; font-size:15px; }
+    .entry-card small { color:#7a8497; line-height:1.5; }
+    .entry-card.blue { background:#fbfcff; border-color:#dfe8fb; }
+    .entry-card.blue span { color:#316fd6; }
+    .entry-card.amber { background:#fffdf9; border-color:#f5e5cd; }
+    .entry-card.amber span { color:#d8791e; }
+    .entry-card.violet { background:#fdfbff; border-color:#eadff5; }
+    .entry-card.violet span { color:#7d51b8; }
+
+    @media (max-width:1100px) {
+      .overview-stats, .entry-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .focus-grid { grid-template-columns:1fr; }
+    }
+  
+    /* UI REDESIGN V1 DAILY */
+    .daily-brief {
+      display:grid; grid-template-columns:190px 1fr; gap:18px; align-items:start;
+      border:1px solid #f0d9dd; border-radius:12px; padding:16px 18px; background:linear-gradient(135deg,#fff8f9,#fff);
+      margin-bottom:12px;
+    }
+    .daily-conclusions { display:grid; gap:7px; }
+    .daily-conclusions > div { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:start; }
+    .daily-conclusions span { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; background:#fff0f2; color:#b42332; font-size:11px; font-weight:800; }
+    .daily-conclusions p { margin:0; color:#475467; line-height:1.55; }
+    .daily-stats { display:grid; grid-template-columns:repeat(5,minmax(130px,1fr)); gap:10px; margin:12px 0; }
+    .daily-stats .metric { min-height:92px; padding:13px; }
+    .daily-stats .metric .value { font-size:26px; }
+    .daily-focus-section { margin:12px 0; }
+    .daily-focus-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .daily-focus-card { border:1px solid #eceef3; border-radius:11px; padding:14px; background:#fff; min-width:0; }
+    .daily-focus-rank { color:#c9ccd5; font-weight:900; font-size:12px; margin-bottom:7px; }
+    .daily-focus-meta { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:9px; }
+    .daily-focus-title { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:15px; font-weight:800; line-height:1.4; margin-bottom:7px; }
+    .daily-focus-title:hover { color:#b42332; }
+    @media (max-width:1100px) {
+      .daily-brief { grid-template-columns:1fr; }
+      .daily-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .daily-focus-grid { grid-template-columns:1fr; }
+    }
+  
+    /* UI REDESIGN V1 HISTORY */
+    .history-library-link { cursor:pointer; }
+    .history-toolbar {
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      margin-bottom:12px; padding:10px 12px; border:1px solid #eceef3; border-radius:10px; background:#fff;
+    }
+    .history-toolbar > div:first-child { display:flex; align-items:center; gap:10px; }
+    .toolbar-label { font-size:13px; color:#667085; font-weight:700; }
+    .history-toolbar select { border:1px solid #dfe3ea; border-radius:8px; padding:8px 30px 8px 10px; background:#fff; color:#344054; }
+    .history-brief { border:1px solid #eadfe1; border-radius:13px; padding:18px 20px; background:linear-gradient(135deg,#fff9fa,#fff); margin-bottom:12px; }
+    .history-stats { display:grid; grid-template-columns:repeat(4,minmax(150px,1fr)); gap:10px; margin:12px 0; }
+    .history-stats .metric { min-height:94px; }
+    .history-text-value { font-size:20px !important; line-height:1.2 !important; }
+    .history-grid { align-items:stretch; }
+    .history-series { display:flex; align-items:flex-end; gap:10px; min-height:230px; overflow-x:auto; padding:16px 4px 2px; }
+    .series-column { min-width:48px; flex:1; display:grid; grid-template-rows:22px 150px 24px; gap:5px; align-items:end; text-align:center; }
+    .series-value { color:#667085; font-size:12px; font-weight:700; }
+    .series-bar-wrap { height:150px; display:flex; align-items:flex-end; justify-content:center; border-bottom:1px solid #eceef3; }
+    .series-bar { width:24px; min-height:8px; border-radius:6px 6px 2px 2px; background:linear-gradient(180deg,#e85b68,#c92c3c); }
+    .series-date { color:#98a2b3; font-size:11px; white-space:nowrap; }
+    .genre-delta-list { display:grid; gap:8px; }
+    .genre-delta-row { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid #f0f1f4; }
+    .genre-delta-row:last-child { border-bottom:0; }
+    .genre-delta-row > div { display:flex; flex-direction:column; gap:3px; }
+    .delta-badge { min-width:42px; text-align:center; padding:5px 8px; border-radius:999px; font-size:12px; font-weight:800; background:#f2f4f7; color:#667085; }
+    .delta-badge.up { background:#fff0f2; color:#b42332; }
+    .delta-badge.down { background:#eaf1ff; color:#2b61b7; }
+    .delta-badge.flat { background:#f2f4f7; color:#667085; }
+    .history-life-section, .history-calendar-section { margin-top:12px; }
+    .lifecycle-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .life-card { border:1px solid #eceef3; border-radius:11px; background:#fff; padding:14px; min-width:0; }
+    .life-card-top { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px; }
+    .life-peak { font-size:12px; font-weight:800; color:#b42332; }
+    .life-title { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-size:15px; font-weight:800; line-height:1.4; margin-bottom:10px; }
+    .life-title:hover { color:#b42332; }
+    .life-trail { font-variant-numeric:tabular-nums; color:#475467; font-size:13px; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .timeline.compact { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:8px; }
+    .timeline.compact .timeline-row { border:1px solid #eceef3; border-radius:9px; padding:10px; background:#fff; }
+    @media (max-width:1100px) {
+      .history-stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .lifecycle-cards { grid-template-columns:1fr; }
+      .history-toolbar { align-items:flex-start; flex-direction:column; }
+    }
+  
+    /* UI REDESIGN V1 DETAIL */
+    .modal { border-radius:14px; }
+    .modal-header { background:linear-gradient(135deg,#fff8f9 0%,#fff 70%); }
+    .detail-summary { gap:10px; }
+    .tabs { overflow-x:auto; flex-wrap:nowrap; padding-bottom:2px; }
+    .tabs button { white-space:nowrap; }
+    .compare-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin-top:12px; }
+    .compare-card { border:1px solid #eceef3; border-radius:11px; padding:14px; background:#fff; }
+    .compare-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+    .compare-card button { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-weight:800; line-height:1.4; }
+    .compare-card button:hover { color:#b42332; }
+    .compare-card p { margin:8px 0 5px; color:#475467; }
+    .compare-card small { color:#98a2b3; line-height:1.5; }
+    .resource-intro { border:1px solid #f0d9dd; border-radius:12px; padding:16px; background:linear-gradient(135deg,#fff8f9,#fff); margin-bottom:12px; }
+    .resource-intro h3 { margin-top:3px; }
+    .resource-intro p { margin-bottom:0; }
+    .resource-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .resource-card { border:1px dashed #dfe3ea; border-radius:11px; padding:15px; background:#fff; min-height:116px; display:flex; flex-direction:column; gap:8px; }
+    .resource-card span { color:#b42332; font-size:12px; font-weight:800; }
+    .resource-card strong { color:#344054; }
+    .resource-card small { color:#98a2b3; line-height:1.5; }
+    @media (max-width:900px) {
+      .compare-grid, .resource-grid { grid-template-columns:1fr; }
+    }
+  
+    /* UI REDESIGN V1 RESEARCH */
+    .research-toolbar {
+      display:grid; grid-template-columns:repeat(3,minmax(160px,1fr)); gap:10px;
+      padding:12px; border:1px solid #eceef3; border-radius:11px; background:#fff; margin-bottom:12px;
+    }
+    .research-brief {
+      display:grid; grid-template-columns:220px 1fr; gap:20px; padding:18px 20px;
+      border:1px solid #eadfe1; border-radius:13px; background:linear-gradient(135deg,#fff9fa,#fff); margin-bottom:12px;
+    }
+    .research-insights { display:grid; gap:8px; }
+    .research-insight-item { display:grid; grid-template-columns:24px 1fr; gap:8px; align-items:start; }
+    .research-insight-item span { width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#fff0f2; color:#b42332; font-size:11px; font-weight:800; }
+    .research-insight-item p { margin:0; color:#475467; line-height:1.55; }
+    .research-analysis-grid { align-items:start; }
+    .research-elements { display:grid; gap:4px; }
+    .element-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid #f0f1f4; }
+    .element-row:last-child { border-bottom:0; }
+    .element-main { display:flex; align-items:center; gap:9px; min-width:0; }
+    .element-main strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .element-dot { width:9px; height:9px; border-radius:50%; background:#d62f3f; flex:0 0 auto; }
+    .element-dot.blue { background:#316fd6; }
+    .element-dot.amber { background:#f08a24; }
+    .element-dot.violet { background:#7d51b8; }
+    .element-meta { display:flex; gap:8px; align-items:center; color:#98a2b3; font-size:12px; }
+    .element-meta b { min-width:38px; text-align:center; padding:3px 6px; border-radius:999px; background:#f7f8fb; color:#667085; }
+    .research-patterns { display:grid; gap:10px; }
+    .pattern-card { border:1px solid #eceef3; border-radius:11px; padding:13px; background:#fff; }
+    .pattern-card > button { width:100%; border:0; background:transparent; padding:0 0 9px; text-align:left; color:#20263a; font-weight:800; line-height:1.4; border-bottom:1px solid #f0f1f4; }
+    .pattern-card > button:hover { color:#b42332; }
+    .pattern-card > div { display:grid; grid-template-columns:52px 1fr; gap:8px; margin-top:8px; align-items:start; }
+    .pattern-card span { color:#98a2b3; font-size:12px; font-weight:700; }
+    .pattern-card p { margin:0; color:#475467; font-size:13px; line-height:1.55; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .research-title-section { margin-top:12px; }
+    .research-title-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .research-title-card { border:1px solid #eceef3; border-radius:11px; background:#fff; padding:14px; min-width:0; }
+    .research-title-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+    .research-rank { margin-left:auto; color:#b42332; font-size:12px; font-weight:800; }
+    .research-title-card > button { width:100%; border:0; background:transparent; padding:0; text-align:left; color:#20263a; font-weight:800; font-size:15px; line-height:1.4; }
+    .research-title-card > button:hover { color:#b42332; }
+    .research-title-card p { color:#667085; line-height:1.5; min-height:42px; margin:8px 0; }
+    .research-title-card small { color:#98a2b3; line-height:1.5; }
+    @media (max-width:1100px) {
+      .research-toolbar { grid-template-columns:1fr; }
+      .research-brief { grid-template-columns:1fr; }
+      .research-title-grid { grid-template-columns:1fr; }
+    }
+  
+    /* UI REDESIGN V1 DETAIL WORKSPACE */
+    .modal-backdrop { padding:12px; }
+    .modal { width:min(1380px,100%); max-height:calc(100vh - 24px); border-radius:14px; background:#f7f8fb; }
+    .modal-header { padding:20px 22px; background:rgba(255,255,255,.97); }
+    .modal-header h1 { max-width:900px; font-size:26px; }
+    .detail-body { padding:18px 22px 24px; }
+    .tabs { position:sticky; top:88px; z-index:3; background:#f7f8fb; padding-top:4px; }
+    .tabs button.active { background:#b42332; border-color:#b42332; }
+    .mini-metric { border-radius:10px; box-shadow:0 4px 12px rgba(22,30,55,.03); }
+  
+    /* UI REDESIGN V1 HISTORY LIBRARY */
+    .history-filters { grid-template-columns:minmax(220px,1.6fr) repeat(5,minmax(125px,1fr)); }
+    .rank-trail { display:flex; align-items:center; gap:4px; white-space:nowrap; font-variant-numeric:tabular-nums; }
+    .rank-trail span { display:inline-flex; min-width:28px; height:26px; align-items:center; justify-content:center; padding:0 6px; border-radius:7px; background:#f7f8fb; color:#475467; font-size:12px; font-weight:700; }
+    .rank-trail i { color:#c3c7cf; font-style:normal; font-size:11px; }
+    @media (max-width:1250px) {
+      .history-filters { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+  
+    /* UI REDESIGN V1 DEEP LINK */
+    .edit-button.secondary { background:#fff; color:#667085; border-color:#dfe3ea; }
+    .edit-button.secondary:hover { color:#b42332; border-color:#e8bcc3; }
+  
+    /* UI REDESIGN V1 APPROVED OVERVIEW */
+    #dashboard { max-width:1380px; margin:0 auto; }
+    .market-hero {
+      position:relative; min-height:160px; overflow:hidden; border:1px solid #f1dfe2; border-radius:14px;
+      padding:24px 28px; margin-bottom:12px; display:flex; align-items:center;
+      background:
+        radial-gradient(circle at 76% 38%,rgba(229,62,81,.18),transparent 25%),
+        linear-gradient(120deg,#fff8fa 0%,#ffeef2 42%,#fff 100%);
+      box-shadow:0 12px 30px rgba(116,32,48,.06);
+    }
+    .market-hero::before {
+      content:""; position:absolute; inset:-80px 45% 45% -10%; transform:rotate(-12deg);
+      background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(255,255,255,0)); border-radius:50%;
+    }
+    .market-hero-copy { position:relative; z-index:2; }
+    .hero-kicker { color:#c72d40; font-size:11px; font-weight:900; letter-spacing:.12em; margin-bottom:8px; }
+    .market-hero h1 { margin:0 0 9px; font-size:28px; line-height:1.28; color:#1e2738; letter-spacing:-.02em; }
+    .market-hero p { margin:0; color:#687386; font-size:13px; word-spacing:8px; }
+    .hero-orbit { position:absolute; right:54px; top:12px; width:260px; height:145px; display:grid; place-items:center; color:#ae2639; font-size:14px; font-weight:800; letter-spacing:.04em; text-align:center; }
+    .hero-globe { position:absolute; width:145px; height:145px; border-radius:50%; border:1px solid rgba(205,47,66,.18); box-shadow:inset 0 0 45px rgba(221,52,72,.08),0 0 45px rgba(221,52,72,.08); }
+    .hero-globe::before,.hero-globe::after { content:""; position:absolute; inset:18px 0; border:1px solid rgba(205,47,66,.13); border-radius:50%; }
+    .hero-globe::after { inset:0 34px; }
+    .hero-date { position:absolute; top:14px; right:14px; display:flex; align-items:center; gap:8px; font-size:11px; color:#667085; z-index:3; }
+    .hero-date .date-select { min-width:118px; background:rgba(255,255,255,.88); }
+
+    .overview-kpi-row { display:grid; grid-template-columns:repeat(5,minmax(118px,.78fr)) minmax(300px,1.8fr); gap:9px; margin-bottom:10px; }
+    .overview-kpi {
+      position:relative; min-height:100px; padding:13px; border:1px solid #eceef3; border-radius:10px; background:#fff;
+      text-align:left; display:grid; grid-template-columns:32px 1fr; grid-template-rows:1fr auto; column-gap:9px; cursor:pointer;
+      box-shadow:0 6px 16px rgba(22,30,55,.025); transition:.15s ease;
+    }
+    .overview-kpi:hover { transform:translateY(-1px); border-color:#e6bec4; box-shadow:0 8px 20px rgba(126,34,48,.07); }
+    .kpi-icon { width:30px; height:30px; border-radius:8px; display:grid; place-items:center; font-size:14px; font-weight:900; }
+    .kpi-icon.red { background:#fff0f2; color:#d12e42; }
+    .kpi-icon.orange { background:#fff3e7; color:#e57912; }
+    .kpi-icon.green { background:#eaf8f1; color:#2d9b67; font-size:9px; }
+    .kpi-icon.pink { background:#fff0f6; color:#e4477d; font-size:18px; }
+    .kpi-icon.blue { background:#edf4ff; color:#3774dc; font-size:18px; }
+    .kpi-main { display:flex; flex-direction:column; gap:3px; }
+    .kpi-main b { font-size:23px; line-height:1; color:#20263a; }
+    .kpi-main small { font-size:12px; color:#667085; }
+    .kpi-hint { grid-column:2; color:#98a2b3; font-size:11px; }
+    .ai-summary-card { min-height:100px; border:1px solid #f1e4e6; border-radius:10px; background:linear-gradient(135deg,#fffafb,#fff); padding:12px 14px; }
+    .ai-summary-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:7px; }
+    .ai-summary-head strong { color:#283044; font-size:13px; }
+    .ai-spark { color:#d62f3f; margin-right:6px; }
+    .ai-summary-lines { display:grid; gap:4px; }
+    .ai-summary-lines > div { display:grid; grid-template-columns:8px 1fr; gap:6px; align-items:start; }
+    .ai-summary-lines p { margin:0; color:#596579; font-size:11.5px; line-height:1.42; }
+    .ai-bullet { width:4px; height:4px; border-radius:50%; background:#d62f3f; margin-top:6px; }
+
+    .overview-mid-grid { display:grid; grid-template-columns:1fr 1fr 1.35fr; gap:10px; margin-bottom:10px; }
+    .overview-bottom-grid { display:grid; grid-template-columns:2.1fr 1fr; gap:10px; }
+    .market-panel { background:#fff; border:1px solid #eceef3; border-radius:10px; padding:14px; box-shadow:0 5px 16px rgba(22,30,55,.025); min-width:0; }
+    .panel-head { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px; }
+    .panel-head > div { display:flex; align-items:center; gap:7px; min-width:0; }
+    .panel-head h2 { margin:0; font-size:14px; color:#293246; white-space:nowrap; }
+    .panel-accent { width:3px; height:14px; border-radius:3px; background:#d72f42; }
+    .mini-link { border:0; background:transparent; color:#8c96a8; padding:0; font-size:10.5px; white-space:nowrap; }
+    .mini-link:hover { color:#c12a3b; }
+
+    .rank-list { display:grid; gap:8px; }
+    .rank-row { display:grid; grid-template-columns:24px minmax(60px,.9fr) minmax(70px,1.4fr) 24px; gap:7px; align-items:center; min-height:24px; }
+    .rank-row strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:11px; color:#475467; }
+    .rank-row b { font-size:11px; color:#667085; text-align:right; }
+    .rank-no,.platform-dot { width:22px; height:22px; border-radius:6px; display:grid; place-items:center; font-size:10px; font-weight:900; background:#f2f4f7; color:#667085; }
+    .rank-no.red,.platform-dot.red { background:#ffe9ed; color:#d42d42; }
+    .rank-no.orange,.platform-dot.orange { background:#fff0e1; color:#df7711; }
+    .rank-no.blue,.platform-dot.blue { background:#eaf2ff; color:#3470d6; }
+    .rank-no.purple,.platform-dot.purple { background:#f0ebff; color:#7452bd; }
+    .rank-no.slate,.platform-dot.slate { background:#eff1f5; color:#687386; }
+    .rank-bar-track { height:7px; border-radius:999px; background:#f0f2f5; overflow:hidden; }
+    .rank-bar { display:block; height:100%; border-radius:999px; }
+    .rank-bar.red { background:linear-gradient(90deg,#ee334d,#d9223c); }
+    .rank-bar.orange { background:linear-gradient(90deg,#ff9b34,#f17d14); }
+    .rank-bar.blue { background:linear-gradient(90deg,#6ca3ff,#3d75db); }
+    .rank-bar.purple { background:linear-gradient(90deg,#a48cf0,#7a5bc2); }
+    .rank-bar.slate { background:linear-gradient(90deg,#c5cbd7,#919bad); }
+
+    .trend-panel { padding-bottom:9px; }
+    .trend-legend { display:flex; justify-content:flex-end; gap:10px; margin:-4px 2px 2px; font-size:9.5px; color:#8b95a7; }
+    .trend-legend span { display:flex; align-items:center; gap:4px; }
+    .legend-dot { width:6px; height:6px; border-radius:50%; }
+    .legend-dot.total { background:#ef3048; } .legend-dot.female { background:#f174a0; } .legend-dot.male { background:#4b82e4; }
+    .mini-trend-chart { width:100%; min-height:145px; }
+    .mini-trend-chart svg { width:100%; height:148px; overflow:visible; }
+    .trend-grid-lines line { stroke:#edf0f4; stroke-width:1; }
+    .trend-grid-lines text,.trend-date-labels text { fill:#98a2b3; font-size:8.5px; }
+    .trend-series polyline { fill:none; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .trend-series circle { stroke:#fff; stroke-width:1.5; vector-effect:non-scaling-stroke; }
+    .trend-series.total polyline,.trend-series.total circle { stroke:#ef3048; fill:#ef3048; }
+    .trend-series.female polyline,.trend-series.female circle { stroke:#f174a0; fill:#f174a0; }
+    .trend-series.male polyline,.trend-series.male circle { stroke:#4b82e4; fill:#4b82e4; }
+
+    .focus-tabs { display:flex; gap:4px; margin:-2px 0 10px; }
+    .focus-tabs button { border:0; border-radius:6px; background:#f7f8fb; color:#7c8798; padding:6px 13px; font-size:10.5px; }
+    .focus-tabs button.active { background:#cf263a; color:#fff; }
+    .focus-poster-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:9px; }
+    .focus-poster-card { min-width:0; }
+    .poster-button { width:100%; border:0; background:transparent; padding:0; text-align:left; }
+    .poster-art { position:relative; aspect-ratio:3/4; border-radius:8px; overflow:hidden; display:grid; place-items:center; background-size:cover; background-position:center; margin-bottom:7px; box-shadow:0 5px 15px rgba(27,34,52,.13); }
+    .poster-art::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 36%,rgba(15,23,42,.26)); }
+    .poster-art.tone-red { background:linear-gradient(145deg,#f7c2c8,#973544); }
+    .poster-art.tone-orange { background:linear-gradient(145deg,#f4cfaa,#9d5732); }
+    .poster-art.tone-blue { background:linear-gradient(145deg,#cbd9f3,#435d8e); }
+    .poster-art.tone-plum { background:linear-gradient(145deg,#e4c6d6,#704558); }
+    .poster-art.tone-slate { background:linear-gradient(145deg,#d9dbe0,#596170); }
+    .poster-rank { position:absolute; top:6px; left:6px; width:22px; height:22px; border-radius:6px; display:grid; place-items:center; background:#e72943; color:#fff; font-size:11px; font-weight:900; z-index:2; }
+    .poster-initials { position:relative; z-index:1; color:rgba(255,255,255,.9); font-size:24px; font-weight:900; letter-spacing:.03em; text-shadow:0 2px 12px rgba(0,0,0,.25); }
+    .poster-play { position:absolute; right:7px; bottom:7px; width:26px; height:26px; border-radius:50%; display:grid; place-items:center; padding-left:2px; background:rgba(255,255,255,.9); color:#d32c40; font-size:10px; box-shadow:0 3px 10px rgba(0,0,0,.18); z-index:3; }
+    .poster-button strong { display:block; color:#30384a; font-size:11px; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .poster-button small { display:block; color:#8c96a8; font-size:9.5px; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .poster-button:hover strong { color:#bd2638; }
+
+    .activity-list { display:grid; }
+    .activity-item { width:100%; border:0; border-bottom:1px solid #f1f2f5; background:transparent; padding:9px 1px; display:grid; grid-template-columns:30px 6px 1fr; gap:7px; align-items:start; text-align:left; color:#5f6a7c; font-size:10.5px; line-height:1.4; }
+    .activity-item:last-child { border-bottom:0; }
+    .activity-item:hover { color:#bd2638; }
+    .activity-time { color:#a0a7b5; font-size:9.5px; }
+    .activity-item i { width:4px; height:4px; border-radius:50%; background:#e62d45; margin-top:5px; }
+    .overview-footnote { margin-top:10px; padding:11px 4px 2px; display:flex; justify-content:space-between; gap:16px; color:#98a2b3; font-size:10px; }
+    .overview-footnote strong { color:#3e4758; }
+
+    @media (max-width:1250px) {
+      .overview-kpi-row { grid-template-columns:repeat(5,minmax(110px,1fr)); }
+      .ai-summary-card { grid-column:1/-1; }
+      .hero-orbit { opacity:.55; right:10px; }
+    }
+    @media (max-width:1050px) {
+      .overview-kpi-row { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .overview-mid-grid,.overview-bottom-grid { grid-template-columns:1fr; }
+      .focus-poster-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+  
+    /* UI REDESIGN V1 RANK MOVEMENT + TRENDS */
+    .daily-analysis-grid,.history-library-analysis { margin:12px 0; align-items:stretch; }
+    .movement-summary { display:grid; grid-template-columns:repeat(4,minmax(82px,1fr)); gap:8px; }
+    .movement-stat { min-height:92px; border:1px solid #eceef3; border-radius:10px; padding:12px; background:#fff; display:grid; grid-template-columns:24px 1fr; grid-template-rows:auto auto; column-gap:8px; align-items:center; }
+    .movement-stat > span { width:24px; height:24px; border-radius:7px; display:grid; place-items:center; font-size:14px; font-weight:900; }
+    .movement-stat b { color:#20263a; font-size:22px; line-height:1; }
+    .movement-stat small { grid-column:1/-1; color:#8c96a8; font-size:11px; margin-top:8px; }
+    .movement-stat.up > span { background:#fff0f2; color:#d62f3f; }
+    .movement-stat.down > span { background:#eaf2ff; color:#3673d9; }
+    .movement-stat.flat > span { background:#f2f4f7; color:#667085; }
+    .movement-stat.new > span { background:#fff3e7; color:#e57912; }
+
+    .movement-badge { display:inline-flex; min-width:42px; align-items:center; justify-content:center; gap:3px; padding:4px 7px; border-radius:999px; font-size:11px; font-weight:850; white-space:nowrap; }
+    .movement-badge b { font-size:12px; }
+    .movement-badge.up { background:#fff0f2; color:#cf263a; }
+    .movement-badge.down { background:#eaf2ff; color:#316fd6; }
+    .movement-badge.flat { background:#f2f4f7; color:#667085; }
+    .movement-badge.new { background:#fff3e7; color:#dd7816; }
+
+    .daily-focus-footer { display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .daily-focus-footer .subtle { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    .rank-spark { display:flex; align-items:center; gap:5px; min-width:105px; }
+    .rank-spark svg { width:86px; height:28px; overflow:visible; }
+    .rank-spark polyline { fill:none; stroke:#d62f3f; stroke-width:1.8; vector-effect:non-scaling-stroke; }
+    .rank-spark circle { fill:#d62f3f; stroke:#fff; stroke-width:1; vector-effect:non-scaling-stroke; }
+    .rank-spark small { color:#667085; font-size:10px; font-weight:750; }
+    .rank-spark.single { min-width:70px; }
+    .rank-spark.single > span { width:8px; height:8px; border-radius:50%; background:#dd7816; box-shadow:0 0 0 4px #fff3e7; }
+    .trend-empty { color:#98a2b3; }
+
+    .analysis-trend-chart { min-height:175px; }
+    .analysis-trend-chart svg { width:100%; height:165px; overflow:visible; }
+    .count-trend-legend { display:flex; justify-content:flex-end; gap:12px; margin:-4px 0 2px; color:#7d8798; font-size:10px; }
+    .count-trend-legend span { display:flex; align-items:center; gap:4px; }
+    .count-trend-legend i { width:7px; height:7px; border-radius:50%; }
+    .count-trend-legend .total i { background:#d62f3f; }
+    .count-trend-legend .new i { background:#f08a24; }
+    .count-trend-legend .continuing i { background:#316fd6; }
+    .count-grid line { stroke:#edf0f4; stroke-width:1; }
+    .count-grid text,.count-date-labels text { fill:#98a2b3; font-size:8.5px; }
+    .count-series polyline { fill:none; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .count-series circle { stroke:#fff; stroke-width:1.2; vector-effect:non-scaling-stroke; }
+    .count-series.total polyline,.count-series.total circle { stroke:#d62f3f; fill:#d62f3f; }
+    .count-series.new polyline,.count-series.new circle { stroke:#f08a24; fill:#f08a24; }
+    .count-series.continuing polyline,.count-series.continuing circle { stroke:#316fd6; fill:#316fd6; }
+
+    #catalog table { min-width:1320px; }
+    #history-library table { min-width:1380px; }
+    @media (max-width:1100px) {
+      .movement-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .daily-analysis-grid,.history-library-analysis { grid-template-columns:1fr; }
+    }
+  
+    /* UI LOCK V1 CLICKABILITY */
+    button.metric.daily-kpi {
+      width:100%;
+      text-align:left;
+      cursor:pointer;
+      appearance:none;
+      font:inherit;
+    }
+    button.metric.daily-kpi:hover {
+      transform:translateY(-1px);
+      border-color:#e8bcc3;
+      box-shadow:0 8px 18px rgba(145,36,52,.06);
+    }
+    button.metric.daily-kpi:focus-visible,
+    .clickable-rank-row:focus-visible,
+    .clickable-data-row:focus-visible {
+      outline:2px solid rgba(214,47,63,.32);
+      outline-offset:2px;
+    }
+    .clickable-rank-row {
+      width:100%;
+      border:0;
+      padding:0;
+      background:transparent;
+      text-align:left;
+      cursor:pointer;
+      font:inherit;
+    }
+    .clickable-rank-row:hover strong { color:#b42332; }
+    .clickable-data-row { cursor:pointer; transition:background .12s ease; }
+    .clickable-data-row:hover { background:#fff8f9 !important; }
+  
+    /* UI LOCK V2 HISTORY DATA + CREATIVE */
+    .locked-history-toolbar { display:grid; grid-template-columns:1fr .8fr 1fr 1fr minmax(220px,1.4fr); gap:8px; align-items:center; }
+    .history-filter-group { display:flex; align-items:center; gap:8px; min-width:0; }
+    .history-filter-group select { min-width:0; width:100%; }
+    .history-range-note { text-align:right; }
+    .history-ai-brief { display:grid; grid-template-columns:310px 1fr; gap:18px; align-items:center; }
+    .history-ai-title { display:flex; align-items:center; gap:14px; }
+    .ai-orb { width:58px; height:58px; flex:0 0 58px; display:grid; place-items:center; border-radius:50%; background:#ffe8ec; color:#d62f3f; font-size:22px; }
+    .history-section-label { display:flex; align-items:baseline; gap:12px; margin:16px 0 8px; padding-left:2px; }
+    .history-section-label span { font-size:18px; font-weight:850; color:#c92538; }
+    .history-section-label small { color:#7b8597; }
+    .history-section-label.creative { margin-top:20px; }
+    .history-data-grid { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(270px,.8fr); gap:10px; }
+    .genre-trend-chart { min-height:255px; }
+    .genre-trend-chart svg,.gender-trend-chart svg { width:100%; height:auto; overflow:visible; }
+    .genre-trend-legend { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
+    .genre-legend-item { border:0; background:transparent; color:#667085; font-size:11px; display:flex; align-items:center; gap:4px; }
+    .genre-legend-item i { width:7px; height:7px; border-radius:50%; background:#d62f3f; }
+    .genre-legend-item.orange i { background:#f08a24; }.genre-legend-item.blue i { background:#316fd6; }.genre-legend-item.violet i { background:#7d51b8; }.genre-legend-item.pink i { background:#e84d72; }
+    .history-grid-lines line { stroke:#edf0f4; stroke-width:1; }
+    .history-grid-lines text,.history-date-labels text { fill:#98a2b3; font-size:8.5px; }
+    .genre-line polyline,.gender-line polyline { fill:none; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .genre-line circle,.gender-line circle { stroke:#fff; stroke-width:1.2; vector-effect:non-scaling-stroke; }
+    .genre-line.red polyline,.genre-line.red circle { stroke:#d62f3f; fill:#d62f3f; }
+    .genre-line.orange polyline,.genre-line.orange circle { stroke:#f08a24; fill:#f08a24; }
+    .genre-line.blue polyline,.genre-line.blue circle { stroke:#316fd6; fill:#316fd6; }
+    .genre-line.violet polyline,.genre-line.violet circle { stroke:#7d51b8; fill:#7d51b8; }
+    .genre-line.pink polyline,.genre-line.pink circle { stroke:#e84d72; fill:#e84d72; }
+    .history-key-grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .history-key-card { border:1px solid #edf0f4; border-radius:10px; padding:13px; background:#fff; display:flex; flex-direction:column; gap:6px; text-align:left; color:#344054; }
+    button.history-key-card { cursor:pointer; }
+    button.history-key-card:hover { border-color:#e8bcc3; background:#fff9fa; }
+    .history-key-card span { color:#7d8798; font-size:11px; }.history-key-card b { font-size:22px; color:#20263a; }.history-key-card small { color:#98a2b3; font-size:10px; }
+    .genre-state-columns { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .genre-state-card { border:1px solid #eceef3; border-radius:11px; padding:12px; background:#fff; }
+    .genre-state-card.up { background:#fffafb; }.genre-state-card.stable { background:#fbfcff; }.genre-state-card.down { background:#fbfcff; }
+    .genre-state-head { margin-bottom:7px; color:#b42332; }.genre-state-card.stable .genre-state-head { color:#b76a11; }.genre-state-card.down .genre-state-head { color:#316fd6; }
+    .genre-state-card button { width:100%; display:grid; grid-template-columns:24px 1fr auto; gap:7px; align-items:center; padding:7px 0; border:0; border-bottom:1px solid #f1f2f5; background:transparent; text-align:left; }
+    .genre-state-card button:last-child { border-bottom:0; }.genre-state-card button span { width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:#f4f5f7;color:#667085;font-size:10px; }.genre-state-card button em { font-style:normal; font-size:11px; color:#667085; }
+    .history-lower-grid { display:grid; grid-template-columns:2fr 1fr; gap:10px; margin-top:10px; }
+    .compact-life-cards { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .life-card.compact { display:grid; grid-template-columns:72px 1fr; gap:10px; padding:10px; }
+    .life-poster-placeholder { border-radius:8px; background:linear-gradient(145deg,#f3c9ce,#78515b); color:#fff; display:grid; place-items:center; min-height:106px; font-size:26px; font-weight:900; }
+    .life-card-content { min-width:0; }.life-card.compact .life-title { margin:6px 0; }.life-spark { margin:4px 0; }.life-mini-stats { display:flex; gap:12px; color:#8c96a8; font-size:10px; }.life-mini-stats b { color:#344054; }
+    .gender-legend { display:flex; justify-content:flex-end; gap:10px; margin-bottom:4px; }.gender-legend button { border:0;background:transparent;color:#667085;font-size:10px;display:flex;align-items:center;gap:4px; }.gender-legend i { width:7px;height:7px;border-radius:50%; }.gender-legend i.female{background:#e84d72}.gender-legend i.male{background:#316fd6}
+    .gender-line.female polyline,.gender-line.female circle { stroke:#e84d72; fill:#e84d72; }.gender-line.male polyline,.gender-line.male circle { stroke:#316fd6; fill:#316fd6; }
+    .gender-trend-summary { display:grid; grid-template-columns:1fr 1fr; gap:8px; }.gender-trend-summary button { border:1px solid #edf0f4;border-radius:9px;background:#fff;padding:10px;text-align:left; }.gender-trend-summary span{display:block;color:#7d8798;font-size:10px}.gender-trend-summary b{font-size:18px;color:#20263a}
+    .creative-guidance-grid { display:grid; grid-template-columns:1.15fr 1fr 1fr 1.15fr; gap:10px; }
+    .creative-list,.creative-lessons { display:grid; gap:8px; }
+    .creative-opportunity { width:100%; display:grid; grid-template-columns:24px 1fr auto; gap:8px; align-items:start; border:0; border-bottom:1px solid #f1f2f5; background:transparent; padding:8px 0; text-align:left; }
+    .op-no { width:22px;height:22px;border-radius:6px;background:#fff0f2;color:#b42332;display:grid;place-items:center;font-size:10px;font-weight:800; }.creative-opportunity div{display:grid;gap:3px}.creative-opportunity small{color:#8c96a8;line-height:1.45}.creative-opportunity em{font-style:normal;color:#b42332;font-size:10px;white-space:nowrap}
+    .creative-elements { display:flex; flex-wrap:wrap; gap:7px; align-content:flex-start; }.creative-term { border:1px solid #f0d9dd; border-radius:8px; background:#fff8f9; padding:7px 9px; color:#7a3a43; font-size:11px; }.creative-term b { margin-left:5px; color:#b42332; }
+    .creative-gender-diff { display:grid; grid-template-columns:1fr 1fr; gap:9px; }.gender-writing-col { border-radius:9px;padding:10px;background:#fff8fb; }.gender-writing-col.male { background:#f7faff; }.gender-writing-col h3{margin:0 0 7px;font-size:12px}.gender-writing-col span{display:block;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.04);font-size:10.5px;color:#667085}.gender-writing-col b{float:right;color:#344054}
+    .creative-lesson { width:100%; border:0; border-bottom:1px solid #f1f2f5; background:transparent; padding:7px 0; text-align:left; }.creative-lesson b{display:block;color:#20263a;font-size:11.5px}.creative-lesson span{display:block;color:#98a2b3;font-size:9.5px;margin:3px 0}.creative-lesson p{margin:0;color:#667085;font-size:10px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .opportunity-horizon { margin-top:10px; }.opportunity-horizon-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }.horizon-card{display:grid;grid-template-columns:220px 1fr;gap:12px;align-items:center;border:1px solid #eceef3;border-radius:10px;padding:12px;background:#fff}.horizon-card.long{background:#fffaf2}.horizon-card.short{background:#faf7ff}.horizon-card strong{display:block;color:#20263a}.horizon-card small{display:block;color:#8c96a8;margin-top:4px}.horizon-card>div:last-child{display:flex;gap:7px;flex-wrap:wrap}.horizon-card button{border:1px solid #eceef3;border-radius:999px;background:#fff;padding:6px 9px;color:#596579;font-size:10.5px}.horizon-card button b{color:#b42332}
+    .empty-chart { min-height:220px; display:grid; place-items:center; color:#98a2b3; }
+    @media(max-width:1180px){.locked-history-toolbar{grid-template-columns:repeat(2,1fr)}.history-range-note{grid-column:1/-1;text-align:left}.history-ai-brief{grid-template-columns:1fr}.history-data-grid,.history-lower-grid{grid-template-columns:1fr}.creative-guidance-grid{grid-template-columns:repeat(2,1fr)}.compact-life-cards{grid-template-columns:1fr}.opportunity-horizon-grid{grid-template-columns:1fr}}
+  
+    /* UI LOCK V2 OVERVIEW + DAILY */
+    .compact-overview-hero { min-height:132px; }
+    .compact-overview-hero h1 { font-size:30px; margin-bottom:6px; }
+    .overview-intel-brief { display:grid; grid-template-columns:310px 1fr; gap:18px; align-items:center; border:1px solid #f0d9dd; border-radius:13px; padding:18px 20px; background:linear-gradient(135deg,#fff8f9,#fff); margin:12px 0; }
+    .overview-intel-title { display:flex; gap:14px; align-items:center; }
+    .overview-intel-lines { display:grid; gap:7px; }
+    .overview-intel-line { width:100%; display:grid; grid-template-columns:24px 1fr auto; gap:9px; align-items:start; border:0; background:transparent; text-align:left; padding:4px 0; }
+    .overview-intel-line>span { width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#fff0f2;color:#b42332;font-size:10px;font-weight:850; }
+    .overview-intel-line p { margin:1px 0 0; color:#475467; line-height:1.55; }
+    .overview-intel-line em { font-style:normal; color:#b42332; font-size:10px; white-space:nowrap; margin-top:4px; }
+    .overview-signal-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:10px; }
+    .overview-signal-card { border:1px solid #eceef3; border-radius:12px; background:#fff; padding:14px; min-height:165px; }
+    .signal-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+    .signal-icon { width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-weight:900; }.signal-icon.red{background:#fff0f2;color:#d62f3f}.signal-icon.blue{background:#eaf2ff;color:#316fd6}.signal-icon.amber{background:#fff3e7;color:#e57912}
+    .signal-head small { display:block;color:#98a2b3;font-size:10px;margin-bottom:2px }.signal-head strong{color:#293246;font-size:13px}
+    .signal-primary { width:100%;border:0;background:transparent;text-align:left;padding:0;display:grid;gap:5px; }
+    .signal-primary b{font-size:16px;color:#20263a}.signal-primary span{font-size:10px;color:#8c96a8}.signal-primary p{margin:2px 0;color:#596579;line-height:1.5;font-size:11px}.signal-primary em{font-style:normal;color:#b42332;font-size:10px}
+    .overview-research-section,.overview-navigation-section{margin-top:10px}
+    .overview-research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .overview-research-card{display:grid;grid-template-columns:32px 72px 1fr;gap:10px;border:1px solid #eceef3;border-radius:11px;padding:10px;background:#fff;min-width:0}
+    .research-pick-no{font-size:18px;color:#c9ccd4;font-style:italic;font-weight:800}
+    .research-pick-poster{position:relative;border-radius:8px;min-height:96px;background:linear-gradient(145deg,#f4c7cd,#78535b);display:grid;place-items:center;color:#fff;font-size:26px;font-weight:900}.research-pick-poster span{position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);color:#d62f3f;font-size:9px;display:grid;place-items:center}
+    .research-pick-copy{min-width:0}.research-pick-copy>div{display:flex;gap:5px;flex-wrap:wrap}.research-pick-copy button{width:100%;border:0;background:transparent;padding:6px 0 0;text-align:left;font-weight:800;color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.research-pick-copy p{margin:5px 0;color:#667085;font-size:10.5px;line-height:1.45}.research-pick-copy small{color:#98a2b3}
+    .overview-navigation-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.overview-nav-card{border:1px solid #eceef3;border-radius:10px;background:#fff;padding:14px;display:grid;grid-template-columns:38px 1fr auto;gap:10px;align-items:center;text-align:left}.overview-nav-card>span{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;background:#fff0f2}.overview-nav-card.blue>span{background:#eaf2ff}.overview-nav-card.violet>span{background:#f1ebff}.overview-nav-card.amber>span{background:#fff3e7}.overview-nav-card strong{display:block;color:#20263a}.overview-nav-card small{display:block;color:#98a2b3;margin-top:3px}.overview-nav-card em{font-style:normal;font-size:18px;color:#667085}
+
+    .daily-primary-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.8fr);gap:10px;margin:12px 0}
+    .daily-ranking-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}.daily-ranking-tab{border:1px solid #e7e9ef;border-radius:999px;background:#fff;padding:6px 10px;color:#667085;font-size:10.5px;font-weight:750}.daily-ranking-tab.active{border-color:#e5aeb7;background:#fff4f6;color:#b42332}
+    .daily-ranking-groups{display:grid;gap:10px}.daily-ranking-group{border:1px solid #eceef3;border-radius:10px;overflow:hidden;background:#fff}.daily-ranking-scope-head{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 10px;background:#fafbfc;border-bottom:1px solid #eef0f3}.daily-ranking-scope-head strong{color:#293246;font-size:11.5px}.daily-ranking-scope-head span{color:#98a2b3;font-size:9.5px}
+    .daily-ranking-table-head,.daily-top10-row{display:grid;grid-template-columns:42px minmax(130px,1.5fr) 110px 80px 74px 120px;gap:8px;align-items:center}.daily-ranking-table-head{padding:7px 10px;background:#fff;color:#8c96a8;font-size:9.5px;border-bottom:1px solid #f0f1f4}
+    .daily-top10-row{width:100%;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:7px 10px;text-align:left;color:#596579;font-size:10.5px}.daily-top10-row:last-child{border-bottom:0}.daily-top10-row:hover{background:#fff8f9}.daily-top10-row strong{color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.top10-rank{width:25px;height:25px;border-radius:7px;background:#f2f4f7;display:grid;place-items:center;font-weight:850;color:#667085}.daily-ranking-more{width:100%;border:0;border-top:1px solid #f0f1f4;background:#fff;padding:8px 10px;text-align:right;color:#b42332;font-size:10px}
+    .vertical-focus-grid{grid-template-columns:1fr!important}
+    .daily-new-row{grid-template-columns:34px 1fr 135px 70px!important}.daily-new-row>span{width:auto!important;min-width:28px!important;padding:0 4px!important}
+    .poster-rank{width:auto!important;min-width:22px;padding:0 5px}
+    .daily-secondary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}
+    .daily-genre-structure,.daily-new-list,.daily-platform-performance{display:grid;gap:6px}
+    .daily-genre-row{display:grid;grid-template-columns:9px 70px 1fr 55px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.genre-color{width:8px;height:8px;border-radius:50%;background:#d62f3f}.genre-color.g1{background:#f08a24}.genre-color.g2{background:#316fd6}.genre-color.g3{background:#7d51b8}.genre-color.g4{background:#e84d72}.genre-color.g5{background:#9aa3b1}.daily-genre-row b{font-size:10.5px;color:#475467}.daily-genre-row i{height:7px;background:#f0f2f5;border-radius:99px;overflow:hidden}.daily-genre-row i::after{content:"";display:block;width:var(--w);height:100%;border-radius:99px;background:#d62f3f}.daily-genre-row em{font-style:normal;color:#8c96a8;font-size:10px;text-align:right}
+    .daily-new-row{display:grid;grid-template-columns:22px 1fr 92px 70px;gap:7px;align-items:center;border:0;border-bottom:1px solid #f0f1f4;background:transparent;padding:6px 0;text-align:left}.daily-new-row>span{width:20px;height:20px;border-radius:6px;background:#fff3e7;color:#dd7816;display:grid;place-items:center;font-size:9px}.daily-new-row strong{font-size:10.5px;color:#20263a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.daily-new-row small,.daily-new-row em{font-size:9.5px;color:#8c96a8;font-style:normal}
+    .daily-platform-row{display:grid;grid-template-columns:24px 80px 1fr 20px;gap:7px;align-items:center;border:0;background:transparent;padding:5px 0;text-align:left}.platform-badge{width:22px;height:22px;border-radius:6px;background:#ffe9ed;color:#cf263a;display:grid;place-items:center;font-size:9px;font-weight:800}.platform-badge.p1{background:#eaf2ff;color:#316fd6}.platform-badge.p2{background:#fff0e1;color:#df7711}.daily-platform-row strong{font-size:10.5px;color:#475467}.daily-platform-row i{height:7px;border-radius:99px;background:#f0f2f5;overflow:hidden}.daily-platform-row i b{display:block;height:100%;background:#d62f3f;border-radius:99px}.daily-platform-row em{font-size:10px;color:#8c96a8;font-style:normal}
+    .daily-movement-section{margin:10px 0}.daily-detail-anchor{scroll-margin-top:16px}
+    @media(max-width:1180px){.overview-signal-grid,.overview-research-grid{grid-template-columns:1fr}.overview-navigation-grid{grid-template-columns:repeat(2,1fr)}.overview-intel-brief{grid-template-columns:1fr}.daily-primary-grid{grid-template-columns:1fr}.daily-secondary-grid{grid-template-columns:repeat(2,1fr)}}
+  
+    /* POSTER / COVER ASSET SUPPORT */
+    .research-pick-poster,.daily-focus-poster,.life-poster-placeholder{
+      position:relative;overflow:hidden;background:linear-gradient(145deg,#f4c7cd,#78535b);color:#fff;
+    }
+    .research-pick-poster img,.daily-focus-poster img,.life-poster-placeholder img{
+      position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;
+    }
+    .poster-fallback{position:relative;z-index:1;font-size:24px;font-weight:900}
+    .research-pick-poster i,.daily-focus-poster i,.life-poster-placeholder i{
+      position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.92);
+      color:#d62f3f;font-size:9px;display:grid;place-items:center;font-style:normal;z-index:3;
+    }
+    .daily-focus-card.with-poster{display:grid;grid-template-columns:34px 72px 1fr;gap:10px;align-items:start;cursor:pointer}
+    .daily-focus-poster{width:72px;aspect-ratio:3/4;border-radius:8px;display:grid;place-items:center;box-shadow:0 4px 12px rgba(22,30,55,.12)}
+    .daily-focus-copy{min-width:0}.daily-focus-card.with-poster .daily-focus-rank{margin-top:3px}
+    .life-poster-placeholder{display:grid;place-items:center}
   </style>
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-mark">榜</div>
+        <div class="brand-mark">JSM</div>
         <div>JSM-海外AI短剧动态情报及内容分析系统</div>
       </div>
       <nav class="nav" aria-label="主导航">
-        <button class="active" data-view-button="dashboard">市场仪表盘</button>
-        <button data-view-button="catalog">今日40部榜单</button>
-        <button data-view-button="lifecycle">历史生命周期</button>
+        <button class="active" data-view-button="dashboard">市场总览</button>
+        <button data-view-button="catalog">今日榜单分析</button>
+        <button data-view-button="lifecycle">历史趋势分析</button>
+        <button data-view-button="research">题材 / 剧目研究</button>
+        <button class="nav-admin" type="button" data-admin-href="/collect" title="需要管理员账号登录">系统设置 <span>管理员</span></button>
       </nav>
       <div class="side-note">
-        <strong>数据范围</strong><br>
-        已纳入真实采集日：2026-09-04、2026-09-07。趋势和生命周期只使用截图采集记录。
+        <strong>数据状态</strong><br>
+        <span id="sidebarDataStatus">读取真实采集数据中…</span>
       </div>
       <div id="offlineTools" class="data-tools">
         <button id="exportEdits" class="tool-button" type="button">导出修改</button>
@@ -837,126 +1579,163 @@
 
     <main>
       <section id="dashboard" class="view active" aria-labelledby="dashboard-title">
-        <div class="topbar">
-          <div>
-            <h1 id="dashboard-title">市场仪表盘</h1>
-            <div class="subtle">NetShort、DramaWave、MoboReels、ReelShort 热播榜 Top10。</div>
+        <section class="market-hero compact-overview-hero">
+          <div class="market-hero-copy">
+            <div class="hero-kicker">GLOBAL SHORT DRAMA INTELLIGENCE</div>
+            <h1 id="dashboard-title">市场总览</h1>
+            <p>今天最值得知道的市场信号、研究对象与下一步入口。</p>
           </div>
-          <label class="date-control" for="dashboardDate"><span>采集日</span><select id="dashboardDate" class="date-select"></select></label>
+          <div class="hero-orbit" aria-hidden="true">
+            <div class="hero-globe"></div>
+            <span>GLOBAL<br>SHORT DRAMA</span>
+          </div>
+          <label class="hero-date" for="dashboardDate"><span>采集日</span><select id="dashboardDate" class="date-select"></select></label>
+        </section>
+
+        <section class="overview-intel-brief">
+          <div class="overview-intel-title">
+            <div class="ai-orb">✦</div>
+            <div>
+              <div class="eyebrow">今日核心情报</div>
+              <h2>只保留值得采取行动的结论</h2>
+              <div class="subtle">点击结论或信号进入对应榜单、题材或单剧证据。</div>
+            </div>
+          </div>
+          <div id="overviewConclusions" class="overview-intel-lines"></div>
+        </section>
+
+        <div class="overview-signal-grid">
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon red">◎</span><div><small>重点剧目信号</small><strong>今天最值得追踪的剧</strong></div></div>
+            <div id="overviewDramaSignal" class="signal-body"></div>
+          </section>
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon blue">↗</span><div><small>题材机会</small><strong>正在形成的内容方向</strong></div></div>
+            <div id="overviewGenreSignal" class="signal-body"></div>
+          </section>
+          <section class="overview-signal-card">
+            <div class="signal-head"><span class="signal-icon amber">✦</span><div><small>异常 / 新信号</small><strong>需要立即确认的变化</strong></div></div>
+            <div id="overviewAnomalySignal" class="signal-body"></div>
+          </section>
         </div>
 
-        <div class="stats-grid">
-          <div class="metric"><div class="label">今日榜位</div><div class="value" id="metricRows">0</div><div class="subtle">4个平台 Top10</div></div>
-          <div class="metric"><div class="label">不同剧目</div><div class="value" id="metricTitles">0</div><div class="subtle">按片名去重</div></div>
-          <div class="metric"><div class="label">监测平台</div><div class="value" id="metricApps">0</div><div class="subtle">本次完整覆盖</div></div>
-          <div class="metric"><div class="label">记录采集日</div><div class="value" id="metricDates">0</div><div class="subtle">不补编历史</div></div>
-          <button class="metric new-title" type="button" data-status-filter="new"><div class="label">今日新剧</div><div class="value" id="metricNew">0</div><div class="subtle">点击查看首次记录剧目</div></button>
-          <button class="metric continuing-title" type="button" data-status-filter="continuing"><div class="label">继续在榜</div><div class="value" id="metricContinuing">0</div><div class="subtle">点击查看此前已出现剧目</div></button>
-        </div>
-
-        <div class="grid-2">
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>题材结构</h2>
-                <div class="subtle" id="genreCoverage">按已确认分类统计。</div>
-              </div>
+        <section class="section overview-research-section">
+          <div class="section-head">
+            <div>
+              <h2>今日研究推荐</h2>
+              <div class="subtle">不是简单 Top3，而是结合排名变化、新剧状态和代表性筛出的研究对象。</div>
             </div>
-            <div id="genreBars" class="bars"></div>
-          </section>
+            <button class="mini-link" type="button" data-view-button="catalog">进入今日榜单分析 →</button>
+          </div>
+          <div id="overviewResearchPicks" class="overview-research-grid"></div>
+        </section>
 
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>平台榜首</h2>
-                <div class="subtle">点击剧名查看详情。</div>
-              </div>
+        <section class="section overview-navigation-section">
+          <div class="section-head">
+            <div>
+              <h2>快速进入</h2>
+              <div class="subtle">从情报总览进入对应分析工作台。</div>
             </div>
-            <div id="platformLeaders" class="leader-list"></div>
-          </section>
-        </div>
+          </div>
+          <div class="overview-navigation-grid">
+            <button type="button" class="overview-nav-card red" data-view-button="catalog"><span>🏆</span><div><strong>今日榜单分析</strong><small>今天具体发生了什么</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card blue" data-view-button="lifecycle"><span>📈</span><div><strong>历史趋势分析</strong><small>市场结构如何变化</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card violet" data-view-button="research"><span>🎬</span><div><strong>题材 / 剧目研究</strong><small>为什么这种内容有效</small></div><em>→</em></button>
+            <button type="button" class="overview-nav-card amber" data-view-button="history-library"><span>◫</span><div><strong>历史剧目库</strong><small>查找全部历史样本</small></div><em>→</em></button>
+          </div>
+        </section>
 
-        <div class="grid-2">
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>细分赛道高频词</h2>
-                <div class="subtle">从细分赛道拆分统计。</div>
-              </div>
-            </div>
-            <div id="laneCloud" class="lane-cloud"></div>
-          </section>
-
-          <section class="section">
-            <div class="section-head">
-              <div>
-                <h2>受众分布</h2>
-                <div class="subtle" id="audienceCoverage">按已确认分类统计。</div>
-              </div>
-            </div>
-            <div id="audienceBars" class="bars"></div>
-          </section>
+        <div class="overview-footnote">
+          <strong id="overviewStatusText">读取真实采集数据中…</strong>
+          <span>JSM · 从市场信号到创作研究</span>
         </div>
       </section>
 
       <section id="catalog" class="view" aria-labelledby="catalog-title">
         <div class="topbar">
           <div>
-            <h1 id="catalog-title">今日40部榜单</h1>
-            <div class="subtle">筛选、搜索、点击剧名进入详情。</div>
+            <h1 id="catalog-title">今日榜单分析</h1>
+            <div class="subtle">回答“今天具体发生了什么”：榜单变化、新剧、重点剧目、题材与平台表现。</div>
           </div>
-          <div class="date-pill" id="catalogDatePill">采集日 2026-09-07</div>
+          <div class="date-pill" id="catalogDatePill">采集日</div>
         </div>
 
+        <section class="daily-brief">
+          <div>
+            <div class="eyebrow">AI 今日摘要</div>
+            <h2>今日市场判断</h2>
+          </div>
+          <div id="dailyConclusions" class="daily-conclusions"></div>
+        </section>
+
+        <div class="daily-stats">
+          <button class="metric daily-kpi" type="button" data-daily-filter="all"><div class="label">今日剧目</div><div class="value" id="dailyMetricTitles">0</div><div class="subtle">查看全部剧目 →</div></button>
+          <button class="metric daily-kpi new-title" type="button" data-daily-filter="new"><div class="label">首次上榜</div><div class="value" id="dailyMetricNew">0</div><div class="subtle">筛选本榜首次记录 →</div></button>
+          <button class="metric daily-kpi continuing-title" type="button" data-daily-filter="continuing"><div class="label">继续在榜</div><div class="value" id="dailyMetricContinuing">0</div><div class="subtle">筛选历史已出现 →</div></button>
+          <button class="metric daily-kpi" type="button" data-daily-filter="female"><div class="label">女频</div><div class="value" id="dailyMetricFemale">0</div><div class="subtle">筛选女频剧目 →</div></button>
+          <button class="metric daily-kpi" type="button" data-daily-filter="male"><div class="label">男频</div><div class="value" id="dailyMetricMale">0</div><div class="subtle">筛选男频剧目 →</div></button>
+        </div>
+
+        <div class="daily-primary-grid">
+          <section class="section daily-top10-section">
+            <div class="section-head">
+              <div><h2>各平台榜单</h2><div class="subtle">排名只在同一平台、同一榜单口径内比较；“全部平台”仅用于并列浏览，不生成跨平台总排名。</div></div>
+              <button class="mini-link" type="button" data-scroll-target="dailyDetailTable">查看完整榜单 →</button>
+            </div>
+            <div id="dailyRankingTabs" class="daily-ranking-tabs" aria-label="榜单平台筛选"></div>
+            <div id="dailyTop10Rows" class="daily-ranking-groups"></div>
+          </section>
+
+          <section class="section daily-focus-section">
+            <div class="section-head">
+              <div><h2>今日重点剧目</h2><div class="subtle">按本榜首次上榜、同榜升降和内容完整度筛选，不做跨平台名次比较。</div></div>
+            </div>
+            <div id="dailyFocusTitles" class="daily-focus-grid vertical-focus-grid"></div>
+          </section>
+        </div>
+
+        <div class="daily-secondary-grid">
+          <section class="section">
+            <div class="section-head"><div><h2>当日题材结构</h2><div class="subtle">点击题材直接筛选榜单。</div></div></div>
+            <div id="dailyGenreStructure" class="daily-genre-structure"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>今日首次上榜</h2><div class="subtle">当前数据层只能证明“首次出现在该平台/榜单”，不能证明全系统新剧。</div></div></div>
+            <div id="dailyNewList" class="daily-new-list"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>平台表现（首次上榜）</h2><div class="subtle">按首次上榜记录数量观察平台当天新增榜单信号。</div></div></div>
+            <div id="dailyPlatformPerformance" class="daily-platform-performance"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head"><div><h2>近7个真实采集日趋势</h2><div class="subtle">总剧目、新剧与继续在榜。</div></div></div>
+            <div id="dailyTrendChart" class="analysis-trend-chart"></div>
+          </section>
+        </div>
+
+        <section class="section daily-movement-section">
+          <div class="section-head"><div><h2>榜单升降概览</h2><div class="subtle">当前采集点与该剧上一个真实采集点比较。</div></div></div>
+          <div id="dailyMovementSummary" class="movement-summary"></div>
+        </section>
+
+        <div id="dailyDetailTable" class="daily-detail-anchor"></div>
         <div class="filters" aria-label="榜单筛选">
-          <div class="field">
-            <label for="dateFilter">采集日期</label>
-            <select id="dateFilter"></select>
-          </div>
-          <div class="field">
-            <label for="searchInput">剧名搜索</label>
-            <input id="searchInput" type="search" placeholder="输入英文剧名">
-          </div>
-          <div class="field">
-            <label for="appFilter">平台</label>
-            <select id="appFilter"></select>
-          </div>
-          <div class="field">
-            <label for="genreFilter">题材</label>
-            <select id="genreFilter"></select>
-          </div>
-          <div class="field">
-            <label for="laneFilter">赛道</label>
-            <select id="laneFilter"></select>
-          </div>
-          <div class="field">
-            <label for="audienceFilter">受众</label>
-            <select id="audienceFilter"></select>
-          </div>
-          <div class="field">
-            <label for="statusFilter">榜单状态</label>
-            <select id="statusFilter"><option value="">全部</option><option value="new">新剧</option><option value="continuing">继续在榜</option></select>
-          </div>
+          <div class="field"><label for="dateFilter">采集日期</label><select id="dateFilter"></select></div>
+          <div class="field"><label for="searchInput">剧名搜索</label><input id="searchInput" type="search" placeholder="输入英文剧名"></div>
+          <div class="field"><label for="appFilter">平台</label><select id="appFilter"></select></div>
+          <div class="field"><label for="genreFilter">题材</label><select id="genreFilter"></select></div>
+          <div class="field"><label for="laneFilter">赛道</label><select id="laneFilter"></select></div>
+          <div class="field"><label for="audienceFilter">受众</label><select id="audienceFilter"></select></div>
+          <div class="field"><label for="statusFilter">榜单状态</label><select id="statusFilter"><option value="">全部</option><option value="new">首次记录</option><option value="continuing">继续在榜</option></select></div>
         </div>
 
-        <div class="table-meta">
-          <span id="resultCount"></span>
-          <span>热度与排名来自当日截图；空白字段保持为空。</span>
-        </div>
+        <div class="table-meta"><span id="resultCount"></span><span>点击任一剧目整行进入统一单剧详情；空白字段不补造。</span></div>
         <div class="table-wrap">
           <table>
-            <thead>
-              <tr>
-                <th>排名</th>
-                <th>剧名</th>
-                <th>平台</th>
-                <th>热度</th>
-                <th>榜单状态</th>
-                <th>题材</th>
-                <th>细分赛道</th>
-                <th>受众</th>
-              </tr>
-            </thead>
+            <thead><tr><th>排名</th><th>较上次</th><th>剧名</th><th>平台</th><th>榜单</th><th>热度</th><th>排名走势</th><th>榜单状态</th><th>题材</th><th>细分赛道</th><th>受众</th></tr></thead>
             <tbody id="catalogBody"></tbody>
           </table>
         </div>
@@ -966,31 +1745,248 @@
       <section id="lifecycle" class="view" aria-labelledby="life-title">
         <div class="topbar">
           <div>
-            <h1 id="life-title">历史生命周期</h1>
-            <div class="subtle">只展示真实截图采集日，不补造中间日期或排名。</div>
+            <h1 id="life-title">历史趋势分析</h1>
+            <div class="subtle">从数据变化到创作机会：观察市场结构、题材迁移与单剧生命周期。</div>
           </div>
-          <div class="date-pill">2个真实采集日</div>
+          <button class="date-pill history-library-link" type="button" data-view-button="history-library">进入历史剧目库 →</button>
         </div>
-        <div class="lifecycle">
+
+        <div class="history-toolbar locked-history-toolbar">
+          <div class="history-filter-group">
+            <span class="toolbar-label">时间范围</span>
+            <select id="historyRange">
+              <option value="7">7天</option>
+              <option value="30">30天</option>
+              <option value="90" selected>90天</option>
+              <option value="180">半年</option>
+              <option value="365">1年</option>
+              <option value="0">全部</option>
+            </select>
+          </div>
+          <div class="history-filter-group">
+            <span class="toolbar-label">内容类型</span>
+            <select id="historyAudienceTrend"><option value="">全部</option><option value="女频">女频</option><option value="男频">男频</option></select>
+          </div>
+          <div class="history-filter-group">
+            <span class="toolbar-label">题材筛选</span>
+            <select id="historyGenreTrend"></select>
+          </div>
+          <div class="history-filter-group">
+            <span class="toolbar-label">平台筛选</span>
+            <select id="historyPlatformTrend"></select>
+          </div>
+          <div id="historyRangeNote" class="subtle history-range-note"></div>
+        </div>
+
+        <section class="history-brief history-ai-brief">
+          <div class="history-ai-title">
+            <div class="ai-orb">✦</div>
+            <div>
+              <div class="eyebrow">AI 趋势结论</div>
+              <h2>基于真实采集点的综合分析</h2>
+              <div class="subtle">不补造缺失日期，不把样本累计增长当作市场趋势。</div>
+            </div>
+          </div>
+          <div id="historyConclusions" class="conclusion-list history-conclusions"></div>
+        </section>
+
+        <div class="history-section-label"><span>数据分析</span><small>从市场数据中发现真实的趋势与结构变化</small></div>
+
+        <div class="history-data-grid">
+          <section class="section genre-trend-panel">
+            <div class="section-head">
+              <div>
+                <h2>题材占比趋势变化</h2>
+                <div class="subtle">不同题材在上榜样本中的占比变化；点击题材进入对应历史剧目。</div>
+              </div>
+              <div id="genreTrendLegend" class="genre-trend-legend"></div>
+            </div>
+            <div id="genreTrendChart" class="genre-trend-chart"></div>
+          </section>
+
+          <section class="section history-key-panel">
+            <div class="section-head">
+              <div><h2>关键数据</h2><div class="subtle">辅助判断样本规模与数据可靠性。</div></div>
+            </div>
+            <div class="history-key-grid">
+              <button type="button" class="history-key-card" data-view-button="history-library"><span>历史样本剧目</span><b id="historyMetricTitles">0</b><small>查看全部剧目 →</small></button>
+              <div class="history-key-card"><span>有效采集日</span><b id="historyMetricDates">0</b><small>真实快照数量</small></div>
+              <div class="history-key-card"><span>近30天新剧</span><b id="historyMetricRecentNew">0</b><small>首次记录样本</small></div>
+              <div class="history-key-card"><span>平均记录周期</span><b id="historyMetricAvgDays">0</b><small>按采集点计算</small></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="section history-genre-performance">
+          <div class="section-head">
+            <div>
+              <h2>题材历史表现</h2>
+              <div class="subtle">比较所选范围首尾真实采集点的题材占比变化。</div>
+            </div>
+          </div>
+          <div id="genreStateColumns" class="genre-state-columns"></div>
+        </section>
+
+        <div class="history-lower-grid">
+          <section class="section history-life-section">
+            <div class="section-head">
+              <div>
+                <h2>单剧生命周期分析</h2>
+                <div class="subtle">典型剧目的排名轨迹、历史高位和当前阶段；点击进入单剧详情。</div>
+              </div>
+            </div>
+            <div id="lifeList" class="lifecycle-cards compact-life-cards"></div>
+          </section>
+
+          <section class="section history-gender-panel">
+            <div class="section-head">
+              <div>
+                <h2>男女频趋势对比</h2>
+                <div class="subtle">不同受众在上榜样本中的占比变化。</div>
+              </div>
+            </div>
+            <div id="genderTrendChart" class="gender-trend-chart"></div>
+            <div id="genderTrendSummary" class="gender-trend-summary"></div>
+          </section>
+        </div>
+
+        <div class="history-section-label creative"><span>创作导向</span><small>从趋势中提炼创作机会，让数据真正服务内容决策</small></div>
+
+        <div class="creative-guidance-grid">
+          <section class="section creative-card">
+            <div class="section-head"><div><h2>题材创作机会</h2><div class="subtle">结合题材占比变化与持续性给出方向提示。</div></div></div>
+            <div id="creativeOpportunities" class="creative-list"></div>
+          </section>
+
+          <section class="section creative-card">
+            <div class="section-head"><div><h2>高频内容元素</h2><div class="subtle">仅统计高位样本中已有的细分标签与内容字段。</div></div></div>
+            <div id="creativeElements" class="creative-elements"></div>
+          </section>
+
+          <section class="section creative-card">
+            <div class="section-head"><div><h2>男女频写法差异</h2><div class="subtle">同一市场中不同受众高频内容元素的差异。</div></div></div>
+            <div id="creativeGenderDiff" class="creative-gender-diff"></div>
+          </section>
+
+          <section class="section creative-card">
+            <div class="section-head"><div><h2>代表剧可借鉴点</h2><div class="subtle">从高位与长生命周期样本中提取可继续研究的内容线索。</div></div></div>
+            <div id="creativeDramaLessons" class="creative-lessons"></div>
+          </section>
+        </div>
+
+        <section class="section opportunity-horizon">
+          <div class="section-head">
+            <div>
+              <h2>长期机会 vs 短期信号</h2>
+              <div class="subtle">区分覆盖多个采集点的持续方向与近期快速升温的机会。</div>
+            </div>
+          </div>
+          <div id="opportunityHorizon" class="opportunity-horizon-grid"></div>
+        </section>
+      </section>
+
+      <section id="history-library" class="view" aria-labelledby="history-library-title">
+        <div class="topbar">
+          <div>
+            <h1 id="history-library-title">历史剧目库</h1>
+            <div class="subtle">查看全部历史剧目，支持筛选、搜索，并可直接进入单剧详情。</div>
+          </div>
+          <div class="date-pill" id="historyCountPill">全部历史数据</div>
+        </div>
+        <div class="grid-2 history-library-analysis">
           <section class="section">
             <div class="section-head">
               <div>
-                <h2>采集日历</h2>
-                <div class="subtle">后续日期会在这里连续追加。</div>
+                <h2>历史榜单走势</h2>
+                <div class="subtle">按真实采集日观察总剧目、新剧与继续在榜变化。</div>
               </div>
             </div>
-            <div class="timeline" id="dateTimeline"></div>
+            <div id="historyLibraryTrend" class="analysis-trend-chart"></div>
           </section>
           <section class="section">
             <div class="section-head">
               <div>
-                <h2>全部剧目生命周期</h2>
-                <div class="subtle">点击剧名可查看该剧具体上榜日期。</div>
+                <h2>最近一次排名变化</h2>
+                <div class="subtle">以每部剧最后两个真实采集点进行比较。</div>
               </div>
             </div>
-            <div id="lifeList" class="leader-list"></div>
+            <div id="historyMovementSummary" class="movement-summary"></div>
           </section>
         </div>
+
+        <div class="filters history-filters" aria-label="历史剧目筛选">
+          <div class="field"><label for="historySearch">剧名搜索</label><input id="historySearch" type="search" placeholder="输入中英文剧名"></div>
+          <div class="field"><label for="historyAppFilter">平台</label><select id="historyAppFilter"></select></div>
+          <div class="field"><label for="historyGenreFilter">题材</label><select id="historyGenreFilter"></select></div>
+          <div class="field"><label for="historyAudienceFilter">男女频</label><select id="historyAudienceFilter"></select></div>
+          <div class="field"><label for="historyStateFilter">状态</label><select id="historyStateFilter"><option value="">全部</option><option value="active">最近采集日在榜</option><option value="inactive">历史出现 / 当前未记录</option></select></div>
+          <div class="field"><label for="historySort">排序</label><select id="historySort"><option value="latest">最近上榜</option><option value="peak">本榜最高排名（按榜单分组）</option><option value="days">记录采集日</option><option value="first">首次记录</option></select></div>
+        </div>
+        <div class="table-meta"><span id="historyResultCount"></span><span>点击剧名进入统一单剧详情。</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>剧名</th><th>平台</th><th>榜单</th><th>男女频</th><th>题材</th><th>最近排名</th><th>较上次</th><th>首次记录</th><th>最近上榜</th><th>本榜最高</th><th>排名走势</th><th>状态</th></tr></thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+        <div id="historyEmpty" class="empty">没有匹配的历史剧目。</div>
+      </section>
+
+      <section id="research" class="view" aria-labelledby="research-title">
+        <div class="topbar">
+          <div>
+            <h1 id="research-title">题材 / 剧目研究</h1>
+            <div class="subtle">从题材结构、受众与内容元素进入代表剧，再进入统一单剧深研档案。</div>
+          </div>
+        </div>
+
+        <div class="research-toolbar">
+          <div class="field"><label for="researchGenre">研究题材</label><select id="researchGenre"></select></div>
+          <div class="field"><label for="researchAudience">男女频</label><select id="researchAudience"></select></div>
+          <div class="field"><label for="researchPlatform">平台</label><select id="researchPlatform"></select></div>
+        </div>
+
+        <section class="research-brief">
+          <div>
+            <div class="eyebrow">Research Snapshot</div>
+            <h2 id="researchHeadline">题材研究摘要</h2>
+          </div>
+          <div id="researchInsights" class="research-insights"></div>
+        </section>
+
+        <div id="researchSummary" class="research-summary"></div>
+
+        <div class="grid-2 research-analysis-grid">
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>高频内容元素</h2>
+                <div class="subtle">来自已标注细分赛道与内容标签，不补造未标注信息。</div>
+              </div>
+            </div>
+            <div id="researchElements" class="research-elements"></div>
+          </section>
+
+          <section class="section">
+            <div class="section-head">
+              <div>
+                <h2>内容结构样本</h2>
+                <div class="subtle">提取样本中已有的故事核、冲突与爽点，用于横向研究。</div>
+              </div>
+            </div>
+            <div id="researchPatterns" class="research-patterns"></div>
+          </section>
+        </div>
+
+        <section class="section research-title-section">
+          <div class="section-head">
+            <div>
+              <h2>代表剧目</h2>
+              <div class="subtle">按内容完整度、记录跨度与榜单作用域展示；排名仅作为各自榜单内证据，不做跨平台最高排名排序。</div>
+            </div>
+          </div>
+          <div id="researchTitles" class="research-title-grid"></div>
+        </section>
       </section>
     </main>
   </div>
@@ -1003,6 +1999,7 @@
           <div id="modalSubtitle" class="subtle"></div>
         </div>
         <div class="modal-actions">
+          <button class="edit-button secondary" id="copyDramaLink" type="button">复制单剧链接</button>
           <button class="edit-button" id="editRecord" type="button">编辑资料</button>
           <button class="close-btn" id="closeModal" aria-label="关闭详情">×</button>
         </div>
@@ -1012,9 +2009,11 @@
         <div class="tabs" role="tablist">
           <button class="active" data-tab="market" role="tab">市场表现</button>
           <button data-tab="positioning" role="tab">内容定位</button>
-          <button data-tab="story" role="tab">故事拆解</button>
-          <button data-tab="business" role="tab">商业拆解</button>
-          <button data-tab="localization" role="tab">欧美适配</button>
+          <button data-tab="story" role="tab">内容深研</button>
+          <button data-tab="business" role="tab">商业钩子</button>
+          <button data-tab="localization" role="tab">本土化</button>
+          <button data-tab="compare" role="tab">同类对比</button>
+          <button data-tab="assets" role="tab">相关资源</button>
           <button data-tab="edit" role="tab">编辑资料</button>
         </div>
         <section id="tab-market" class="tab-panel active"></section>
@@ -1022,6 +2021,8 @@
         <section id="tab-story" class="tab-panel"></section>
         <section id="tab-business" class="tab-panel"></section>
         <section id="tab-localization" class="tab-panel"></section>
+        <section id="tab-compare" class="tab-panel"></section>
+        <section id="tab-assets" class="tab-panel"></section>
         <section id="tab-edit" class="tab-panel"></section>
       </div>
     </article>
@@ -1037,6 +2038,8 @@
     let activeDate = summary.collectionDate;
     let currentDetailId = '';
     let lastFocusedElement = null;
+    let dataSourceMode = location.protocol === 'file:' ? 'EMBEDDED' : 'FALLBACK';
+    let dataSourceError = '';
 
     const $ = (selector, root = document) => root.querySelector(selector);
     const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -1060,13 +2063,27 @@
       if (location.protocol === 'file:') return;
       try {
         const response = await fetch('/api/data', { headers: { Accept: 'application/json' } });
-        if (!response.ok) return;
+        if (!response.ok) throw new Error('API_HTTP_' + response.status);
         const live = await response.json();
+        if (!live || !Array.isArray(live.records) || !live.summary) throw new Error('API_PAYLOAD_INVALID');
         records.splice(0, records.length, ...live.records);
         Object.keys(summary).forEach(key => delete summary[key]);
         Object.assign(summary, live.summary);
         activeDate = summary.collectionDate;
+        const sourceMode = String(live.frontendSource?.mode || '');
+        if (sourceMode === 'REMOTE_READ_ONLY' || sourceMode === 'REMOTE_READ_ONLY_CACHE') {
+          dataSourceMode = sourceMode === 'REMOTE_READ_ONLY_CACHE' ? 'LIVE_CACHE' : 'LIVE';
+          dataSourceError = '';
+        } else if (sourceMode === 'LOCAL_FALLBACK') {
+          dataSourceMode = 'FALLBACK';
+          dataSourceError = String(live.frontendSource?.failureType || 'REMOTE_SOURCE_FAILED');
+        } else {
+          dataSourceMode = 'LOCAL_API';
+          dataSourceError = '';
+        }
       } catch (error) {
+        dataSourceMode = 'FALLBACK';
+        dataSourceError = String(error?.message || error || 'UNKNOWN');
         console.warn('Using embedded ranking data.', error);
       }
     }
@@ -1088,10 +2105,19 @@
 
     function recordsOnDate(date) {
       return records.flatMap(record => {
-        const event = (record.history || []).find(entry => entry.date === date);
+        const event = scopedHistory(record).find(entry => entry.date === date);
         if (!event) return [];
         return [{
           ...record,
+          app: event.app || record.app,
+          sourceType: event.sourceType || record.sourceType || 'SHORT_DRAMA_APP',
+          targetKey: event.targetKey || record.targetKey || 'daily_top_all',
+          rankingType: event.rankingType || record.rankingType || '',
+          topN: Number(event.topN || record.topN || 10),
+          appRankingNewness: event.appRankingNewness || 'UNKNOWN',
+          scopeInferred: Boolean(event.scopeInferred),
+          dataQuality: event.dataQuality || record.dataQuality || 'UNKNOWN',
+          analysisRunId: event.analysisRunId || record.analysisRunId || '',
           date,
           rank: event.rank,
           heat: event.heat ?? record.heat,
@@ -1109,7 +2135,8 @@
 
     function summarizeDate(date) {
       const items = recordsOnDate(date);
-      const platforms = platformOrder.filter(app => items.some(item => item.app === app)).map(name => ({ name, value: items.filter(item => item.app === name).length }));
+      const platformNames = observedPlatformOrder(items);
+      const platforms = platformNames.map(name => ({ name, value: items.filter(item => item.app === name).length }));
       return {
         items,
         totalRows: items.length,
@@ -1118,9 +2145,11 @@
         genres: countValues(items.map(item => item.genre)),
         audiences: countValues(items.map(item => item.audience)),
         lanes: countValues(items.flatMap(item => item.laneTerms?.length ? item.laneTerms : splitTerms(item.lane))).slice(0, 12),
-        topByPlatform: platforms.map(platform => items.filter(item => item.app === platform.name).sort((a, b) => a.rank - b.rank)[0]),
-        newTitles: items.filter(item => item.firstDate === date).length,
-        continuingTitles: items.filter(item => item.firstDate !== date).length,
+        topByPlatform: platforms.map(platform => items.filter(item => item.app === platform.name).sort(scopeThenRankCompare)[0]),
+        rankingScopes: rankingScopes(items),
+        newTitles: items.filter(isAppRankingNew).length,
+        continuingTitles: items.filter(isAppRankingContinuing).length,
+        unknownNewness: items.filter(item => appRankingNewness(item) === 'UNKNOWN').length,
       };
     }
 
@@ -1152,36 +2181,420 @@
       `).join('');
     }
 
-    function renderDashboard() {
-      const day = summarizeDate(activeDate);
-      $('#dashboardDate').value = activeDate;
-      $('#metricRows').textContent = formatNumber.format(day.totalRows);
-      $('#metricTitles').textContent = formatNumber.format(day.uniqueTitles);
-      $('#metricApps').textContent = formatNumber.format(day.platforms.length);
-      $('#metricDates').textContent = formatNumber.format(summary.dateCount);
-      $('#metricNew').textContent = formatNumber.format(day.newTitles);
-      $('#metricContinuing').textContent = formatNumber.format(day.continuingTitles);
-      const genreAnnotated = day.genres.reduce((total, item) => total + item.value, 0);
-      const audienceAnnotated = day.audiences.reduce((total, item) => total + item.value, 0);
-      const genreMissing = Math.max(0, day.totalRows - genreAnnotated);
-      const audienceMissing = Math.max(0, day.totalRows - audienceAnnotated);
-      $('#genreCoverage').textContent = `已标注 ${genreAnnotated} / ${day.totalRows}，待补 ${genreMissing}。`;
-      $('#audienceCoverage').textContent = `已标注 ${audienceAnnotated} / ${day.totalRows}，待补 ${audienceMissing}。`;
-      renderBars($('#genreBars'), genreMissing ? [...day.genres, { name: '待标注', value: genreMissing, missing: true }] : day.genres, '--accent');
-      renderBars($('#audienceBars'), audienceMissing ? [...day.audiences, { name: '待标注', value: audienceMissing, missing: true }] : day.audiences, '--blue');
-      $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
-      $('#laneCloud').innerHTML = day.lanes.length ? day.lanes.map((lane, index) => `
-        <span class="chip ${index % 3 === 1 ? 'amber' : index % 3 === 2 ? 'blue' : ''}">
-          ${escapeHtml(lane.name)}<span style="margin-left:6px; font-variant-numeric:tabular-nums;">${lane.value}</span>
-        </span>
-      `).join('') : '<div class="subtle">该采集日尚无已确认赛道。</div>';
-      $('#platformLeaders').innerHTML = day.topByPlatform.map(item => leaderCard(item)).join('');
+    let overviewFocusMode = 'new';
+    let dailyRankingPlatform = '';
+
+    function appRankingNewness(item) {
+      const raw = String(item?.appRankingNewness || '').trim().toUpperCase();
+      return raw === 'NEW' || raw === 'EXISTING' ? raw : 'UNKNOWN';
+    }
+
+    function isAppRankingNew(item) { return appRankingNewness(item) === 'NEW'; }
+    function isAppRankingContinuing(item) { return appRankingNewness(item) === 'EXISTING'; }
+
+    function newnessChip(item) {
+      const state = appRankingNewness(item);
+      if (state === 'NEW') return '<span class="chip amber">首次App榜上榜</span>';
+      if (state === 'EXISTING') return '<span class="chip blue">继续在榜</span>';
+      return '<span class="chip neutral">新旧状态未确认</span>';
+    }
+
+    function dataQualityChip(item) {
+      const quality = String(item?.dataQuality || 'UNKNOWN').trim().toUpperCase();
+      if (quality === 'VALID' && item?.scopeInferred) return '<span class="chip neutral">事实有效 · 历史口径推断</span>';
+      if (quality === 'VALID') return '<span class="chip blue">事实有效</span>';
+      if (quality === 'PARTIAL') return '<span class="chip amber">批次不完整</span>';
+      if (quality === 'FAILED') return '<span class="chip rose">处理失败</span>';
+      return '<span class="chip neutral">质量未声明</span>';
+    }
+
+    function dataQualityNote(item) {
+      const quality = String(item?.dataQuality || 'UNKNOWN').trim().toUpperCase();
+      const scopeText = item?.scopeInferred
+        ? '历史记录缺少显式 collector scope metadata，当前仅按 legacy App 主榜兼容解释，不视为强契约来源声明。'
+        : '榜单口径来自显式 collector scope metadata。';
+      const qualityText = quality === 'VALID' ? '已通过发布层完整批次校验。' : '当前数据质量状态未达到正式榜单事实要求。';
+      return `<div class="note-line">数据质量：${escapeHtml(quality)}。${escapeHtml(qualityText)} ${escapeHtml(scopeText)}</div>`;
+    }
+
+    function researchTaskBlock(item) {
+      const task = item?.researchTask && typeof item.researchTask === 'object' ? item.researchTask : {};
+      const status = String(task.status || 'UNKNOWN').toUpperCase();
+      const tones = { COMPLETE:'blue', NEEDS_GPT:'amber', REVIEW_REQUIRED:'rose', FAILED:'rose', RESEARCHING:'blue', PENDING:'neutral', UNKNOWN:'neutral' };
+      const tone = tones[status] || 'neutral';
+      const contractText = status === 'COMPLETE' ? (task.contractValid ? '合同校验通过' : 'COMPLETE · 待合同复核') : '—';
+      const missing = Array.isArray(task.missingFields) && task.missingFields.length ? task.missingFields.join('、') : '—';
+      const errorCode = String(task.errorCode || '');
+      const evidenceCount = Number(task.evidenceCount || 0);
+      return `
+        <div class="note-line">Research 状态来自正式 research_tasks 只读投影；不会用页面字段完整度自行改写任务状态。</div>
+        <div class="detail-summary">
+          <div class="mini-metric"><span>Task State</span><span><span class="chip ${tone}">${escapeHtml(status)}</span></span></div>
+          <div class="mini-metric"><span>Confidence</span><span>${escapeHtml(String(task.confidence || '—'))}</span></div>
+          <div class="mini-metric"><span>Evidence</span><span>${evidenceCount} 条</span></div>
+          <div class="mini-metric"><span>Contract</span><span>${escapeHtml(contractText)}</span></div>
+        </div>
+        <div class="info-grid">
+          <div class="text-block"><h3>缺失字段</h3><p>${escapeHtml(missing)}</p></div>
+          <div class="text-block"><h3>复核原因</h3><p>${escapeHtml(errorCode || '—')}</p></div>
+        </div>
+      `;
+    }
+
+    function rankingTargetKey(item) {
+      return String(item?.targetKey || 'daily_top_all').trim() || 'daily_top_all';
+    }
+
+    function rankingListLabel(item) {
+      const type = String(item?.rankingType || '').trim();
+      const target = rankingTargetKey(item);
+      const base = type || (target === 'daily_top_all'
+        ? '主榜'
+        : (target.replace(/^daily_|^web_/, '').replace(/_all$/, '').replace(/_/g, ' ') || '榜单'));
+      return item?.scopeInferred ? `${base} · 历史口径推断` : base;
+    }
+
+    function rankingScopeKey(item) {
+      return String(item?.app || '') + '::' + rankingTargetKey(item);
+    }
+
+    function rankingScopeText(item) {
+      return String(item?.app || '未知平台') + ' · ' + rankingListLabel(item);
+    }
+
+    function platformSortIndex(name) {
+      const preferred = [...new Set([...(summary.platforms || []).map(x => x.name), ...platformOrder])];
+      const index = preferred.indexOf(name);
+      return index < 0 ? preferred.length : index;
+    }
+
+    function rankingScopeCompare(a, b) {
+      const platformDelta = platformSortIndex(a.app) - platformSortIndex(b.app);
+      if (platformDelta) return platformDelta;
+      const platformText = byText(a.app, b.app);
+      if (platformText) return platformText;
+      return byText(rankingTargetKey(a), rankingTargetKey(b));
+    }
+
+    function scopeThenRankCompare(a, b) {
+      return rankingScopeCompare(a,b) || Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title, b.title);
+    }
+
+    function scopeStableCompare(a,b) {
+      return rankingScopeCompare(a,b) || byText(a.title,b.title);
+    }
+
+    function scopedPointCount(item) {
+      return scopedHistory(item).length;
+    }
+
+    function scopedPeakRank(item) {
+      const ranks = scopedHistory(item).map(event=>Number(event.rank)).filter(rank=>Number.isFinite(rank) && rank>0);
+      return ranks.length ? Math.min(...ranks) : Number(item?.highestRank || 0) || 0;
+    }
+
+    function isHighPositionSample(item) {
+      const topN = Math.max(1, Number(item?.topN || 10));
+      const peak = scopedPeakRank(item);
+      const cutoff = Math.max(3, Math.ceil(topN * 0.3));
+      return peak > 0 && peak <= cutoff;
+    }
+
+    function contentDepthScore(item) {
+      return ['storyCore','storySkin','conflict','payoff','openingSummary','openingType'].reduce((score,key)=>score+(blank(item?.[key])?0:1),0);
+    }
+
+    function representativeSampleCompare(a,b) {
+      return contentDepthScore(b)-contentDepthScore(a) || scopedPointCount(b)-scopedPointCount(a) || scopeStableCompare(a,b);
+    }
+
+    function observedPlatformOrder(items) {
+      const observed = uniq(items.map(item => item.app));
+      const preferred = [...new Set([...(summary.platforms || []).map(x => x.name), ...platformOrder])];
+      return [...preferred.filter(name => observed.includes(name)), ...observed.filter(name => !preferred.includes(name))];
+    }
+
+    function rankingScopes(items) {
+      const buckets = new Map();
+      items.forEach(item => {
+        const key = rankingScopeKey(item);
+        if (!buckets.has(key)) {
+          buckets.set(key, {
+            key,
+            platform: item.app || '',
+            targetKey: rankingTargetKey(item),
+            rankingType: rankingListLabel(item),
+            topN: Number(item.topN || 0),
+            rows: [],
+          });
+        }
+        const bucket = buckets.get(key);
+        bucket.rows.push(item);
+        bucket.topN = Math.max(bucket.topN || 0, Number(item.topN || 0), Number(item.rank || 0));
+      });
+      return [...buckets.values()]
+        .map(scope => ({...scope, rows: scope.rows.slice().sort((a,b) => Number(a.rank || 999) - Number(b.rank || 999) || byText(a.title,b.title))}))
+        .sort((a,b) => {
+          const pa = platformSortIndex(a.platform), pb = platformSortIndex(b.platform);
+          return pa - pb || byText(a.platform,b.platform) || byText(a.targetKey,b.targetKey);
+        });
+    }
+
+    function scopedHistory(item) {
+      const app = String(item?.app || '');
+      const targetKey = rankingTargetKey(item);
+      return (item?.history || []).filter(event => {
+        const eventApp = String(event?.app || app);
+        const eventTarget = String(event?.targetKey || targetKey || 'daily_top_all');
+        return eventApp === app && eventTarget === targetKey;
+      });
+    }
+
+    function previousEvent(item, date) {
+      const history = scopedHistory(item).filter(h => h.date < date).sort((a,b) => a.date.localeCompare(b.date));
+      return history.at(-1) || null;
+    }
+
+    function rankMovement(item, date) {
+      const current = scopedHistory(item).find(h => h.date === date);
+      const previous = previousEvent(item, date);
+      if (!current || !previous) return null;
+      return Number(previous.rank) - Number(current.rank);
+    }
+
+    function latestRankMovement(item) {
+      const history = scopedHistory(item).slice().sort((a,b) => a.date.localeCompare(b.date));
+      if (history.length < 2) return null;
+      return Number(history.at(-2).rank) - Number(history.at(-1).rank);
+    }
+
+    function movementBadge(move, isNew = false) {
+      if (isNew) return '<span class="movement-badge new">NEW</span>';
+      if (move === null || move === undefined || Number.isNaN(Number(move))) {
+        return '<span class="movement-badge flat" title="没有可比的前一有效采集点">—</span>';
+      }
+      if (move > 0) return `<span class="movement-badge up"><b>↑</b>${move}</span>`;
+      if (move < 0) return `<span class="movement-badge down"><b>↓</b>${Math.abs(move)}</span>`;
+      return '<span class="movement-badge flat"><b>→</b>0</span>';
+    }
+
+    function rankSparkline(item, throughDate = '') {
+      const points = scopedHistory(item)
+        .filter(h => !throughDate || h.date <= throughDate)
+        .slice()
+        .sort((a,b) => a.date.localeCompare(b.date))
+        .filter(h => Number.isFinite(Number(h.rank)));
+      if (!points.length) return '<span class="trend-empty">—</span>';
+      if (points.length === 1) return `<div class="rank-spark single" title="${escapeAttr(points[0].date)} 第${points[0].rank}名"><span></span><small>#${points[0].rank}</small></div>`;
+
+      const w=112,h=34,p=4;
+      const ranks=points.map(x=>Number(x.rank));
+      const min=Math.min(...ranks),max=Math.max(...ranks);
+      const spread=Math.max(1,max-min);
+      const x=i=>p+i*(w-p*2)/(points.length-1);
+      const y=v=>p+(v-min)*(h-p*2)/spread;
+      const poly=points.map((pt,i)=>`${x(i).toFixed(1)},${y(Number(pt.rank)).toFixed(1)}`).join(' ');
+      const dots=points.map((pt,i)=>`<circle cx="${x(i)}" cy="${y(Number(pt.rank))}" r="${i===points.length-1?2.8:2}" />`).join('');
+      const tooltip=points.map(pt=>`${pt.date} #${pt.rank}`).join(' → ');
+      return `<div class="rank-spark" title="${escapeAttr(tooltip)}"><svg viewBox="0 0 ${w} ${h}" aria-label="排名走势"><polyline points="${poly}"></polyline>${dots}</svg><small>#${points.at(-1).rank}</small></div>`;
+    }
+
+    function renderCountTrend(targetSelector, dates, keys) {
+      const el=$(targetSelector);
+      if(!el) return;
+      const points=dates.map(date=>{
+        const d=summarizeDate(date);
+        return {
+          date,
+          total:d.uniqueTitles,
+          newTitles:d.newTitles,
+          continuing:d.continuingTitles,
+        };
+      });
+      if(!points.length){ el.innerHTML='<div class="subtle">暂无趋势数据。</div>'; return; }
+      const w=480,h=178,pL=30,pR=10,pT=16,pB=30;
+      const values=points.flatMap(p=>keys.map(k=>p[k.key]));
+      const max=Math.max(1,...values);
+      const x=i=>points.length===1?w/2:pL+i*(w-pL-pR)/(points.length-1);
+      const y=v=>pT+(max-v)*(h-pT-pB)/max;
+      const grid=[0,.25,.5,.75,1].map(t=>{
+        const yy=pT+t*(h-pT-pB), val=Math.round(max*(1-t));
+        return `<g><line x1="${pL}" x2="${w-pR}" y1="${yy}" y2="${yy}"></line><text x="${pL-6}" y="${yy+3}" text-anchor="end">${val}</text></g>`;
+      }).join('');
+      const series=keys.map(k=>{
+        const poly=points.map((p,i)=>`${x(i)},${y(p[k.key])}`).join(' ');
+        const dots=points.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p[k.key])}" r="2.8"></circle>`).join('');
+        return `<g class="count-series ${k.className}"><polyline points="${poly}"></polyline>${dots}</g>`;
+      }).join('');
+      const labels=points.map((p,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(p.date.slice(5))}</text>`).join('');
+      const legend=keys.map(k=>`<span class="${k.className}"><i></i>${escapeHtml(k.label)}</span>`).join('');
+      el.innerHTML=`<div class="count-trend-legend">${legend}</div><svg viewBox="0 0 ${w} ${h}"><g class="count-grid">${grid}</g>${series}<g class="count-date-labels">${labels}</g></svg>`;
+    }
+
+    function movementSummaryHtml(items, date = '') {
+      let up=0,down=0,flat=0,newCount=0,unknown=0;
+      items.forEach(item=>{
+        const scopedItem = date ? (recordsOnDate(date).find(x => x.id === item.id) || item) : item;
+        const isNew = isAppRankingNew(scopedItem);
+        const move = date ? rankMovement(item,date) : latestRankMovement(item);
+        if(isNew){ newCount++; return; }
+        if(move===null || move===undefined){ unknown++; return; }
+        if(move>0) up++; else if(move<0) down++; else flat++;
+      });
+      return `
+        <div class="movement-stat up"><span>↑</span><b>${up}</b><small>排名上升</small></div>
+        <div class="movement-stat flat"><span>→</span><b>${flat}</b><small>排名持平</small></div>
+        <div class="movement-stat down"><span>↓</span><b>${down}</b><small>排名下降</small></div>
+        <div class="movement-stat new"><span>✦</span><b>${newCount}</b><small>明确首次App榜上榜 · 未可比 ${unknown}</small></div>
+      `;
+    }
+
+    function renderOverviewFocus(day) {
+      const topGenre = day.genres[0]?.name || '';
+      let items = day.items.slice();
+      if (overviewFocusMode === 'new') {
+        items = items.filter(r => isAppRankingNew(r)).sort(scopeThenRankCompare);
+      } else if (overviewFocusMode === 'rising') {
+        items = items.map(r => ({...r, _move: rankMovement(r, activeDate)}))
+          .filter(r => Number(r._move) > 0)
+          .sort(scopeThenRankCompare);
+      } else {
+        items = items.filter(r => !topGenre || r.genre === topGenre).sort(scopeThenRankCompare);
+      }
+      if (!items.length) items = day.items.slice().sort(scopeThenRankCompare);
+      items = items.slice(0,5);
+
+      const posterTones=['tone-red','tone-orange','tone-blue','tone-plum','tone-slate'];
+      $('#overviewFocus').innerHTML = items.map((r,index) => {
+        const move = rankMovement(r,activeDate);
+        const initials = String(r.title || 'JSM').split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+        const posterUrl = r.posterUrl || r.poster || r.cover || '';
+        const posterStyle = posterUrl ? `style="background-image:linear-gradient(180deg,rgba(15,23,42,.02),rgba(15,23,42,.55)),url('${escapeAttr(posterUrl)}')"` : '';
+        return `<article class="focus-poster-card">
+          <button class="poster-button" type="button" data-open="${escapeAttr(r.id)}" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
+            <div class="poster-art ${posterTones[index % posterTones.length]}" ${posterStyle}>
+              <span class="poster-rank">${overviewFocusMode === 'new' ? (isAppRankingNew(r) ? 'NEW' : '样本') : overviewFocusMode === 'rising' ? '↑' : '样本'}</span>
+              <span class="poster-initials">${escapeHtml(initials)}</span>
+              <span class="poster-play" title="进入单剧详情 / 视频资源">▶</span>
+            </div>
+            <strong>${escapeHtml(r.title)}</strong>
+            <small>${escapeHtml(r.app)}${move === null ? '' : move > 0 ? ` · ↑ ${move}` : move < 0 ? ` · ↓ ${Math.abs(move)}` : ' · →'}</small>
+          </button>
+        </article>`;
+      }).join('');
+    }
+
+    function renderTrendChart() {
+      const dates = summary.dates.slice().sort().slice(-7);
+      const points = dates.map(date => {
+        const d=summarizeDate(date);
+        return {
+          date,
+          total:d.uniqueTitles,
+          female:d.audiences.find(x=>x.name==='女频')?.value || 0,
+          male:d.audiences.find(x=>x.name==='男频')?.value || 0,
+        };
+      });
+      if (!points.length) {
+        $('#marketTrendChart').innerHTML='<div class="subtle">暂无趋势数据。</div>';
+        return;
+      }
+      const w=420,h=175,pL=28,pR=10,pT=14,pB=28;
+      const max=Math.max(1,...points.flatMap(p=>[p.total,p.female,p.male]));
+      const x=i=>points.length===1?w/2:pL+i*(w-pL-pR)/(points.length-1);
+      const y=v=>pT+(max-v)*(h-pT-pB)/max;
+      const poly=key=>points.map((p,i)=>`${x(i).toFixed(1)},${y(p[key]).toFixed(1)}`).join(' ');
+      const circles=key=>points.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p[key])}" r="3"></circle>`).join('');
+      const labels=points.map((p,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(p.date.slice(5))}</text>`).join('');
+      const grid=[0,.25,.5,.75,1].map(t=>{
+        const yy=pT+t*(h-pT-pB); const val=Math.round(max*(1-t));
+        return `<g><line x1="${pL}" x2="${w-pR}" y1="${yy}" y2="${yy}"></line><text x="${pL-6}" y="${yy+4}" text-anchor="end">${val}</text></g>`;
+      }).join('');
+      $('#marketTrendChart').innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="近7个采集日市场趋势">
+        <g class="trend-grid-lines">${grid}</g>
+        <g class="trend-series total"><polyline points="${poly('total')}"></polyline>${circles('total')}</g>
+        <g class="trend-series female"><polyline points="${poly('female')}"></polyline>${circles('female')}</g>
+        <g class="trend-series male"><polyline points="${poly('male')}"></polyline>${circles('male')}</g>
+        <g class="trend-date-labels">${labels}</g>
+      </svg>`;
+    }
+
+    function posterUrlFor(item) {
+      return String(item?.posterUrl || '').trim();
+    }
+
+    function posterBlock(item, className = 'drama-poster') {
+      const url = posterUrlFor(item);
+      const initial = escapeHtml(String(item?.title || 'J').trim().slice(0,1).toUpperCase() || 'J');
+      return `<div class="${className}"><span class="poster-fallback">${initial}</span>${url ? `<img data-poster-image loading="lazy" src="${escapeAttr(url)}" alt="${escapeAttr(item?.title || '')} 海报" onerror="this.style.display='none'">` : ''}<i>▶</i></div>`;
+    }
+
+        function renderDashboard() {
+      const day=summarizeDate(activeDate);
+      $('#dashboardDate').value=activeDate;
+      const sourceLabel = dataSourceMode === 'LIVE'
+        ? 'LIVE · Production Read-only'
+        : dataSourceMode === 'LIVE_CACHE'
+          ? 'LIVE CACHE · Production Read-only'
+          : dataSourceMode === 'FALLBACK'
+            ? 'FALLBACK · Staging Local'
+            : dataSourceMode === 'LOCAL_API'
+              ? 'LOCAL API · Staging Local'
+              : 'EMBEDDED · 本地数据';
+      $('#sidebarDataStatus').textContent=`${sourceLabel} · 最新采集日 ${summary.collectionDate} · 已记录 ${summary.dateCount} 个采集日`;
+      $('#overviewStatusText').textContent=`${sourceLabel} · ${activeDate} · ${day.platforms.length} 个平台 · ${day.totalRows} 条榜单记录`;
+      if (dataSourceMode === 'FALLBACK' && dataSourceError) $('#overviewStatusText').title = dataSourceError;
+
+      const topGenre=day.genres[0] || {name:'待标注',value:0};
+      const ordered=day.items.slice().sort(scopeThenRankCompare);
+      const risingSamples=ordered.map(r=>({r,move:rankMovement(r,activeDate),previous:previousEvent(r,activeDate)})).filter(x=>Number(x.move)>0);
+      const riseSample=risingSamples[0] || null;
+      const firstSeenSample=ordered.find(r=>isAppRankingNew(r)) || null;
+      const continuingSample=ordered.find(r=>isAppRankingContinuing(r)) || null;
+
+      const notes=[
+        riseSample ? `《${riseSample.r.title}》在 ${rankingScopeText(riseSample.r)} 从 #${riseSample.previous?.rank ?? '—'} 升至 #${riseSample.r.rank}（↑${riseSample.move}），属于可下钻的同榜排名变化。` : `今日共记录 ${day.totalRows} 条榜单记录，覆盖 ${day.platforms.length} 个平台；当前不生成跨平台总排名。`,
+        `「${topGenre.name}」是今日样本中数量最多的已标注题材，共 ${topGenre.value} 条榜单样本，可进入题材研究继续拆解。`,
+        firstSeenSample ? `${rankingScopeText(firstSeenSample)} 的《${firstSeenSample.title}》今日首次上榜，当前 #${firstSeenSample.rank}；在 canonical drama_id 完成前不将其表述为“全系统新剧”。` : '今天暂未出现新的本榜首次记录。'
+      ];
+      $('#overviewConclusions').innerHTML=notes.map((note,index)=>`<button type="button" class="overview-intel-line" data-intel-index="${index}"><span>${index+1}</span><p>${escapeHtml(note)}</p><em>查看依据 →</em></button>`).join('');
+
+      const drama=riseSample?.r || firstSeenSample || continuingSample || ordered[0];
+      $('#overviewDramaSignal').innerHTML=drama ? `<button class="signal-primary" data-open="${escapeAttr(drama.id)}"><b>${escapeHtml(drama.title)}</b><span>${escapeHtml(rankingScopeText(drama))} · 当前 #${drama.rank}</span><p>${riseSample?.r.id===drama.id?`同榜 ↑ ${riseSample.move} 位`:isAppRankingNew(drama)?'本榜首次上榜':isAppRankingContinuing(drama)?'持续在榜样本':'新旧状态未确认'}</p><em>进入单剧档案 →</em></button>` : '<div class="subtle">暂无剧目信号。</div>';
+
+      $('#overviewGenreSignal').innerHTML=topGenre.value ? `<button class="signal-primary" data-overview-genre="${escapeAttr(topGenre.name)}"><b>${escapeHtml(topGenre.name)}</b><span>今日已标注 ${topGenre.value} 条榜单样本</span><p>进入今日榜单查看具体剧目，再进入题材研究判断内容结构。</p><em>查看题材样本 →</em></button>` : '<div class="subtle">暂无题材信号。</div>';
+
+      const anomaly=firstSeenSample || riseSample?.r || ordered[0];
+      $('#overviewAnomalySignal').innerHTML=anomaly ? `<button class="signal-primary" data-open="${escapeAttr(anomaly.id)}"><b>${escapeHtml(anomaly.title)}</b><span>${escapeHtml(rankingScopeText(anomaly))}</span><p>${isAppRankingNew(anomaly)?'本榜首次上榜，需要继续观察后续留榜和走势。':isAppRankingContinuing(anomaly)?'已有同榜历史记录，可查看生命周期判断是否形成持续信号。':'新旧状态未确认，先查看真实采集证据。'}</p><em>查看证据 →</em></button>` : '<div class="subtle">暂无异常信号。</div>';
+
+      const picks=[];
+      const addPick=(r,reason,type)=>{
+        if(!r || picks.some(x=>x.r.id===r.id)) return;
+        picks.push({r,reason,type});
+      };
+      addPick(riseSample?.r, riseSample ? `${rankingScopeText(riseSample.r)} 同榜上升 ${riseSample.move} 位，值得确认是否形成持续趋势` : '', '上升');
+      addPick(firstSeenSample, firstSeenSample ? `${rankingScopeText(firstSeenSample)} 首次上榜，适合跟踪后续生命周期` : '', '首次');
+      const researchReady=ordered.find(r=>!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff));
+      addPick(researchReady, researchReady ? '已有内容深研字段，可直接进入结构拆解' : '', '深研');
+      for(const r of ordered) {
+        if(picks.length>=3) break;
+        addPick(r, `${rankingScopeText(r)} 的持续榜单样本，可作为观察对象`, '样本');
+      }
+
+      $('#overviewResearchPicks').innerHTML=picks.slice(0,3).map((x,index)=>{
+        const r=x.r;
+        return `<article class="overview-research-card">
+          <div class="research-pick-no">${escapeHtml(x.type)}</div>
+          ${posterBlock(r,'research-pick-poster')}
+          <div class="research-pick-copy"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience==='女频'?'rose':r.audience==='男频'?'blue':'neutral'}">${escapeHtml(shown(r.audience))}</span></div><button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button><p>${escapeHtml(x.reason)}</p><small>${escapeHtml(rankingListLabel(r))} · 当前 #${r.rank} · ${escapeHtml(shown(r.genre))}</small></div>
+        </article>`;
+      }).join('') || '<div class="subtle">暂无可推荐研究剧目。</div>';
     }
 
     function leaderCard(item) {
       return `
         <div class="leader-item">
-          <div><span class="chip neutral">${escapeHtml(item.app)} · 第${item.rank}名</span></div>
+          <div><span class="chip neutral">${escapeHtml(rankingScopeText(item))} · #${item.rank}</span></div>
           <button data-open="${escapeAttr(item.id)}">${escapeHtml(item.title)}</button>
           <div class="subtle">${escapeHtml(shown(item.genre))} · ${escapeHtml(shown(item.audience))}</div>
         </div>
@@ -1208,6 +2621,7 @@
     function changeActiveDate(date) {
       if (!summary.dates.includes(date)) return;
       activeDate = date;
+      dailyRankingPlatform = '';
       $('#statusFilter').value = '';
       setDateOptions();
       refreshFilterOptions();
@@ -1228,29 +2642,130 @@
         .filter(r => !genre || r.genre === genre)
         .filter(r => !lane || r.laneTerms?.includes(lane) || r.lane === lane)
         .filter(r => !audience || r.audience === audience)
-        .filter(r => !status || (status === 'new' ? r.firstDate === activeDate : r.firstDate !== activeDate))
-        .sort((a, b) => {
-          const aIndex = platformOrder.includes(a.app) ? platformOrder.indexOf(a.app) : platformOrder.length;
-          const bIndex = platformOrder.includes(b.app) ? platformOrder.indexOf(b.app) : platformOrder.length;
-          return a.app === b.app ? a.rank - b.rank : aIndex - bIndex || byText(a.app, b.app);
-        });
+        .filter(r => !status || (status === 'new' ? isAppRankingNew(r) : isAppRankingContinuing(r)))
+        .sort(scopeThenRankCompare);
     }
 
     function renderCatalog() {
       const dayItems = recordsOnDate(activeDate);
       const filtered = getFilteredRecords();
+      const day = summarizeDate(activeDate);
+      const female = day.audiences.find(item => item.name === '女频')?.value || 0;
+      const male = day.audiences.find(item => item.name === '男频')?.value || 0;
+      const topGenre = day.genres[0] || { name: '待标注', value: 0 };
+      const newShare = day.totalRows ? Math.round(day.newTitles / day.totalRows * 100) : 0;
+
       $('#dateFilter').value = activeDate;
       $('#catalogDatePill').textContent = '采集日 ' + activeDate;
-      const statusLabel = $('#statusFilter').value === 'new' ? ' · 新剧' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
-      $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 部${statusLabel}`;
+      $('#dailyMetricTitles').textContent = formatNumber.format(day.uniqueTitles);
+      $('#dailyMetricNew').textContent = formatNumber.format(day.newTitles);
+      $('#dailyMetricContinuing').textContent = formatNumber.format(day.continuingTitles);
+      $('#dailyMetricFemale').textContent = formatNumber.format(female);
+      $('#dailyMetricMale').textContent = formatNumber.format(male);
+
+      $('#dailyMovementSummary').innerHTML = movementSummaryHtml(dayItems, activeDate);
+      renderCountTrend('#dailyTrendChart', summary.dates.slice().sort().filter(d=>d<=activeDate).slice(-7), [
+        {key:'total',label:'总剧目',className:'total'},
+        {key:'newTitles',label:'首次上榜',className:'new'},
+        {key:'continuing',label:'继续在榜',className:'continuing'}
+      ]);
+
+      const dailyNotes = [
+        `今日共记录 ${day.totalRows} 条榜单记录、${day.uniqueTitles} 个标题；其中明确首次App榜上榜 ${day.newTitles} 条，占榜单记录 ${newShare}%。`,
+        `当前数量最多的已标注题材是「${topGenre.name}」，共 ${topGenre.value} 条榜单样本。`,
+        `已标注受众中，女频 ${female} 条、男频 ${male} 条；排名只在相同平台与榜单口径内比较。`
+      ];
+      $('#dailyConclusions').innerHTML = dailyNotes.map((note, index) =>
+        `<div><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
+      ).join('');
+
+      const ordered = dayItems.slice().sort(scopeThenRankCompare);
+      const focus=[];
+      const addFocus=(r,label)=>{
+        if(!r || focus.some(x=>x.r.id===r.id)) return;
+        focus.push({r,label});
+      };
+      const rising=ordered.find(r=>Number(rankMovement(r,activeDate))>0);
+      const firstSeen=ordered.find(r=>isAppRankingNew(r));
+      const researchReady=ordered.find(r=>!blank(r.storyCore)||!blank(r.conflict)||!blank(r.payoff));
+      addFocus(rising,'上升');
+      addFocus(firstSeen,'首次');
+      addFocus(researchReady,'深研');
+      for(const r of ordered){ if(focus.length>=3) break; addFocus(r,'样本'); }
+
+      $('#dailyFocusTitles').innerHTML = focus.slice(0,3).map(x => {
+        const r=x.r;
+        return `<article class="daily-focus-card with-poster" data-open="${escapeAttr(r.id)}">
+          <div class="daily-focus-rank">${escapeHtml(x.label)}</div>
+          ${posterBlock(r,'daily-focus-poster')}
+          <div class="daily-focus-copy">
+            <div class="daily-focus-meta">
+              <span class="chip neutral">${escapeHtml(r.app)}</span>
+              <span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span>
+              ${newnessChip(r)}
+            </div>
+            <button class="daily-focus-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+            <div class="daily-focus-footer">
+              <div class="subtle">本榜 #${r.rank} · ${escapeHtml(shown(r.genre))} · ${escapeHtml(shown(r.audience))}</div>
+              ${movementBadge(rankMovement(r, activeDate), isAppRankingNew(r))}
+            </div>
+          </div>
+        </article>`;
+      }).join('');
+
+      const scopes = rankingScopes(dayItems);
+      const platformNames = observedPlatformOrder(dayItems);
+      if (dailyRankingPlatform && !platformNames.includes(dailyRankingPlatform)) dailyRankingPlatform = '';
+      $('#dailyRankingTabs').innerHTML = [
+        `<button type="button" class="daily-ranking-tab ${dailyRankingPlatform ? '' : 'active'}" data-ranking-platform="">全部平台</button>`,
+        ...platformNames.map(name => `<button type="button" class="daily-ranking-tab ${dailyRankingPlatform===name?'active':''}" data-ranking-platform="${escapeAttr(name)}">${escapeHtml(name)}</button>`)
+      ].join('');
+
+      const visibleScopes = dailyRankingPlatform ? scopes.filter(scope=>scope.platform===dailyRankingPlatform) : scopes;
+      $('#dailyTop10Rows').innerHTML = visibleScopes.map(scope => {
+        const visibleRows = dailyRankingPlatform ? scope.rows : scope.rows.slice(0,3);
+        return `<section class="daily-ranking-group" data-ranking-scope="${escapeAttr(scope.key)}">
+          <div class="daily-ranking-scope-head"><strong>${escapeHtml(scope.platform)} · ${escapeHtml(scope.rankingType)}</strong><span>Top${scope.topN || scope.rows.length} · ${scope.rows.length} 条记录</span></div>
+          <div class="daily-ranking-table-head"><span>排名</span><span>剧名</span><span>榜单</span><span>题材</span><span>较上次</span><span>走势</span></div>
+          ${visibleRows.map(r=>`<button class="daily-top10-row" type="button" data-open="${escapeAttr(r.id)}">
+            <span class="top10-rank">#${r.rank}</span>
+            <strong>${escapeHtml(r.title)}</strong>
+            <span>${escapeHtml(rankingListLabel(r))}</span>
+            <span>${escapeHtml(shown(r.genre))}</span>
+            <span>${movementBadge(rankMovement(r,activeDate),isAppRankingNew(r))}</span>
+            <span>${rankSparkline(r,activeDate)}</span>
+          </button>`).join('')}
+          ${!dailyRankingPlatform && scope.rows.length>visibleRows.length ? `<button type="button" class="daily-ranking-more" data-ranking-platform="${escapeAttr(scope.platform)}">查看 ${escapeHtml(scope.platform)} 完整榜单 →</button>` : ''}
+        </section>`;
+      }).join('') || '<div class="subtle">当前采集日暂无榜单记录。</div>';
+
+      const genreRows=day.genres.slice(0,6);
+      const genreTotal=Math.max(1,genreRows.reduce((sum,x)=>sum+x.value,0));
+      $('#dailyGenreStructure').innerHTML=genreRows.map((g,index)=>{
+        const pct=Math.round(g.value/genreTotal*100);
+        return `<button type="button" class="daily-genre-row" data-daily-genre="${escapeAttr(g.name)}"><span class="genre-color g${index}"></span><b>${escapeHtml(g.name)}</b><i style="--w:${pct}%"></i><em>${g.value} · ${pct}%</em></button>`;
+      }).join('') || '<div class="subtle">暂无题材标注。</div>';
+
+      const firstRows=ordered.filter(r=>isAppRankingNew(r)).slice(0,8);
+      $('#dailyNewList').innerHTML=firstRows.map(r=>`<button type="button" class="daily-new-row" data-open="${escapeAttr(r.id)}"><span>NEW</span><strong>${escapeHtml(r.title)}</strong><small>${escapeHtml(rankingScopeText(r))} · #${r.rank}</small><em>${escapeHtml(shown(r.genre))}</em></button>`).join('') || '<div class="subtle">今日暂无本榜首次记录。</div>';
+
+      const platformRows=countValues(firstRows.map(r=>r.app)).slice(0,8);
+      const platformMax=Math.max(1,...platformRows.map(x=>x.value));
+      $('#dailyPlatformPerformance').innerHTML=platformRows.map((x,index)=>`<button type="button" class="daily-platform-row" data-daily-app="${escapeAttr(x.name)}"><span class="platform-badge p${index}">${escapeHtml(x.name.slice(0,1))}</span><strong>${escapeHtml(x.name)}</strong><i><b style="width:${Math.round(x.value/platformMax*100)}%"></b></i><em>${x.value}</em></button>`).join('') || '<div class="subtle">暂无平台数据。</div>';
+
+      const statusLabel = $('#statusFilter').value === 'new' ? ' · 首次上榜' : $('#statusFilter').value === 'continuing' ? ' · 继续在榜' : '';
+      $('#resultCount').textContent = `显示 ${filtered.length} / ${dayItems.length} 条榜单记录${statusLabel}`;
       $$('[data-status-filter]').forEach(button => button.classList.toggle('active', button.dataset.statusFilter === $('#statusFilter').value));
       $('#catalogBody').innerHTML = filtered.map(r => `
-        <tr>
-          <td><span class="rank">${r.rank}</span></td>
+        <tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
+          <td><span class="rank">#${r.rank}</span></td>
+          <td>${movementBadge(rankMovement(r, activeDate), isAppRankingNew(r))}</td>
           <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
           <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
+          <td><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span></td>
           <td>${escapeHtml(shown(r.heat))}</td>
-          <td>${statusChip(r)}</td>
+          <td>${rankSparkline(r, activeDate)}</td>
+          <td><div style="display:flex;gap:6px;flex-wrap:wrap;">${statusChip(r)}${dataQualityChip(r)}</div></td>
           <td>${escapeHtml(shown(r.genre))}</td>
           <td>${escapeHtml(shown(r.lane))}</td>
           <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
@@ -1260,28 +2775,225 @@
     }
 
     function statusChip(item) {
-      const recordedPoints = (item.history || []).filter(event => event.date <= activeDate).length;
-      const isNew = item.firstDate === activeDate;
-      return `<span class="chip ${isNew ? 'amber' : 'blue'}">${isNew ? '新剧 · 首次记录' : `继续在榜 · ${recordedPoints}个采集日`}</span>`;
+      const recordedPoints = scopedHistory(item).filter(event => event.date <= activeDate).length;
+      const state = appRankingNewness(item);
+      if (state === 'NEW') return '<span class="chip amber">首次App榜上榜</span>';
+      if (state === 'EXISTING') return `<span class="chip blue">继续在榜 · ${recordedPoints}个采集点</span>`;
+      return '<span class="chip neutral">新旧状态未确认</span>';
+    }
+
+    function selectedHistoryDates() {
+      const days = Number($('#historyRange')?.value || 0);
+      const dates = summary.dates.slice().sort();
+      if (!days || !dates.length) return dates;
+      const end = new Date(dates.at(-1) + 'T00:00:00');
+      const cutoff = new Date(end);
+      cutoff.setDate(cutoff.getDate() - (days - 1));
+      return dates.filter(date => new Date(date + 'T00:00:00') >= cutoff);
+    }
+
+    function setupHistoryTrend() {
+      optionList($('#historyGenreTrend'), uniq(records.map(r => r.genre)), '全部题材');
+      optionList($('#historyPlatformTrend'), uniq(records.map(r => r.app)), '全部平台');
+      ['historyRange','historyAudienceTrend','historyGenreTrend','historyPlatformTrend'].forEach(id =>
+        $('#' + id).addEventListener('change', renderLifecycle)
+      );
+    }
+
+    function historyFilteredItems(dateSet) {
+      const audience = $('#historyAudienceTrend')?.value || '';
+      const genre = $('#historyGenreTrend')?.value || '';
+      const platform = $('#historyPlatformTrend')?.value || '';
+      return records
+        .filter(r => (r.recordedDates || []).some(date => dateSet.has(date)))
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !platform || r.app === platform);
+    }
+
+    function historyItemsOnDate(date) {
+      const audience = $('#historyAudienceTrend')?.value || '';
+      const genre = $('#historyGenreTrend')?.value || '';
+      const platform = $('#historyPlatformTrend')?.value || '';
+      return recordsOnDate(date)
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !platform || r.app === platform);
+    }
+
+    function genreShareRows(dates) {
+      const totals = new Map();
+      const dateRows = dates.map(date => {
+        const items = historyItemsOnDate(date).filter(r => !blank(r.genre));
+        const counts = countValues(items.map(r => r.genre));
+        counts.forEach(x => totals.set(x.name, (totals.get(x.name) || 0) + x.value));
+        return { date, total: items.length, counts: Object.fromEntries(counts.map(x => [x.name, x.value])) };
+      });
+      const genres = [...totals.entries()].sort((a,b) => b[1]-a[1] || byText(a[0],b[0])).slice(0,5).map(x=>x[0]);
+      return { rows: dateRows, genres };
+    }
+
+    function renderGenreShareChart(dates) {
+      const { rows, genres } = genreShareRows(dates);
+      const target = $('#genreTrendChart');
+      const legend = $('#genreTrendLegend');
+      if (!rows.length || !genres.length) {
+        target.innerHTML = '<div class="empty-chart">当前筛选暂无足够题材数据。</div>';
+        legend.innerHTML = '';
+        return { rows, genres, deltas: [] };
+      }
+      const palette = ['red','orange','blue','violet','pink'];
+      legend.innerHTML = genres.map((genre,i)=>`<button type="button" class="genre-legend-item ${palette[i]}" data-history-genre="${escapeAttr(genre)}"><i></i>${escapeHtml(genre)}</button>`).join('');
+
+      const w=720,h=245,pL=38,pR=12,pT=14,pB=30;
+      const x=i=>rows.length===1?w/2:pL+i*(w-pL-pR)/(rows.length-1);
+      const y=v=>pT+(100-v)*(h-pT-pB)/100;
+      const grid=[0,25,50,75,100].map(v=>`<g><line x1="${pL}" x2="${w-pR}" y1="${y(v)}" y2="${y(v)}"></line><text x="${pL-7}" y="${y(v)+4}" text-anchor="end">${v}%</text></g>`).join('');
+      const series=genres.map((genre,i)=>{
+        const pts=rows.map((row,idx)=>{
+          const share=row.total ? ((row.counts[genre]||0)/row.total*100) : 0;
+          return {x:x(idx),y:y(share),share};
+        });
+        const poly=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+        const dots=pts.map((p,idx)=>`<circle cx="${p.x}" cy="${p.y}" r="3"><title>${escapeHtml(rows[idx].date)} · ${escapeHtml(genre)} ${p.share.toFixed(1)}%</title></circle>`).join('');
+        return `<g class="genre-line ${palette[i]}"><polyline points="${poly}"></polyline>${dots}</g>`;
+      }).join('');
+      const labels=rows.map((r,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(r.date.slice(5))}</text>`).join('');
+      target.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="题材占比趋势"><g class="history-grid-lines">${grid}</g>${series}<g class="history-date-labels">${labels}</g></svg>`;
+
+      const first=rows[0], last=rows.at(-1);
+      const deltas=genres.map(genre=>{
+        const start=first.total ? ((first.counts[genre]||0)/first.total*100) : 0;
+        const end=last.total ? ((last.counts[genre]||0)/last.total*100) : 0;
+        return {genre,start,end,delta:end-start};
+      });
+      return { rows, genres, deltas };
+    }
+
+    function renderGenderTrend(dates) {
+      const rows=dates.map(date=>{
+        const items=recordsOnDate(date).filter(r=>!blank(r.audience));
+        const female=items.filter(r=>r.audience==='女频').length;
+        const male=items.filter(r=>r.audience==='男频').length;
+        const total=female+male;
+        return {date,female:total?female/total*100:0,male:total?male/total*100:0};
+      });
+      const target=$('#genderTrendChart');
+      if(!rows.length){target.innerHTML='<div class="empty-chart">暂无受众趋势数据。</div>';return;}
+      const w=430,h=180,pL=34,pR=10,pT=14,pB=28;
+      const x=i=>rows.length===1?w/2:pL+i*(w-pL-pR)/(rows.length-1);
+      const y=v=>pT+(100-v)*(h-pT-pB)/100;
+      const grid=[0,25,50,75,100].map(v=>`<g><line x1="${pL}" x2="${w-pR}" y1="${y(v)}" y2="${y(v)}"></line><text x="${pL-6}" y="${y(v)+3}" text-anchor="end">${v}</text></g>`).join('');
+      const line=key=>rows.map((r,i)=>`${x(i)},${y(r[key])}`).join(' ');
+      const dots=key=>rows.map((r,i)=>`<circle cx="${x(i)}" cy="${y(r[key])}" r="2.8"></circle>`).join('');
+      const labels=rows.map((r,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(r.date.slice(5))}</text>`).join('');
+      target.innerHTML=`<div class="gender-legend"><button data-history-audience="女频"><i class="female"></i>女频</button><button data-history-audience="男频"><i class="male"></i>男频</button></div><svg viewBox="0 0 ${w} ${h}"><g class="history-grid-lines">${grid}</g><g class="gender-line female"><polyline points="${line('female')}"></polyline>${dots('female')}</g><g class="gender-line male"><polyline points="${line('male')}"></polyline>${dots('male')}</g><g class="history-date-labels">${labels}</g></svg>`;
+      const last=rows.at(-1);
+      $('#genderTrendSummary').innerHTML=`<button data-history-audience="女频"><span>♀ 女频占比</span><b>${last.female.toFixed(0)}%</b></button><button data-history-audience="男频"><span>♂ 男频占比</span><b>${last.male.toFixed(0)}%</b></button>`;
+    }
+
+    function creativeTerms(items) {
+      const terms=[];
+      items.forEach(r=>{
+        (r.laneTerms || splitTerms(r.lane)).forEach(t=>{ if(t&&!blank(t)) terms.push(t); });
+        [r.openingType].forEach(t=>{ if(t&&!blank(t)) terms.push(t); });
+      });
+      return countValues(terms);
     }
 
     function renderLifecycle() {
-      $('#dateTimeline').innerHTML = summary.dateStats.map(stat => `
-        <div class="timeline-row">
-          <strong>${escapeHtml(stat.date)}</strong>
-          <div class="dot-line"><span class="dot"></span><span class="subtle">${stat.rows}个榜位，${stat.uniqueTitles}部剧</span></div>
-        </div>
-      `).join('');
-      $('#lifeList').innerHTML = records
+      const dates = selectedHistoryDates();
+      const dateSet = new Set(dates);
+      const rangeRecords = historyFilteredItems(dateSet);
+      const daily = dates.map(date => ({ date, ...summarizeDate(date) }));
+      const chart = renderGenreShareChart(dates);
+      renderGenderTrend(dates);
+
+      $('#historyRangeNote').textContent = dates.length
+        ? `${dates.length} 个真实采集日 · ${dates[0]} 至 ${dates.at(-1)}`
+        : '当前范围暂无真实采集日';
+
+      $('#historyMetricTitles').textContent = formatNumber.format(rangeRecords.length);
+      $('#historyMetricDates').textContent = formatNumber.format(dates.length);
+      const latestDate=summary.dates.slice().sort().at(-1);
+      const recentCutoff=latestDate ? new Date(latestDate+'T00:00:00') : null;
+      if(recentCutoff) recentCutoff.setDate(recentCutoff.getDate()-29);
+      const recentNew=rangeRecords.filter(r=>recentCutoff && new Date(r.firstDate+'T00:00:00')>=recentCutoff).length;
+      $('#historyMetricRecentNew').textContent=formatNumber.format(recentNew);
+      const avgDays=rangeRecords.length ? rangeRecords.reduce((sum,r)=>sum+Number(r.daysOnChart||0),0)/rangeRecords.length : 0;
+      $('#historyMetricAvgDays').textContent=avgDays.toFixed(1);
+
+      const sortedDeltas=chart.deltas.slice().sort((a,b)=>b.delta-a.delta);
+      const riser=sortedDeltas[0];
+      const faller=sortedDeltas.at(-1);
+      const latestItems=dates.length ? historyItemsOnDate(dates.at(-1)) : [];
+      const female=latestItems.filter(r=>r.audience==='女频').length;
+      const male=latestItems.filter(r=>r.audience==='男频').length;
+      const notes = dates.length > 1 ? [
+        riser ? `「${riser.genre}」在所选范围内占比变化 ${riser.delta>=0?'+':''}${riser.delta.toFixed(1)} 个百分点，是当前最明显的题材变化信号。` : '当前题材样本不足，暂不输出题材变化判断。',
+        `最新真实采集点中，女频 ${female} 部、男频 ${male} 部；受众结构变化可结合下方趋势对比查看。`,
+        faller && faller.delta < -3 ? `「${faller.genre}」占比回落 ${Math.abs(faller.delta).toFixed(1)} 个百分点，建议结合代表剧生命周期判断是短期波动还是持续回落。` : '当前未发现特别明显的题材持续回落信号。'
+      ] : [
+        `当前范围仅包含 ${dates.length} 个真实采集日，趋势判断样本有限。`,
+        `当前筛选共有 ${rangeRecords.length} 部剧目样本。`,
+        '随着真实采集点增加，题材占比、受众结构与生命周期判断会自动增强。'
+      ];
+      $('#historyConclusions').innerHTML = notes.map((note,index) => `<div class="conclusion-item"><span>${index+1}</span><p>${escapeHtml(note)}</p></div>`).join('');
+
+      const up=chart.deltas.filter(x=>x.delta>3).sort((a,b)=>b.delta-a.delta).slice(0,3);
+      const down=chart.deltas.filter(x=>x.delta<-3).sort((a,b)=>a.delta-b.delta).slice(0,3);
+      const stable=chart.deltas.filter(x=>Math.abs(x.delta)<=3).sort((a,b)=>b.end-a.end).slice(0,3);
+      const col=(title,cls,items)=>`<div class="genre-state-card ${cls}"><div class="genre-state-head"><strong>${title}</strong></div>${items.length?items.map((x,i)=>`<button data-history-genre="${escapeAttr(x.genre)}"><span>${i+1}</span><b>${escapeHtml(x.genre)}</b><em>${x.delta>0?'+':''}${x.delta.toFixed(1)}pp</em></button>`).join(''):'<div class="subtle">当前无明显信号</div>'}</div>`;
+      $('#genreStateColumns').innerHTML=col('上升题材','up',up)+col('稳定题材','stable',stable)+col('回落题材','down',down);
+
+      $('#lifeList').innerHTML = rangeRecords
         .slice()
-        .sort((a, b) => b.daysOnChart - a.daysOnChart || a.highestRank - b.highestRank || byText(a.title, b.title))
-        .map(r => `
-          <div class="leader-item">
-            <div><span class="chip neutral">${escapeHtml(r.recordedDates.join('、'))}</span></div>
-            <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
-            <div class="subtle">${escapeHtml(r.app)} · 历史最高第${r.highestRank}名 · 已记录${r.daysOnChart}个采集日</div>
-          </div>
-        `).join('');
+        .sort((a,b)=>scopedPointCount(b)-scopedPointCount(a) || scopeStableCompare(a,b))
+        .slice(0,3)
+        .map(r=>{
+          const points=scopedHistory(r).filter(h=>dateSet.has(h.date));
+          const move=points.length>1 ? Number(points.at(-2).rank)-Number(points.at(-1).rank) : null;
+          return `<article class="life-card compact">
+            ${posterBlock(r,'life-poster-placeholder')}
+            <div class="life-card-content">
+              <div class="life-card-top"><div><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span><span class="chip ${r.audience==='男频'?'blue':r.audience==='女频'?'rose':'neutral'}">${escapeHtml(shown(r.audience))}</span></div>${movementBadge(move,points.length<2)}</div>
+              <button class="life-title" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+              <div class="life-spark">${rankSparkline(r,dates.at(-1)||'')}</div>
+              <div class="life-mini-stats"><span>本榜最高 <b>#${scopedPeakRank(r) || '—'}</b></span><span>记录采集点 <b>${points.length}</b></span></div>
+            </div>
+          </article>`;
+        }).join('') || '<div class="subtle">当前范围暂无足够的生命周期样本。</div>';
+
+      // Creative guidance: use higher-performing samples first, without claiming causality.
+      const highSamples=rangeRecords.filter(isHighPositionSample);
+      const termCounts=creativeTerms(highSamples.length?highSamples:rangeRecords).slice(0,10);
+      $('#creativeElements').innerHTML=termCounts.length ? termCounts.map(x=>`<button type="button" class="creative-term" data-research-lane="${escapeAttr(x.name)}"><span>${escapeHtml(x.name)}</span><b>${x.value}</b></button>`).join('') : '<div class="subtle">当前样本的内容标签不足。</div>';
+
+      const opportunityRows=sortedDeltas.filter(x=>x.delta>0).slice(0,3);
+      $('#creativeOpportunities').innerHTML=opportunityRows.length ? opportunityRows.map((x,i)=>`<button class="creative-opportunity" data-history-genre="${escapeAttr(x.genre)}"><span class="op-no">${i+1}</span><div><b>${escapeHtml(x.genre)}</b><small>${x.delta>=5?'明显升温':'温和上升'} · 占比 ${x.start.toFixed(1)}% → ${x.end.toFixed(1)}%</small></div><em>查看样本 →</em></button>`).join('') : '<div class="subtle">当前暂无明确上升题材。</div>';
+
+      const femaleTerms=creativeTerms(rangeRecords.filter(r=>r.audience==='女频')).slice(0,5);
+      const maleTerms=creativeTerms(rangeRecords.filter(r=>r.audience==='男频')).slice(0,5);
+      const genderCol=(label,cls,items)=>`<div class="gender-writing-col ${cls}"><h3>${label}</h3>${items.length?items.map(x=>`<span>${escapeHtml(x.name)} <b>${x.value}</b></span>`).join(''):'<small>样本不足</small>'}</div>`;
+      $('#creativeGenderDiff').innerHTML=genderCol('♀ 女频','female',femaleTerms)+genderCol('♂ 男频','male',maleTerms);
+
+      const lessons=rangeRecords.slice().sort(representativeSampleCompare).slice(0,3);
+      $('#creativeDramaLessons').innerHTML=lessons.map(r=>{
+        const lesson=!blank(r.payoff)?r.payoff:!blank(r.conflict)?r.conflict:!blank(r.storyCore)?r.storyCore:shown(r.lane);
+        return `<button class="creative-lesson" data-open="${escapeAttr(r.id)}"><b>${escapeHtml(r.title)}</b><span>${escapeHtml(rankingScopeText(r))} · 本榜最高 #${scopedPeakRank(r) || '—'} · ${escapeHtml(shown(r.genre))}</span><p>${escapeHtml(lesson)}</p></button>`;
+      }).join('') || '<div class="subtle">暂无足够代表剧研究字段。</div>';
+
+      const coverage=chart.genres.map(genre=>{
+        const present=chart.rows.filter(row=>(row.counts[genre]||0)>0).length;
+        const first=chart.rows[0], last=chart.rows.at(-1);
+        const start=first?.total?((first.counts[genre]||0)/first.total*100):0;
+        const end=last?.total?((last.counts[genre]||0)/last.total*100):0;
+        return {genre,coverage:chart.rows.length?present/chart.rows.length:0,delta:end-start};
+      });
+      const longTerm=coverage.filter(x=>x.coverage>=0.6 && x.delta>=-2).sort((a,b)=>b.coverage-a.coverage || b.delta-a.delta).slice(0,3);
+      const shortTerm=coverage.filter(x=>x.delta>=5).sort((a,b)=>b.delta-a.delta).slice(0,3);
+      const horizon=(title,cls,items,desc)=>`<div class="horizon-card ${cls}"><div><strong>${title}</strong><small>${desc}</small></div><div>${items.length?items.map(x=>`<button data-history-genre="${escapeAttr(x.genre)}">${escapeHtml(x.genre)} <b>${x.delta>=0?'+':''}${x.delta.toFixed(1)}pp</b></button>`).join(''):'<span class="subtle">当前样本不足</span>'}</div></div>`;
+      $('#opportunityHorizon').innerHTML=horizon('长期机会','long',longTerm,'覆盖多数真实采集点，趋势稳定或上升')+horizon('短期信号','short',shortTerm,'所选范围内占比快速上升，需继续观察');
     }
 
     function metricText(metrics) {
@@ -1290,6 +3002,11 @@
     }
 
     function detailValue(value) { return escapeHtml(shown(value)); }
+
+    function researchStateLabel(item) {
+      const task = item?.researchTask && typeof item.researchTask === 'object' ? item.researchTask : {};
+      return String(task.status || 'UNKNOWN').toUpperCase();
+    }
 
     function editField(label, field, value, wide = true, kind = 'textarea') {
       const safe = blank(value) ? '' : value;
@@ -1329,26 +3046,33 @@
       $('#saveOfflineRecord').addEventListener('click', saveOfflineRecord);
     }
 
-    function openDetail(id) {
+    function openDetail(id, syncHash = true) {
       const item = records.find(r => r.id === id);
       if (!item) return;
       currentDetailId = id;
       lastFocusedElement = document.activeElement;
-      const event = (item.history || []).find(entry => entry.date === activeDate) || item.history.at(-1) || { date: item.date, rank: item.rank, heat: item.heat, metrics: item.platformMetrics || {} };
+      if (syncHash && location.protocol !== 'file:') {
+        const nextHash = '#drama=' + encodeURIComponent(id);
+        if (location.hash !== nextHash) history.pushState({ dramaId: id }, '', nextHash);
+      }
+      const itemHistory = scopedHistory(item).slice().sort((a,b)=>a.date.localeCompare(b.date));
+      const event = itemHistory.find(entry => entry.date === activeDate) || itemHistory.at(-1) || { date: item.date, rank: item.rank, heat: item.heat, metrics: item.platformMetrics || {} };
+      const peakRank = scopedPeakRank(item);
       $('#modalTitle').textContent = item.title;
-      $('#modalSubtitle').textContent = `${item.app} · ${event.date} · 第${event.rank}名 · ${shown(item.genre)} · ${shown(item.audience)}`;
+      $('#modalSubtitle').textContent = `${rankingScopeText(item)} · ${event.date} · #${event.rank} · ${shown(item.genre)} · ${shown(item.audience)}`;
       $('#detailSummary').innerHTML = [
-        ['所选日期排名', `第${event.rank}名`],
-        ['已记录最高排名', `第${item.highestRank}名`],
-        ['首次记录日期', item.firstDate],
-        ['已记录采集日', `${item.daysOnChart}天`],
+        ['所选日期本榜排名', `#${event.rank}`],
+        ['本榜已记录最高', peakRank ? `#${peakRank}` : '—'],
+        ['本榜首次记录日期', item.firstDate],
+        ['本榜采集点', `${itemHistory.length}个`],
       ].map(([label, value]) => `<div class="mini-metric"><span>${label}</span><span>${escapeHtml(value)}</span></div>`).join('');
 
       $('#tab-market').innerHTML = `
-        <div class="note-line">当前共记录 ${summary.dateCount} 个真实采集日；缺失日期不插值、不推算。</div>
+        <div class="note-line">排名作用域：${escapeHtml(rankingScopeText(item))}。只展示同一平台、同一榜单口径的真实采集点；缺失日期不插值、不推算。</div>
+        ${dataQualityNote(item)}
         <div class="info-grid">
-          <div class="text-block"><h3>上榜轨迹</h3>${item.history.map(h => `<p><strong>${escapeHtml(h.date)}</strong> · 第${h.rank}名 · 热度${detailValue(h.heat)}</p>`).join('')}</div>
-          <div class="text-block"><h3>${escapeHtml(event.date)} 平台数据</h3><p>热度：${detailValue(event.heat)}</p><p>${detailValue(metricText(event.metrics))}</p></div>
+          <div class="text-block"><h3>本榜上榜轨迹</h3>${itemHistory.map(h => `<p><strong>${escapeHtml(h.date)}</strong> · #${h.rank} · 热度${detailValue(h.heat)}</p>`).join('')}</div>
+          <div class="text-block"><h3>${escapeHtml(event.date)} 本榜数据</h3><p>热度：${detailValue(event.heat)}</p><p>${detailValue(metricText(event.metrics))}</p></div>
         </div>
       `;
       $('#tab-positioning').innerHTML = `
@@ -1358,6 +3082,7 @@
         <div class="text-block"><h3>受众</h3><p>${detailValue(item.audience)}</p></div>
       `;
       $('#tab-story').innerHTML = `
+        ${researchTaskBlock(item)}
         <div class="text-block"><h3>故事核</h3><p>${detailValue(item.storyCore)}</p></div>
         <div class="text-block"><h3>故事皮</h3><p>${detailValue(item.storySkin)}</p></div>
         <div class="info-grid"><div class="text-block"><h3>核心冲突</h3><p>${detailValue(item.conflict)}</p></div><div class="text-block"><h3>核心爽点</h3><p>${detailValue(item.payoff)}</p></div></div>
@@ -1371,6 +3096,44 @@
       $('#tab-localization').innerHTML = `
         <div class="info-grid"><div class="text-block"><h3>本土化完成度</h3><p>${detailValue(item.localizationLevel)}</p></div><div class="text-block"><h3>本土化判断</h3><p>${detailValue(item.localizationJudgment)}</p></div></div>
         <div class="text-block"><h3>明显不适配点</h3><p>${detailValue(item.mismatch)}</p></div>
+      `;
+
+      const related = records
+        .filter(r => r.id !== item.id)
+        .filter(r => (!blank(item.genre) && r.genre === item.genre) || (!blank(item.audience) && r.audience === item.audience))
+        .sort((a,b) => {
+          const aGenre = !blank(item.genre) && a.genre === item.genre ? 0 : 1;
+          const bGenre = !blank(item.genre) && b.genre === item.genre ? 0 : 1;
+          return aGenre - bGenre || scopedPointCount(b) - scopedPointCount(a) || scopeStableCompare(a,b);
+        })
+        .slice(0,6);
+      $('#tab-compare').innerHTML = related.length ? `
+        <div class="note-line">优先匹配同题材，其次匹配同受众；点击剧名可继续切换到对应单剧档案。</div>
+        <div class="compare-grid">
+          ${related.map(r => `
+            <article class="compare-card">
+              <div class="compare-tags"><span class="chip neutral">${escapeHtml(r.app)}</span><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></div>
+              <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+              <p>${escapeHtml(shown(r.genre))} · ${escapeHtml(rankingScopeText(r))} · 本榜最高 #${escapeHtml(String(scopedPeakRank(r) || '—'))}</p>
+              <small>${escapeHtml(shown(r.lane))}</small>
+            </article>
+          `).join('')}
+        </div>
+      ` : '<div class="note-line">当前暂无足够的同类剧目用于横向对比。</div>';
+
+      $('#tab-assets').innerHTML = `
+        <div class="resource-intro">
+          <div>
+            <div class="eyebrow">Future Ready</div>
+            <h3>视频 / 广告 / 外部资源</h3>
+            <p class="subtle">当前先保留统一资源位。后续可按 drama_id 接入正片、预告、广告素材、投放落地页和外部链接，不需要重构单剧档案。</p>
+          </div>
+        </div>
+        <div class="resource-grid">
+          <div class="resource-card"><span>视频</span><strong>暂无已接入资源</strong><small>未来支持直接播放或跳转</small></div>
+          <div class="resource-card"><span>广告</span><strong>暂无已接入素材</strong><small>未来支持素材预览与投放链接</small></div>
+          <div class="resource-card"><span>外部链接</span><strong>暂无已关联链接</strong><small>未来支持官网、平台页和研究来源</small></div>
+        </div>
       `;
       renderEditForm(item);
       activateTab('market');
@@ -1433,14 +3196,40 @@
       location.href = '/review?id=' + encodeURIComponent(currentDetailId);
     }
 
-    function closeDetail() {
+    function closeDetail(syncHash = true) {
       if (!$('#modalBackdrop').classList.contains('open')) return;
       $('#modalBackdrop').classList.remove('open');
       document.body.style.overflow = '';
+      if (syncHash && location.protocol !== 'file:' && location.hash.startsWith('#drama=')) {
+        history.replaceState({}, '', location.pathname + location.search);
+      }
       if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus();
     }
 
-    function activateTab(name) {
+    function dramaIdFromHash() {
+      if (!location.hash.startsWith('#drama=')) return '';
+      try { return decodeURIComponent(location.hash.slice('#drama='.length)); } catch { return ''; }
+    }
+
+    async function copyCurrentDramaLink() {
+      if (!currentDetailId) return;
+      const url = location.origin + location.pathname + location.search + '#drama=' + encodeURIComponent(currentDetailId);
+      try {
+        await navigator.clipboard.writeText(url);
+        $('#copyDramaLink').textContent = '已复制';
+        setTimeout(() => { $('#copyDramaLink').textContent = '复制单剧链接'; }, 1200);
+      } catch {
+        window.prompt('复制此链接', url);
+      }
+    }
+
+    function syncDetailFromHash() {
+      const id = dramaIdFromHash();
+      if (id) openDetail(id, false);
+      else if ($('#modalBackdrop').classList.contains('open')) closeDetail(false);
+    }
+
+        function activateTab(name) {
       $$('.tabs button').forEach(button => {
         const active = button.dataset.tab === name;
         button.classList.toggle('active', active);
@@ -1464,9 +3253,120 @@
         showView('catalog');
         renderCatalog();
       }
+      const overviewFilter = event.target.closest('[data-overview-filter]');
+      if (overviewFilter) {
+        const mode = overviewFilter.dataset.overviewFilter;
+        $('#searchInput').value = '';
+        $('#appFilter').value = '';
+        $('#genreFilter').value = '';
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        if (mode === 'new' || mode === 'continuing') $('#statusFilter').value = mode;
+        if (mode === 'female') $('#audienceFilter').value = '女频';
+        if (mode === 'male') $('#audienceFilter').value = '男频';
+        showView('catalog');
+        renderCatalog();
+      }
+      const dailyFilter = event.target.closest('[data-daily-filter]');
+      if (dailyFilter) {
+        const mode = dailyFilter.dataset.dailyFilter;
+        $('#searchInput').value = '';
+        $('#appFilter').value = '';
+        $('#genreFilter').value = '';
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        if (mode === 'new' || mode === 'continuing') $('#statusFilter').value = mode;
+        if (mode === 'female') $('#audienceFilter').value = '女频';
+        if (mode === 'male') $('#audienceFilter').value = '男频';
+        renderCatalog();
+        document.querySelector('#catalog .filters')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const overviewGenre = event.target.closest('[data-overview-genre]');
+      if (overviewGenre) {
+        $('#searchInput').value = '';
+        $('#appFilter').value = '';
+        $('#genreFilter').value = overviewGenre.dataset.overviewGenre;
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        showView('catalog');
+        renderCatalog();
+      }
+      const overviewApp = event.target.closest('[data-overview-app]');
+      if (overviewApp) {
+        $('#searchInput').value = '';
+        $('#appFilter').value = overviewApp.dataset.overviewApp;
+        $('#genreFilter').value = '';
+        $('#laneFilter').value = '';
+        $('#statusFilter').value = '';
+        $('#audienceFilter').value = '';
+        showView('catalog');
+        renderCatalog();
+      }
+      const historyGenre = event.target.closest('[data-history-genre]');
+      if (historyGenre) {
+        const genre = historyGenre.dataset.historyGenre;
+        $('#historyGenreFilter').value = genre;
+        showView('history-library');
+        renderHistoryLibrary();
+      }
+      const historyAudience = event.target.closest('[data-history-audience]');
+      if (historyAudience) {
+        $('#historyAudienceFilter').value = historyAudience.dataset.historyAudience;
+        showView('history-library');
+        renderHistoryLibrary();
+      }
+      const researchLane = event.target.closest('[data-research-lane]');
+      if (researchLane) {
+        const term = researchLane.dataset.researchLane;
+        showView('research');
+        $('#researchGenre').value = '';
+        $('#researchAudience').value = '';
+        $('#researchPlatform').value = '';
+        renderResearch();
+        const laneInput = document.querySelector('#research [data-lane-search]');
+        if (laneInput) laneInput.value = term;
+      }
+      const dailyGenre = event.target.closest('[data-daily-genre]');
+      if (dailyGenre) {
+        $('#genreFilter').value=dailyGenre.dataset.dailyGenre;
+        renderCatalog();
+        document.querySelector('#dailyDetailTable')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const dailyApp = event.target.closest('[data-daily-app]');
+      if (dailyApp) {
+        $('#appFilter').value=dailyApp.dataset.dailyApp;
+        renderCatalog();
+        document.querySelector('#dailyDetailTable')?.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+      const rankingPlatform = event.target.closest('[data-ranking-platform]');
+      if (rankingPlatform) {
+        dailyRankingPlatform = rankingPlatform.dataset.rankingPlatform || '';
+        renderCatalog();
+      }
+      const scrollButton = event.target.closest('[data-scroll-target]');
+      if (scrollButton) document.getElementById(scrollButton.dataset.scrollTarget)?.scrollIntoView({behavior:'smooth',block:'start'});
+      const intelLine = event.target.closest('[data-intel-index]');
+      if (intelLine) {
+        if (intelLine.dataset.intelIndex === '1') showView('research');
+        else showView('catalog');
+      }
+      const focusTab = event.target.closest('[data-focus-mode]');
+      if (focusTab) {
+        overviewFocusMode = focusTab.dataset.focusMode;
+        $('[data-focus-mode]').forEach(btn => btn.classList.toggle('active', btn === focusTab));
+        renderOverviewFocus(summarizeDate(activeDate));
+      }
       const viewButton = event.target.closest('[data-view-button]');
       if (viewButton) {
         showView(viewButton.dataset.viewButton);
+      }
+      const adminButton = event.target.closest('[data-admin-href]');
+      if (adminButton) {
+        if (location.protocol === 'file:') alert('系统设置需要在线管理员账号登录。');
+        else location.href = adminButton.dataset.adminHref;
       }
       const tabButton = event.target.closest('[data-tab]');
       if (tabButton) {
@@ -1476,12 +3376,177 @@
     });
 
     $('#editRecord').addEventListener('click', openEditor);
+    $('#copyDramaLink').addEventListener('click', copyCurrentDramaLink);
     $('#closeModal').addEventListener('click', closeDetail);
+    window.addEventListener('hashchange', syncDetailFromHash);
     $('#modalBackdrop').addEventListener('click', event => { if (event.target.id === 'modalBackdrop') closeDetail(); });
-    document.addEventListener('keydown', event => { if (event.key === 'Escape') closeDetail(); });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeDetail();
+      if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.clickable-data-row[data-open]')) {
+        event.preventDefault();
+        openDetail(event.target.dataset.open);
+      }
+    });
     $('#exportEdits').addEventListener('click', exportEdits);
     $('#importEdits').addEventListener('click', () => $('#importEditsFile').click());
     $('#importEditsFile').addEventListener('change', event => importEdits(event.target.files[0]).catch(error => alert('导入失败：' + error.message)));
+
+
+    function setupHistoryLibrary() {
+      optionList($('#historyAppFilter'), uniq(records.map(r => r.app)));
+      optionList($('#historyGenreFilter'), uniq(records.map(r => r.genre)));
+      optionList($('#historyAudienceFilter'), uniq(records.map(r => r.audience)));
+      ['historySearch','historyAppFilter','historyGenreFilter','historyAudienceFilter','historyStateFilter','historySort']
+        .forEach(id => $('#' + id).addEventListener('input', renderHistoryLibrary));
+    }
+
+    function renderHistoryLibrary() {
+      const query = $('#historySearch').value.trim().toLowerCase();
+      const app = $('#historyAppFilter').value;
+      const genre = $('#historyGenreFilter').value;
+      const audience = $('#historyAudienceFilter').value;
+      const state = $('#historyStateFilter').value;
+      const sort = $('#historySort').value;
+      const filtered = records
+        .filter(r => !query || r.title.toLowerCase().includes(query))
+        .filter(r => !app || r.app === app)
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => {
+          if (!state) return true;
+          const active = r.lastDate === summary.collectionDate;
+          return state === 'active' ? active : !active;
+        })
+        .slice()
+        .sort((a,b) => {
+          if (sort === 'peak') return rankingScopeCompare(a,b) || scopedPeakRank(a) - scopedPeakRank(b) || byText(a.title,b.title);
+          if (sort === 'days') return scopedPointCount(b) - scopedPointCount(a) || scopeStableCompare(a,b);
+          if (sort === 'first') return a.firstDate.localeCompare(b.firstDate) || scopeStableCompare(a,b);
+          return b.lastDate.localeCompare(a.lastDate) || scopeStableCompare(a,b);
+        });
+
+      $('#historyMovementSummary').innerHTML = movementSummaryHtml(filtered);
+      renderCountTrend('#historyLibraryTrend', summary.dates.slice().sort(), [
+        {key:'total',label:'总剧目',className:'total'},
+        {key:'newTitles',label:'首次上榜',className:'new'},
+        {key:'continuing',label:'继续在榜',className:'continuing'}
+      ]);
+
+      $('#historyCountPill').textContent = '历史榜单记录 ' + records.length + ' 条';
+      $('#historyResultCount').textContent = `显示 ${filtered.length} / ${records.length} 条榜单记录`;
+      $('#historyBody').innerHTML = filtered.map(r => {
+        const active = r.lastDate === summary.collectionDate;
+        return `<tr class="clickable-data-row" data-open="${escapeAttr(r.id)}" tabindex="0" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">
+          <td><button class="title-button" data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button></td>
+          <td><span class="chip neutral">${escapeHtml(r.app)}</span></td>
+          <td><span class="chip neutral">${escapeHtml(rankingListLabel(r))}</span></td>
+          <td><span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span></td>
+          <td>${escapeHtml(shown(r.genre))}</td>
+          <td><span class="rank">#${escapeHtml(String(scopedHistory(r).slice().sort((a,b)=>a.date.localeCompare(b.date)).at(-1)?.rank || r.rank || '—'))}</span></td>
+          <td>${movementBadge(latestRankMovement(r), scopedHistory(r).length < 2)}</td>
+          <td>${escapeHtml(shown(r.firstDate))}</td>
+          <td>${escapeHtml(shown(r.lastDate))}</td>
+          <td>#${escapeHtml(String(scopedPeakRank(r) || '—'))}</td>
+          <td>${rankSparkline(r)}</td>
+          <td><span class="history-status ${active ? 'active' : ''}">${active ? '最近采集日在榜' : '历史记录'}</span></td>
+        </tr>`;
+      }).join('');
+      $('#historyEmpty').style.display = filtered.length ? 'none' : 'block';
+    }
+
+    function setupResearch() {
+      const genres = uniq(records.map(r => r.genre));
+      optionList($('#researchGenre'), genres, '全部题材');
+      optionList($('#researchAudience'), uniq(records.map(r => r.audience)));
+      optionList($('#researchPlatform'), uniq(records.map(r => r.app)));
+      ['researchGenre','researchAudience','researchPlatform'].forEach(id =>
+        $('#' + id).addEventListener('change', renderResearch)
+      );
+    }
+
+    function renderResearch() {
+      const genre = $('#researchGenre').value;
+      const audience = $('#researchAudience').value;
+      const platform = $('#researchPlatform').value;
+      const items = records
+        .filter(r => !genre || r.genre === genre)
+        .filter(r => !audience || r.audience === audience)
+        .filter(r => !platform || r.app === platform);
+
+      const female = items.filter(r => r.audience === '女频').length;
+      const male = items.filter(r => r.audience === '男频').length;
+      const avgDays = items.length ? (items.reduce((sum,r) => sum + Number(r.daysOnChart || 0),0) / items.length).toFixed(1) : '0';
+      const scopeCount = rankingScopes(items).length;
+      const latestCount = items.filter(r => r.lastDate === summary.collectionDate).length;
+
+      const laneCounts = countValues(items.flatMap(r => r.laneTerms?.length ? r.laneTerms : splitTerms(r.lane))).slice(0,10);
+      const topLane = laneCounts[0] || null;
+      const platformCounts = countValues(items.map(r => r.app));
+      const topPlatform = platformCounts[0] || null;
+
+      const headlineParts = [genre || '全部题材', audience || '全部受众', platform || '全部平台'];
+      $('#researchHeadline').textContent = headlineParts.join(' · ');
+
+      const insightNotes = items.length ? [
+        `当前筛选共有 ${items.length} 部历史剧目，其中最新采集日仍有 ${latestCount} 部出现。`,
+        topLane ? `最高频细分元素为「${topLane.name}」，在 ${topLane.value} 部样本中出现。` : '当前筛选尚无足够的细分元素标注。',
+        topPlatform ? `样本最多的平台为 ${topPlatform.name}（${topPlatform.value} 条榜单记录）；当前覆盖 ${scopeCount} 个榜单口径，排名只在各自口径内解释。` : '当前筛选暂无平台样本。'
+      ] : ['当前筛选暂无匹配剧目。'];
+
+      $('#researchInsights').innerHTML = insightNotes.map((note,index) =>
+        `<div class="research-insight-item"><span>${index + 1}</span><p>${escapeHtml(note)}</p></div>`
+      ).join('');
+
+      $('#researchSummary').innerHTML = [
+        ['历史剧目', items.length, '当前筛选样本量'],
+        ['女频 / 男频', `${female} / ${male}`, '按已标注受众统计'],
+        ['平均记录采集日', avgDays, '基于真实历史快照'],
+        ['榜单口径', scopeCount, 'platform + targetKey；禁止跨平台总排名']
+      ].map(([label,value,note]) => `<div class="metric"><div class="label">${escapeHtml(label)}</div><div class="value">${escapeHtml(String(value))}</div><div class="subtle">${escapeHtml(note)}</div></div>`).join('');
+
+      $('#researchElements').innerHTML = laneCounts.length
+        ? laneCounts.map((element,index) => {
+            const pct = items.length ? Math.round(element.value / items.length * 100) : 0;
+            const tones = ['rose','blue','amber','violet'];
+            return `<div class="element-row">
+              <div class="element-main">
+                <span class="element-dot ${tones[index % tones.length]}"></span>
+                <strong>${escapeHtml(element.name)}</strong>
+              </div>
+              <div class="element-meta"><span>${element.value} 部</span><b>${pct}%</b></div>
+            </div>`;
+          }).join('')
+        : '<div class="subtle">当前样本暂无已标注细分元素。</div>';
+
+      const patternSamples = items
+        .filter(r => !blank(r.storyCore) || !blank(r.conflict) || !blank(r.payoff))
+        .sort(representativeSampleCompare)
+        .slice(0,4);
+      $('#researchPatterns').innerHTML = patternSamples.length
+        ? patternSamples.map(r => `<article class="pattern-card">
+            <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+            <div><span>故事核</span><p>${escapeHtml(shown(r.storyCore))}</p></div>
+            <div><span>冲突</span><p>${escapeHtml(shown(r.conflict))}</p></div>
+            <div><span>爽点</span><p>${escapeHtml(shown(r.payoff))}</p></div>
+          </article>`).join('')
+        : '<div class="subtle">当前筛选样本还没有足够的深度内容标注。</div>';
+
+      $('#researchTitles').innerHTML = items
+        .slice()
+        .sort(representativeSampleCompare)
+        .slice(0,12)
+        .map(r => `<article class="research-title-card">
+          <div class="research-title-meta">
+            <span class="chip neutral">${escapeHtml(r.app)}</span>
+            <span class="chip ${r.audience === '男频' ? 'blue' : r.audience === '女频' ? 'rose' : 'neutral'}">${escapeHtml(shown(r.audience))}</span>
+            <span class="research-rank">${escapeHtml(rankingListLabel(r))} · 本榜最高 #${escapeHtml(String(scopedPeakRank(r) || '—'))}</span>
+          </div>
+          <button data-open="${escapeAttr(r.id)}">${escapeHtml(r.title)}</button>
+          <p>${escapeHtml(shown(r.lane))}</p>
+          <small>首次 ${escapeHtml(shown(r.firstDate))} · 最近 ${escapeHtml(shown(r.lastDate))} · 记录 ${escapeHtml(String(r.daysOnChart))} 个采集日</small>
+        </article>`).join('')
+        || '<div class="subtle">当前筛选暂无可用剧目。</div>';
+    }
 
     async function initialize() {
       await loadHostedData();
@@ -1489,9 +3554,15 @@
       if (location.protocol !== 'file:') $('#offlineTools').style.display = 'none';
       setDateOptions();
       setupFilters();
+      setupHistoryLibrary();
+      setupResearch();
+      setupHistoryTrend();
       renderDashboard();
       renderCatalog();
       renderLifecycle();
+      renderHistoryLibrary();
+      renderResearch();
+      syncDetailFromHash();
     }
 
     initialize();
