@@ -20,8 +20,8 @@ jobs:
           python-version: '3.13'
       - name: Python snapshot contract
         run: python -m unittest -v test_frontend_snapshot_contract.py
-      - name: Compile test snapshot adapter
-        run: python -m py_compile test_snapshot.py app.py live_observations.py
+      - name: Compile Integration surface used by the test frontend
+        run: python -m py_compile app.py live_observations.py drama_identity.py test_frontend_snapshot_contract.py
       - name: Verify static frontend structure
         run: |
           python - <<'PY'
