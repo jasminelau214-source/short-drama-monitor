@@ -2468,7 +2468,7 @@
       $('#overviewFocus').innerHTML = items.map((r,index) => {
         const move = rankMovement(r,activeDate);
         const initials = String(r.title || 'JSM').split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
-        const posterUrl = r.posterUrl || r.poster || r.cover || '';
+        const posterUrl = posterUrlFor(r);
         const posterStyle = posterUrl ? `style="background-image:linear-gradient(180deg,rgba(15,23,42,.02),rgba(15,23,42,.55)),url('${escapeAttr(posterUrl)}')"` : '';
         return `<article class="focus-poster-card">
           <button class="poster-button" type="button" data-open="${escapeAttr(r.id)}" aria-label="打开 ${escapeAttr(r.title)} 单剧详情">

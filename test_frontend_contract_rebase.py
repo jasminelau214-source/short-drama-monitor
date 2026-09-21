@@ -30,6 +30,7 @@ class FrontendStaticContractTests(unittest.TestCase):
         html = (ROOT / 'index.html').read_text(encoding='utf-8')
         self.assertIn("return String(item?.posterUrl || '').trim();", html)
         self.assertNotIn('posterUrl || item?.coverUrl', html)
+        self.assertNotIn('r.posterUrl || r.poster || r.cover', html)
         self.assertNotIn('local_by_title', html)
 
     def test_runtime_patch_skips_rebased_ui(self):
