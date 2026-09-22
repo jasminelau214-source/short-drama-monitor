@@ -140,7 +140,7 @@ class ProductionCandidateManifestTests(unittest.TestCase):
         base = MANIFEST["base"]["sha"]
         try:
             actual = subprocess.check_output(
-                ["git", "diff", "--name-only", f"{base}...HEAD"],
+                ["git", "diff", "--name-only", base, "HEAD"],
                 cwd=ROOT,
                 text=True,
                 stderr=subprocess.STDOUT,
