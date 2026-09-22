@@ -56,6 +56,12 @@ class FrontendSnapshotContract(unittest.TestCase):
         cls.jobs = load("testdata/collection_jobs.json")
         cls.targets = load("testdata/collection_targets.json")
         cls.sources = load("testdata/source_registry.json")
+        cls.web_backfill = [
+            load("testdata/web_backfill_2026-09-18.json"),
+            load("testdata/web_backfill_2026-09-19.json"),
+            load("testdata/web_backfill_2026-09-20.json"),
+            load("testdata/web_backfill_2026-09-21.json"),
+        ]
         cls.html = (ROOT / "test_frontend.html").read_text(encoding="utf-8")
 
     def test_snapshot_counts(self):
@@ -65,6 +71,65 @@ class FrontendSnapshotContract(unittest.TestCase):
         self.assertEqual(len(self.jobs), 15)
         self.assertEqual(len(self.targets), 20)
         self.assertEqual(len(self.sources), 16)
+
+    def test_sep18_21_web_backfill_is_staging_only(self):
+        self.assertEqual(
+            [x["collectionDate"] for x in self.web_backfill],
+            ["2026-09-18", "2026-09-19", "2026-09-20", "2026-09-21"],
+        )
+        self.assertEqual(sum(x["acceptedBatchCount"] for x in self.web_backfill), 27)
+        self.assertEqual(sum(x["acceptedRowCount"] for x in self.web_backfill), 270)
+        self.assertEqual(sum(x["rejectedBatchCount"] for x in self.web_backfill), 5)
+
+        rejected = {
+            (x["collectionDate"], r["platform"])
+            for x in self.web_backfill
+            for r in x["rejectedBatches"]
+        }
+        self.assertEqual(
+            rejected,
+            {
+                ("2026-09-18", "DramaWave"),
+                ("2026-09-19", "DramaWave"),
+                ("2026-09-20", "DramaWave"),
+                ("2026-09-21", "DramaWave"),
+                ("2026-09-21", "ShortMax"),
+            },
+        )
+
+        for dataset in self.web_backfill:
+            self.assertEqual(dataset["purpose"], "UI_STAGING_ONLY")
+            self.assertFalse(dataset["productionWrite"])
+            self.assertFalse(dataset["researchEligible"])
+            self.assertEqual(dataset["sourceSemantics"], "OFFICIAL_WEB_OBSERVATION")
+            for batch in dataset["acceptedBatches"]:
+                self.assertEqual(batch["sourceType"], "OFFICIAL_WEB")
+                self.assertEqual(batch["originalSourceType"], "OFFICIAL_WEB_PILOT")
+                self.assertTrue(batch["batchComplete"])
+                self.assertFalse(batch["productionWrite"])
+                self.assertFalse(batch["researchEligible"])
+                self.assertEqual(len(batch["rows"]), batch["topN"])
+                self.assertEqual(
+                    sorted(int(row["rank"]) for row in batch["rows"]),
+                    list(range(1, batch["topN"] + 1)),
+                )
+
+    def test_frontend_loads_sep18_21_backfill_without_app_promotion(self):
+        for path in [
+            "testdata/web_backfill_2026-09-18.json",
+            "testdata/web_backfill_2026-09-19.json",
+            "testdata/web_backfill_2026-09-20.json",
+            "testdata/web_backfill_2026-09-21.json",
+        ]:
+            self.assertIn(path, self.html)
+        for marker in [
+            "function buildBackfillWeb",
+            "UI_STAGING_BACKFILL",
+            "WEB_BACKFILL",
+            "WEB OBSERVATION ONLY",
+            "不参与 App Newness、正式 Research Queue 或生产写回",
+        ]:
+            self.assertIn(marker, self.html)
 
     def test_historical_web_pending_visible_but_not_app(self):
         run_by_id = {str(r.get("id") or ""): r for r in self.runs}
