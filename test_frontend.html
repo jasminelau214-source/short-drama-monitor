@@ -33,7 +33,7 @@ main{padding:24px 28px 40px;min-width:0}.view{display:none}.view.active{display:
 <button data-view="queue">Research Queue</button>
 <button data-view="audit">数据审计</button>
 </nav>
-<div class="side-note"><b>测试环境</b><br>数据来源：生产只读快照<br>写入能力：关闭<br>App Ranking 与 Official Web：分层<br><span id="snapshotTime"></span></div>
+<div class="side-note"><b>测试环境</b><br>数据来源：生产只读快照 + 9/18–9/21 Web staging backfill<br>写入能力：关闭<br>App Ranking 与 Official Web：分层<br><span id="snapshotTime"></span></div>
 </aside>
 <main>
 <section id="dashboard" class="view active"></section>
@@ -135,6 +135,48 @@ function buildWeb(runs,tasks){
  });
  return rows;
 }
+function buildBackfillWeb(datasets){
+ var rows=[];
+ (datasets||[]).forEach(function(ds){
+  (ds.acceptedBatches||[]).forEach(function(batch){
+   (batch.rows||[]).forEach(function(x){
+    rows.push({
+     date:batch.collectionDate||ds.collectionDate,
+     platform:batch.platform,
+     targetKey:batch.targetKey,
+     rankingType:batch.rankingType,
+     rank:Number(x.rank),
+     title:x.title,
+     tags:'',
+     metrics:{},
+     batchComplete:true,
+     batchValid:true,
+     runStatus:'UI_STAGING_BACKFILL',
+     task:null,
+     analysisRunId:'',
+     datasetOrigin:'WEB_BACKFILL',
+     researchEligible:false,
+     sourceUrl:x.sourceUrl||batch.sourceUrl||''
+    });
+   });
+  });
+ });
+ return rows;
+}
+function summarizeBackfill(datasets){
+ var ds=datasets||[],acceptedBatches=0,acceptedRows=0,rejected=[];
+ ds.forEach(function(x){
+  acceptedBatches+=Number(x.acceptedBatchCount||0);
+  acceptedRows+=Number(x.acceptedRowCount||0);
+  (x.rejectedBatches||[]).forEach(function(r){rejected.push(r)});
+ });
+ return {
+  dates:ds.map(function(x){return x.collectionDate}).filter(Boolean).sort(),
+  acceptedBatches:acceptedBatches,
+  acceptedRows:acceptedRows,
+  rejectedBatches:rejected
+ };
+}
 function groupCount(arr,keyfn){var m=new Map();arr.forEach(function(x){var k=keyfn(x)||'未标注';m.set(k,(m.get(k)||0)+1)});return Array.from(m.entries()).map(function(x){return {name:x[0],value:x[1]}}).sort(function(a,b){return b.value-a.value||String(a.name).localeCompare(String(b.name))})}
 function chipState(s){s=String(s||'UNKNOWN').toUpperCase();return s==='COMPLETE'?'blue':(s==='FAILED'||s==='REVIEW_REQUIRED')?'red':(s==='PENDING'||s==='UNKNOWN')?'gray':'amber'}
 function view(name){qa('.view').forEach(function(v){v.classList.toggle('active',v.id===name)});qa('[data-view]').forEach(function(b){b.classList.toggle('active',b.dataset.view===name)})}
@@ -145,10 +187,10 @@ function openDetail(id){var r=STATE.records.find(function(x){return x.id===id});
  body+='<div class="grid2"><div class="card"><h2>内容定位</h2><p>'+esc(r.synopsis||'暂无可靠数据')+'</p><p><b>题材：</b>'+esc(r.genre||'—')+'</p><p><b>赛道：</b>'+esc(r.lane||'—')+'</p><p><b>受众：</b>'+esc(r.audience||'—')+'</p></div><div class="card"><h2>深度研究</h2><p><b>故事核：</b>'+esc(r.storyCore||'—')+'</p><p><b>故事皮：</b>'+esc(r.storySkin||'—')+'</p><p><b>冲突：</b>'+esc(r.conflict||'—')+'</p><p><b>爽点：</b>'+esc(r.payoff||'—')+'</p></div></div>';
  q('#modalBody').innerHTML=body;q('#modalBg').classList.add('open')}
 function renderDashboard(){
- var rec=STATE.records,dates=Array.from(new Set(rec.flatMap(function(r){return (r.history||[]).map(function(h){return h.date})}))).sort(),latest=dates[dates.length-1]||'',today=rec.filter(function(r){return (r.history||[]).some(function(h){return h.date===latest})}),validRuns=latestAuthoritative(STATE.runs),complete=STATE.tasks.filter(function(t){return t.status==='COMPLETE'}).length,pending=STATE.tasks.filter(function(t){return t.status==='PENDING'}).length;
- q('#dashboard').innerHTML='<div class="top"><div><h1>市场总览</h1><div class="sub">全数据测试前端 · 生产只读快照 · '+esc(latest)+'</div></div><div class="pill">READ ONLY</div></div><div class="stats">'+[['历史作用域剧目',rec.length,'不跨平台强合并'],['最新榜单记录',today.length,'有效 App publication'],['有效 App runs',validRuns.length,'仅完整批次'],['Research COMPLETE',complete,'formal task state'],['Research PENDING',pending,'包含历史 Web 污染'],['Official Web 行',STATE.webRows.length,'Observation only']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="grid2"><div class="card"><h2>最新榜单平台</h2><div class="list">'+groupCount(today,function(r){return r.app}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div><div class="card"><h2>Research 状态</h2><div class="list">'+groupCount(STATE.tasks,function(t){return t.status}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div></div><div class="warn">测试页不会把 Web observation 标记为 App 新剧，也不会让 incomplete/later failed run 覆盖 earlier complete run。115 条 OFFICIAL_WEB PENDING 在 Research Queue 中完整展示，但不执行。</div>';
+ var rec=STATE.records,dates=Array.from(new Set(rec.flatMap(function(r){return (r.history||[]).map(function(h){return h.date})}))).sort(),latest=dates[dates.length-1]||'',today=rec.filter(function(r){return (r.history||[]).some(function(h){return h.date===latest})}),validRuns=latestAuthoritative(STATE.runs),complete=STATE.tasks.filter(function(t){return t.status==='COMPLETE'}).length,pending=STATE.tasks.filter(function(t){return t.status==='PENDING'}).length,bf=STATE.backfillSummary||{acceptedBatches:0,acceptedRows:0,rejectedBatches:[]};
+ q('#dashboard').innerHTML='<div class="top"><div><h1>市场总览</h1><div class="sub">全数据测试前端 · 生产只读快照 + Web staging backfill · App 最新 '+esc(latest)+'</div></div><div class="pill">READ ONLY</div></div><div class="stats">'+[['历史作用域剧目',rec.length,'不跨平台强合并'],['最新榜单记录',today.length,'有效 App publication'],['有效 App runs',validRuns.length,'仅完整批次'],['Research COMPLETE',complete,'formal task state'],['Research PENDING',pending,'包含历史 Web 污染'],['Official Web 行',STATE.webRows.length,'其中 '+bf.acceptedRows+' 条为 9/18–9/21 staging backfill']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="grid2"><div class="card"><h2>最新榜单平台</h2><div class="list">'+groupCount(today,function(r){return r.app}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div><div class="card"><h2>Research 状态</h2><div class="list">'+groupCount(STATE.tasks,function(t){return t.status}).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div></div><div class="ok">9/18–9/21 Web staging backfill 已接入：'+bf.acceptedBatches+' 个合法批次 / '+bf.acceptedRows+' 条 observation；'+bf.rejectedBatches.length+' 个不完整批次保留为 rejected evidence。该数据只进入 Official Web / 审计展示，不参与 App Newness、正式 Research Queue 或生产写回。</div><div class="warn" style="margin-top:10px">测试页不会把 Web observation 标记为 App 新剧，也不会让 incomplete/later failed run 覆盖 earlier complete run。115 条 OFFICIAL_WEB PENDING 在 Research Queue 中完整展示，但不执行。</div>';
 }
-function recordOnDate(r,date){var h=(r.history||[]).filter(function(x){return x.date===date&&String(x.app||r.app)===String(r.app)&&String(x.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')});return h[h.length-1]}
+function recordOnDate(function recordOnDate(r,date){var h=(r.history||[]).filter(function(x){return x.date===date&&String(x.app||r.app)===String(r.app)&&String(x.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')});return h[h.length-1]}
 function renderRanking(){
  var dates=Array.from(new Set(STATE.records.flatMap(function(r){return (r.history||[]).map(function(h){return h.date})}))).sort(),latest=dates[dates.length-1]||'',rows=STATE.records.map(function(r){var h=recordOnDate(r,latest);return h?Object.assign({},r,{rank:h.rank,heat:h.heat,tags:h.tags}):null}).filter(Boolean).sort(function(a,b){return String(a.app).localeCompare(String(b.app))||String(a.targetKey).localeCompare(String(b.targetKey))||a.rank-b.rank});
  q('#ranking').innerHTML='<div class="top"><div><h1>今日榜单</h1><div class="sub">'+esc(latest)+' · 只使用 authoritative valid App runs；排名不跨平台比较。</div></div></div><div class="table-meta"><span>'+rows.length+' 条有效榜位</span><span>NEW = JSM 首次记录上榜；没有 previous rank ≠ NEW</span></div><div class="table-wrap"><table><thead><tr><th>平台</th><th>榜单</th><th>Rank</th><th>剧名</th><th>首次记录</th><th>变化</th><th>Research</th><th>质量</th></tr></thead><tbody>'+rows.map(function(r){var hs=(r.history||[]).filter(function(h){return String(h.app||r.app)===r.app&&String(h.targetKey||r.targetKey||'daily_top_all')===String(r.targetKey||'daily_top_all')}).sort(function(a,b){return String(a.date).localeCompare(String(b.date))}),prev=hs.length>1?hs[hs.length-2]:null,move=prev?Number(prev.rank)-Number(r.rank):null,isFirst=String(r.firstDate)===latest;return '<tr><td>'+esc(r.app)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td><span class="rank">'+esc(r.rank)+'</span></td><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.firstDate||'—')+(isFirst?' <span class="chip red">FIRST SEEN</span>':'')+'</td><td>'+(move==null?'—':move>0?'↑'+move:move<0?'↓'+Math.abs(move):'→0')+'</td><td><span class="chip '+chipState((r.researchTask||{}).status)+'">'+esc((r.researchTask||{}).status||'UNKNOWN')+'</span></td><td>'+esc(r.scopeInferred?'VALID · LEGACY SCOPE':'VALID')+'</td></tr>'}).join('')+'</tbody></table></div>';
@@ -168,10 +210,11 @@ function renderResearch(){
  q('#research').innerHTML='<div class="top"><div><h1>题材 / 剧目研究</h1><div class="sub">只使用已有内容字段和正式 Research Task；缺失保持为空。</div></div></div><div class="grid2"><div class="card"><h2>题材分布</h2>'+genres.slice(0,12).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div><div class="card"><h2>受众分布</h2>'+aud.map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div></div><div class="card"><h2>高频细分元素</h2>'+lanes.slice(0,20).map(function(x){return '<div class="row"><span>'+esc(x.name)+'</span><b>'+x.value+'</b></div>'}).join('')+'</div><div class="card"><h2>代表剧目（按研究字段覆盖，不跨平台排名）</h2><div class="table-wrap"><table><thead><tr><th>剧名</th><th>平台</th><th>题材</th><th>故事核</th><th>冲突</th><th>爽点</th><th>Research</th></tr></thead><tbody>'+rec.filter(function(r){return r.storyCore||r.conflict||r.payoff}).slice(0,40).map(function(r){return '<tr><td><button class="title-btn" data-open="'+esc(r.id)+'">'+esc(r.title)+'</button></td><td>'+esc(r.app)+'</td><td>'+esc(r.genre||'—')+'</td><td>'+esc(r.storyCore||'—')+'</td><td>'+esc(r.conflict||'—')+'</td><td>'+esc(r.payoff||'—')+'</td><td><span class="chip '+chipState((r.researchTask||{}).status)+'">'+esc((r.researchTask||{}).status||'UNKNOWN')+'</span></td></tr>'}).join('')+'</tbody></table></div></div>';
 }
 function renderWeb(){
- var rows=STATE.webRows;
- q('#web').innerHTML='<div class="top"><div><h1>Official Web 采集分析</h1><div class="sub">全部 Web observation；与 App ranking 严格分层。</div></div></div><div class="stats">'+[['Web rows',rows.length,'全部历史记录'],['Platforms',new Set(rows.map(function(r){return r.platform})).size,'来源平台'],['Targets',new Set(rows.map(function(r){return r.platform+'::'+r.targetKey})).size,'采集目标'],['Valid batches',new Set(rows.filter(function(r){return r.batchValid}).map(function(r){return r.date+'::'+r.platform+'::'+r.targetKey})).size,'结构完整'],['PENDING tasks',rows.filter(function(r){return r.task&&r.task.status==='PENDING'}).length,'仅展示'],['Invalid rows',rows.filter(function(r){return !r.batchValid}).length,'不晋升 App fact']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="table-wrap"><table><thead><tr><th>日期</th><th>平台</th><th>Target</th><th>Rank</th><th>剧名</th><th>Batch</th><th>Run status</th><th>Research</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.platform)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td>'+esc(r.rank)+'</td><td>'+esc(r.title)+'</td><td><span class="chip '+(r.batchValid?'blue':'red')+'">'+(r.batchValid?'VALID':'NOT VALID')+'</span></td><td>'+esc(r.runStatus||'—')+'</td><td><span class="chip '+chipState(r.task&&r.task.status)+'">'+esc(r.task&&r.task.status||'—')+'</span></td></tr>'}).join('')+'</tbody></table></div>';
+ var rows=STATE.webRows.slice().sort(function(a,b){return String(b.date||'').localeCompare(String(a.date||''))||String(a.platform||'').localeCompare(String(b.platform||''))||String(a.targetKey||'').localeCompare(String(b.targetKey||''))||Number(a.rank||0)-Number(b.rank||0)}),bf=STATE.backfillSummary||{acceptedBatches:0,acceptedRows:0,rejectedBatches:[]};
+ var rejected=bf.rejectedBatches||[];
+ q('#web').innerHTML='<div class="top"><div><h1>Official Web 采集分析</h1><div class="sub">生产历史 Web observation + 9/18–9/21 staging backfill；与 App ranking 严格分层。</div></div><div class="pill">WEB OBSERVATION ONLY</div></div><div class="stats">'+[['Web rows',rows.length,'生产快照 + staging'],['Backfill rows',bf.acceptedRows,'9/18–9/21 accepted'],['Backfill batches',bf.acceptedBatches,'结构完整'],['Rejected batches',rejected.length,'fail-closed 保留证据'],['Platforms',new Set(rows.map(function(r){return r.platform})).size,'来源平台'],['PENDING tasks',rows.filter(function(r){return r.task&&r.task.status==='PENDING'}).length,'仅生产历史展示']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div>'+(rejected.length?'<div class="warn" style="margin-bottom:14px"><b>未接入的批次：</b> '+rejected.map(function(r){return esc(r.collectionDate)+' '+esc(r.platform)+' ('+esc(r.rowCount)+'/'+esc(r.topN)+', '+esc(r.rejectReason)+')'}).join('；')+'。这些批次不会出现在有效榜单行中。</div>':'')+'<div class="table-wrap"><table><thead><tr><th>日期</th><th>平台</th><th>Target</th><th>Rank</th><th>剧名</th><th>数据层</th><th>Batch</th><th>Run status</th><th>Research</th></tr></thead><tbody>'+rows.map(function(r){var origin=r.datasetOrigin==='WEB_BACKFILL'?'9/18–9/21 STAGING':'PROD SNAPSHOT';return '<tr><td>'+esc(r.date)+'</td><td>'+esc(r.platform)+'</td><td>'+esc(r.rankingType||r.targetKey)+'</td><td>'+esc(r.rank)+'</td><td>'+esc(r.title)+'</td><td><span class="chip '+(r.datasetOrigin==='WEB_BACKFILL'?'amber':'gray')+'">'+origin+'</span></td><td><span class="chip '+(r.batchValid?'blue':'red')+'">'+(r.batchValid?'VALID':'NOT VALID')+'</span></td><td>'+esc(r.runStatus||'—')+'</td><td><span class="chip '+chipState(r.task&&r.task.status)+'">'+esc(r.task&&r.task.status||'—')+'</span></td></tr>'}).join('')+'</tbody></table></div>';
 }
-function renderQueue(){
+function renderQueue(){function renderQueue(){
  var runMap=new Map(STATE.runs.map(function(r){return [String(r.id),r]})),rows=STATE.tasks;
  q('#queue').innerHTML='<div class="top"><div><h1>Research Queue · 只读审计</h1><div class="sub">全部 '+rows.length+' 条任务；任务存在不等于执行授权。</div></div></div><div class="stats">'+['PENDING','RESEARCHING','COMPLETE','NEEDS_GPT','REVIEW_REQUIRED','FAILED'].map(function(s){var n=rows.filter(function(t){return t.status===s}).length;return '<div class="metric"><div class="label">'+s+'</div><div class="value">'+n+'</div><small>formal task state</small></div>'}).join('')+'</div><div class="table-wrap"><table><thead><tr><th>日期</th><th>平台</th><th>Rank</th><th>剧名</th><th>Source</th><th>State</th><th>Confidence</th><th>Evidence</th><th>Missing / Error</th></tr></thead><tbody>'+rows.map(function(t){var src=taskSource(t,runMap),e=Array.isArray(t.sources)?t.sources.length:0,m=(Array.isArray(t.missing_fields)?t.missing_fields:[]).join('、')||t.error||'—';return '<tr><td>'+esc(t.collection_date)+'</td><td>'+esc(t.platform)+'</td><td>'+esc(t.rank)+'</td><td>'+esc(t.title)+'</td><td><span class="chip '+(src==='OFFICIAL_WEB'?'red':'gray')+'">'+esc(src)+'</span></td><td><span class="chip '+chipState(t.status)+'">'+esc(t.status)+'</span></td><td>'+esc(t.confidence||'—')+'</td><td>'+e+'</td><td>'+esc(m)+'</td></tr>'}).join('')+'</tbody></table></div>';
 }
@@ -196,6 +239,7 @@ function fieldCoverageMatrix(){
   ['Research confidence','详情 / Queue','research_tasks.confidence','READY','不用于 UI 自行升级 COMPLETE'],
   ['Research evidence','详情 / Queue','research_tasks.sources','READY','显示数量；无证据保留风险'],
   ['Research missing fields','详情 / Queue','research_tasks.missing_fields','READY','optional 缺失不自动判假 COMPLETE'],
+  ['Web staging backfill','Official Web / 审计','testdata/web_backfill_2026-09-18..21.json','STAGING_ONLY','仅展示 OFFICIAL_WEB observation；不参与 App Newness / Research'],
   ['batchComplete / Batch Validity','榜单 / Web / 审计','analysis_runs.result_json','READY','TopN/rank/title 完整校验后才发布 App ranking'],
   ['Authoritative Run','榜单 / 历史','date+platform+sourceType+targetKey','DERIVABLE','latest structurally complete wins'],
   ['collection job state','Web / 审计','collection_jobs.status','READY','与 Research 状态分离'],
@@ -224,14 +268,16 @@ function renderAudit(){
  q('#audit').innerHTML='<div class="top"><div><h1>数据审计</h1><div class="sub">红蓝对抗视图：区分原始 run、权威 publication、Research 状态和 Identity 风险。</div></div></div><div class="stats">'+[['analysis_runs',runs.length,'原始运行'],['authoritative App runs',good.length,'发布候选'],['invalid / incomplete runs',bad.length,'不得覆盖'],['legacy scope inferred',legacy.length,'兼容历史'],['cross-platform same title',multi.length,'不自动合并'],['research tasks',STATE.tasks.length,'正式状态机']].map(function(x){return '<div class="metric"><div class="label">'+x[0]+'</div><div class="value">'+x[1]+'</div><small>'+x[2]+'</small></div>'}).join('')+'</div><div class="grid2"><div class="card"><h2>红队风险</h2><div class="warn">Legacy runs 缺 collector scope metadata；页面仅做历史兼容解释。跨平台同名不自动合并。Web PENDING 不自动执行。COMPLETE 仅展示 DB 状态与证据，不由 UI 自行升级。</div></div><div class="card"><h2>蓝队防线</h2><div class="ok">榜单只选择 latest structurally complete same-scope App run；later incomplete/failed 不覆盖。Research 投影绑定 platform + targetKey + title；Official Web task 绑定 analysis_run_id。Poster 缺失使用占位图，不跨平台按标题补图。</div></div></div><div class="card"><h2>跨平台同名候选</h2><div class="list">'+multi.slice(0,50).map(function(x){return '<div class="row"><span>'+esc(x[0])+'</span><b>'+esc(Array.from(x[1]).join(' / '))+'</b></div>'}).join('')+'</div></div>'+fieldCoverageMatrix()+renderRawDatasets();
 }
 async function load(){
- var paths=['data.json','testdata/analysis_runs.json','testdata/research_tasks.json','testdata/drama_overrides.json','testdata/collection_jobs.json','testdata/collection_targets.json','testdata/source_registry.json'];
+ var paths=['data.json','testdata/analysis_runs.json','testdata/research_tasks.json','testdata/drama_overrides.json','testdata/collection_jobs.json','testdata/collection_targets.json','testdata/source_registry.json','testdata/web_backfill_2026-09-18.json','testdata/web_backfill_2026-09-19.json','testdata/web_backfill_2026-09-20.json','testdata/web_backfill_2026-09-21.json'];
  var vals=await Promise.all(paths.map(function(p){return fetch(p,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error(p+' HTTP '+r.status);return r.json()})}));
- STATE.base=vals[0];STATE.runs=vals[1];STATE.tasks=vals[2];STATE.overrides=vals[3];STATE.jobs=vals[4];STATE.targets=vals[5];STATE.sources=vals[6];
- STATE.records=buildRecords(STATE.base,STATE.runs,STATE.tasks,STATE.overrides);STATE.webRows=buildWeb(STATE.runs,STATE.tasks);
+ STATE.base=vals[0];STATE.runs=vals[1];STATE.tasks=vals[2];STATE.overrides=vals[3];STATE.jobs=vals[4];STATE.targets=vals[5];STATE.sources=vals[6];STATE.webBackfill=vals.slice(7);
+ STATE.backfillSummary=summarizeBackfill(STATE.webBackfill);
+ STATE.records=buildRecords(STATE.base,STATE.runs,STATE.tasks,STATE.overrides);
+ STATE.webRows=buildWeb(STATE.runs,STATE.tasks).concat(buildBackfillWeb(STATE.webBackfill));
  renderDashboard();renderRanking();renderHistory();renderLibrary();renderResearch();renderWeb();renderQueue();renderAudit();
- q('#snapshotTime').textContent='快照内容：'+STATE.runs.length+' runs / '+STATE.tasks.length+' tasks / '+STATE.overrides.length+' overrides';
+ q('#snapshotTime').textContent='快照内容：'+STATE.runs.length+' runs / '+STATE.tasks.length+' tasks / '+STATE.overrides.length+' overrides / '+STATE.backfillSummary.acceptedRows+' Web staging rows';
 }
-q('#nav').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(b)view(b.dataset.view)});
+q('#nav').addEventListenerq('#nav').addEventListener('click',function(e){var b=e.target.closest('[data-view]');if(b)view(b.dataset.view)});
 document.addEventListener('click',function(e){var b=e.target.closest('[data-open]');if(b)openDetail(b.dataset.open)});
 q('#closeModal').addEventListener('click',function(){q('#modalBg').classList.remove('open')});q('#modalBg').addEventListener('click',function(e){if(e.target.id==='modalBg')q('#modalBg').classList.remove('open')});
 load().catch(function(err){q('#dashboard').innerHTML='<div class="warn">测试数据加载失败：'+esc(err.message)+'</div>';console.error(err)});
