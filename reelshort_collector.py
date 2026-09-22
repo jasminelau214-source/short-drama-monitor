@@ -3,6 +3,8 @@ from __future__ import annotations
 from datetime import datetime, timezone
 
 from official_web_collectors import (
+    COLLECTION_LOCALE,
+    COLLECTION_REGION,
     OfficialWebCollectorError,
     _clean,
     fetch_html_with_evidence,
@@ -98,7 +100,8 @@ def collect_reelshort_top(
         'rows': rows,
         'collector_version': 'reelshort-nextdata-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': 'en',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
