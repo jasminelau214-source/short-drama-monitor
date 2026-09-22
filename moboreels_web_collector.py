@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from datetime import datetime, timezone
 
-from official_web_collectors import OfficialWebCollectorError, _clean, fetch_html_with_evidence
+from official_web_collectors import COLLECTION_LOCALE, COLLECTION_REGION, OfficialWebCollectorError, _clean, fetch_html_with_evidence
 
 
 DEFAULT_URL = 'https://www.moboreels.com/'
@@ -93,7 +93,8 @@ def collect_moboreels_popular(
         'rows': rows,
         'collector_version': 'moboreels-popular-dom-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': 'en',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
