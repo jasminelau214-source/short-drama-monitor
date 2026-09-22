@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import pathlib
+import subprocess
 import unittest
 
 
@@ -21,6 +22,7 @@ class ProductionCandidateManifestTests(unittest.TestCase):
         self.docs = set(nonruntime["docs"])
         self.validation = set(nonruntime["validationOnly"])
         self.tests = set(nonruntime["testsAndFixtures"])
+        self.audit_meta = set(nonruntime.get("auditMeta") or [])
 
     def test_all_groups_are_disjoint(self):
         groups = {
@@ -30,6 +32,7 @@ class ProductionCandidateManifestTests(unittest.TestCase):
             "docs": self.docs,
             "validation": self.validation,
             "tests": self.tests,
+            "audit_meta": self.audit_meta,
         }
         names = list(groups)
         for i, left in enumerate(names):
@@ -49,6 +52,7 @@ class ProductionCandidateManifestTests(unittest.TestCase):
             | self.docs
             | self.validation
             | self.tests
+            | self.audit_meta
         )
         self.assertEqual(
             len(all_paths),
@@ -57,7 +61,7 @@ class ProductionCandidateManifestTests(unittest.TestCase):
 
     def test_backend_candidate_excludes_ui_and_validation_scaffolding(self):
         candidate = self.backend | self.collectors
-        forbidden = self.ui | self.validation | self.tests
+        forbidden = self.ui | self.validation | self.tests | self.audit_meta
         self.assertFalse(candidate & forbidden)
         self.assertNotIn("index.html", candidate)
         self.assertNotIn("runtime_ui_patch.py", candidate)
@@ -127,9 +131,38 @@ class ProductionCandidateManifestTests(unittest.TestCase):
             | self.docs
             | self.validation
             | self.tests
+            | self.audit_meta
         )
         missing = [path for path in sorted(all_paths) if not (ROOT / path).exists()]
         self.assertEqual(missing, [])
+
+    def test_manifest_matches_real_git_diff_from_pinned_main(self):
+        base = MANIFEST["base"]["sha"]
+        try:
+            actual = subprocess.check_output(
+                ["git", "diff", "--name-only", f"{base}...HEAD"],
+                cwd=ROOT,
+                text=True,
+                stderr=subprocess.STDOUT,
+            )
+        except Exception as exc:
+            self.fail(f"PROMOTION_SURFACE_GIT_DIFF_UNAVAILABLE:{exc}")
+
+        actual_paths = {line.strip() for line in actual.splitlines() if line.strip()}
+        manifest_paths = (
+            self.backend
+            | self.collectors
+            | self.ui
+            | self.docs
+            | self.validation
+            | self.tests
+            | self.audit_meta
+        )
+        self.assertEqual(
+            actual_paths,
+            manifest_paths,
+            "Production promotion surface drifted from manifest",
+        )
 
 
 if __name__ == "__main__":
