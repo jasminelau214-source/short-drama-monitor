@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urljoin
 
-from official_web_collectors import OfficialWebCollectorError, _clean, _unique_text, fetch_html_with_evidence
+from official_web_collectors import COLLECTION_LOCALE, COLLECTION_REGION, OfficialWebCollectorError, _clean, _unique_text, fetch_html_with_evidence
 
 
 VOID_TAGS = {
@@ -219,7 +219,8 @@ def collect_goodshort_top(
         'rows': rows,
         'collector_version': 'goodshort-html-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': 'en-US',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
