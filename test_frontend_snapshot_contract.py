@@ -178,7 +178,8 @@ class FrontendSnapshotContract(unittest.TestCase):
             "近 7 个真实采集日",
             "题材占比趋势",
             "单剧生命周期",
-            "官方网页观察",
+            "官方网页",
+            "最新市场日期",
             "深度研究状态",
             "研究置信度",
             "异常记录",
@@ -216,7 +217,7 @@ class FrontendSnapshotContract(unittest.TestCase):
             self.assertNotIn(forbidden, self.html)
         self.assertIn("详细底层原因、契约检查和修复建议在后台审计或项目对话中说明", self.html)
 
-    def test_sep18_21_data_is_secondary_observation_in_ui(self):
+    def test_sep18_21_web_data_participates_in_unified_market_analysis(self):
         for path in [
             "testdata/web_backfill_2026-09-18.json",
             "testdata/web_backfill_2026-09-19.json",
@@ -224,9 +225,26 @@ class FrontendSnapshotContract(unittest.TestCase):
             "testdata/web_backfill_2026-09-21.json",
         ]:
             self.assertIn(path, self.html)
-        self.assertIn("function buildBackfillWeb", self.html)
+        for marker in [
+            "function buildBackfillWeb",
+            "function buildMarketObservations",
+            "function buildMarketPresence",
+            "function buildMarketTitles",
+            "STATE.marketObservations=buildMarketObservations()",
+            "所有通过校验的 App 与网页数据共同进入趋势",
+            "9/18–9/21 的网页采集已直接进入这条趋势时间轴",
+            "最新市场日期",
+        ]:
+            self.assertIn(marker, self.html)
         self.assertIn("researchEligible:false", self.html)
-        self.assertIn("仅作为市场补充观察，不参与应用榜单新剧判断", self.html)
+        self.assertNotIn("应用榜单与官方网页观察分别计算", self.html)
+
+    def test_october_source_display_rule_is_locked(self):
+        self.assertIn("String(date||'')<'2026-10-01'", self.html)
+        self.assertIn("10 月起", self.html)
+        self.assertIn("网页统一主采集，不逐条标来源", self.html)
+        self.assertIn("App 验证/补充数据", self.html)
+        self.assertIn("底层来源字段", self.html)
 
     def test_chinese_presentation_layer_covers_english_research_fields(self):
         self.assertIn("CHINESE_PRESENTATION", self.html)
@@ -247,7 +265,7 @@ class FrontendSnapshotContract(unittest.TestCase):
     def test_poster_and_identity_safety(self):
         self.assertIn("r.posterUrl", self.html)
         self.assertNotIn("r.poster || r.cover", self.html)
-        self.assertIn("不跨平台混写研究结果", self.html)
+        self.assertIn("不同来源或不同榜单口径的排名只并列展示", self.html)
 
     def test_identity_matches_integration_contract(self):
         self.assertEqual(norm("(DUBBED) Justice in Blood"), norm("Justice in Blood"))
