@@ -24,6 +24,7 @@ from analysis_pipeline import analyze_batch, configured as analysis_configured, 
 from live_observations import merge_analysis_records, build_live_summary
 from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
 from collector_import import CollectorImportError, validate_and_normalize
+from drama_identity import normalize_title as canonical_normalize_title
 import persistence
 
 ROOT = Path(__file__).resolve().parent
@@ -41,6 +42,7 @@ FRONTEND_DATA_SOURCE_URL = os.environ.get('JSM_FRONTEND_DATA_SOURCE_URL', '').st
 FRONTEND_DATA_CACHE_TTL = max(10, int(os.environ.get('JSM_FRONTEND_DATA_CACHE_TTL', '60') or 60))
 _FRONTEND_DATA_CACHE = {'at': 0.0, 'payload': None}
 _FRONTEND_DATA_LOCK = threading.Lock()
+STAGING_WEB_OVERLAY_PATH = ROOT / 'staging_data' / 'web_overlay_2026-09-18_21.json'
 
 
 def clean(value, limit=6000):
@@ -55,7 +57,7 @@ def split_lane(value):
 
 
 def normalize_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+    return canonical_normalize_title(value)
 
 
 def load_base_data():
@@ -246,6 +248,181 @@ def public_data():
     return {'records':records,'summary':build_live_summary(records, PLATFORM_ORDER, clean, split_lane)}
 
 
+
+STAGING_CONTENT_FIELDS = (
+    'synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff',
+    'openingSummary','openingType','payEpisode','paywallSummary','paywallType',
+    'localizationLevel','localizationJudgment','mismatch',
+    'posterUrl','posterSourceUrl','posterUpdatedAt','posterEvidence',
+)
+
+
+def _staging_web_record_id(platform: str, target_key: str, title: str) -> str:
+    raw = f"{platform}|{target_key}|{normalize_title(title)}".encode('utf-8')
+    return 'staging-web-' + hashlib.sha1(raw).hexdigest()[:18]
+
+
+def _merge_staging_web_overlay(payload: dict) -> dict:
+    """Overlay vetted 9/18-9/21 Official Web observations onto UI staging only.
+
+    This is a presentation/staging overlay. It does not write production data,
+    does not create formal research_tasks, and preserves Web source semantics.
+    """
+    if not STAGING_WEB_OVERLAY_PATH.is_file():
+        return payload
+    try:
+        overlay = json.loads(STAGING_WEB_OVERLAY_PATH.read_text(encoding='utf-8'))
+    except Exception as exc:
+        print(f'[frontend-data] staging web overlay read failed: {exc}')
+        return payload
+
+    if (
+        overlay.get('purpose') != 'UI_STAGING_ONLY'
+        or overlay.get('productionWrite') is not False
+        or overlay.get('formalResearchQueueWrite') is not False
+        or overlay.get('sourceSemantics') != 'OFFICIAL_WEB_OBSERVATION'
+    ):
+        print('[frontend-data] staging web overlay rejected: unsafe metadata')
+        return payload
+
+    records = [dict(r) for r in (payload.get('records') or []) if isinstance(r, dict)]
+    by_scope = {}
+    by_platform_title = {}
+    for record in records:
+        title_key = normalize_title(record.get('title'))
+        if not title_key:
+            continue
+        app = clean(record.get('app'), 80)
+        target_key = clean(record.get('targetKey') or 'daily_top_all', 120)
+        by_scope[(app, target_key, title_key)] = record
+        by_platform_title.setdefault((app, title_key), record)
+
+    accepted_rows = 0
+    for batch in overlay.get('acceptedBatches') or []:
+        if not isinstance(batch, dict):
+            continue
+        if (
+            batch.get('sourceType') != 'OFFICIAL_WEB'
+            or batch.get('batchComplete') is not True
+            or batch.get('productionWrite') is not False
+            or batch.get('researchEligible') is not False
+        ):
+            continue
+        platform = clean(batch.get('platform'), 80)
+        date = clean(batch.get('collectionDate'), 20)
+        target_key = clean(batch.get('targetKey'), 120)
+        ranking_type = clean(batch.get('rankingType') or target_key, 160)
+        top_n = int(batch.get('topN') or 0)
+        rows = batch.get('rows') if isinstance(batch.get('rows'), list) else []
+        if not platform or not date or not target_key or top_n < 1 or len(rows) != top_n:
+            continue
+
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            title = clean(row.get('title'), 500)
+            title_key = normalize_title(title)
+            try:
+                rank = int(row.get('rank'))
+            except (TypeError, ValueError):
+                continue
+            if not title_key or rank < 1 or rank > top_n:
+                continue
+
+            scope_key = (platform, target_key, title_key)
+            record = by_scope.get(scope_key)
+            if record is None:
+                donor = by_platform_title.get((platform, title_key))
+                record = {
+                    'id': _staging_web_record_id(platform, target_key, title),
+                    'title': title,
+                    'app': platform,
+                    'targetKey': target_key,
+                    'rankingType': ranking_type,
+                    'sourceType': 'OFFICIAL_WEB',
+                    'topN': top_n,
+                    'history': [],
+                }
+                if donor:
+                    for field in STAGING_CONTENT_FIELDS:
+                        if donor.get(field) not in (None, '', [], {}):
+                            record[field] = donor.get(field)
+                records.append(record)
+                by_scope[scope_key] = record
+                by_platform_title.setdefault((platform, title_key), record)
+
+            history = [
+                dict(h) for h in (record.get('history') or [])
+                if not (
+                    clean(h.get('date'), 20) == date
+                    and clean(h.get('app') or record.get('app'), 80) == platform
+                    and clean(h.get('targetKey') or record.get('targetKey'), 120) == target_key
+                    and clean(h.get('sourceType') or record.get('sourceType') or 'OFFICIAL_WEB', 40) == 'OFFICIAL_WEB'
+                )
+            ]
+            event = {
+                'date': date,
+                'app': platform,
+                'rank': rank,
+                'heat': '',
+                'tags': '',
+                'metrics': {},
+                'targetKey': target_key,
+                'rankingType': ranking_type,
+                'sourceType': 'OFFICIAL_WEB',
+                'sourceUrl': clean(row.get('sourceUrl') or batch.get('sourceUrl'), 1000),
+                'dataOrigin': 'STAGING_WEB_OVERLAY',
+            }
+            history.append(event)
+            history.sort(key=lambda h: (
+                clean(h.get('date'), 20),
+                clean(h.get('sourceType'), 40),
+                clean(h.get('targetKey'), 120),
+                int(h.get('rank') or 999),
+            ))
+            dates = sorted({clean(h.get('date'), 20) for h in history if clean(h.get('date'), 20)})
+            ranks = [int(h.get('rank')) for h in history if str(h.get('rank') or '').isdigit()]
+            latest = history[-1]
+            record.update({
+                'title': title,
+                'app': platform,
+                'targetKey': target_key,
+                'rankingType': ranking_type,
+                'sourceType': 'OFFICIAL_WEB',
+                'topN': top_n,
+                'history': history,
+                'recordedDates': dates,
+                'daysOnChart': len(dates),
+                'firstDate': dates[0] if dates else date,
+                'lastDate': dates[-1] if dates else date,
+                'date': clean(latest.get('date'), 20),
+                'rank': int(latest.get('rank') or rank),
+                'highestRank': min(ranks) if ranks else rank,
+                'heat': '',
+                'tags': '',
+                'platformMetrics': {},
+                'dataOrigin': 'STAGING_WEB_OVERLAY',
+                'researchEligibility': 'SHADOW_ONLY',
+            })
+            record['laneTerms'] = split_lane(record.get('lane'))
+            accepted_rows += 1
+
+    payload = dict(payload or {})
+    payload['records'] = records
+    payload['summary'] = build_live_summary(records, PLATFORM_ORDER, clean, split_lane)
+    payload['stagingOverlay'] = {
+        'enabled': True,
+        'dates': list(overlay.get('dates') or []),
+        'acceptedRows': accepted_rows,
+        'acceptedBatches': int(overlay.get('acceptedBatchCount') or 0),
+        'rejectedBatches': int(overlay.get('rejectedBatchCount') or 0),
+        'sourceType': 'OFFICIAL_WEB',
+        'productionWrite': False,
+        'formalResearchQueueWrite': False,
+    }
+    return payload
+
+
 def _with_frontend_source(payload, mode, *, remote_configured, failure_type=''):
     out = dict(payload or {})
     out['frontendSource'] = {
@@ -267,7 +444,7 @@ def frontend_public_data():
     without exposing the configured URL or credentials.
     """
     if not FRONTEND_DATA_SOURCE_URL:
-        return _with_frontend_source(public_data(), 'LOCAL', remote_configured=False)
+        return _with_frontend_source(_merge_staging_web_overlay(public_data()), 'LOCAL', remote_configured=False)
     now = time.time()
     with _FRONTEND_DATA_LOCK:
         cached = _FRONTEND_DATA_CACHE.get('payload')
@@ -299,18 +476,21 @@ def frontend_public_data():
                 if not record.get(field) and local.get(field):
                     record[field] = local[field]
 
+        payload = _merge_staging_web_overlay(payload)
+
         with _FRONTEND_DATA_LOCK:
             _FRONTEND_DATA_CACHE['at'] = now
             _FRONTEND_DATA_CACHE['payload'] = payload
         print(
             f"[frontend-data] read-only source records={len(payload['records'])} "
-            f"collectionDate={payload['summary'].get('collectionDate','')}"
+            f"collectionDate={payload['summary'].get('collectionDate','')} "
+            f"overlayRows={(payload.get('stagingOverlay') or {}).get('acceptedRows',0)}"
         )
         return _with_frontend_source(payload, 'REMOTE_READ_ONLY', remote_configured=True)
     except Exception as exc:
         print(f'[frontend-data] remote source failed; fallback local: {exc}')
         return _with_frontend_source(
-            public_data(),
+            _merge_staging_web_overlay(public_data()),
             'LOCAL_FALLBACK',
             remote_configured=True,
             failure_type=type(exc).__name__,
