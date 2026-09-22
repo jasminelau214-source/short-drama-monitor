@@ -1,0 +1,29 @@
+{
+  "collection_date": "2026-09-22",
+  "generated_at": "2026-09-22T17:21:37.736566+08:00",
+  "production_write": false,
+  "note": "Discovery metadata only. Candidate APIs are never promoted automatically.",
+  "platforms": {
+    "DramaBox": {
+      "page_url": "https://www.dramaboxdb.com/channel/trending",
+      "page_status": 403,
+      "page_error": "",
+      "candidate_count": 0,
+      "candidates": []
+    },
+    "DramaWave": {
+      "page_url": "https://m.mydramawave.com/",
+      "page_status": 200,
+      "page_error": "",
+      "candidate_count": 0,
+      "candidates": []
+    },
+    "ShortMax": {
+      "page_url": "https://www.shorttv.live/",
+      "page_status": 200,
+      "page_error": "",
+      "candidate_count": 0,
+      "candidates": []
+    }
+  }
+}

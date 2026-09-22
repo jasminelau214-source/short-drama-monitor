@@ -1,0 +1,90 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-09-22",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Back to 95 - Her Big Comeback",
+      "source_url": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+    },
+    {
+      "rank": 2,
+      "title": "Double-marked: Luna's Revenge",
+      "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+    },
+    {
+      "rank": 3,
+      "title": "My Sister’s Boyfriend Arrested Me",
+      "source_url": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+    },
+    {
+      "rank": 4,
+      "title": "Not Your Average Crow",
+      "source_url": "https://netshort.com/full-episodes/not-your-average-crow-2097959125560745985"
+    },
+    {
+      "rank": 5,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+    },
+    {
+      "rank": 6,
+      "title": "Don't touch the legendary lawyer's grandson",
+      "source_url": "https://netshort.com/full-episodes/dont-touch-the-legendary-lawyers-grandson-2097995633059737602"
+    },
+    {
+      "rank": 7,
+      "title": "The Slave Who Became Dragon King",
+      "source_url": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
+    },
+    {
+      "rank": 8,
+      "title": "The Quarterback's Comeback",
+      "source_url": "https://netshort.com/full-episodes/the-quarterbacks-comeback-2094669491412594689"
+    },
+    {
+      "rank": 9,
+      "title": "Pharaoh, I Quit Being Your Queen",
+      "source_url": "https://netshort.com/full-episodes/pharaoh-i-quit-being-your-queen-2100490027001065474"
+    },
+    {
+      "rank": 10,
+      "title": "The Dragon Tyrant's Secret Heir",
+      "source_url": "https://netshort.com/full-episodes/the-dragon-tyrants-secret-heir-2091778009931366402"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "e029b8b0df3956d39f6fbdf9fe3a9ff04b080c765e588a69bb90a07cf2374cca",
+    "rawHtmlFile": "pilot_evidence/2026-09-22/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-22/NetShort.png",
+    "screenshotSha256": "7bfec3ccd024c9079f4a224989a60baba38fd9df67ea824b767f74ad3469a090"
+  },
+  "error": "",
+  "production_write": false
+}

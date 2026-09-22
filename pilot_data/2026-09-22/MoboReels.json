@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-09-22",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Back With The Prince's Twins"
+    },
+    {
+      "rank": 2,
+      "title": "The Chauffeur She Cheated On Was A Billionaire"
+    },
+    {
+      "rank": 3,
+      "title": "The Vampire King's Unyielding Bride"
+    },
+    {
+      "rank": 4,
+      "title": "Miss Urologist And Her CEO Patient"
+    },
+    {
+      "rank": 5,
+      "title": "The Abandoned God Of Olympus"
+    },
+    {
+      "rank": 6,
+      "title": "The Prince Is A Girl: The Beast King's Captive Mate"
+    },
+    {
+      "rank": 7,
+      "title": "His Neglected Wife Is The Top Scientist"
+    },
+    {
+      "rank": 8,
+      "title": "Oops, My Father's BFF Is In My Bed"
+    },
+    {
+      "rank": 9,
+      "title": "The Prince Is A Girl: The Slave In A Princess Disguise"
+    },
+    {
+      "rank": 10,
+      "title": "Released, I Married Into Power"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "b168cb690ac986822dc856cf8c9b4b5c368543b85aa66e8de9e7ced952b34be0",
+    "rawHtmlFile": "pilot_evidence/2026-09-22/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-22/MoboReels.png",
+    "screenshotSha256": "ee19b256deac840a734dfa048f07b65b169b5e8b10b2b92aac30b851e766938d"
+  },
+  "error": "",
+  "production_write": false
+}

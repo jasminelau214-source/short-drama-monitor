@@ -1,0 +1,80 @@
+{
+  "platform": "ShortMax",
+  "collection_date": "2026-09-22",
+  "source_type": "OFFICIAL_WEB_PILOT",
+  "target_key": "web_pilot_most_popular_top10",
+  "ranking_type": "Most Popular",
+  "source_url": "https://www.shorttv.live/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Loved Twice by the Hockey Star",
+      "source_url": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+    },
+    {
+      "rank": 2,
+      "title": "The Godfather's Heartbroken Lover",
+      "source_url": "https://www.shorttv.live/drama/the-godfathers-heartbroken-lover-33142"
+    },
+    {
+      "rank": 3,
+      "title": "A Spot Cost Him Everything",
+      "source_url": "https://www.shorttv.live/drama/a-spot-cost-him-everything-30512"
+    },
+    {
+      "rank": 4,
+      "title": "The Son Who Returned to Expose Their Shame",
+      "source_url": "https://www.shorttv.live/drama/the-son-who-returned-to-expose-their-shame-32527"
+    },
+    {
+      "rank": 5,
+      "title": "The Mafia Lost His Queen",
+      "source_url": "https://www.shorttv.live/drama/the-mafia-lost-his-queen-31764"
+    },
+    {
+      "rank": 6,
+      "title": "My Daughter Was Replaced. Not This Time",
+      "source_url": "https://www.shorttv.live/drama/my-daughter-was-replaced-not-this-time-34487"
+    },
+    {
+      "rank": 7,
+      "title": "DOWngrade My Ride?I'll Upgrade My Groom!",
+      "source_url": "https://www.shorttv.live/drama/downgrade-my-rideill-upgrade-my-groom-25800"
+    }
+  ],
+  "row_count": 7,
+  "status": "PARTIAL",
+  "audit": {
+    "batchComplete": false,
+    "expectedRows": 10,
+    "actualRows": 7,
+    "missingRanks": [
+      8,
+      9,
+      10
+    ],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "ShortMax - Watch Trending Short Dramas Online",
+    "pageUrl": "https://www.shorttv.live/",
+    "documentLang": "",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": true,
+    "structuredData": "ShortMax live DOM Most Popular section",
+    "renderedCardCount": 7,
+    "sectionScoped": true,
+    "rawHtmlSha256": "638b884e1f9c72785bdc23e5ce0c5cc25911e8e3a273e4c4606e08cc536e8432",
+    "rawHtmlFile": "pilot_evidence/2026-09-22/ShortMax.html.gz",
+    "screenshotFile": "pilot_evidence/2026-09-22/ShortMax.png",
+    "screenshotSha256": "737250f35e777e70d94ea11168f245e48183d75234cd7f708432c00d4dc83a3c"
+  },
+  "error": "",
+  "production_write": false
+}

@@ -1,0 +1,159 @@
+{
+  "collection_date": "2026-09-22",
+  "generated_at": "2026-09-22T17:22:11.498680+08:00",
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "sources": [
+    {
+      "platform": "DramaWave",
+      "source_type": "OFFICIAL_H5_API_PILOT",
+      "semantic_type": "ordered_shelf_not_explicit_rank",
+      "target": "Popular Choices",
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "The Protector Dad",
+          "series_key": "XcKqjrJ3J3"
+        },
+        {
+          "position": 2,
+          "title": "My Lawyer Ex Wants Me Back",
+          "series_key": "wNUvnAzwaC"
+        },
+        {
+          "position": 3,
+          "title": "Agent in the Core Storm",
+          "series_key": "DP81oBougX"
+        },
+        {
+          "position": 4,
+          "title": "Reborn While Repent",
+          "series_key": "5m1BN48fFN"
+        },
+        {
+          "position": 5,
+          "title": "My Blessed Little One",
+          "series_key": "gLQZi66DIy"
+        },
+        {
+          "position": 6,
+          "title": "Lethal Attraction(Dubbed)",
+          "series_key": "B6WnDTiUp6"
+        },
+        {
+          "position": 7,
+          "title": "Rewriting Fate as Crown Princess(Dubbed)",
+          "series_key": "yLwzt2TfI0"
+        },
+        {
+          "position": 8,
+          "title": "Reborn as My Enemy's Bride",
+          "series_key": "arUvsKNz95"
+        },
+        {
+          "position": 9,
+          "title": "From Suffering Student to Heiress",
+          "series_key": "B0XbqjrzQl"
+        },
+        {
+          "position": 10,
+          "title": "Amazing! Mr. Huo's New Intern, Could She Be Mrs. Huo?",
+          "series_key": "9NKwl3uqtM"
+        }
+      ],
+      "production_write": false,
+      "notes": "Anonymous H5 API exposes 10 ordered Popular Choices items; this is not the same as the webpage's explicit Most Trending labels.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    },
+    {
+      "platform": "ShortMax",
+      "source_type": "OFFICIAL_WEB_API_PILOT",
+      "semantic_type": "derived_metric_play_num_not_official_shelf_rank",
+      "target": "Catalog sorted by playNum desc",
+      "catalog_total": 1044,
+      "row_count": 10,
+      "rows": [
+        {
+          "position": 1,
+          "title": "Matchmaker for the Demon King",
+          "short_play_id": 33005,
+          "play_num": 289740,
+          "collect_num": 96580
+        },
+        {
+          "position": 2,
+          "title": "My Body Shared With a Detective in Republican China",
+          "short_play_id": 34281,
+          "play_num": 289716,
+          "collect_num": 96572
+        },
+        {
+          "position": 3,
+          "title": "Swapped Twin Babies: My Silent Billionaire Baby Daddy",
+          "short_play_id": 31222,
+          "play_num": 289698,
+          "collect_num": 96566
+        },
+        {
+          "position": 4,
+          "title": "The Demon Queen's Reluctant Groom",
+          "short_play_id": 31812,
+          "play_num": 289239,
+          "collect_num": 96413
+        },
+        {
+          "position": 5,
+          "title": "Fake Sweetheart on the Show",
+          "short_play_id": 32999,
+          "play_num": 288693,
+          "collect_num": 96231
+        },
+        {
+          "position": 6,
+          "title": "My Own Family Swapped Out My Mafia Heir（醉）",
+          "short_play_id": 32741,
+          "play_num": 287424,
+          "collect_num": 95808
+        },
+        {
+          "position": 7,
+          "title": "Don't Touch the Alpha Queen's daughter",
+          "short_play_id": 32796,
+          "play_num": 269256,
+          "collect_num": 89752
+        },
+        {
+          "position": 8,
+          "title": "Chasing Love",
+          "short_play_id": 36517,
+          "play_num": 268908,
+          "collect_num": 89636
+        },
+        {
+          "position": 9,
+          "title": "He gave me a steed，I promised him my lifetime",
+          "short_play_id": 31960,
+          "play_num": 266247,
+          "collect_num": 88749
+        },
+        {
+          "position": 10,
+          "title": "My General Mother Ruined Me for My Cousin—Then Regretted It Too Late",
+          "short_play_id": 34811,
+          "play_num": 264519,
+          "collect_num": 88173
+        }
+      ],
+      "production_write": false,
+      "notes": "The official API exposes a catalog and playNum metrics, but no verified Most Popular rank endpoint. Sorting by playNum is a derived metric and must not replace the Web shelf without confirmation.",
+      "web_overlap": {
+        "count": 0,
+        "titles": []
+      }
+    }
+  ]
+}
