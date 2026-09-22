@@ -1,0 +1,156 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-09-22",
+  "base": {
+    "branch": "main",
+    "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
+  },
+  "integration": {
+    "branch": "integration/core-contract-v1-2026-09-20",
+    "auditedSha": "93a0581cc4aca653e76b56e680c05c19af9401cd",
+    "changedFilesAtAudit": 96,
+    "commitsAheadAtAudit": 207
+  },
+  "policy": {
+    "wholeIntegrationMergeAllowed": false,
+    "productionWriteAuthorized": false,
+    "productionDbMigrationAuthorized": false,
+    "uiV2BundledByDefault": false,
+    "notes": [
+      "Build production candidates from latest main using explicit promotion units.",
+      "Validation-only assets remain on Integration and are not production runtime.",
+      "UI V2 is a separate product-facing promotion decision.",
+      "Supabase migration is part of the backend contract but applying it to production requires explicit user approval."
+    ]
+  },
+  "promotionUnits": {
+    "backendCoreRuntime": [
+      "app.py",
+      "app_collector_evidence.py",
+      "collector_import.py",
+      "drama_identity.py",
+      "live_observations.py",
+      "live_observations_v2.py",
+      "persistence.py",
+      "ranking_lifecycle.py",
+      "research_guard.py",
+      "research_pipeline.py",
+      "research_validation.py",
+      "research_worker.py",
+      "research_writeback.py",
+      "source_evidence_guard.py",
+      "source_semantics.py",
+      "state_semantics.py",
+      "supabase/migrations/20260920_01_drama_identity_contract_v1.sql",
+      "render.yaml"
+    ],
+    "collectorSchedulerRuntime": [
+      "dramabox_full_collector.py",
+      "goodshort_collector.py",
+      "itemlist_platform_collectors.py",
+      "moboreels_web_collector.py",
+      "official_web_collectors.py",
+      "reelshort_collector.py",
+      "run_official_web_collect.py",
+      "web_promotion_gate.py",
+      "windows/collector_sync.ps1",
+      "windows/collectors/moboreels_collector_v3.ps1",
+      "windows/collectors/netshort_collector_v6.ps1",
+      "windows/collectors/run_moboreels_collector_v3.bat",
+      "windows/collectors/run_netshort_collector_v6.bat",
+      "windows/run_app_collect_and_sync.bat",
+      "windows/run_app_collect_and_sync.ps1",
+      "windows/run_app_device_acceptance.bat",
+      "windows/run_app_device_acceptance.ps1",
+      "windows/run_web_collect_and_sync.ps1",
+      "windows/scheduled_web_collect.ps1"
+    ],
+    "uiV2Runtime": [
+      "index.html",
+      "runtime_ui_patch.py"
+    ]
+  },
+  "nonRuntimeAssets": {
+    "docs": [
+      "docs/DRAMA_IDENTITY_CONTRACT_V1.md",
+      "docs/PROMOTION_SURFACE_AUDIT.md",
+      "docs/UI_V2_LOCK.md"
+    ],
+    "validationOnly": [
+      ".github/workflows/integration-contract-gate.yml",
+      ".github/workflows/integration-ephemeral-full-staging-phase-b.yml",
+      ".github/workflows/integration-ephemeral-full-staging.yml",
+      ".github/workflows/integration-goodshort-fault.yml",
+      ".github/workflows/integration-itemlist-platform-fault.yml",
+      ".github/workflows/integration-moboreels-web-fault.yml",
+      ".github/workflows/integration-reelshort-fault.yml",
+      ".github/workflows/integration-render-runtime-smoke.yml",
+      ".github/workflows/integration-shortmax-fault.yml",
+      ".github/workflows/integration-shortmax-route.yml",
+      "integration_ephemeral_persistence_server.py",
+      "integration_goodshort_fault_audit.py",
+      "integration_itemlist_platform_fault_audit.py",
+      "integration_moboreels_web_fault_audit.py",
+      "integration_phase_b_research_driver.py",
+      "integration_reelshort_fault_audit.py",
+      "integration_render_smoke.py",
+      "integration_shortmax_fault_audit.py",
+      "integration_shortmax_route_audit.py",
+      "render.integration-smoke.yaml"
+    ],
+    "testsAndFixtures": [
+      "test_app_collect_sync_contract.py",
+      "test_app_collector_contract.py",
+      "test_app_collector_output_boundary.py",
+      "test_app_device_acceptance_contract.py",
+      "test_collector_import.py",
+      "test_drama_identity_contract.py",
+      "test_fault_gate_incidents.py",
+      "test_frontend_contract_rebase.py",
+      "test_golden_local_http_e2e.py",
+      "test_golden_publication_e2e.py",
+      "test_golden_real_app_e2e.py",
+      "test_goodshort_fault_integration.py",
+      "test_itemlist_platform_fault_integration.py",
+      "test_live_observations_v2.py",
+      "test_moboreels_web_fault_integration.py",
+      "test_official_web_runner.py",
+      "test_ranking_lifecycle.py",
+      "test_readiness_contract.py",
+      "test_reelshort_fault_integration.py",
+      "test_render_smoke_contract.py",
+      "test_research_contracts.py",
+      "test_research_worker_guards.py",
+      "test_shortmax_fault_integration.py",
+      "test_state_semantics.py",
+      "test_web_promotion_gate.py",
+      "test_web_sync_contract.py",
+      "tests/fixtures/collector_output_moboreels_v3_20260917.json",
+      "tests/fixtures/collector_output_netshort_v6_20260917.json",
+      "tests/fixtures/golden_real_app_20260917.json",
+      "tests/fixtures/incident_20260916_official_web_pending.json",
+      "tests/fixtures/incident_20260917_real_app_authoritative_runs.json",
+      "tests/sql/full_staging_phase_b_fixture.sql",
+      "tests/sql/identity_contract_fixture.sql",
+      "tests/sql/test_drama_identity_contract.sql"
+    ]
+  },
+  "candidateDefinitions": {
+    "backendCandidateA": {
+      "includeUnits": [
+        "backendCoreRuntime",
+        "collectorSchedulerRuntime"
+      ],
+      "includeUiV2": false,
+      "productionDbMigrationRequiresExplicitApproval": true,
+      "realDeviceAcceptanceRequiredBeforePromotion": true
+    },
+    "uiCandidateB": {
+      "includeUnits": [
+        "uiV2Runtime"
+      ],
+      "dependsOnBackendContracts": true,
+      "mayShipSeparately": true
+    }
+  }
+}
