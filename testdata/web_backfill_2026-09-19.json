@@ -1,0 +1,503 @@
+{
+  "datasetVersion": "web-backfill-ui-v1",
+  "collectionDate": "2026-09-19",
+  "generatedFrom": "pilot/web-top10-8platform",
+  "purpose": "UI_STAGING_ONLY",
+  "productionWrite": false,
+  "researchEligible": false,
+  "sourceSemantics": "OFFICIAL_WEB_OBSERVATION",
+  "acceptedBatchCount": 7,
+  "acceptedRowCount": 70,
+  "rejectedBatchCount": 1,
+  "acceptedBatches": [
+    {
+      "platform": "DramaBox",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_trending_top10",
+      "targetKeyOriginal": "web_pilot_trending_top10",
+      "rankingType": "Trending",
+      "sourceUrl": "https://www.dramaboxdb.com/channel/trending",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_VERIFIED",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Guess Who They Miss Now",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000015757/guess-who-they-miss-now"
+        },
+        {
+          "rank": 2,
+          "title": "Fear Her, My Mom's the Lady Boss!",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000014893/fear-her-my-moms-the-lady-boss"
+        },
+        {
+          "rank": 3,
+          "title": "Lady Diamond's Lost Heiress Returns",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000012143/lady-diamonds-lost-heiress-returns"
+        },
+        {
+          "rank": 4,
+          "title": "No Escape as the Dragon King's Mate",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000015264/no-escape-as-the-dragon-kings-mate"
+        },
+        {
+          "rank": 5,
+          "title": "Think Again! I'm the Hidden Boss Mom",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/42000010883/think-again-im-the-hidden-boss-mom"
+        },
+        {
+          "rank": 6,
+          "title": "Ruling Over All I See (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121270/ruling-over-all-i-see-dubbed-"
+        },
+        {
+          "rank": 7,
+          "title": "I'm Nothing but a Mortal (DUBBED)",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000111513/im-nothing-but-a-mortal-dubbed"
+        },
+        {
+          "rank": 8,
+          "title": "Forever Was a Lie",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000110445/forever-was-a-lie"
+        },
+        {
+          "rank": 9,
+          "title": "Queen Mom Rules",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000119953/queen-mom-rules"
+        },
+        {
+          "rank": 10,
+          "title": "Divorced, Now a Lycan Princess",
+          "sourceUrl": "https://www.dramaboxdb.com/movie/41000121134/divorced-now-a-lycan-princess"
+        }
+      ]
+    },
+    {
+      "platform": "FlexTV",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_top_in_flextv_top10",
+      "targetKeyOriginal": "web_pilot_top_in_flextv_top10",
+      "rankingType": "Top in FlexTV",
+      "sourceUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_CANDIDATE",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "The Veteran’s Promise",
+          "sourceUrl": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+        },
+        {
+          "rank": 2,
+          "title": "Loving You in My Final Days",
+          "sourceUrl": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
+        },
+        {
+          "rank": 3,
+          "title": "When She Stopped Chasing His Love",
+          "sourceUrl": "https://www.flextv.cc/movie/when-she-stopped-chasing-his-love-3xzl83oz2M"
+        },
+        {
+          "rank": 4,
+          "title": "Mr. Williams! Madame Is Dying",
+          "sourceUrl": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+        },
+        {
+          "rank": 5,
+          "title": "(DUBBED)The Tiny Tyrant of Go",
+          "sourceUrl": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+        },
+        {
+          "rank": 6,
+          "title": "Betrayed at the Alter, She Married a CEO Instead",
+          "sourceUrl": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+        },
+        {
+          "rank": 7,
+          "title": "I Secretly Gave Birth to God's Five Babies",
+          "sourceUrl": "https://www.flextv.cc/movie/i-secretly-gave-birth-to-god-s-five-babies-r6O6wJozWE"
+        },
+        {
+          "rank": 8,
+          "title": "My Three Brothers Finally Chose Me",
+          "sourceUrl": "https://www.flextv.cc/movie/my-three-brothers-finally-chose-me-KbZ2raxZaP"
+        },
+        {
+          "rank": 9,
+          "title": "Runaway Billionaire Becomes My Groom",
+          "sourceUrl": "https://www.flextv.cc/movie/runaway-billionaire-becomes-my-groom-Q03nVE8z86"
+        },
+        {
+          "rank": 10,
+          "title": "(DUBBED)Justice in Blood",
+          "sourceUrl": "https://www.flextv.cc/movie/justice-in-blood-dubbed-mEZqoBAz8Q"
+        }
+      ]
+    },
+    {
+      "platform": "GoodShort",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_top_in_goodshort_top10",
+      "targetKeyOriginal": "web_pilot_top_in_goodshort_top10",
+      "rankingType": "Top in GoodShort",
+      "sourceUrl": "https://www.goodshort.com/channel/Top-in-GoodShort",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_VERIFIED",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Don't Challenge the Lady Billionaire",
+          "sourceUrl": "https://www.goodshort.com/drama/don-t-challenge-the-lady-billionaire-31000835181"
+        },
+        {
+          "rank": 2,
+          "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+          "sourceUrl": "https://www.goodshort.com/drama/a-mistaken-surrogate-for-the-ruthless-billionaire-31000881454"
+        },
+        {
+          "rank": 3,
+          "title": "Blood and Bones of the Disowned Daughter",
+          "sourceUrl": "https://www.goodshort.com/drama/blood-and-bones-of-the-disowned-daughter-31001113972"
+        },
+        {
+          "rank": 4,
+          "title": "A Blind Date with my Mr. Meant-to-Be",
+          "sourceUrl": "https://www.goodshort.com/drama/a-blind-date-with-my-mr-meant-to-be-31000991502"
+        },
+        {
+          "rank": 5,
+          "title": "Will You Be My Love Again?",
+          "sourceUrl": "https://www.goodshort.com/drama/will-you-be-my-love-again-31000810138"
+        },
+        {
+          "rank": 6,
+          "title": "Love by Contract",
+          "sourceUrl": "https://www.goodshort.com/drama/love-by-contract-31000688865"
+        },
+        {
+          "rank": 7,
+          "title": "[ENG DUB] Flash Marriage CEO Spoils Me a Lot",
+          "sourceUrl": "https://www.goodshort.com/drama/eng-dub-flash-marriage-ceo-spoils-me-a-lot-31000673472"
+        },
+        {
+          "rank": 8,
+          "title": "Fated Deal with the Mafia King",
+          "sourceUrl": "https://www.goodshort.com/drama/fated-deal-with-the-mafia-king-31000840274"
+        },
+        {
+          "rank": 9,
+          "title": "Perfect Love",
+          "sourceUrl": "https://www.goodshort.com/drama/perfect-love-31000662271"
+        },
+        {
+          "rank": 10,
+          "title": "Becoming My Ex’s Mother in Law",
+          "sourceUrl": "https://www.goodshort.com/drama/becoming-my-ex-s-mother-in-law-31000768973"
+        }
+      ]
+    },
+    {
+      "platform": "MoboReels",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_popular_series_top10",
+      "targetKeyOriginal": "web_pilot_popular_series_top10",
+      "rankingType": "Popular Series",
+      "sourceUrl": "https://www.moboreels.com/",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_CANDIDATE",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Left at the Altar, Married Power",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 2,
+          "title": "Oops, My Father's BFF Is In My Bed",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 3,
+          "title": "Married The Brother, But Slept With The Don",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 4,
+          "title": "The Top Heir's Ugly Wife",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 5,
+          "title": "Mr. CEO Has A Secret Child",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 6,
+          "title": "The Abandoned God Of Olympus",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 7,
+          "title": "Their War, Our Fate",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 8,
+          "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 9,
+          "title": "Love After Divorce: My Ex-husband Wants Me Back",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 10,
+          "title": "One Night With Three Alphas Changed Everything",
+          "sourceUrl": ""
+        }
+      ]
+    },
+    {
+      "platform": "NetShort",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_trending_now_top10",
+      "targetKeyOriginal": "web_pilot_trending_now_top10",
+      "rankingType": "Trending Now",
+      "sourceUrl": "https://netshort.com/",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_CANDIDATE",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "The Slave Who Became Dragon King",
+          "sourceUrl": "https://netshort.com/full-episodes/the-slave-who-became-dragon-king-2099785083490373633"
+        },
+        {
+          "rank": 2,
+          "title": "Double-marked: Luna's Revenge",
+          "sourceUrl": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+        },
+        {
+          "rank": 3,
+          "title": "My Sister’s Boyfriend Arrested Me",
+          "sourceUrl": "https://netshort.com/full-episodes/my-sisters-boyfriend-arrested-me-2098979214682796033"
+        },
+        {
+          "rank": 4,
+          "title": "Back to 95 - Her Big Comeback",
+          "sourceUrl": "https://netshort.com/full-episodes/back-to-95---her-big-comeback-2096782583253225474"
+        },
+        {
+          "rank": 5,
+          "title": "Not Your Average Crow",
+          "sourceUrl": "https://netshort.com/full-episodes/not-your-average-crow-2097959125560745985"
+        },
+        {
+          "rank": 6,
+          "title": "Destroy My Fiancé, Marry the Shadow Don",
+          "sourceUrl": "https://netshort.com/full-episodes/destroy-my-fianc%C3%A9-marry-the-shadow-don-2099039971508273153"
+        },
+        {
+          "rank": 7,
+          "title": "The Devil I called Father",
+          "sourceUrl": "https://netshort.com/full-episodes/the-devil-i-called-father-2096855749602361346"
+        },
+        {
+          "rank": 8,
+          "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+          "sourceUrl": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+        },
+        {
+          "rank": 9,
+          "title": "Dragons Bow To The Trash",
+          "sourceUrl": "https://netshort.com/full-episodes/dragons-bow-to-the-trash-2098349014030798849"
+        },
+        {
+          "rank": 10,
+          "title": "I Woke Up With a Tribe of Beast Girls",
+          "sourceUrl": "https://netshort.com/full-episodes/i-woke-up-with-a-tribe-of-beast-girls-2098257057250066433"
+        }
+      ]
+    },
+    {
+      "platform": "ReelShort",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_top_shelf_top10",
+      "targetKeyOriginal": "web_pilot_top_shelf_top10",
+      "rankingType": "TOP",
+      "sourceUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_CANDIDATE",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "Take Me Back to the Night We Met",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 2,
+          "title": "Altarboy",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 3,
+          "title": "The Hockey Captain That Hates Me",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 4,
+          "title": "You've Been Replaced, First Love",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 5,
+          "title": "Salt Kiss",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 6,
+          "title": "Art of Falling in Love",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 7,
+          "title": "Sweet Temptation",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 8,
+          "title": "Cooking My Way Back to Love",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 9,
+          "title": "Found A Homeless Billionaire Husband for Christmas",
+          "sourceUrl": ""
+        },
+        {
+          "rank": 10,
+          "title": "My X-Ray Vision Sees Right Through You",
+          "sourceUrl": ""
+        }
+      ]
+    },
+    {
+      "platform": "ShortMax",
+      "collectionDate": "2026-09-19",
+      "sourceType": "OFFICIAL_WEB",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKey": "web_pilot_most_popular_top10",
+      "targetKeyOriginal": "web_pilot_most_popular_top10",
+      "rankingType": "Most Popular",
+      "sourceUrl": "https://www.shorttv.live/",
+      "topN": 10,
+      "batchComplete": true,
+      "pilotStatus": "PASS_CANDIDATE",
+      "productionWrite": false,
+      "researchEligible": false,
+      "canonicalScopeStatus": "HISTORICAL_PILOT_SCOPE_PRESERVED",
+      "rows": [
+        {
+          "rank": 1,
+          "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+          "sourceUrl": "https://www.shorttv.live/drama/my-catfish-victim-is-actually-my-bestie%E2%80%99s-brother-33511"
+        },
+        {
+          "rank": 2,
+          "title": "Loved Twice by the Hockey Star",
+          "sourceUrl": "https://www.shorttv.live/drama/loved-twice-by-the-hockey-star-33375"
+        },
+        {
+          "rank": 3,
+          "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+          "sourceUrl": "https://www.shorttv.live/drama/too-late-to-win-me-back-mr-billionair-32161"
+        },
+        {
+          "rank": 4,
+          "title": "Done Being a Lady. Time to Shoot.",
+          "sourceUrl": "https://www.shorttv.live/drama/done-being-a-lady-time-to-shoot-32047"
+        },
+        {
+          "rank": 5,
+          "title": "My Crush Lost Me to His Rival",
+          "sourceUrl": "https://www.shorttv.live/drama/my-crush-lost-me-to-his-rival-32749"
+        },
+        {
+          "rank": 6,
+          "title": "My Groom Chose My Best Friend",
+          "sourceUrl": "https://www.shorttv.live/drama/my-groom-chose-my-best-friend-33365"
+        },
+        {
+          "rank": 7,
+          "title": "Don, Your Regret Can’t Keep Me",
+          "sourceUrl": "https://www.shorttv.live/drama/don-your-regret-can%E2%80%99t-keep-me-33908"
+        },
+        {
+          "rank": 8,
+          "title": "The Son Who Returned to Expose Their Shame",
+          "sourceUrl": "https://www.shorttv.live/drama/the-son-who-returned-to-expose-their-shame-32527"
+        },
+        {
+          "rank": 9,
+          "title": "Dumped My Ex, Married the Mafia Don",
+          "sourceUrl": "https://www.shorttv.live/drama/dumped-my-ex-married-the-mafia-don-29537"
+        },
+        {
+          "rank": 10,
+          "title": "The Bride They Rejected Became the Mafia Queen",
+          "sourceUrl": "https://www.shorttv.live/drama/the-bride-they-rejected-became-the-mafia-queen-28291"
+        }
+      ]
+    }
+  ],
+  "rejectedBatches": [
+    {
+      "platform": "DramaWave",
+      "collectionDate": "2026-09-19",
+      "originalSourceType": "OFFICIAL_WEB_PILOT",
+      "targetKeyOriginal": "web_pilot_most_trending_top10",
+      "rankingType": "Most Trending",
+      "topN": 10,
+      "rowCount": 5,
+      "pilotStatus": "PARTIAL",
+      "rejectReason": "BATCH_COMPLETE_FALSE"
+    }
+  ]
+}
