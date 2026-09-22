@@ -1,0 +1,1387 @@
+{
+  "schemaVersion": "jsm-shadow-research-manifest-v1",
+  "purpose": "STAGING_SHADOW_RESEARCH_ONLY",
+  "productionWrite": false,
+  "formalResearchQueueWrite": false,
+  "sourceSemantics": "OFFICIAL_WEB_OBSERVATION",
+  "generatedFrom": "staging_data/web_overlay_2026-09-18_21.json",
+  "totalUniquePlatformTitles": 92,
+  "existingCompleteCount": 8,
+  "candidateCount": 84,
+  "items": [
+    {
+      "platform": "DramaBox",
+      "title": "Guess Who They Miss Now",
+      "canonicalKey": "guesswhotheymissnow",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Fear Her, My Mom's the Lady Boss!",
+      "canonicalKey": "fearhermymomstheladyboss",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Lady Diamond's Lost Heiress Returns",
+      "canonicalKey": "ladydiamondslostheiressreturns",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "No Escape as the Dragon King's Mate",
+      "canonicalKey": "noescapeasthedragonkingsmate",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Think Again! I'm the Hidden Boss Mom",
+      "canonicalKey": "thinkagainimthehiddenbossmom",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Ruling Over All I See (DUBBED)",
+      "canonicalKey": "rulingoverallisee",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "I'm Nothing but a Mortal (DUBBED)",
+      "canonicalKey": "imnothingbutamortal",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Forever Was a Lie",
+      "canonicalKey": "foreverwasalie",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Queen Mom Rules",
+      "canonicalKey": "queenmomrules",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "DramaBox",
+      "title": "Divorced, Now a Lycan Princess",
+      "canonicalKey": "divorcednowalycanprincess",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "The Veteran’s Promise",
+      "canonicalKey": "theveteranspromise",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Loving You in My Final Days",
+      "canonicalKey": "lovingyouinmyfinaldays",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "When She Stopped Chasing His Love",
+      "canonicalKey": "whenshestoppedchasinghislove",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Mr. Williams! Madame Is Dying",
+      "canonicalKey": "mrwilliamsmadameisdying",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "(DUBBED)The Tiny Tyrant of Go",
+      "canonicalKey": "thetinytyrantofgo",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Betrayed at the Alter, She Married a CEO Instead",
+      "canonicalKey": "betrayedatthealtershemarriedaceoinstead",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "My Three Brothers Finally Chose Me",
+      "canonicalKey": "mythreebrothersfinallychoseme",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "I Secretly Gave Birth to God's Five Babies",
+      "canonicalKey": "isecretlygavebirthtogodsfivebabies",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Runaway Billionaire Becomes My Groom",
+      "canonicalKey": "runawaybillionairebecomesmygroom",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "(DUBBED)Justice in Blood",
+      "canonicalKey": "justiceinblood",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Don't Challenge the Lady Billionaire",
+      "canonicalKey": "dontchallengetheladybillionaire",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+      "canonicalKey": "amistakensurrogatefortheruthlessbillionaire",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Blood and Bones of the Disowned Daughter",
+      "canonicalKey": "bloodandbonesofthedisowneddaughter",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "A Blind Date with my Mr. Meant-to-Be",
+      "canonicalKey": "ablinddatewithmymrmeanttobe",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Will You Be My Love Again?",
+      "canonicalKey": "willyoubemyloveagain",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Love by Contract",
+      "canonicalKey": "lovebycontract",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "[ENG DUB] Flash Marriage CEO Spoils Me a Lot",
+      "canonicalKey": "flashmarriageceospoilsmealot",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Fated Deal with the Mafia King",
+      "canonicalKey": "fateddealwiththemafiaking",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Perfect Love",
+      "canonicalKey": "perfectlove",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Becoming My Ex’s Mother in Law",
+      "canonicalKey": "becomingmyexsmotherinlaw",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Married The Brother, But Slept With The Don",
+      "canonicalKey": "marriedthebrotherbutsleptwiththedon",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Oops, My Father's BFF Is In My Bed",
+      "canonicalKey": "oopsmyfathersbffisinmybed",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Left at the Altar, Married Power",
+      "canonicalKey": "leftatthealtarmarriedpower",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Love After Divorce: My Ex-husband Wants Me Back",
+      "canonicalKey": "loveafterdivorcemyexhusbandwantsmeback",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Billionaire's Revenge Bride",
+      "canonicalKey": "thebillionairesrevengebride",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Abandoned God Of Olympus",
+      "canonicalKey": "theabandonedgodofolympus",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-21"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Their War, Our Fate",
+      "canonicalKey": "theirwarourfate",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Came Back Hotter With Lord's Twins",
+      "canonicalKey": "camebackhotterwithlordstwins",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-20"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "One Night With Three Alphas Changed Everything",
+      "canonicalKey": "onenightwiththreealphaschangedeverything",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Prince Is A Girl: The Slave In A Princess Disguise",
+      "canonicalKey": "theprinceisagirltheslaveinaprincessdisguise",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "dates": [
+        "2026-09-18"
+      ],
+      "observationCount": 1,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Slave Who Became Dragon King",
+      "canonicalKey": "theslavewhobecamedragonking",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Double-marked: Luna's Revenge",
+      "canonicalKey": "doublemarkedlunasrevenge",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "My Sister’s Boyfriend Arrested Me",
+      "canonicalKey": "mysistersboyfriendarrestedme",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Back to 95 - Her Big Comeback",
+      "canonicalKey": "backto95herbigcomeback",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Destroy My Fiancé, Marry the Shadow Don",
+      "canonicalKey": "destroymyfiancmarrytheshadowdon",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-21"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "canonicalKey": "thehiddenqueenmyhusbandsmistressruinedmyempire",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "I Woke Up With a Tribe of Beast Girls",
+      "canonicalKey": "iwokeupwithatribeofbeastgirls",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Dragons Bow To The Trash",
+      "canonicalKey": "dragonsbowtothetrash",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "When Housewives Turn Deadly",
+      "canonicalKey": "whenhousewivesturndeadly",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "dates": [
+        "2026-09-18"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Devil I called Father",
+      "canonicalKey": "thedevilicalledfather",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Take Me Back to the Night We Met",
+      "canonicalKey": "takemebacktothenightwemet",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Altarboy",
+      "canonicalKey": "altarboy",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "The Hockey Captain That Hates Me",
+      "canonicalKey": "thehockeycaptainthathatesme",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "You've Been Replaced, First Love",
+      "canonicalKey": "youvebeenreplacedfirstlove",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Salt Kiss",
+      "canonicalKey": "saltkiss",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Art of Falling in Love",
+      "canonicalKey": "artoffallinginlove",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 4,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Sweet Temptation",
+      "canonicalKey": "sweettemptation",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Cooking My Way Back to Love",
+      "canonicalKey": "cookingmywaybacktolove",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Found A Homeless Billionaire Husband for Christmas",
+      "canonicalKey": "foundahomelessbillionairehusbandforchristmas",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "My X-Ray Vision Sees Right Through You",
+      "canonicalKey": "myxrayvisionseesrightthroughyou",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "My Catfish Victim Is Actually My Bestie’s Brother",
+      "canonicalKey": "mycatfishvictimisactuallymybestiesbrother",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "Loved Twice by the Hockey Star",
+      "canonicalKey": "lovedtwicebythehockeystar",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "TOO LATE TO WIN ME BACK MR. BILLIONAIR",
+      "canonicalKey": "toolatetowinmebackmrbillionair",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "Done Being a Lady. Time to Shoot.",
+      "canonicalKey": "donebeingaladytimetoshoot",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "My Crush Lost Me to His Rival",
+      "canonicalKey": "mycrushlostmetohisrival",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "My Groom Chose My Best Friend",
+      "canonicalKey": "mygroomchosemybestfriend",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "Don, Your Regret Can’t Keep Me",
+      "canonicalKey": "donyourregretcantkeepme",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "Dumped My Ex, Married the Mafia Don",
+      "canonicalKey": "dumpedmyexmarriedthemafiadon",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "The Bride They Rejected Became the Mafia Queen",
+      "canonicalKey": "thebridetheyrejectedbecamethemafiaqueen",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "DOWngrade My Ride?I'll Upgrade My Groom!",
+      "canonicalKey": "downgrademyrideillupgrademygroom",
+      "firstSeen": "2026-09-18",
+      "lastSeen": "2026-09-18",
+      "dates": [
+        "2026-09-18"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Top Heir's Ugly Wife",
+      "canonicalKey": "thetopheirsuglywife",
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-19"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Mr. CEO Has A Secret Child",
+      "canonicalKey": "mrceohasasecretchild",
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+      "canonicalKey": "marriedmyexsdadnowimmafiaqueen",
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-19",
+      "dates": [
+        "2026-09-19"
+      ],
+      "observationCount": 1,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Not Your Average Crow",
+      "canonicalKey": "notyouraveragecrow",
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 3,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "The Son Who Returned to Expose Their Shame",
+      "canonicalKey": "thesonwhoreturnedtoexposetheirshame",
+      "firstSeen": "2026-09-19",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-19",
+        "2026-09-20"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Mommy Don't Run, We Are Your Twins!",
+      "canonicalKey": "mommydontrunweareyourtwins",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-20"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Doctor by Day, Mrs. Dixon by Night",
+      "canonicalKey": "doctorbydaymrsdixonbynight",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 2,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Prince Is A Girl: The Beast King's Captive Mate",
+      "canonicalKey": "theprinceisagirlthebeastkingscaptivemate",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "Mech God from the Dark Side of the Moon",
+      "canonicalKey": "mechgodfromthedarksideofthemoon",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-20"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Dragon Tyrant's Secret Heir",
+      "canonicalKey": "thedragontyrantssecretheir",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Move Aside! I'm the Final Boss",
+      "canonicalKey": "moveasideimthefinalboss",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-20",
+        "2026-09-21"
+      ],
+      "observationCount": 2,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ShortMax",
+      "title": "My Daughter Was Replaced. Not This Time",
+      "canonicalKey": "mydaughterwasreplacednotthistime",
+      "firstSeen": "2026-09-20",
+      "lastSeen": "2026-09-20",
+      "dates": [
+        "2026-09-20"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "FlexTV",
+      "title": "A Flash Marriage With The Billionaire Tycoon",
+      "canonicalKey": "aflashmarriagewiththebillionairetycoon",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Rogue Brother's Claimed Omega",
+      "canonicalKey": "theroguebrothersclaimedomega",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Back With The Prince's Twins",
+      "canonicalKey": "backwiththeprincestwins",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Chauffeur She Cheated On Was A Billionaire",
+      "canonicalKey": "thechauffeurshecheatedonwasabillionaire",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Miss Urologist And Her CEO Patient",
+      "canonicalKey": "missurologistandherceopatient",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "I Spoke Baby Dragon and Won Everyone Over!",
+      "canonicalKey": "ispokebabydragonandwoneveryoneover",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Quarterback's Comeback",
+      "canonicalKey": "thequarterbackscomeback",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": true,
+      "researchMode": "REUSE_EXISTING_COMPLETE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "High Society",
+      "canonicalKey": "highsociety",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Brothers in Arms",
+      "canonicalKey": "brothersinarms",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Mistaken as His Mate: The Luna’s Regret",
+      "canonicalKey": "mistakenashismatethelunasregret",
+      "firstSeen": "2026-09-21",
+      "lastSeen": "2026-09-21",
+      "dates": [
+        "2026-09-21"
+      ],
+      "observationCount": 1,
+      "existingComplete": false,
+      "researchMode": "SHADOW_RESEARCH_CANDIDATE"
+    }
+  ]
+}
