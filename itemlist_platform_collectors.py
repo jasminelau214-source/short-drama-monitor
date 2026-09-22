@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from typing import Any
 
-from official_web_collectors import OfficialWebCollectorError, _clean, fetch_html_with_evidence
+from official_web_collectors import COLLECTION_LOCALE, COLLECTION_REGION, OfficialWebCollectorError, _clean, fetch_html_with_evidence
 
 
 NETSHORT_URL = 'https://netshort.com/'
@@ -215,7 +215,8 @@ def _collect_itemlist_platform(
         'rows': rows,
         'collector_version': collector_version,
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': 'en',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
