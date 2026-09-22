@@ -554,9 +554,16 @@ def frontend_public_data():
         )
         return _with_frontend_source(payload, 'REMOTE_READ_ONLY', remote_configured=True)
     except Exception as exc:
-        print(f'[frontend-data] remote source failed; fallback local: {exc}')
+        fallback = _merge_staging_web_overlay(public_data())
+        print(
+            f"[frontend-data] remote source failed; fallback local: {exc}; "
+            f"records={len(fallback.get('records') or [])} "
+            f"collectionDate={(fallback.get('summary') or {}).get('collectionDate','')} "
+            f"overlayRows={(fallback.get('stagingOverlay') or {}).get('acceptedRows',0)} "
+            f"shadowResearch={(fallback.get('stagingOverlay') or {}).get('shadowResearchApplied',0)}"
+        )
         return _with_frontend_source(
-            _merge_staging_web_overlay(public_data()),
+            fallback,
             'LOCAL_FALLBACK',
             remote_configured=True,
             failure_type=type(exc).__name__,
