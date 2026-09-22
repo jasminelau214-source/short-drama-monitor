@@ -15,6 +15,12 @@ DEFAULT_USER_AGENT = (
 )
 VOID_TAGS = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
 
+COLLECTION_LANGUAGE = 'English'
+COLLECTION_LOCALE = 'en-US'
+COLLECTION_REGION = 'US'
+COLLECTION_REGION_POLICY = 'US_WHEN_FILTER_AVAILABLE'
+DEFAULT_ACCEPT_LANGUAGE = 'en-US,en;q=0.9'
+
 
 class OfficialWebCollectorError(RuntimeError):
     pass
@@ -222,7 +228,7 @@ def fetch_html_with_evidence(url: str, timeout: int = 25) -> dict:
         headers={
             'User-Agent': DEFAULT_USER_AGENT,
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'en-US,en;q=0.9',
+            'Accept-Language': DEFAULT_ACCEPT_LANGUAGE,
         },
     )
     try:
@@ -238,6 +244,10 @@ def fetch_html_with_evidence(url: str, timeout: int = 25) -> dict:
                     'httpStatus': status,
                     'pageUrl': final_url,
                     'fetchedAt': datetime.now(timezone.utc).isoformat(),
+                    'requestedLanguage': COLLECTION_LANGUAGE,
+                    'requestedLocale': COLLECTION_LOCALE,
+                    'requestedRegion': COLLECTION_REGION,
+                    'regionPolicy': COLLECTION_REGION_POLICY,
                 },
             }
     except Exception as exc:
@@ -338,7 +348,8 @@ def collect_shortmax(
         'rows': rows,
         'collector_version': 'shortmax-web-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': 'en-US',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
@@ -434,6 +445,12 @@ def collect_dramabox_channel(
             'metrics': metrics,
         })
 
+    observed_locale = _clean(page_props.get('locale'), 40)
+    if observed_locale and not observed_locale.casefold().startswith('en'):
+        raise OfficialWebCollectorError(
+            f'DRAMABOX_LOCALE_MISMATCH: expected={COLLECTION_LOCALE} actual={observed_locale}'
+        )
+
     display_name = _clean(more_data.get('name'), 120) or channel_slug.replace('-', ' ').title()
     ranking_type = {'当前热播': 'Trending', '必看好剧': 'Must-sees', '精彩剧集': 'Hidden Gems'}.get(display_name, display_name)
     expected_ranking = {
@@ -459,7 +476,8 @@ def collect_dramabox_channel(
         'rows': rows,
         'collector_version': 'dramabox-nextdata-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
-        'locale': _clean(page_props.get('locale'), 40) or 'en',
+        'locale': COLLECTION_LOCALE,
+        'region': COLLECTION_REGION,
         'evidence': {
             'url': url,
             'requestedUrl': url,
@@ -468,6 +486,7 @@ def collect_dramabox_channel(
             'pages': page_props.get('pages'),
             'row_count': len(rows),
             'next_build_id': _clean(next_data.get('buildId'), 120),
+            'observedLocale': observed_locale,
             'semanticVerified': semantic_verified,
             **fetch_evidence,
         },
