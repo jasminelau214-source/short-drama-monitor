@@ -7,9 +7,9 @@
   },
   "integration": {
     "branch": "integration/core-contract-v1-2026-09-20",
-    "auditedSha": "93a0581cc4aca653e76b56e680c05c19af9401cd",
-    "changedFilesAtAudit": 96,
-    "commitsAheadAtAudit": 207
+    "auditedSha": "9a61012357ff2d6665540384b247ae6ea9cb217c",
+    "changedFilesAtAudit": 98,
+    "commitsAheadAtAudit": 209
   },
   "policy": {
     "wholeIntegrationMergeAllowed": false,
@@ -133,6 +133,10 @@
       "tests/sql/full_staging_phase_b_fixture.sql",
       "tests/sql/identity_contract_fixture.sql",
       "tests/sql/test_drama_identity_contract.sql"
+    ],
+    "auditMeta": [
+      "production_candidate_manifest.json",
+      "test_production_candidate_manifest.py"
     ]
   },
   "candidateDefinitions": {
