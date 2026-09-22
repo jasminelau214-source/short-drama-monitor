@@ -14,7 +14,9 @@ from state_semantics import (
     COLLECTION_JOB_STATUSES,
     RESEARCH_TASK_STATUSES,
     analysis_run_status_for,
+    analysis_run_read_semantics,
     is_analysis_run_terminal,
+    is_legacy_incomplete_analysis_status,
     require_stage_state,
 )
 
@@ -61,6 +63,29 @@ class StateSemanticsTests(unittest.TestCase):
         self.assertIn("SUCCEEDED", COLLECTION_JOB_STATUSES)
         self.assertNotIn("COMPLETE", ANALYSIS_RUN_STATUSES)
         self.assertNotIn(ANALYSIS_RUN_COMPLETE, RESEARCH_TASK_STATUSES)
+
+    def test_legacy_free_text_states_are_read_only_and_non_authoritative(self):
+        for raw, expected in (
+            ("分析中-待复核", "LEGACY_REVIEW_REQUIRED"),
+            ("分析中-待补齐", "LEGACY_INCOMPLETE"),
+        ):
+            semantic = analysis_run_read_semantics(raw)
+            self.assertTrue(semantic["known"])
+            self.assertTrue(semantic["legacy"])
+            self.assertFalse(semantic["writeAllowed"])
+            self.assertFalse(semantic["authoritativeEligibleByState"])
+            self.assertEqual(semantic["state"], expected)
+            self.assertTrue(is_legacy_incomplete_analysis_status(raw))
+            with self.assertRaisesRegex(ValueError, "INVALID_ANALYSIS_RUN_STATE"):
+                require_stage_state("analysis_run", raw)
+
+    def test_unknown_historical_state_is_not_silently_mapped(self):
+        semantic = analysis_run_read_semantics("神秘状态")
+        self.assertFalse(semantic["known"])
+        self.assertTrue(semantic["legacy"])
+        self.assertFalse(semantic["writeAllowed"])
+        self.assertFalse(semantic["authoritativeEligibleByState"])
+        self.assertEqual(semantic["state"], "UNKNOWN")
 
     def test_unknown_state_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "INVALID_ANALYSIS_RUN_STATE"):
