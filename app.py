@@ -43,6 +43,7 @@ FRONTEND_DATA_CACHE_TTL = max(10, int(os.environ.get('JSM_FRONTEND_DATA_CACHE_TT
 _FRONTEND_DATA_CACHE = {'at': 0.0, 'payload': None}
 _FRONTEND_DATA_LOCK = threading.Lock()
 STAGING_WEB_OVERLAY_PATH = ROOT / 'staging_data' / 'web_overlay_2026-09-18_21.json'
+STAGING_SHADOW_RESEARCH_PATH = ROOT / 'staging_data' / 'shadow_research_results_wave1_2026-09-22.json'
 
 
 def clean(value, limit=6000):
@@ -262,6 +263,68 @@ def _staging_web_record_id(platform: str, target_key: str, title: str) -> str:
     return 'staging-web-' + hashlib.sha1(raw).hexdigest()[:18]
 
 
+def _apply_staging_shadow_research(records: list[dict]) -> tuple[list[dict], int]:
+    """Apply evidence-backed research to staging records without any DB/writeback."""
+    if not STAGING_SHADOW_RESEARCH_PATH.is_file():
+        return records, 0
+    try:
+        package = json.loads(STAGING_SHADOW_RESEARCH_PATH.read_text(encoding='utf-8'))
+    except Exception as exc:
+        print(f'[frontend-data] shadow research read failed: {exc}')
+        return records, 0
+    if (
+        package.get('purpose') != 'STAGING_SHADOW_RESEARCH_ONLY'
+        or package.get('productionWrite') is not False
+        or package.get('formalResearchQueueWrite') is not False
+    ):
+        print('[frontend-data] shadow research rejected: unsafe metadata')
+        return records, 0
+
+    by_key = {}
+    for result in package.get('results') or []:
+        if not isinstance(result, dict) or result.get('status') != 'SHADOW_COMPLETE':
+            continue
+        platform = clean(result.get('platform'), 80)
+        title_key = normalize_title(result.get('title'))
+        research = result.get('research') if isinstance(result.get('research'), dict) else {}
+        sources = result.get('sources') if isinstance(result.get('sources'), list) else []
+        confidence = clean(result.get('confidence'), 20).lower()
+        core_fields = (
+            'synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff',
+            'localizationLevel','localizationJudgment','mismatch',
+        )
+        if not platform or not title_key or confidence not in {'medium','high'}:
+            continue
+        if not sources or any(not clean(s.get('url'), 1000) for s in sources if isinstance(s, dict)):
+            continue
+        if any(not clean(research.get(field), 10000) for field in core_fields):
+            continue
+        by_key[(platform, title_key)] = result
+
+    applied = 0
+    for record in records:
+        key = (clean(record.get('app'), 80), normalize_title(record.get('title')))
+        result = by_key.get(key)
+        if not result:
+            continue
+        research = result.get('research') or {}
+        for field in STAGING_CONTENT_FIELDS:
+            if field in research and research.get(field) not in (None, '', [], {}):
+                record[field] = research.get(field)
+        record['laneTerms'] = split_lane(record.get('lane'))
+        record['shadowResearch'] = {
+            'status': '已完成',
+            'mode': '隔离深研',
+            'confidence': clean(result.get('confidence'), 20),
+            'sources': result.get('sources') or [],
+            'missingFields': result.get('missingFields') or [],
+            'productionWrite': False,
+            'formalResearchQueueWrite': False,
+        }
+        applied += 1
+    return records, applied
+
+
 def _merge_staging_web_overlay(payload: dict) -> dict:
     """Overlay vetted 9/18-9/21 Official Web observations onto UI staging only.
 
@@ -407,6 +470,7 @@ def _merge_staging_web_overlay(payload: dict) -> dict:
             record['laneTerms'] = split_lane(record.get('lane'))
             accepted_rows += 1
 
+    records, shadow_research_applied = _apply_staging_shadow_research(records)
     payload = dict(payload or {})
     payload['records'] = records
     payload['summary'] = build_live_summary(records, PLATFORM_ORDER, clean, split_lane)
@@ -419,6 +483,7 @@ def _merge_staging_web_overlay(payload: dict) -> dict:
         'sourceType': 'OFFICIAL_WEB',
         'productionWrite': False,
         'formalResearchQueueWrite': False,
+        'shadowResearchApplied': shadow_research_applied,
     }
     return payload
 
@@ -484,7 +549,8 @@ def frontend_public_data():
         print(
             f"[frontend-data] read-only source records={len(payload['records'])} "
             f"collectionDate={payload['summary'].get('collectionDate','')} "
-            f"overlayRows={(payload.get('stagingOverlay') or {}).get('acceptedRows',0)}"
+            f"overlayRows={(payload.get('stagingOverlay') or {}).get('acceptedRows',0)} "
+            f"shadowResearch={(payload.get('stagingOverlay') or {}).get('shadowResearchApplied',0)}"
         )
         return _with_frontend_source(payload, 'REMOTE_READ_ONLY', remote_configured=True)
     except Exception as exc:
