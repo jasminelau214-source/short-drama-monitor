@@ -216,7 +216,7 @@ def parse_next_data(document: str) -> dict:
     return value
 
 
-def fetch_html(url: str, timeout: int = 25) -> str:
+def fetch_html_with_evidence(url: str, timeout: int = 25) -> dict:
     request = urllib.request.Request(
         url,
         headers={
@@ -228,9 +228,25 @@ def fetch_html(url: str, timeout: int = 25) -> str:
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             charset = response.headers.get_content_charset() or 'utf-8'
-            return response.read().decode(charset, errors='replace')
+            document = response.read().decode(charset, errors='replace')
+            status = int(getattr(response, 'status', None) or response.getcode() or 0)
+            final_url = str(response.geturl() or '')
+            return {
+                'document': document,
+                'evidence': {
+                    'requestedUrl': url,
+                    'httpStatus': status,
+                    'pageUrl': final_url,
+                    'fetchedAt': datetime.now(timezone.utc).isoformat(),
+                },
+            }
     except Exception as exc:
         raise OfficialWebCollectorError(f'WEB_FETCH_FAILED: {url}: {exc}') from exc
+
+
+def fetch_html(url: str, timeout: int = 25) -> str:
+    """Backward-compatible document-only fetch wrapper."""
+    return str(fetch_html_with_evidence(url, timeout=timeout)['document'])
 
 
 def _section_key(value: str) -> str:
@@ -258,10 +274,14 @@ def collect_shortmax(
     document: str | None = None,
 ) -> dict:
     """Collect a ShortMax official-web section into the generic collector schema."""
+    fetch_evidence = {}
     if document is None:
-        document = fetch_html(url)
+        fetched = fetch_html_with_evidence(url)
+        document = str(fetched['document'])
+        fetch_evidence = dict(fetched.get('evidence') or {})
     sections = parse_shortmax_sections(document, url)
     section_name, cards = _find_section(sections, section)
+    semantic_verified = _section_key(section_name) == _section_key(section)
     if not cards:
         raise OfficialWebCollectorError(f'EMPTY_SECTION: {section_name}')
 
@@ -319,7 +339,14 @@ def collect_shortmax(
         'collector_version': 'shortmax-web-v1',
         'collected_at': datetime.now(timezone.utc).isoformat(),
         'locale': 'en-US',
-        'evidence': {'url': url, 'section': section_name, 'row_count': len(rows)},
+        'evidence': {
+            'url': url,
+            'requestedUrl': url,
+            'section': section_name,
+            'row_count': len(rows),
+            'semanticVerified': semantic_verified,
+            **fetch_evidence,
+        },
         'evidence_persistence': 'URL_AND_PARSED_FACTS',
         'provider': 'official-web-stdlib',
     }
@@ -344,8 +371,11 @@ def collect_dramabox_channel(
         raise OfficialWebCollectorError('INVALID_CHANNEL')
     if url is None:
         url = f'https://www.dramaboxdb.com/channel/{channel_slug}'
+    fetch_evidence = {}
     if document is None:
-        document = fetch_html(url)
+        fetched = fetch_html_with_evidence(url)
+        document = str(fetched['document'])
+        fetch_evidence = dict(fetched.get('evidence') or {})
 
     next_data = parse_next_data(document)
     try:
@@ -406,6 +436,14 @@ def collect_dramabox_channel(
 
     display_name = _clean(more_data.get('name'), 120) or channel_slug.replace('-', ' ').title()
     ranking_type = {'当前热播': 'Trending', '必看好剧': 'Must-sees', '精彩剧集': 'Hidden Gems'}.get(display_name, display_name)
+    expected_ranking = {
+        'trending': 'Trending',
+        'must-sees': 'Must-sees',
+        'must-see': 'Must-sees',
+        'hidden-gems': 'Hidden Gems',
+        'hidden-gem': 'Hidden Gems',
+    }.get(channel_slug)
+    semantic_verified = bool(expected_ranking and ranking_type.casefold() == expected_ranking.casefold())
     target_slug = channel_slug.replace('-', '_')
     return {
         'platform': 'DramaBox',
@@ -424,11 +462,14 @@ def collect_dramabox_channel(
         'locale': _clean(page_props.get('locale'), 40) or 'en',
         'evidence': {
             'url': url,
+            'requestedUrl': url,
             'channel': channel_slug,
             'page': page_props.get('pageNo', 1),
             'pages': page_props.get('pages'),
             'row_count': len(rows),
             'next_build_id': _clean(next_data.get('buildId'), 120),
+            'semanticVerified': semantic_verified,
+            **fetch_evidence,
         },
         'evidence_persistence': 'URL_AND_PARSED_FACTS',
         'provider': 'official-web-nextdata',

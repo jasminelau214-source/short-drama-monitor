@@ -5,6 +5,12 @@ import json
 import re
 from datetime import datetime, timezone
 
+from drama_identity import normalize_title
+from state_semantics import analysis_run_status_for
+from app_collector_evidence import app_collector_evidence_error
+from source_semantics import source_semantics_error
+from web_promotion_gate import web_promotion_error
+
 
 MAX_TOP_N = 100
 ALLOWED_SOURCE_TYPES = {
@@ -60,8 +66,9 @@ def _list_text(value, limit=100):
     return out
 
 
-def _norm_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+# Backward-compatible alias for existing collectors/tests. The implementation
+# lives only in drama_identity.py.
+_norm_title = normalize_title
 
 
 def _bool_value(value):
@@ -150,12 +157,23 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         raise CollectorImportError('platform 不能为空')
 
     source_type = _clean(payload.get('source_type'), 80) or 'SHORT_DRAMA_APP'
+    semantics_error = source_semantics_error(payload)
+    if semantics_error:
+        raise CollectorImportError(semantics_error)
     if source_type not in ALLOWED_SOURCE_TYPES:
         raise CollectorImportError(f'不支持的 source_type：{source_type}')
 
     collection_method = _clean(payload.get('collection_method'), 100) or 'IMPORT'
     if collection_method not in ALLOWED_COLLECTION_METHODS:
         raise CollectorImportError(f'不支持的 collection_method：{collection_method}')
+
+    app_evidence_error = app_collector_evidence_error(payload)
+    if app_evidence_error:
+        raise CollectorImportError(app_evidence_error)
+
+    web_evidence_error = web_promotion_error(payload)
+    if web_evidence_error:
+        raise CollectorImportError(web_evidence_error)
 
     collection_date = _iso_date(payload.get('collection_date'))
     if not _bool_value(payload.get('batch_complete')):
@@ -289,6 +307,7 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
             'missingRanks': payload.get('missing_ranks') if isinstance(payload.get('missing_ranks'), list) else [],
             'duplicateRanks': payload.get('duplicate_ranks') if isinstance(payload.get('duplicate_ranks'), list) else [],
             'duplicateTitles': payload.get('duplicate_titles') if isinstance(payload.get('duplicate_titles'), list) else [],
+            'rankConflicts': payload.get('rank_conflicts') if isinstance(payload.get('rank_conflicts'), list) else [],
         },
     }
 
@@ -298,7 +317,10 @@ def validate_and_normalize(payload: dict, known_titles: set[str] | list[str]) ->
         'collector': collector_meta,
         'importedAt': datetime.now(timezone.utc).isoformat(),
     }
-    status = ('已采集' if source_type != 'SHORT_DRAMA_APP' else ('已识别-待深研' if new_titles else '已分析'))
+    status = analysis_run_status_for(
+        source_type=source_type,
+        has_new_titles=bool(new_titles),
+    )
     return {
         'runId': run_id,
         'collectionDate': collection_date,

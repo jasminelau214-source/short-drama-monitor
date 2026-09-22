@@ -2,6 +2,8 @@ param(
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
     [string]$Root = "D:\ShortDramaCollector",
     [string]$PythonCommand = "python",
+    [string]$BaseUrl = "http://127.0.0.1:4173",
+    [switch]$AllowProductionWrite,
     [int]$MaxAttempts = 3,
     [int]$RetryDelaySeconds = 300
 )
@@ -70,10 +72,21 @@ try {
     $lastExit = 1
     for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
         Write-RunLog "Attempt $attempt/$MaxAttempts started."
-        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
-            -CollectionDate $CollectionDate `
-            -Root $Root `
-            -PythonCommand $PythonCommand 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+        if ($AllowProductionWrite.IsPresent) {
+            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
+                -CollectionDate $CollectionDate `
+                -Root $Root `
+                -PythonCommand $PythonCommand `
+                -BaseUrl $BaseUrl `
+                -AllowProductionWrite 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+        }
+        else {
+            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
+                -CollectionDate $CollectionDate `
+                -Root $Root `
+                -PythonCommand $PythonCommand `
+                -BaseUrl $BaseUrl 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+        }
         $lastExit = $LASTEXITCODE
 
         if ($lastExit -eq 0) {

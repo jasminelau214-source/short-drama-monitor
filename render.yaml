@@ -3,9 +3,9 @@ services:
     name: short-drama-monitor
     runtime: python
     plan: free
-    buildCommand: python -m compileall app.py
-    startCommand: python app.py --host 0.0.0.0 --no-open
-    healthCheckPath: /health
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py --host 0.0.0.0 --port $PORT --no-open
+    healthCheckPath: /ready
     autoDeploy: true
     envVars:
       - key: PYTHON_VERSION
@@ -14,3 +14,17 @@ services:
         value: admin
       - key: ADMIN_PASSWORD
         sync: false
+      - key: SUPABASE_PERSISTENCE_URL
+        sync: false
+      - key: MONITOR_PERSISTENCE_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      - key: JSM_READINESS_REQUIRE_PERSISTENCE
+        value: "true"
+      - key: JSM_READINESS_REQUIRE_ANALYSIS
+        value: "true"
+      - key: JSM_READINESS_REQUIRE_RESEARCH
+        value: "false"

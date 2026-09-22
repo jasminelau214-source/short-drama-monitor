@@ -21,6 +21,7 @@ import json
 import re
 from collections import Counter
 
+from drama_identity import normalize_title
 from runtime_ui_patch import main as _apply_runtime_ui_patch
 
 # app.py imports this module before reading index.html, so apply the idempotent UI
@@ -37,8 +38,7 @@ def _platform_slug(platform):
     return ''.join(ch.lower() if ch.isalnum() else '-' for ch in str(platform or '')).strip('-') or 'platform'
 
 
-def _norm_title(value):
-    return re.sub(r'[^a-z0-9]+', '', str(value or '').casefold())
+_norm_title = normalize_title
 
 
 def _legacy_v1_id(platform, title, normalize_title):

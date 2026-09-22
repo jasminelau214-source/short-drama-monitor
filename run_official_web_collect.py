@@ -4,12 +4,16 @@ import argparse
 import json
 import os
 import sys
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
 from collector_import import CollectorImportError, validate_and_normalize
 from dramabox_full_collector import collect_dramabox_channel_all_pages
 from goodshort_collector import collect_goodshort_top
+from itemlist_platform_collectors import collect_flextv_top, collect_netshort_trending
+from moboreels_web_collector import collect_moboreels_popular
+from reelshort_collector import collect_reelshort_top
 from official_web_collectors import (
     OfficialWebCollectorError,
     collect_shortmax,
@@ -74,6 +78,38 @@ TARGETS = {
         'platform': 'GoodShort',
         'target_key': 'web_top_goodshort_pilot',
         'collect': lambda date: collect_goodshort_top(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'reelshort_top': {
+        'platform': 'ReelShort',
+        'target_key': 'web_top_shelf_all',
+        'collect': lambda date: collect_reelshort_top(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'moboreels_popular': {
+        'platform': 'MoboReels',
+        'target_key': 'web_popular_series_all',
+        'collect': lambda date: collect_moboreels_popular(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'netshort_trending': {
+        'platform': 'NetShort',
+        'target_key': 'web_trending_now_all',
+        'collect': lambda date: collect_netshort_trending(
+            collection_date=date,
+            top_n=10,
+        ),
+    },
+    'flextv_top': {
+        'platform': 'FlexTV',
+        'target_key': 'web_top_in_flextv_all',
+        'collect': lambda date: collect_flextv_top(
             collection_date=date,
             top_n=10,
         ),
@@ -151,6 +187,11 @@ def parse_args(argv=None):
         default=str(default_root()),
         help='Collector spool root. Windows default: D:\\ShortDramaCollector.',
     )
+    parser.add_argument(
+        '--manifest',
+        default='',
+        help='Optional path for this exact run manifest. Scheduled sync should consume only this manifest.',
+    )
     return parser.parse_args(argv)
 
 
@@ -160,8 +201,10 @@ def main(argv=None) -> int:
     root = Path(args.root)
     results = []
     failures = []
+    run_id = 'web-' + uuid.uuid4().hex
+    started_at = datetime.now(timezone.utc).isoformat()
 
-    print('Official Web Collector V2 Multi-Target')
+    print('Official Web Collector V3 Promotion-Gated')
     print(f'Date: {args.date}')
     print(f'Root: {root}')
     print(f'Targets: {", ".join(targets)}')
@@ -182,12 +225,23 @@ def main(argv=None) -> int:
 
     summary = {
         'ok': not failures,
+        'runId': run_id,
+        'startedAt': started_at,
+        'finishedAt': datetime.now(timezone.utc).isoformat(),
         'date': args.date,
         'root': str(root),
         'targetCount': len(targets),
         'succeeded': results,
         'failed': failures,
     }
+    if args.manifest:
+        manifest_path = Path(args.manifest)
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(
+            json.dumps(summary, ensure_ascii=False, indent=2),
+            encoding='utf-8',
+        )
+        print(f'MANIFEST {manifest_path}')
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if not failures else 1
 
