@@ -1400,7 +1400,8 @@
     #history-library table { min-width:1380px; }
     @media (max-width:1100px) {
       .movement-summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .daily-analysis-grid,.history-library-analysis { grid-template-columns:1fr; }
+      .daily-analysis-grid,.history-library-analysis,.history-data-grid { grid-template-columns:1fr; }
+      .history-key-panel-wide .history-key-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
     }
   
     /* UI LOCK V1 CLICKABILITY */
@@ -1447,22 +1448,34 @@
     .history-section-label span { font-size:18px; font-weight:850; color:#c92538; }
     .history-section-label small { color:#7b8597; }
     .history-section-label.creative { margin-top:20px; }
-    .history-data-grid { display:grid; grid-template-columns:minmax(0,2.2fr) minmax(270px,.8fr); gap:10px; }
-    .genre-trend-chart { min-height:255px; }
-    .genre-trend-chart svg,.gender-trend-chart svg { width:100%; height:auto; overflow:visible; }
+    .history-data-grid { display:grid; grid-template-columns:minmax(0,1.85fr) minmax(300px,1fr); gap:10px; align-items:stretch; }
+    .genre-trend-chart { min-height:250px; }
+    .genre-trend-chart svg,.gender-trend-chart svg,.research-coverage-chart svg { width:100%; height:auto; overflow:visible; }
+    .research-coverage-chart { min-height:250px; display:flex; align-items:center; }
+    .coverage-note { margin-top:6px; line-height:1.55; }
+    .history-key-panel-wide { margin-top:10px; }
+    .history-key-panel-wide .history-key-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
     .genre-trend-legend { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:8px; }
     .genre-legend-item { border:0; background:transparent; color:#667085; font-size:11px; display:flex; align-items:center; gap:4px; }
     .genre-legend-item i { width:7px; height:7px; border-radius:50%; background:#d62f3f; }
     .genre-legend-item.orange i { background:#f08a24; }.genre-legend-item.blue i { background:#316fd6; }.genre-legend-item.violet i { background:#7d51b8; }.genre-legend-item.pink i { background:#e84d72; }
     .history-grid-lines line { stroke:#edf0f4; stroke-width:1; }
     .history-grid-lines text,.history-date-labels text { fill:#98a2b3; font-size:8.5px; }
-    .genre-line polyline,.gender-line polyline { fill:none; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .genre-line line,.gender-line polyline { fill:none !important; stroke-width:2; vector-effect:non-scaling-stroke; }
+    .genre-line line.gap { stroke-dasharray:5 5; opacity:.55; }
     .genre-line circle,.gender-line circle { stroke:#fff; stroke-width:1.2; vector-effect:non-scaling-stroke; }
-    .genre-line.red polyline,.genre-line.red circle { stroke:#d62f3f; fill:#d62f3f; }
-    .genre-line.orange polyline,.genre-line.orange circle { stroke:#f08a24; fill:#f08a24; }
-    .genre-line.blue polyline,.genre-line.blue circle { stroke:#316fd6; fill:#316fd6; }
-    .genre-line.violet polyline,.genre-line.violet circle { stroke:#7d51b8; fill:#7d51b8; }
-    .genre-line.pink polyline,.genre-line.pink circle { stroke:#e84d72; fill:#e84d72; }
+    .genre-line.red line { stroke:#d62f3f; }.genre-line.red circle { stroke:#d62f3f; fill:#d62f3f; }.genre-line.red .point-label { fill:#b42332; }
+    .genre-line.orange line { stroke:#f08a24; }.genre-line.orange circle { stroke:#f08a24; fill:#f08a24; }.genre-line.orange .point-label { fill:#b76a11; }
+    .genre-line.blue line { stroke:#316fd6; }.genre-line.blue circle { stroke:#316fd6; fill:#316fd6; }.genre-line.blue .point-label { fill:#2457ab; }
+    .genre-line.violet line { stroke:#7d51b8; }.genre-line.violet circle { stroke:#7d51b8; fill:#7d51b8; }.genre-line.violet .point-label { fill:#654094; }
+    .genre-line.pink line { stroke:#e84d72; }.genre-line.pink circle { stroke:#e84d72; fill:#e84d72; }.genre-line.pink .point-label { fill:#b83b5a; }
+    .point-label { font-size:8px; font-weight:800; paint-order:stroke; stroke:#fff; stroke-width:2.4px; stroke-linejoin:round; }
+    .coverage-known { fill:#d62f3f; }
+    .coverage-pending { fill:#e9edf3; }
+    .coverage-total-label { fill:#344054; font-size:8px; font-weight:800; }
+    .coverage-rate-label { fill:#667085; font-size:7.5px; }
+    .coverage-axis text { fill:#98a2b3; font-size:8px; }
+    .coverage-axis line { stroke:#edf0f4; stroke-width:1; }
     .history-key-grid { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
     .history-key-card { border:1px solid #edf0f4; border-radius:10px; padding:13px; background:#fff; display:flex; flex-direction:column; gap:6px; text-align:left; color:#344054; }
     button.history-key-card { cursor:pointer; }
@@ -1796,26 +1809,37 @@
           <section class="section genre-trend-panel">
             <div class="section-head">
               <div>
-                <h2>题材占比趋势变化</h2>
-                <div class="subtle">不同题材在上榜样本中的占比变化；点击题材进入对应历史剧目。</div>
+                <h2>题材占比趋势</h2>
+                <div class="subtle">按已完成题材识别的样本计算；折线点直接显示占比，缺失采集区间用虚线连接。</div>
               </div>
               <div id="genreTrendLegend" class="genre-trend-legend"></div>
             </div>
             <div id="genreTrendChart" class="genre-trend-chart"></div>
           </section>
 
-          <section class="section history-key-panel">
+          <section class="section research-coverage-panel">
             <div class="section-head">
-              <div><h2>关键数据</h2><div class="subtle">辅助判断样本规模与数据可靠性。</div></div>
+              <div>
+                <h2>市场样本与题材研究覆盖</h2>
+                <div class="subtle">每天有效市场样本中，已完成题材识别与待研究的数量。</div>
+              </div>
             </div>
-            <div class="history-key-grid">
-              <button type="button" class="history-key-card" data-view-button="history-library"><span>历史样本剧目</span><b id="historyMetricTitles">0</b><small>查看全部剧目 →</small></button>
-              <div class="history-key-card"><span>有效采集日</span><b id="historyMetricDates">0</b><small>真实快照数量</small></div>
-              <div class="history-key-card"><span>近30天新剧</span><b id="historyMetricRecentNew">0</b><small>首次记录样本</small></div>
-              <div class="history-key-card"><span>平均记录周期</span><b id="historyMetricAvgDays">0</b><small>按采集点计算</small></div>
-            </div>
+            <div id="researchCoverageChart" class="research-coverage-chart"></div>
+            <div id="researchCoverageNote" class="subtle coverage-note"></div>
           </section>
         </div>
+
+        <section class="section history-key-panel history-key-panel-wide">
+          <div class="section-head">
+            <div><h2>关键数据</h2><div class="subtle">辅助判断样本规模、时间跨度与生命周期。</div></div>
+          </div>
+          <div class="history-key-grid">
+            <button type="button" class="history-key-card" data-view-button="history-library"><span>历史样本剧目</span><b id="historyMetricTitles">0</b><small>查看全部剧目 →</small></button>
+            <div class="history-key-card"><span>有效采集日</span><b id="historyMetricDates">0</b><small>真实快照数量</small></div>
+            <div class="history-key-card"><span>近30天首次记录</span><b id="historyMetricRecentNew">0</b><small>仅表示系统首次记录</small></div>
+            <div class="history-key-card"><span>平均记录周期</span><b id="historyMetricAvgDays">0</b><small>按采集点计算</small></div>
+          </div>
+        </section>
 
         <section class="section history-genre-performance">
           <div class="section-head">
