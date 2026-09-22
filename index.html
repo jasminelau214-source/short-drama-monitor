@@ -2808,20 +2808,56 @@
         .filter(r => !platform || r.app === platform);
     }
 
+    function trendSampleTitleKey(item) {
+      return String(item?.app || '') + '::' + String(item?.title || '').trim().toLowerCase();
+    }
+
+    function historyUniqueItemsOnDate(date) {
+      const byTitle = new Map();
+      historyItemsOnDate(date).forEach(item => {
+        const key = trendSampleTitleKey(item);
+        const current = byTitle.get(key);
+        if (!current) {
+          byTitle.set(key, item);
+          return;
+        }
+        const currentScore = [current.genre,current.audience,current.lane,current.synopsis,current.storyCore].filter(v => !blank(v)).length;
+        const nextScore = [item.genre,item.audience,item.lane,item.synopsis,item.storyCore].filter(v => !blank(v)).length;
+        if (nextScore > currentScore) byTitle.set(key, item);
+      });
+      return [...byTitle.values()];
+    }
+
     function genreShareRows(dates) {
       const totals = new Map();
       const dateRows = dates.map(date => {
-        const items = historyItemsOnDate(date).filter(r => !blank(r.genre));
+        const marketItems = historyUniqueItemsOnDate(date);
+        const items = marketItems.filter(r => !blank(r.genre));
         const counts = countValues(items.map(r => r.genre));
         counts.forEach(x => totals.set(x.name, (totals.get(x.name) || 0) + x.value));
-        return { date, total: items.length, counts: Object.fromEntries(counts.map(x => [x.name, x.value])) };
+        return {
+          date,
+          marketTotal: marketItems.length,
+          total: items.length,
+          pending: Math.max(0, marketItems.length - items.length),
+          counts: Object.fromEntries(counts.map(x => [x.name, x.value]))
+        };
       });
       const genres = [...totals.entries()].sort((a,b) => b[1]-a[1] || byText(a[0],b[0])).slice(0,5).map(x=>x[0]);
       return { rows: dateRows, genres };
     }
 
+    function dateGapDays(a,b) {
+      const x = new Date(String(a) + 'T00:00:00').getTime();
+      const y = new Date(String(b) + 'T00:00:00').getTime();
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return 1;
+      return Math.max(1, Math.round((y - x) / 86400000));
+    }
+
     function renderGenreShareChart(dates) {
-      const { rows, genres } = genreShareRows(dates);
+      const data = genreShareRows(dates);
+      const rows = data.rows;
+      const genres = data.genres;
       const target = $('#genreTrendChart');
       const legend = $('#genreTrendLegend');
       if (!rows.length || !genres.length) {
@@ -2829,32 +2865,114 @@
         legend.innerHTML = '';
         return { rows, genres, deltas: [] };
       }
-      const palette = ['red','orange','blue','violet','pink'];
-      legend.innerHTML = genres.map((genre,i)=>`<button type="button" class="genre-legend-item ${palette[i]}" data-history-genre="${escapeAttr(genre)}"><i></i>${escapeHtml(genre)}</button>`).join('');
 
-      const w=720,h=245,pL=38,pR=12,pT=14,pB=30;
-      const x=i=>rows.length===1?w/2:pL+i*(w-pL-pR)/(rows.length-1);
-      const y=v=>pT+(100-v)*(h-pT-pB)/100;
-      const grid=[0,25,50,75,100].map(v=>`<g><line x1="${pL}" x2="${w-pR}" y1="${y(v)}" y2="${y(v)}"></line><text x="${pL-7}" y="${y(v)+4}" text-anchor="end">${v}%</text></g>`).join('');
-      const series=genres.map((genre,i)=>{
-        const pts=rows.map((row,idx)=>{
-          const share=row.total ? ((row.counts[genre]||0)/row.total*100) : 0;
-          return {x:x(idx),y:y(share),share};
-        });
-        const poly=pts.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-        const dots=pts.map((p,idx)=>`<circle cx="${p.x}" cy="${p.y}" r="3"><title>${escapeHtml(rows[idx].date)} · ${escapeHtml(genre)} ${p.share.toFixed(1)}%</title></circle>`).join('');
-        return `<g class="genre-line ${palette[i]}"><polyline points="${poly}"></polyline>${dots}</g>`;
+      const palette = ['red','orange','blue','violet','pink'];
+      legend.innerHTML = genres.map(function(genre,i){
+        return '<button type="button" class="genre-legend-item ' + palette[i] + '" data-history-genre="' + escapeAttr(genre) + '"><i></i>' + escapeHtml(genre) + '</button>';
       }).join('');
-      const labels=rows.map((r,i)=>`<text x="${x(i)}" y="${h-8}" text-anchor="middle">${escapeHtml(r.date.slice(5))}</text>`).join('');
-      target.innerHTML=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="题材占比趋势"><g class="history-grid-lines">${grid}</g>${series}<g class="history-date-labels">${labels}</g></svg>`;
+
+      const w=720,h=238,pL=40,pR=16,pT=20,pB=30;
+      const firstTs=new Date(rows[0].date+'T00:00:00').getTime();
+      const lastTs=new Date(rows.at(-1).date+'T00:00:00').getTime();
+      const span=Math.max(1,lastTs-firstTs);
+      const x=function(row){ return rows.length===1 ? w/2 : pL + ((new Date(row.date+'T00:00:00').getTime()-firstTs)/span)*(w-pL-pR); };
+
+      const observedShares=[];
+      rows.forEach(function(row){
+        genres.forEach(function(genre){
+          if(row.total) observedShares.push((row.counts[genre]||0)/row.total*100);
+        });
+      });
+      const observedMax=Math.max.apply(null,[25].concat(observedShares));
+      const yMax=Math.min(100,Math.ceil((observedMax+8)/10)*10);
+      const y=function(v){ return pT+(yMax-v)*(h-pT-pB)/yMax; };
+      const tickStep=yMax<=40?10:(yMax<=60?15:25);
+      const ticks=[];
+      for(let v=0;v<=yMax;v+=tickStep) ticks.push(v);
+      if(ticks.at(-1)!==yMax) ticks.push(yMax);
+      const grid=ticks.map(function(v){
+        return '<g><line x1="'+pL+'" x2="'+(w-pR)+'" y1="'+y(v)+'" y2="'+y(v)+'"></line><text x="'+(pL-7)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'%</text></g>';
+      }).join('');
+
+      const series=genres.map(function(genre,i){
+        const pts=rows.map(function(row){
+          const count=row.counts[genre]||0;
+          const share=row.total ? count/row.total*100 : 0;
+          return {x:x(row),y:y(share),share,count,total:row.total,date:row.date};
+        });
+        const segments=pts.slice(1).map(function(p,idx){
+          const prev=pts[idx];
+          const gap=dateGapDays(rows[idx].date,rows[idx+1].date)>1;
+          return '<line class="'+(gap?'gap':'')+'" x1="'+prev.x.toFixed(1)+'" y1="'+prev.y.toFixed(1)+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'"></line>';
+        }).join('');
+        const dots=pts.map(function(p){
+          return '<circle cx="'+p.x+'" cy="'+p.y+'" r="3.3"><title>'+escapeHtml(p.date)+' · '+escapeHtml(genre)+' · '+p.share.toFixed(1)+'% · '+p.count+'/'+p.total+' 个已识别样本</title></circle>';
+        }).join('');
+        const offsets=[-9,13,-9,13,-9];
+        const labels=pts.map(function(p){
+          return '<text class="point-label" x="'+p.x+'" y="'+(p.y+(offsets[i]||-9))+'" text-anchor="middle">'+Math.round(p.share)+'%</text>';
+        }).join('');
+        return '<g class="genre-line '+palette[i]+'">'+segments+dots+labels+'</g>';
+      }).join('');
+
+      const labels=rows.map(function(r){
+        return '<text x="'+x(r)+'" y="'+(h-8)+'" text-anchor="middle">'+escapeHtml(r.date.slice(5))+'</text>';
+      }).join('');
+      target.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="题材占比趋势"><g class="history-grid-lines">'+grid+'</g>'+series+'<g class="history-date-labels">'+labels+'</g></svg>';
 
       const first=rows[0], last=rows.at(-1);
-      const deltas=genres.map(genre=>{
-        const start=first.total ? ((first.counts[genre]||0)/first.total*100) : 0;
-        const end=last.total ? ((last.counts[genre]||0)/last.total*100) : 0;
+      const deltas=genres.map(function(genre){
+        const start=first.total ? (first.counts[genre]||0)/first.total*100 : 0;
+        const end=last.total ? (last.counts[genre]||0)/last.total*100 : 0;
         return {genre,start,end,delta:end-start};
       });
       return { rows, genres, deltas };
+    }
+
+    function renderResearchCoverageChart(dates) {
+      const data=genreShareRows(dates);
+      const rows=data.rows;
+      const target=$('#researchCoverageChart');
+      const note=$('#researchCoverageNote');
+      if(!rows.length){
+        target.innerHTML='<div class="empty-chart">暂无研究覆盖数据。</div>';
+        note.textContent='';
+        return {rows:[],minCoverage:0,latestCoverage:0};
+      }
+      const w=400,h=238,pL=34,pR=10,pT=28,pB=34;
+      const maxTotal=Math.max.apply(null,[1].concat(rows.map(r=>r.marketTotal)));
+      const yMax=Math.max(10,Math.ceil(maxTotal/10)*10);
+      const y=function(v){ return pT+(yMax-v)*(h-pT-pB)/yMax; };
+      const slot=(w-pL-pR)/rows.length;
+      const barW=Math.min(28,slot*.58);
+      const ticks=[0,.25,.5,.75,1].map(x=>Math.round(yMax*x)).filter((v,i,a)=>i===0||v!==a[i-1]);
+      const grid=ticks.map(function(v){
+        return '<g><line x1="'+pL+'" x2="'+(w-pR)+'" y1="'+y(v)+'" y2="'+y(v)+'"></line><text x="'+(pL-6)+'" y="'+(y(v)+3)+'" text-anchor="end">'+v+'</text></g>';
+      }).join('');
+      const bars=rows.map(function(r,i){
+        const bx=pL+slot*i+(slot-barW)/2;
+        const knownH=(h-pT-pB)*(r.total/yMax);
+        const pendingH=(h-pT-pB)*(r.pending/yMax);
+        const base=y(0);
+        const knownY=base-knownH;
+        const pendingY=knownY-pendingH;
+        const rate=r.marketTotal ? r.total/r.marketTotal*100 : 0;
+        return '<g>'
+          +'<rect class="coverage-known" x="'+bx+'" y="'+knownY+'" width="'+barW+'" height="'+knownH+'"><title>'+escapeHtml(r.date)+' · 已识别题材 '+r.total+' 部</title></rect>'
+          +'<rect class="coverage-pending" x="'+bx+'" y="'+pendingY+'" width="'+barW+'" height="'+pendingH+'"><title>'+escapeHtml(r.date)+' · 待研究 '+r.pending+' 部</title></rect>'
+          +'<text class="coverage-total-label" x="'+(bx+barW/2)+'" y="'+Math.max(12,pendingY-12)+'" text-anchor="middle">'+r.total+'/'+r.marketTotal+'</text>'
+          +'<text class="coverage-rate-label" x="'+(bx+barW/2)+'" y="'+Math.max(21,pendingY-3)+'" text-anchor="middle">'+Math.round(rate)+'%</text>'
+          +'<text class="coverage-rate-label" x="'+(bx+barW/2)+'" y="'+(h-10)+'" text-anchor="middle">'+escapeHtml(r.date.slice(5))+'</text>'
+          +'</g>';
+      }).join('');
+      target.innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="市场样本与题材研究覆盖"><g class="coverage-axis">'+grid+'</g>'+bars+'</svg>';
+      const coverages=rows.map(r=>r.marketTotal?r.total/r.marketTotal*100:0);
+      const minCoverage=Math.min.apply(null,coverages);
+      const latestCoverage=coverages.at(-1)||0;
+      note.innerHTML='<span style="display:inline-flex;align-items:center;gap:5px;margin-right:10px"><i style="width:8px;height:8px;border-radius:2px;background:#d62f3f;display:inline-block"></i>已识别题材</span>'
+        +'<span style="display:inline-flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:2px;background:#e9edf3;display:inline-block"></i>待研究</span>'
+        +'<br>最新采集日题材研究覆盖率 <b>'+latestCoverage.toFixed(0)+'%</b>；覆盖不足时，左侧趋势只代表已研究样本结构。';
+      return {rows,minCoverage,latestCoverage};
     }
 
     function renderGenderTrend(dates) {
@@ -2894,6 +3012,7 @@
       const rangeRecords = historyFilteredItems(dateSet);
       const daily = dates.map(date => ({ date, ...summarizeDate(date) }));
       const chart = renderGenreShareChart(dates);
+      const researchCoverage = renderResearchCoverageChart(dates);
       renderGenderTrend(dates);
 
       $('#historyRangeNote').textContent = dates.length
@@ -2916,13 +3035,18 @@
       const latestItems=dates.length ? historyItemsOnDate(dates.at(-1)) : [];
       const female=latestItems.filter(r=>r.audience==='女频').length;
       const male=latestItems.filter(r=>r.audience==='男频').length;
+      const coverageReliable = researchCoverage.rows.length && researchCoverage.minCoverage >= 70;
       const notes = dates.length > 1 ? [
-        riser ? `「${riser.genre}」在所选范围内占比变化 ${riser.delta>=0?'+':''}${riser.delta.toFixed(1)} 个百分点，是当前最明显的题材变化信号。` : '当前题材样本不足，暂不输出题材变化判断。',
-        `最新真实采集点中，女频 ${female} 部、男频 ${male} 部；受众结构变化可结合下方趋势对比查看。`,
-        faller && faller.delta < -3 ? `「${faller.genre}」占比回落 ${Math.abs(faller.delta).toFixed(1)} 个百分点，建议结合代表剧生命周期判断是短期波动还是持续回落。` : '当前未发现特别明显的题材持续回落信号。'
+        coverageReliable
+          ? (riser ? '「'+riser.genre+'」在所选范围内占比变化 '+(riser.delta>=0?'+':'')+riser.delta.toFixed(1)+' 个百分点，是当前最明显的题材变化信号。' : '当前题材样本不足，暂不输出题材变化判断。')
+          : '当前题材研究覆盖最低为 '+researchCoverage.minCoverage.toFixed(0)+'%，暂不把折线波动直接解释为完整市场题材趋势；应结合右侧覆盖率继续观察。',
+        '最新真实采集点中，女频 '+female+' 部、男频 '+male+' 部；受众结构变化可结合下方趋势对比查看。',
+        coverageReliable
+          ? (faller && faller.delta < -3 ? '「'+faller.genre+'」占比回落 '+Math.abs(faller.delta).toFixed(1)+' 个百分点，建议结合代表剧生命周期判断是短期波动还是持续回落。' : '当前未发现特别明显的题材持续回落信号。')
+          : '题材覆盖尚未达到稳定判断门槛，当前优先补齐深研而不是输出强上升/回落结论。'
       ] : [
-        `当前范围仅包含 ${dates.length} 个真实采集日，趋势判断样本有限。`,
-        `当前筛选共有 ${rangeRecords.length} 部剧目样本。`,
+        '当前范围仅包含 '+dates.length+' 个真实采集日，趋势判断样本有限。',
+        '当前筛选共有 '+rangeRecords.length+' 部剧目样本。',
         '随着真实采集点增加，题材占比、受众结构与生命周期判断会自动增强。'
       ];
       $('#historyConclusions').innerHTML = notes.map((note,index) => `<div class="conclusion-item"><span>${index+1}</span><p>${escapeHtml(note)}</p></div>`).join('');
