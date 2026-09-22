@@ -40,6 +40,54 @@ COLLECTION_JOB_STATUSES = frozenset({
     "FAILED",
 })
 
+LEGACY_ANALYSIS_RUN_READ_STATES = {
+    "分析中-待复核": "LEGACY_REVIEW_REQUIRED",
+    "分析中-待补齐": "LEGACY_INCOMPLETE",
+}
+
+
+def analysis_run_read_semantics(status: object) -> dict:
+    """Classify historical analysis-run states without authorizing new writes.
+
+    Legacy free-text states remain readable for audit/history but cannot become
+    current Integration write states or authoritative ranking evidence.
+    """
+    value = str(status or "").strip()
+    if value in ANALYSIS_RUN_STATUSES:
+        return {
+            "known": True,
+            "legacy": False,
+            "writeAllowed": True,
+            "state": value,
+            "authoritativeEligibleByState": value in {
+                ANALYSIS_RUN_COLLECTED,
+                ANALYSIS_RUN_RESEARCH_PENDING,
+                ANALYSIS_RUN_COMPLETE,
+            },
+        }
+    if value in LEGACY_ANALYSIS_RUN_READ_STATES:
+        return {
+            "known": True,
+            "legacy": True,
+            "writeAllowed": False,
+            "state": LEGACY_ANALYSIS_RUN_READ_STATES[value],
+            "rawState": value,
+            "authoritativeEligibleByState": False,
+        }
+    return {
+        "known": False,
+        "legacy": True,
+        "writeAllowed": False,
+        "state": "UNKNOWN",
+        "rawState": value,
+        "authoritativeEligibleByState": False,
+    }
+
+
+def is_legacy_incomplete_analysis_status(status: object) -> bool:
+    return str(status or "").strip() in LEGACY_ANALYSIS_RUN_READ_STATES
+
+
 
 def require_stage_state(stage: str, status: object) -> str:
     value = str(status or "").strip()
