@@ -21,6 +21,8 @@ class OfficialWebRunnerTests(unittest.TestCase):
             'batch_complete': True,
             'collector_version': 'test-web-v1',
             'collected_at': datetime.now(timezone.utc).isoformat(),
+            'locale': 'en-US',
+            'region': 'US',
             'evidence': {
                 'requestedUrl': 'https://www.shorttv.live/',
                 'url': 'https://www.shorttv.live/',
@@ -41,6 +43,17 @@ class OfficialWebRunnerTests(unittest.TestCase):
         self.assertEqual(result['rowCount'], 2)
         self.assertEqual(result['status'], '已采集')
         self.assertEqual(result['newTitleCount'], 0)
+
+    def test_non_english_or_non_us_profile_is_rejected(self):
+        payload = self.payload()
+        payload['locale'] = 'es-US'
+        with self.assertRaises(Exception):
+            audit_payload(payload)
+
+        payload = self.payload()
+        payload['region'] = 'CA'
+        with self.assertRaises(Exception):
+            audit_payload(payload)
 
     def test_stale_live_web_payload_is_rejected(self):
         payload = self.payload()
