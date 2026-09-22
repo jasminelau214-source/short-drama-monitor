@@ -15,6 +15,8 @@ from itemlist_platform_collectors import collect_flextv_top, collect_netshort_tr
 from moboreels_web_collector import collect_moboreels_popular
 from reelshort_collector import collect_reelshort_top
 from official_web_collectors import (
+    COLLECTION_LOCALE,
+    COLLECTION_REGION,
     OfficialWebCollectorError,
     collect_shortmax,
 )
@@ -140,9 +142,18 @@ def write_payload(root: Path, payload: dict) -> Path:
 
 def audit_payload(payload: dict) -> dict:
     normalized = validate_and_normalize(payload, set())
-    source_type = normalized['result']['collector']['sourceType']
+    collector = normalized['result']['collector']
+    source_type = collector['sourceType']
     if source_type != 'OFFICIAL_WEB':
         raise CollectorImportError(f'official web runner received sourceType={source_type}')
+    if collector.get('locale') != COLLECTION_LOCALE:
+        raise CollectorImportError(
+            f'official web locale mismatch: expected={COLLECTION_LOCALE} actual={collector.get("locale") or "(blank)"}'
+        )
+    if collector.get('region') != COLLECTION_REGION:
+        raise CollectorImportError(
+            f'official web region mismatch: expected={COLLECTION_REGION} actual={collector.get("region") or "(blank)"}'
+        )
     if normalized['rowCount'] != normalized['topN']:
         raise CollectorImportError('rowCount/topN mismatch')
     return normalized
