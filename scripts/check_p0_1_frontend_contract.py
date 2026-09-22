@@ -19,6 +19,12 @@ REQUIRED = [
     "生产只读数据",
     "function sourceTypeOf(item)",
     "2026-10-01",
+    'id="researchCoverageChart"',
+    "function renderResearchCoverageChart",
+    'class="point-label"',
+    "dateGapDays",
+    "researchCoverage.minCoverage >= 70",
+    ".genre-line line.gap",
     "<th>榜单</th>",
     "本榜最高",
 ]
@@ -39,6 +45,8 @@ for token in REQUIRED:
 
 for token in FORBIDDEN:
     assert token not in HTML, f"forbidden cross-scope ranking pattern remains: {token}"
+
+assert ".genre-line.red polyline,.genre-line.red circle" not in HTML
 
 assert re.search(r"<th>平台</th><th>榜单</th>", HTML), "ranking scope column missing next to platform"
 assert "排名只在同一平台、同一来源、同一榜单口径内比较" in HTML
