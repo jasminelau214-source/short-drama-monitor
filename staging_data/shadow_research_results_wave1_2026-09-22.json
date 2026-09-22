@@ -1,0 +1,504 @@
+{
+  "schemaVersion": "jsm-shadow-research-results-v1",
+  "purpose": "STAGING_SHADOW_RESEARCH_ONLY",
+  "productionWrite": false,
+  "formalResearchQueueWrite": false,
+  "generatedAt": "2026-09-22",
+  "completedCount": 13,
+  "results": [
+    {
+      "platform": "MoboReels",
+      "title": "The Rogue Brother's Claimed Omega",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "低阶水手Aiden Clark一直暗恋舰队继承人Ethan Iverson。获得象征命定关系的潮汐印记后，他却遭Ethan残酷拒绝，印记也因此受损。Ethan被家族排斥的哥哥Ryan随后介入，在强势保护与复杂情感中，Aiden逐渐意识到真正与自己命运相连的人并不是原先执着的对象。",
+        "genre": "奇幻超自然",
+        "lane": "BL / 海盗世界 / 命定印记 / 拒绝后改配 / 兄弟关系反转",
+        "audience": "女频",
+        "storyCore": "主角把单向执念误认为命定爱情，在遭拒与受伤后，被另一个长期处在家族边缘的人接住，最终重新认识真正的伴侣关系。",
+        "storySkin": "海盗舰队 + 高低阶身份 + 潮汐命定印记 + 继承人兄弟 + BL慢热关系。",
+        "conflict": "Aiden既要从Ethan的公开拒绝与印记受损中恢复，也要面对自己对Ethan的执念、Ryan的介入以及舰队阶层关系带来的压力。",
+        "payoff": "渣攻拒绝后的关系反转 / 哥哥接盘变真命 / 命定对象重新识别 / 受伤主角被强势保护",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "BL、海盗和命定伴侣都是英语短剧中识别度较高的类型元素，潮汐印记为关系推进提供了鲜明的世界观钩子。",
+        "mismatch": "需要谨慎处理低阶水手与舰队继承人之间的权力差，也要清楚区分“命定印记”与真实同意，避免把强势关系直接等同于浪漫。"
+      },
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/episode/the-rogue-brothers-claimed-omega-62085322-01",
+          "title": "The Rogue Brother's Claimed Omega Episode 1",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "MoboReels",
+      "title": "Back With The Prince's Twins",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Danica旅行途中遭伏击并被下药，龙族王子Bryan恰好救下她，两人在药物影响下发生关系。Bryan因紧急事务离开，此后一直寻找她；Danica则生下双胞胎，并因未婚生子被家族驱逐。六年后，两人在为Bryan挑选婚配对象的宴会上重逢，Bryan认出她后当众选择Danica，并确认她是自己唯一的命定伴侣。",
+        "genre": "奇幻超自然",
+        "lane": "龙族王子 / 一夜怀孕 / 双胞胎 / 六年后重逢 / 命定伴侣 / 家族驱逐",
+        "audience": "女频",
+        "storyCore": "被家族抛弃的单亲母亲带着双胞胎生活多年，最终与孩子父亲、同时也是高位龙族王子重逢，并从被羞辱者反转为被公开选择的命定伴侣。",
+        "storySkin": "现代/奇幻混合世界 + 龙族王子 + 药物意外一夜 + 秘密双胞胎 + 六年后宴会认亲。",
+        "conflict": "Danica既要面对家族因未婚生子对她的排斥，也要确认Bryan当年的离开是否值得信任，并应对高位王族婚配环境中的外部竞争。",
+        "payoff": "双胞胎身份揭晓 / 王子当众认妻 / 被驱逐女主身份反转 / 六年寻人终于重逢 / 命定伴侣确认",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "中高",
+        "localizationJudgment": "秘密孩子、久别重逢、王族身份和命定伴侣组合符合英语市场成熟女频奇幻言情包装，龙族元素提供额外视觉差异化。",
+        "mismatch": "故事起点涉及双方受药物影响后的亲密关系，改编和投流必须明确同意边界，不能把失去判断能力直接包装成浪漫命运。"
+      },
+      "sources": [
+        {
+          "url": "https://eng.moboreels.com/kdrqI/259TEL",
+          "title": "Back With The Prince's Twins",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "MoboReels",
+      "title": "The Chauffeur She Cheated On Was A Billionaire",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Liam送外卖时撞见妻子Yolanda出轨。Yolanda一直嫌弃他只做零工和网约车司机，却不知道Liam其实是顶级商业帝国的继承人，只是在完成为期三年的历练。面对妻子家族的羞辱、栽赃和暴力打压，Liam结束隐忍并公开真正实力；曾受他救命之恩的地下势力领袖Aikin也公开效忠。随着对手逐一失败，Yolanda最终求他回头，但Liam选择彻底结束这段关系。",
+        "genre": "现代都市",
+        "lane": "隐藏豪门继承人 / 被妻背叛 / 三年试炼 / 身份掉马 / 商战打脸 / 离婚逆袭",
+        "audience": "男频",
+        "storyCore": "被妻子和岳家当成底层失败者的男主其实拥有顶级身份与资源，在背叛发生后停止隐忍，通过身份揭晓和实力反击完成价值翻盘。",
+        "storySkin": "外卖员/网约车司机伪装 + 顶级财团继承人 + 三年历练 + 出轨妻子 + 地下势力报恩。",
+        "conflict": "Liam既要摆脱被妻子及其家族长期贬低的婚姻关系，也要在公开身份后应对对方的栽赃、暴力和商业阻击。",
+        "payoff": "隐藏身份掉马 / 渣妻追悔 / 商业碾压 / 曾受恩强者效忠 / 被羞辱者逐一反杀",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "底层职业伪装、豪门继承人、婚姻背叛和公开打脸属于英语男频短剧可快速理解的身份反转结构。",
+        "mismatch": "“地下王者效忠”与连续商业碾压容易削弱现实可信度，改编时需控制万能资源感，并避免把暴力报复塑造成唯一解决路径。"
+      },
+      "sources": [
+        {
+          "url": "https://www.moboreels.com/episode/the-chauffeur-she-cheated-on-was-a-billionaire-57806322-01",
+          "title": "The Chauffeur She Cheated On Was A Billionaire Episode 1",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "NetShort",
+      "title": "Not Your Average Crow",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Emily一直以为自己只是一只误闯凤凰巢的普通乌鸦，被Queen Angelina收养后，她始终担心身份暴露并试图逃走。直到试炼中魔镜破碎、地狱火在她面前熄灭，她才发现自己并非低等乌鸦，而是失踪已久的深渊凤凰。随着真实血脉觉醒，她还发现有人正策划危害这个新家庭。",
+        "genre": "奇幻超自然",
+        "lane": "乌鸦错认 / 凤凰血脉 / 收养家庭 / 身份掉马 / 血脉觉醒 / 家族阴谋",
+        "audience": "女频",
+        "storyCore": "长期把自己视为低等异类的女孩，在被新家庭接纳后发现自己其实拥有更强大、更稀有的真实身份，并从害怕被抛弃转向主动保护家人。",
+        "storySkin": "乌鸦少女 + 凤凰王族 + 魔镜试炼 + 地狱火 + 深渊凤凰血脉 + 女王养母。",
+        "conflict": "Emily一方面害怕自己的低等身份被揭穿后再次被抛弃，另一方面又必须在真身觉醒后面对针对养母家庭的阴谋。",
+        "payoff": "废柴身份反转为稀有凤凰 / 女王收养真心兑现 / 魔镜与地狱火验血 / 从逃跑到护家",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "中高",
+        "localizationJudgment": "“被误认的低等生物其实是顶级血脉”是跨文化易理解的身份逆袭结构，凤凰与魔法试炼适合AI视觉化。",
+        "mismatch": "世界观中的乌鸦、凤凰、深渊凤凰与王族等级需要尽早建立清晰规则，否则连续血脉反转容易显得只为打脸服务。"
+      },
+      "sources": [
+        {
+          "url": "https://netshort.com/episode/not-your-average-crow-2097959125560745985-ep-24",
+          "title": "Not Your Average Crow EP 24",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "NetShort",
+      "title": "The Slave Who Became Dragon King",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Arthur出生时被调包，真正的龙族继承人身份被冒牌者窃取，自己则被当作奴隶养大。随着体内至高金龙力量觉醒，他终于证明真实血脉，开始清算篡位者、夺回属于自己的王位与命定王后，并从最底层一步步登上龙王之位。",
+        "genre": "西幻",
+        "lane": "出生调包 / 奴隶逆袭 / 龙族真继承人 / 金龙血脉觉醒 / 夺回王位 / 命定王后",
+        "audience": "男频",
+        "storyCore": "真正的王位继承人被调包后在最底层长大，成年后以血脉觉醒证明身份，并通过力量和复仇夺回被偷走的人生。",
+        "storySkin": "龙族王权 + 奴隶身份 + 冒牌王子 + 金龙觉醒 + 王位争夺 + 命定王后。",
+        "conflict": "Arthur必须在长期奴役形成的低位身份下证明自己是真正继承人，并击败已经占据王权和资源的冒牌者。",
+        "payoff": "奴隶变龙王 / 金龙血脉觉醒 / 假继承人现形 / 王位夺回 / 低位身份一朝翻盘",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "中高",
+        "localizationJudgment": "真假继承人、奴隶逆袭与龙族力量体系是高识别度西幻爽文结构，适合强视觉权力升级。",
+        "mismatch": "需要明确王位继承规则和“命定王后”的人物自主性，否则女主容易被降为男主夺回资产的一部分。"
+      },
+      "sources": [
+        {
+          "url": "https://netshort.com/episode/the-slave-who-became-dragon-king-2100768622290247681",
+          "title": "The Slave Who Became Dragon King",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "FlexTV",
+      "title": "The Veteran’s Promise",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "男主退伍后建立了新的生活，但从未忘记一起出生入死的战友。当一名已牺牲战友留下的遗孀和女儿受到威胁时，一个电话让两百名经历过战场的老兵迅速集结。故事围绕战友情义、保护烈士家属和对欺凌者的反击展开。",
+        "genre": "动作冒险",
+        "lane": "退伍军人 / 战友情 / 保护遗孀 / 老兵集结 / 家庭守护 / 复仇反击",
+        "audience": "男频",
+        "storyCore": "已经离开军旅生活的强者因为战友遗属遭到欺凌重新召集旧部，用战友情和行动兑现当年的承诺。",
+        "storySkin": "退伍军人创业 + 烈士遗孀与女儿 + 一通电话召集两百老兵 + 城市势力冲突。",
+        "conflict": "男主必须在和平生活与战友情义之间做出选择，同时保护失去依靠的母女，对抗把她们当作软弱目标的强势对手。",
+        "payoff": "一呼百应老兵集结 / 为战友家属出头 / 强者回归 / 欺凌者踢到铁板 / 战友情兑现",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "退伍军人、战友情、保护战友家属和城市强权冲突对英语市场辨识度高，叙事动机直接。",
+        "mismatch": "需要避免把退伍军人群体简单工具化为私人暴力力量，最好强化合法保护、社区支持和荣誉承诺，而非无限升级的私力报复。"
+      },
+      "sources": [
+        {
+          "url": "https://www.flextv.cc/movie/the-veteran%E2%80%99s-promise-jyzRWK2nVB",
+          "title": "The Veteran’s Promise",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "FlexTV",
+      "title": "Mr. Williams! Madame Is Dying",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Madison Evans爱了Hunter Williams十六年，却长期被当作Andrea David的“移动血库”。Hunter为了给Andrea让路甚至伤害Madison的家庭。一次癌症体检报告让Madison彻底看清丈夫的冷漠与残酷，她终于停止继续爱他，也意识到自己十六年的执着爱错了人。",
+        "genre": "现代都市",
+        "lane": "虐恋婚姻 / 白月光 / 血包替身 / 绝症警醒 / 女主清醒离开 / 迟来追悔",
+        "audience": "女频",
+        "storyCore": "长期在爱情中自我牺牲的妻子，在生命危机与丈夫持续偏爱第三者的双重刺激下彻底清醒，停止无条件付出并重新选择自己。",
+        "storySkin": "十六年暗恋婚姻 + 白月光情敌 + 移动血库 + 癌症报告 + 高压追妻虐恋。",
+        "conflict": "Madison既要面对严重健康危机，也要从长期被Hunter工具化和情感忽视的婚姻中抽离；Hunter则在她真正离开后才面对失去她的后果。",
+        "payoff": "女主彻底清醒 / 停止输血式付出 / 绝症倒计时放大悔悟 / 渣男后知后觉 / 爱情价值反转",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "中高",
+        "localizationJudgment": "白月光、婚姻冷暴力、重病倒计时和追悔结构是成熟女频虐恋框架，情绪驱动强。",
+        "mismatch": "“移动血库”设定和频繁输血需要避免违背基本医疗常识；癌症不应只作为惩罚性情节工具，需保留患者尊严与真实医疗边界。"
+      },
+      "sources": [
+        {
+          "url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q",
+          "title": "Mr. Williams! Madame Is Dying",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "FlexTV",
+      "title": "When She Stopped Chasing His Love",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Camellia天生拥有钢琴天赋，却因一只耳朵失聪被家人放弃。为了继续追逐音乐，她接受Dylan的帮助，也因此成为Dylan真正爱慕对象——自己姐姐Malory——的替身。三年后Malory归来，Camellia终于看清这段关系并决定离开。离开后，一位神秘音乐制作人发现她的才华，而Dylan也开始意识到自己真正失去的是谁。",
+        "genre": "现代都市",
+        "lane": "钢琴天才 / 听力损伤 / 替身文学 / 姐妹情感竞争 / 离开后事业重启 / 追妻火葬场",
+        "audience": "女频",
+        "storyCore": "被家庭和恋人都当作次等选择的音乐天才，在认清自己只是替身后主动离开，并通过重新回到事业赛道找回价值。",
+        "storySkin": "钢琴天才 + 单耳失聪 + 姐姐白月光 + 三年替身关系 + 神秘音乐制作人。",
+        "conflict": "Camellia既要摆脱长期把自己放在姐姐影子下的家庭和情感关系，也要克服听力损伤与自我否定，重新确认自己的音乐价值。",
+        "payoff": "替身主动离场 / 男主失去后追悔 / 被家人放弃的天才被专业人士看见 / 事业与情感同时翻盘",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "音乐天才、残障逆境、替身虐恋和事业重启在英语市场都易理解，钢琴舞台还能形成明确视觉资产。",
+        "mismatch": "听力损伤不应被简单写成“克服即可恢复成功”的励志工具；需要尊重听障经验，并避免把姐姐仅处理成扁平化情敌。"
+      },
+      "sources": [
+        {
+          "url": "https://www.flextv.cc/genres/urban-n9le3orez3",
+          "title": "FlexTV Urban - When She Stopped Chasing His Love",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Altarboy",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "18岁的Theo因公开自己的同性恋身份被父亲赶出家门，并被送到天主教堂接受所谓“矫正”。在那里，他遇到年轻、强势且难以相处的神父Alexander，并被安排成为对方的私人祭坛侍者。两人从彼此挑衅和权力拉扯开始，逐渐发展出无法轻易承认的感情，也必须面对家庭、宗教规范和公开关系可能带来的巨大代价。",
+        "genre": "现代都市",
+        "lane": "BL / 禁忌恋 / 宗教环境 / 身份认同 / 欢喜冤家 / 慢热关系",
+        "audience": "女频",
+        "storyCore": "被家庭否定身份的年轻人进入一个更严格的宗教环境，却在与掌握制度权力的年轻神父相处中找到情感连接，并被迫面对真实自我与外部规范之间的冲突。",
+        "storySkin": "18岁少年 + 天主教堂 + 年轻神父 + 祭坛侍者 + 禁忌慢热BL。",
+        "conflict": "Theo想获得身份自主和离开压抑环境的自由，Alexander则受宗教职责与现实利益约束；两人的感情同时受到家庭排斥、宗教制度和权力不对等的限制。",
+        "payoff": "从敌对到相互理解 / 被否定者获得情感承认 / 禁忌关系逐步破防 / 身份认同反抗",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "LGBTQ身份、宗教压力、家庭排斥和慢热禁忌恋对英语市场具有直接文化语境与明确受众。",
+        "mismatch": "Theo刚满18岁且Alexander具有宗教权威，存在明显年龄边界与权力不对等；内容分析和投流不应把这种权力差无条件浪漫化。"
+      },
+      "sources": [
+        {
+          "url": "https://www.reelshort.com/full-episodes/altarboy-6a7619d41dcbbd8e12015bfe/6",
+          "title": "Altarboy All Episodes",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "ReelShort",
+      "title": "Take Me Back to the Night We Met",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "十年前，花滑天才Gwen Tyler正朝奥运金牌迈进；十年后，她却困在一段缺乏爱情的订婚关系里，也失去了曾经的自我。童年好友Aaron Lansing在失联十年后重新出现，让Gwen意识到自己真正缺失的感情，也许正是18岁时已经拥有的那一份。她必须决定继续被生活推着走，还是重新掌控爱情、事业与人生。",
+        "genre": "现代都市",
+        "lane": "花滑天才 / 青梅竹马 / 十年重逢 / 二次机会 / 无爱订婚 / 自我找回",
+        "audience": "女频",
+        "storyCore": "曾经拥有明确梦想的女主在成年生活中逐渐失去自我，旧爱/挚友的归来迫使她重新审视十年前的选择，并决定是否为真正想要的人生承担改变成本。",
+        "storySkin": "职业花滑 + 童年挚友 + 十年失联 + 无爱订婚 + 旧情复燃。",
+        "conflict": "Gwen一方面被稳定但无爱的现有关系束缚，另一方面必须面对与Aaron之间未解决的旧伤，以及自己是否愿意重新追求曾放弃的梦想和感情。",
+        "payoff": "十年后旧爱重逢 / 青梅终于说破 / 女主夺回人生主导权 / 放弃错误订婚 / 冰场梦想回归",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "花样滑冰、青梅竹马、二次机会与成年后的自我重启都具有成熟的英语浪漫剧语境，兼具视觉运动元素与情感怀旧。",
+        "mismatch": "需要避免把女主离开现有关系单纯归因于“更好的男人出现”，应保留她对事业、自我和生活选择的独立觉醒。"
+      },
+      "sources": [
+        {
+          "url": "https://www.reelshort.com/full-episodes/take-me-back-to-the-night-we-met-6a629f5ea1c787017500913a",
+          "title": "Take Me Back to the Night We Met All Episodes",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "ReelShort",
+      "title": "The Hockey Captain That Hates Me",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "medium",
+      "research": {
+        "synopsis": "Skylar Carter是Northride Academy的优秀大码花样滑冰选手，却长期遭受同学对身材的嘲笑。她最大的冰场对手是傲慢的冰球队队长Mason Reed。学校预算削减后，花滑和冰球只有一个项目能保留，两人的竞争进一步升级。一次恶作剧导致Mason受伤后，Skylar被迫成为他的私人助理；原本互相敌视的两人在高压合作中逐渐产生感情，同时还必须面对各自的竞技前途。",
+        "genre": "校园青春",
+        "lane": "花滑少女 / 冰球队长 / 欢喜冤家 / 身材霸凌 / 被迫合作 / 竞技校园恋爱",
+        "audience": "女频",
+        "storyCore": "因身材被低估的女运动员与长期欺负自己的竞技对手被迫合作，在争夺体育资源与追逐个人梦想的同时，从敌对逐渐走向相互理解和爱情。",
+        "storySkin": "美国高中/学院冰场 + 大码花滑选手 + 冰球队长 + 校方预算竞争 + 恶作剧后私人助理。",
+        "conflict": "Skylar要争取花滑项目和自己的竞技未来，同时对抗校园身材羞辱；她与Mason既是资源竞争对手，又在被迫合作后产生感情。",
+        "payoff": "被霸凌女主在冰场证明实力 / 死对头变恋人 / 竞技项目危机共同解决 / 身材偏见被反击",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "冰球、花滑、校园竞争和Enemies-to-Lovers是北美青春类型的强识别元素，运动场景有天然视觉节奏。",
+        "mismatch": "故事包含明显身材羞辱与霸凌，不能把持续羞辱简单包装为恋爱调情；关系转变需要明确道歉、责任与尊重。"
+      },
+      "sources": [
+        {
+          "url": "https://www.reelshort.com/fandom/the-hockey-captain-that-hates-me-skylar-carter-01-7-841c28b62f4a/",
+          "title": "Skylar Carter - The Hockey Captain That Hates Me",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "GoodShort",
+      "title": "Don't Challenge the Lady Billionaire",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Juliet是顶级金融集团的女总裁，为爱情隐藏真实身份并默默付出七年，却被只看重利益的男友Charles抛弃。为了反击Charles，她与Charles的老板Tristian闪婚。随着即将到来的宴会，Charles将不得不正面面对自己曾经轻视的前任以及她真正的权力和新身份。",
+        "genre": "现代都市",
+        "lane": "隐藏女总裁 / 七年付出 / 渣男背叛 / 闪婚上司 / 宴会掉马 / 女性复仇",
+        "audience": "女频",
+        "storyCore": "高位女主为了爱情长期隐藏价值并被伴侣低估，在遭背叛后停止自我牺牲，用婚姻选择和身份公开夺回关系中的主动权。",
+        "storySkin": "金融集团女总裁 + 隐藏身份七年 + 渣男前任 + 前任老板 + 闪婚 + 宴会打脸。",
+        "conflict": "Juliet要从七年被消耗的关系中抽离，并在Charles继续以利益衡量她的情况下重新建立自我价值，同时处理与Tristian快速结婚后的真实关系。",
+        "payoff": "隐藏女总裁掉马 / 前任后悔 / 嫁给前任上司 / 宴会身份反转 / 女主重新掌权",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "女CEO、隐藏身份、闪婚与前任打脸属于英语女频短剧成熟商业组合，金融集团与宴会场景便于制造身份反差。",
+        "mismatch": "要避免把闪婚只当作报复前任的工具，女主的重新选择最好体现独立动机；金融集团权力也不能成为无条件解决所有冲突的万能资源。"
+      },
+      "sources": [
+        {
+          "url": "https://www.goodshort.com/drama/don-t-challenge-the-lady-billionaire-31000835181",
+          "title": "Don't Challenge the Lady Billionaire",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    },
+    {
+      "platform": "GoodShort",
+      "title": "A Mistaken Surrogate for the Ruthless Billionaire",
+      "status": "SHADOW_COMPLETE",
+      "confidence": "high",
+      "research": {
+        "synopsis": "Luciana Bridge准备告诉丈夫Alex自己通过人工授精怀孕时，却当场撞见他出轨。随后她又得知诊所发生精子样本错配，腹中孩子真正的生物学父亲竟是权势亿万富豪David Carlson。Luciana搬进David的豪宅，以秘密代孕者和公开未婚妻的身份与他共同生活，却逐渐发现David想要的并不只是孩子和代孕安排。",
+        "genre": "现代都市",
+        "lane": "人工授精错配 / 亿万富豪 / 意外怀孕 / 同居 / 假未婚妻 / 先孕后爱",
+        "audience": "女频",
+        "storyCore": "刚经历伴侣背叛的女主因医疗错配意外怀上陌生亿万富豪的孩子，被迫进入一段契约式共同生活，并在法律、亲子与真实感情之间重新选择未来。",
+        "storySkin": "生殖诊所精子错配 + 亿万富豪生物学父亲 + 秘密代孕协议 + 豪宅同居 + 公开未婚夫妻。",
+        "conflict": "Luciana既要处理丈夫出轨带来的婚姻破裂，也要面对意外怀孕、亲子权利和与David建立新关系的复杂边界。",
+        "payoff": "渣夫出轨当场终结 / 孩子父亲身份大反转 / 亿万富豪主动承担 / 契约关系变真爱 / 女主重新获得安全感",
+        "openingSummary": "",
+        "openingType": "",
+        "payEpisode": "",
+        "paywallSummary": "",
+        "paywallType": "",
+        "localizationLevel": "高",
+        "localizationJudgment": "人工生殖、婚姻背叛、亿万富豪与意外亲子关系对英语市场容易理解，核心钩子在于医疗错配带来的极端关系重组。",
+        "mismatch": "精子样本错配、代孕与亲子权利在不同地区法律差异很大；不能把医疗事故和女主的身体自主权简化为纯浪漫装置。"
+      },
+      "sources": [
+        {
+          "url": "https://www.goodshort.com/actor/robert-palmer-watkins-141",
+          "title": "GoodShort - A Mistaken Surrogate for the Ruthless Billionaire",
+          "official": true
+        }
+      ],
+      "missingFields": [
+        "openingSummary",
+        "openingType",
+        "payEpisode",
+        "paywallSummary",
+        "paywallType"
+      ]
+    }
+  ]
+}
