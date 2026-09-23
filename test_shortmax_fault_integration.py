@@ -74,13 +74,14 @@ class ShortMaxCurrentTargetIntegrationTests(unittest.TestCase):
 
         runner.collect_shortmax = fake_collect_shortmax
         try:
-            result = runner.TARGETS['shortmax_most_popular']['collect']('2026-09-20')
+            result = runner.PAUSED_TARGETS['shortmax_most_popular']['collect']('2026-09-20')
         finally:
             runner.collect_shortmax = original
 
         self.assertEqual(result, {'ok': True})
         self.assertEqual(captured['section'], 'Most Popular')
         self.assertEqual(captured['top_n'], CURRENT_TOP_N)
+        self.assertNotIn('shortmax_most_popular', runner.TARGETS)
 
     def test_current_eight_card_shelf_cannot_be_promoted_as_legacy_top10(self):
         with self.assertRaisesRegex(
