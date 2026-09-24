@@ -1,0 +1,36 @@
+name: JSM Integration Render Runtime Smoke
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: 'Isolated Integration Render service URL'
+        required: true
+        type: string
+      expected_commit:
+        description: 'Expected Integration commit SHA'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Compile runtime smoke client
+        run: python -m py_compile integration_render_smoke.py
+
+      - name: Verify isolated Render runtime
+        run: |
+          python integration_render_smoke.py \
+            --base-url "${{ inputs.base_url }}" \
+            --expected-commit "${{ inputs.expected_commit }}"

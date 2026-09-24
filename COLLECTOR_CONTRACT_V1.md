@@ -76,13 +76,44 @@ A future adapter should implement these conceptual steps:
 
 The first four short-drama App targets use `MANUAL_SCREENSHOT` today. Later adapters may switch individual targets to `WEB_SCRAPE`, `APP_AUTOMATION`, or `API` without changing the downstream analysis contract.
 
-## Current V1 targets
+## Locked official-web collection profile
 
-- ReelShort / Daily Top / All / Top10
-- DramaWave / Daily Top / All / Top10
-- MoboReels / Daily Top / All / Top10
-- NetShort / Daily Top / All / Top10
+The default market profile is fixed in `collection_policy.py`:
 
-## Next engineering checkpoint
+- Language: English
+- Locale: `en-US`
+- Region: `US` when the source offers a region selector
+- One official primary ranking per active platform
+- Core capacity: Top10
+- No cross-shelf padding, inferred ranks, recommendation-as-ranking, or category mixing
+- An incomplete active target fails closed and is not published as a complete batch
 
-Automate one source end-to-end first (recommended: ReelShort), run it for 7 days, keep manual screenshot fallback, then expand to the other three initial Apps before adding more platform groups.
+The active default plan contains exactly six platforms:
+
+- DramaBox / Trending / Top10
+- FlexTV / Top in FlexTV / Top10
+- GoodShort / Top in GoodShort / Top10
+- MoboReels / Popular Series / Top10
+- NetShort / Trending Now / Top10
+- ReelShort / TOP / Top10
+
+The following platforms are explicitly `PAUSED`:
+
+- DramaWave: no stable, fully verified official primary-ranking contract
+- ShortMax: Most Popular versus Homepage Hero semantics and capacity are not locked
+
+`PAUSED` is an intentional configuration state. A paused platform is skipped and is
+not counted as `FAILED`, `PARTIAL`, or part of the overall pass denominator. Collector
+implementations and historical evidence remain available for isolated read-only tests.
+
+## Resume gate
+
+A paused platform can return to the default plan only after all of these are true:
+
+1. One official English/US primary ranking and its exact capacity are documented.
+2. Deterministic contract and fault tests pass.
+3. Live read-only evidence passes the Integration Contract Gate.
+4. The user explicitly approves resuming collection.
+
+Changing a platform state must only require editing the central policy and its tests;
+it must not require rewriting collector parsing logic.

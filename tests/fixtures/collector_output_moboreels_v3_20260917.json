@@ -1,0 +1,118 @@
+{
+  "platform": "MoboReels",
+  "source_type": "SHORT_DRAMA_APP",
+  "source_id": "shortapp_moboreels",
+  "target_key": "daily_top_all",
+  "top_n": 10,
+  "category": "All",
+  "ranking_type": "Trending Series",
+  "collection_method": "APP_UI_XML_SCROLL",
+  "collector_version": "moboreels-v3-integration",
+  "collection_date": "2026-09-17",
+  "collected_at": "2026-09-17T09:22:00",
+  "adb_serial": "127.0.0.1:5555",
+  "batch_complete": true,
+  "missing_ranks": [],
+  "duplicate_ranks": [],
+  "duplicate_titles": [],
+  "rank_conflicts": [],
+  "evidence": {
+    "originalSourceType": "SHORT_DRAMA_APP",
+    "semanticVerified": true,
+    "appFocusVerified": true,
+    "targetLabel": "Charts > Trending Series",
+    "screenshot": "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_top10_fixture.png",
+    "ui_xml_pages": [
+      "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page1_fixture.xml",
+      "D:\\ShortDramaCollector\\2026-09-17\\MoboReels\\moboreels_page2_fixture.xml"
+    ]
+  },
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Married My Ex's Dad, Now I'm Mafia Queen",
+      "heat": "5.70M",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 2,
+      "title": "Mated To My Boyfriend's Brother",
+      "heat": "2.89M",
+      "tags": [
+        "Werewolf",
+        "Soulmates",
+        "Comeback",
+        "Revenge",
+        "Broken Heart"
+      ],
+      "metrics": {}
+    },
+    {
+      "rank": 3,
+      "title": "Left at the Altar, Married Power",
+      "heat": "2.86M",
+      "tags": [
+        "Sweetness",
+        "Whirlwind Marriage",
+        "Romance",
+        "Billionaires",
+        "Counterattack"
+      ],
+      "metrics": {}
+    },
+    {
+      "rank": 4,
+      "title": "The King's Physician Bride",
+      "heat": "1.67M",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 5,
+      "title": "The Trophy Wife's War",
+      "heat": "1.25M",
+      "tags": [
+        "Seraphina Reed has spent three years as the silent, decorative wife of tech mogul Ethan Vance. That peace shatters when ",
+        "But she is no ordinary victim. Before marriage, she lived under many names, trained in survival and combat. She chose Et",
+        "Her only ally is Julian Thorne, the ruthless \"Devil’s Advocate\" divorce lawyer who never loses. Initially seeing her as "
+      ],
+      "metrics": {}
+    },
+    {
+      "rank": 6,
+      "title": "Reborn, I Choose The Other Groom",
+      "heat": "842k",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 7,
+      "title": "Secret Triplets: Second Chance With My Billionaire",
+      "heat": "580k",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 8,
+      "title": "Designing My New Life",
+      "heat": "565k",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 9,
+      "title": "Marrying The Merman King",
+      "heat": "547k",
+      "tags": [],
+      "metrics": {}
+    },
+    {
+      "rank": 10,
+      "title": "Weak Yesterday, Unstoppable Today",
+      "heat": "437k",
+      "tags": [],
+      "metrics": {}
+    }
+  ]
+}

@@ -1,37 +1,98 @@
 param(
-    [string]$BaseUrl = "https://short-drama-monitor.onrender.com",
+    [string]$BaseUrl = "http://127.0.0.1:4173",
     [string]$CollectionDate = (Get-Date -Format "yyyy-MM-dd"),
-    [string]$Root = "D:\ShortDramaCollector"
+    [string]$Root = "D:\ShortDramaCollector",
+    [string]$ManifestPath = "",
+    [int]$MaxCollectorAgeMinutes = 90,
+    [switch]$AllowProductionWrite
 )
 
 $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
+try {
+    $targetUri = [Uri]$BaseUrl
+}
+catch {
+    throw "SYNC_BASE_URL_INVALID: $BaseUrl"
+}
+if ($targetUri.Scheme -notin @("http","https")) {
+    throw "SYNC_BASE_URL_SCHEME_INVALID: $($targetUri.Scheme)"
+}
+$productionHosts = @("short-drama-monitor.onrender.com")
+if (($productionHosts -contains $targetUri.Host) -and -not $AllowProductionWrite.IsPresent) {
+    throw "PRODUCTION_WRITE_BLOCKED: pass -AllowProductionWrite explicitly to target $($targetUri.Host)"
+}
+
 function Get-CollectorJsonFiles {
     $dateDir = Join-Path $Root $CollectionDate
     if (-not (Test-Path $dateDir)) { throw "COLLECTOR_DATE_DIR_NOT_FOUND: $dateDir" }
+
+    if ($ManifestPath) {
+        if (-not (Test-Path $ManifestPath)) { throw "COLLECTOR_MANIFEST_NOT_FOUND: $ManifestPath" }
+        $manifest = Get-Content -Raw -Encoding UTF8 $ManifestPath | ConvertFrom-Json
+        if ([string]$manifest.date -ne $CollectionDate) {
+            throw "COLLECTOR_MANIFEST_DATE_MISMATCH: expected=$CollectionDate actual=$($manifest.date)"
+        }
+        $manifestFiles = @()
+        foreach ($item in @($manifest.succeeded)) {
+            $path = [string]$item.path
+            if (-not $path -or -not (Test-Path $path)) {
+                throw "COLLECTOR_MANIFEST_FILE_MISSING: $path"
+            }
+            $file = Get-Item -LiteralPath $path
+            $parsed = Get-Content -Raw -Encoding UTF8 $file.FullName | ConvertFrom-Json
+            if (-not $parsed.batch_complete) { throw "COLLECTOR_MANIFEST_INCOMPLETE: $path" }
+            if ([string]$parsed.collection_date -ne $CollectionDate) {
+                throw "COLLECTOR_FILE_DATE_MISMATCH: $path"
+            }
+            $manifestFiles += [PSCustomObject]@{
+                File = $file
+                Platform = [string]$parsed.platform
+                RowCount = [int]$parsed.rows.Count
+                TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                TargetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
+                LastWriteTime = $file.LastWriteTime
+            }
+        }
+        if ($manifestFiles.Count -eq 0) { throw "COLLECTOR_MANIFEST_HAS_NO_SUCCEEDED_FILES: $ManifestPath" }
+        $dupes = @($manifestFiles | Group-Object Platform, TargetKey | Where-Object { $_.Count -gt 1 })
+        if ($dupes.Count -gt 0) { throw "COLLECTOR_MANIFEST_DUPLICATE_TARGET" }
+        return @($manifestFiles | Sort-Object Platform, TargetKey)
+    }
+
+    if ($MaxCollectorAgeMinutes -lt 1 -or $MaxCollectorAgeMinutes -gt 1440) {
+        throw "COLLECTOR_MAX_AGE_INVALID: $MaxCollectorAgeMinutes"
+    }
+    $freshCutoff = (Get-Date).AddMinutes(-$MaxCollectorAgeMinutes)
 
     $allValid = @()
     Get-ChildItem -Path $dateDir -Directory | ForEach-Object {
         $platformDir = $_
         Get-ChildItem -Path $platformDir.FullName -Filter "*.json" -File | ForEach-Object {
-            try {
-                $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
-                if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
-                    $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
-                    $allValid += [PSCustomObject]@{
-                        File = $_
-                        Platform = [string]$parsed.platform
-                        RowCount = [int]$parsed.rows.Count
-                        TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
-                        TargetKey = $targetKey
-                        SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
-                        LastWriteTime = $_.LastWriteTime
+            if ($_.LastWriteTime -lt $freshCutoff) {
+                Write-Host ("Skip stale collector JSON (> " + $MaxCollectorAgeMinutes + " min): " + $_.FullName) -ForegroundColor DarkYellow
+            }
+            else {
+                try {
+                    $parsed = Get-Content -Raw -Encoding UTF8 $_.FullName | ConvertFrom-Json
+                    if ($parsed.platform -and $parsed.batch_complete -and $parsed.rows -and $parsed.rows.Count -gt 0) {
+                        $targetKey = if ($parsed.target_key) { [string]$parsed.target_key } else { "daily_top_all" }
+                        $allValid += [PSCustomObject]@{
+                            File = $_
+                            Platform = [string]$parsed.platform
+                            RowCount = [int]$parsed.rows.Count
+                            TopN = if ($parsed.top_n) { [int]$parsed.top_n } else { [int]$parsed.rows.Count }
+                            TargetKey = $targetKey
+                            SourceType = if ($parsed.source_type) { [string]$parsed.source_type } else { "SHORT_DRAMA_APP" }
+                            LastWriteTime = $_.LastWriteTime
+                        }
                     }
                 }
-            }
-            catch {
-                Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+                catch {
+                    Write-Host ("Skip invalid JSON: " + $_.FullName) -ForegroundColor DarkYellow
+                }
             }
         }
     }
@@ -108,6 +169,7 @@ try {
     Write-Host "Short Drama Collector -> Backend Sync V4 Multi-Platform Multi-Ranking" -ForegroundColor Cyan
     Write-Host "Date: $CollectionDate"
     Write-Host "Backend: $BaseUrl"
+    if ($ManifestPath) { Write-Host "Manifest-only sync: $ManifestPath" }
     Write-Host ""
 
     Write-Host "Step 1/3  Discovering complete collector JSON files..." -ForegroundColor Cyan

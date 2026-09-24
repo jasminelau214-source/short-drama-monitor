@@ -1,0 +1,157 @@
+{
+  "platform": "NetShort",
+  "source_type": "SHORT_DRAMA_APP",
+  "source_id": "shortapp_netshort",
+  "target_key": "daily_top_all",
+  "top_n": 10,
+  "category": "All",
+  "ranking_type": "Top Trending",
+  "collection_method": "APP_UI_XML",
+  "collector_version": "netshort-v6-integration",
+  "collection_date": "2026-09-17",
+  "collected_at": "2026-09-17T09:22:00",
+  "adb_serial": "127.0.0.1:5555",
+  "batch_complete": true,
+  "missing_ranks": [],
+  "duplicate_ranks": [],
+  "duplicate_titles": [],
+  "rank_conflicts": [],
+  "evidence": {
+    "originalSourceType": "SHORT_DRAMA_APP",
+    "semanticVerified": true,
+    "appFocusVerified": true,
+    "targetLabel": "Rankings > Top Trending",
+    "screenshot": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_fixture.png",
+    "ui_xml": "D:\\ShortDramaCollector\\2026-09-17\\NetShort\\netshort_top10_fixture.xml"
+  },
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Back to 95 - Her Big Comeback",
+      "heat": "128.6M",
+      "tags": [
+        "Time Travel",
+        "Second Chance",
+        "Underdog Rise"
+      ],
+      "metrics": {
+        "followers": "406.9K Followers"
+      }
+    },
+    {
+      "rank": 2,
+      "title": "I Spoke Baby Dragon and Won Everyone Over!",
+      "heat": "114.3M",
+      "tags": [
+        "Time Travel",
+        "Life OL",
+        "Wish-Fulfillment"
+      ],
+      "metrics": {
+        "followers": "789.2K Followers"
+      }
+    },
+    {
+      "rank": 3,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "heat": "110.3M",
+      "tags": [
+        "Female Empowerment",
+        "Karma Payback",
+        "Karma"
+      ],
+      "metrics": {
+        "followers": "3.4M Followers"
+      }
+    },
+    {
+      "rank": 4,
+      "title": "Double-marked: Luna's Revenge",
+      "heat": "108.2M",
+      "tags": [
+        "Contract Lovers",
+        "Karma Payback",
+        "Werewolf"
+      ],
+      "metrics": {
+        "followers": "243.2K Followers"
+      }
+    },
+    {
+      "rank": 5,
+      "title": "The Quarterback's Comeback",
+      "heat": "103.6M",
+      "tags": [
+        "Rebirth",
+        "Underdog Rise",
+        "Karma Payback"
+      ],
+      "metrics": {
+        "followers": "616.0K Followers"
+      }
+    },
+    {
+      "rank": 6,
+      "title": "The Dragon Tyrant's Secret Heir",
+      "heat": "86.2M",
+      "tags": [
+        "Runaway Pregnancy",
+        "Underdog Rise",
+        "Sweet Romance"
+      ],
+      "metrics": {
+        "followers": "1.2M Followers"
+      }
+    },
+    {
+      "rank": 7,
+      "title": "When Housewives Turn Deadly",
+      "heat": "68.8M",
+      "tags": [
+        "Mystery",
+        "Karma Payback",
+        "Revenge"
+      ],
+      "metrics": {
+        "followers": "2.2M Followers"
+      }
+    },
+    {
+      "rank": 8,
+      "title": "The Heiress's Revenge_Out of My Mansion",
+      "heat": "48.1M",
+      "tags": [
+        "Modern Romance",
+        "Rich Family Feud"
+      ],
+      "metrics": {
+        "followers": "499.2K Followers"
+      }
+    },
+    {
+      "rank": 9,
+      "title": "SSS-Rank: The Slum-Born Thunder God",
+      "heat": "46.9M",
+      "tags": [
+        "Return of the King",
+        "Feel-Good"
+      ],
+      "metrics": {
+        "followers": "1.7M Followers"
+      }
+    },
+    {
+      "rank": 10,
+      "title": "Broken Arm, Broken Bloodline",
+      "heat": "45.1M",
+      "tags": [
+        "Underdog Rise",
+        "All-Too-Late",
+        "Apocalypse"
+      ],
+      "metrics": {
+        "followers": "652.9K Followers"
+      }
+    }
+  ]
+}

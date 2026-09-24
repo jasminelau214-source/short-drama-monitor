@@ -1,0 +1,108 @@
+name: JSM Integration Contract Gate
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  INTEGRATION_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  contract-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: jsm_integration
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d jsm_integration"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: jsm_integration
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.INTEGRATION_HEAD_SHA }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Fetch pinned main baseline for promotion-surface audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_SHA=$(python -c "import json; print(json.load(open('production_candidate_manifest.json', encoding='utf-8'))['base']['sha'])")
+          git fetch --no-tags --depth=1 origin "$BASE_SHA"
+          git cat-file -e "$BASE_SHA^{commit}"
+          echo "PROMOTION_BASELINE_READY $BASE_SHA"
+
+      - name: Compile contract surface
+        run: python -m py_compile drama_identity.py collection_policy.py collector_import.py live_observations.py live_observations_v2.py app.py research_guard.py research_validation.py research_writeback.py research_pipeline.py research_worker.py source_evidence_guard.py source_semantics.py ranking_lifecycle.py state_semantics.py app_collector_evidence.py web_promotion_gate.py test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py test_app_collect_sync_contract.py test_app_device_acceptance_contract.py test_goodshort_fault_integration.py test_shortmax_fault_integration.py test_web_promotion_gate.py test_web_sync_contract.py test_official_web_collectors.py test_goodshort_collector.py test_dramabox_full_collector.py test_official_web_runner.py reelshort_collector.py test_reelshort_fault_integration.py moboreels_web_collector.py test_moboreels_web_fault_integration.py itemlist_platform_collectors.py test_itemlist_platform_fault_integration.py test_readiness_contract.py test_state_semantics.py test_production_candidate_manifest.py integration_render_smoke.py test_render_smoke_contract.py test_frontend_contract_rebase.py
+
+      - name: Validate PowerShell collector syntax
+        shell: pwsh
+        run: |
+          $files = @(
+            'windows/collectors/netshort_collector_v6.ps1',
+            'windows/collectors/moboreels_collector_v3.ps1',
+            'windows/collector_sync.ps1',
+            'windows/run_app_collect_and_sync.ps1',
+            'windows/run_app_device_acceptance.ps1',
+            'windows/run_web_collect_and_sync.ps1',
+            'windows/scheduled_web_collect.ps1'
+          )
+          foreach ($file in $files) {
+            $tokens = $null
+            $errors = $null
+            [void][System.Management.Automation.Language.Parser]::ParseFile(
+              $file,
+              [ref]$tokens,
+              [ref]$errors
+            )
+            if ($errors.Count -gt 0) {
+              $errors | ForEach-Object { Write-Error "$file :: $($_.Message)" }
+              exit 1
+            }
+            Write-Host "POWERSHELL_SYNTAX_PASS $file"
+          }
+
+      - name: Run Python Contract v1 tests
+        run: python -m unittest -v test_drama_identity_contract.py test_research_contracts.py test_fault_gate_incidents.py test_research_worker_guards.py test_ranking_lifecycle.py test_golden_real_app_e2e.py test_golden_publication_e2e.py test_golden_local_http_e2e.py test_app_collector_contract.py test_app_collector_output_boundary.py test_app_collect_sync_contract.py test_app_device_acceptance_contract.py test_web_promotion_gate.py test_web_sync_contract.py test_official_web_collectors.py test_goodshort_collector.py test_dramabox_full_collector.py test_official_web_runner.py test_goodshort_fault_integration.py test_shortmax_fault_integration.py test_reelshort_fault_integration.py test_moboreels_web_fault_integration.py test_itemlist_platform_fault_integration.py test_readiness_contract.py test_state_semantics.py test_production_candidate_manifest.py test_render_smoke_contract.py test_frontend_contract_rebase.py
+
+      - name: Ensure PostgreSQL client
+        run: |
+          if ! command -v psql >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+          fi
+          psql --version
+
+      - name: Prepare ephemeral Integration database
+        run: psql -v ON_ERROR_STOP=1 -f tests/sql/identity_contract_fixture.sql
+
+      - name: Apply Integration-only DB Identity migration
+        run: psql -v ON_ERROR_STOP=1 -f supabase/migrations/20260920_01_drama_identity_contract_v1.sql
+
+      - name: Run DB-side Drama Identity Contract v1 tests
+        run: psql -v ON_ERROR_STOP=1 -f tests/sql/test_drama_identity_contract.sql

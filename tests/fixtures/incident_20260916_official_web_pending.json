@@ -1,0 +1,87 @@
+{
+  "incident": "2026-09-16_OFFICIAL_WEB_research_queue_pollution",
+  "productionWrite": false,
+  "totalPendingTasks": 115,
+  "expectedBlockedBySourceGuard": 115,
+  "missingOriginRuns": 0,
+  "platforms": {
+    "DramaBox": 60,
+    "GoodShort": 10,
+    "NetShort": 10,
+    "ShortMax": 35
+  },
+  "originRuns": [
+    {
+      "id": "web-analysis-dramabox-web-trending-all-20260916",
+      "platform": "DramaBox",
+      "taskCount": 60,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_trending_all",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-goodshort-web-top-goodshort-pilot-20260916",
+      "platform": "GoodShort",
+      "taskCount": 10,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_top_goodshort_pilot",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-netshort-web-home-top10-pilot-20260916",
+      "platform": "NetShort",
+      "taskCount": 10,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_home_top10_pilot",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-shortmax-web-category-apocalypse-20260916",
+      "platform": "ShortMax",
+      "taskCount": 8,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_category_apocalypse",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-shortmax-web-category-dragon-clan-20260916",
+      "platform": "ShortMax",
+      "taskCount": 3,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_category_dragon_clan",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-shortmax-web-category-tycoon-life-20260916",
+      "platform": "ShortMax",
+      "taskCount": 8,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_category_tycoon_life",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-shortmax-web-category-war-god-20260916",
+      "platform": "ShortMax",
+      "taskCount": 8,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_category_war_god",
+      "batchComplete": true,
+      "status": "已分析"
+    },
+    {
+      "id": "web-analysis-shortmax-web-most-popular-all-20260916",
+      "platform": "ShortMax",
+      "taskCount": 8,
+      "sourceType": "OFFICIAL_WEB",
+      "targetKey": "web_most_popular_all",
+      "batchComplete": true,
+      "status": "已分析"
+    }
+  ]
+}

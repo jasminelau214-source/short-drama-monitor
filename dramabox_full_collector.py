@@ -85,12 +85,22 @@ def collect_dramabox_channel_all_pages(
     seen_titles = set()
     page_counts = []
     page_urls = []
+    page_fetch_evidence = []
     for page, payload in enumerate(page_payloads, start=1):
         rows = payload.get('rows') or []
         if not rows:
             raise OfficialWebCollectorError(f'DRAMABOX_EMPTY_PAGE: page={page}')
         page_counts.append(len(rows))
         page_urls.append(_page_url(channel, page))
+        evidence = payload.get('evidence') if isinstance(payload.get('evidence'), dict) else {}
+        if evidence.get('httpStatus') is not None or evidence.get('pageUrl') or evidence.get('fetchedAt'):
+            page_fetch_evidence.append({
+                'requestedUrl': evidence.get('requestedUrl') or _page_url(channel, page),
+                'httpStatus': evidence.get('httpStatus'),
+                'pageUrl': evidence.get('pageUrl'),
+                'fetchedAt': evidence.get('fetchedAt'),
+                'semanticVerified': evidence.get('semanticVerified') is True,
+            })
         for item in rows:
             source_url = str(item.get('source_url') or '').strip()
             title = str(item.get('title') or '').strip()
@@ -126,6 +136,7 @@ def collect_dramabox_channel_all_pages(
             'page_item_counts': page_counts,
             'row_count': len(combined_rows),
             'pagination_mode': 'path_page_number',
+            **({'pageFetchEvidence': page_fetch_evidence} if page_fetch_evidence else {}),
         },
     })
     return result

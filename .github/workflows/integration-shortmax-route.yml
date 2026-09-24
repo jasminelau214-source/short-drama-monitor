@@ -1,0 +1,60 @@
+name: JSM Integration ShortMax Route Audit
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - 'integration_shortmax_route_audit.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - '.github/workflows/integration-shortmax-route.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install browser audit runtime
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      - name: Compile route audit
+        run: python -m py_compile integration_shortmax_route_audit.py
+
+      - name: Compare SSR and rendered-browser Top10 routes
+        run: |
+          mkdir -p readiness_audit/integration_shortmax_route
+          python integration_shortmax_route_audit.py \
+            --date "$(date -u +%F)" \
+            --output readiness_audit/integration_shortmax_route/route_audit.json
+
+      - name: Publish route result
+        if: always()
+        run: |
+          echo "## ShortMax SSR vs Browser Route Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/integration_shortmax_route/route_audit.json ]; then
+            cat readiness_audit/integration_shortmax_route/route_audit.json >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload route evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-shortmax-route-${{ github.run_id }}
+          path: readiness_audit/integration_shortmax_route/
+          if-no-files-found: warn
+          retention-days: 30

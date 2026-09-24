@@ -1,0 +1,61 @@
+name: JSM Integration ItemList Platform Fault Audit
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - 'itemlist_platform_collectors.py'
+      - 'test_itemlist_platform_fault_integration.py'
+      - 'integration_itemlist_platform_fault_audit.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-itemlist-platform-fault.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Compile shared ItemList collector and audits
+        run: python -m py_compile itemlist_platform_collectors.py integration_itemlist_platform_fault_audit.py test_itemlist_platform_fault_integration.py
+
+      - name: Run deterministic ItemList platform fault tests
+        run: python -m unittest -v test_itemlist_platform_fault_integration.py
+
+      - name: Run live read-only NetShort + FlexTV fault audit
+        run: |
+          mkdir -p readiness_audit/integration_itemlist
+          python integration_itemlist_platform_fault_audit.py \
+            --date "$(date -u +%F)" \
+            --output readiness_audit/integration_itemlist/fault_audit.json
+
+      - name: Publish audit result separately from execution
+        if: always()
+        run: |
+          echo "## NetShort + FlexTV Integration Fault Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/integration_itemlist/fault_audit.md ]; then
+            cat readiness_audit/integration_itemlist/fault_audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload ItemList fault evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-itemlist-fault-${{ github.run_id }}
+          path: readiness_audit/integration_itemlist/
+          if-no-files-found: warn
+          retention-days: 30

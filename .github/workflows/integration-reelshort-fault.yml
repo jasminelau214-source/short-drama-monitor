@@ -1,0 +1,61 @@
+name: JSM Integration ReelShort Fault Audit
+
+on:
+  push:
+    branches:
+      - integration/core-contract-v1-2026-09-20
+    paths:
+      - 'integration_reelshort_fault_audit.py'
+      - 'test_reelshort_fault_integration.py'
+      - 'reelshort_collector.py'
+      - 'official_web_collectors.py'
+      - 'collector_import.py'
+      - 'source_evidence_guard.py'
+      - 'web_promotion_gate.py'
+      - '.github/workflows/integration-reelshort-fault.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Compile ReelShort fault surface
+        run: python -m py_compile reelshort_collector.py integration_reelshort_fault_audit.py test_reelshort_fault_integration.py
+
+      - name: Run deterministic ReelShort platform fault tests
+        run: python -m unittest -v test_reelshort_fault_integration.py
+
+      - name: Run live read-only ReelShort fault audit
+        run: |
+          mkdir -p readiness_audit/integration_reelshort
+          python integration_reelshort_fault_audit.py \
+            --date "$(date -u +%F)" \
+            --output readiness_audit/integration_reelshort/fault_audit.json
+
+      - name: Publish audit result separately from execution
+        if: always()
+        run: |
+          echo "## ReelShort Integration Fault Audit" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f readiness_audit/integration_reelshort/fault_audit.md ]; then
+            cat readiness_audit/integration_reelshort/fault_audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload ReelShort fault evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: integration-reelshort-fault-${{ github.run_id }}
+          path: readiness_audit/integration_reelshort/
+          if-no-files-found: warn
+          retention-days: 30

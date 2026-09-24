@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timezone
 
 from collector_import import CollectorImportError, validate_and_normalize
 
@@ -25,11 +26,19 @@ def make_payload(platform='NetShort', top_n=10):
         'target_key': 'daily_top_all',
         'ranking_type': 'Top Trending' if platform == 'NetShort' else 'Trending Series',
         'collection_method': 'APP_UI_XML',
+        'collector_version': 'test-fixture-v1',
         'collection_date': '2026-09-15',
+        'collected_at': '2026-09-15T09:00:00',
         'top_n': top_n,
         'batch_complete': True,
+        'rank_conflicts': [],
         'rows': rows,
-        'evidence': {'ui_xml': r'D:\\example.xml'},
+        'evidence': {
+            'originalSourceType': 'SHORT_DRAMA_APP',
+            'semanticVerified': True,
+            'appFocusVerified': True,
+            'ui_xml': r'D:\\example.xml',
+        },
     }
 
 
@@ -96,6 +105,13 @@ class CollectorImportTests(unittest.TestCase):
             'target_key': 'web_top_all',
             'collection_method': 'WEB_SCRAPE',
             'locale': 'en-US',
+            'evidence': {
+                'requestedUrl': 'https://reelshort.com/rankings',
+                'httpStatus': 200,
+                'pageUrl': 'https://reelshort.com/rankings',
+                'semanticVerified': True,
+                'fetchedAt': datetime.now(timezone.utc).isoformat(),
+            },
         })
         payload['rows'][0]['source_url'] = 'https://example.com/drama/title-1'
         payload['rows'][0]['episode_url'] = 'https://example.com/episode/title-1-1'
