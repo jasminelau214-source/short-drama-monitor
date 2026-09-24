@@ -14,6 +14,7 @@ class ScheduledWebSyncContractTests(unittest.TestCase):
         cls.collect_and_sync = (WINDOWS / 'run_web_collect_and_sync.ps1').read_text(encoding='utf-8')
         cls.sync = (WINDOWS / 'collector_sync.ps1').read_text(encoding='utf-8')
         cls.scheduled = (WINDOWS / 'scheduled_web_collect.ps1').read_text(encoding='utf-8')
+        cls.installer = (WINDOWS / 'install_web_collect_task.ps1').read_text(encoding='utf-8')
         cls.runner = (ROOT / 'run_official_web_collect.py').read_text(encoding='utf-8')
 
     def test_collection_emits_exact_run_manifest(self):
@@ -48,6 +49,18 @@ class ScheduledWebSyncContractTests(unittest.TestCase):
         self.assertIn('exit 2', self.collect_and_sync)
         self.assertIn('PARTIAL:', self.scheduled)
         self.assertIn('SCHEDULED_COLLECTION_EXHAUSTED', self.scheduled)
+
+    def test_collect_only_mode_skips_backend_login_and_sync(self):
+        for script in (self.collect_and_sync, self.scheduled, self.installer):
+            self.assertIn('[switch]$CollectOnly', script)
+        self.assertIn('if ($CollectOnly.IsPresent)', self.collect_and_sync)
+        self.assertIn('no backend sync was attempted', self.collect_and_sync)
+        self.assertIn('if (-not $CollectOnly.IsPresent)', self.scheduled)
+        self.assertIn('-CollectOnly', self.scheduled)
+        self.assertIn('backend sync was skipped', self.scheduled)
+        self.assertIn('$savedErrorActionPreference', self.scheduled)
+        self.assertIn('PARTIAL_EXHAUSTED', self.scheduled)
+        self.assertIn('if (-not $CollectOnly.IsPresent)', self.installer)
 
 
 if __name__ == '__main__':

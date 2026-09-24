@@ -3,6 +3,7 @@ param(
     [string]$Root = "D:\ShortDramaCollector",
     [string]$PythonCommand = "python",
     [string]$BaseUrl = "http://127.0.0.1:4173",
+    [switch]$CollectOnly,
     [switch]$AllowProductionWrite
 )
 
@@ -16,7 +17,12 @@ try {
     if (-not (Test-Path $collector)) { throw "WEB_COLLECTOR_NOT_FOUND: $collector" }
     if (-not (Test-Path $sync)) { throw "SYNC_SCRIPT_NOT_FOUND: $sync" }
 
-    Write-Host "Short Drama Official Web -> Collect + Sync" -ForegroundColor Cyan
+    if ($CollectOnly.IsPresent) {
+        Write-Host "Short Drama Official Web -> Collect Only" -ForegroundColor Cyan
+    }
+    else {
+        Write-Host "Short Drama Official Web -> Collect + Sync" -ForegroundColor Cyan
+    }
     Write-Host "Date: $CollectionDate"
     Write-Host "Root: $Root"
     Write-Host ""
@@ -29,7 +35,17 @@ try {
     & $PythonCommand $collector --date $CollectionDate --root $Root --manifest $manifestPath
     $collectExit = $LASTEXITCODE
     if ($collectExit -ne 0) {
-        Write-Host "One or more web targets failed collection. Complete targets will still be synced." -ForegroundColor Yellow
+        Write-Host "One or more web targets failed collection." -ForegroundColor Yellow
+    }
+
+    if ($CollectOnly.IsPresent) {
+        Write-Host ""
+        if ($collectExit -eq 0) {
+            Write-Host "COLLECT-ONLY COMPLETE: no backend sync was attempted." -ForegroundColor Green
+            exit 0
+        }
+        Write-Host "COLLECT-ONLY COMPLETE WITH FAILURES: no backend sync was attempted." -ForegroundColor Yellow
+        exit 2
     }
 
     Write-Host ""

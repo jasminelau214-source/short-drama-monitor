@@ -2,7 +2,8 @@ param(
     [string]$TaskName = "ShortDramaMonitor-WebCollect",
     [string]$DailyTime = "17:30",
     [string]$Root = "D:\ShortDramaCollector",
-    [string]$PythonCommand = "python"
+    [string]$PythonCommand = "python",
+    [switch]$CollectOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -23,17 +24,20 @@ try {
     New-Item -ItemType Directory -Path $Root -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $Root "logs") -Force | Out-Null
 
-    $credentialDir = Join-Path $env:LOCALAPPDATA "ShortDramaMonitor"
-    New-Item -ItemType Directory -Path $credentialDir -Force | Out-Null
-    $passwordFile = Join-Path $credentialDir "admin_password.txt"
+    if (-not $CollectOnly.IsPresent) {
+        $credentialDir = Join-Path $env:LOCALAPPDATA "ShortDramaMonitor"
+        New-Item -ItemType Directory -Path $credentialDir -Force | Out-Null
+        $passwordFile = Join-Path $credentialDir "admin_password.txt"
 
-    Write-Host "Configure unattended backend login." -ForegroundColor Cyan
-    Write-Host "The password is encrypted with Windows DPAPI and can only be decrypted by this Windows user." -ForegroundColor DarkGray
-    $securePassword = Read-Host "Backend admin password" -AsSecureString
-    if (-not $securePassword -or $securePassword.Length -eq 0) { throw "ADMIN_PASSWORD_EMPTY" }
-    $securePassword | ConvertFrom-SecureString | Set-Content -Encoding UTF8 $passwordFile
+        Write-Host "Configure unattended backend login." -ForegroundColor Cyan
+        Write-Host "The password is encrypted with Windows DPAPI and can only be decrypted by this Windows user." -ForegroundColor DarkGray
+        $securePassword = Read-Host "Backend admin password" -AsSecureString
+        if (-not $securePassword -or $securePassword.Length -eq 0) { throw "ADMIN_PASSWORD_EMPTY" }
+        $securePassword | ConvertFrom-SecureString | Set-Content -Encoding UTF8 $passwordFile
+    }
 
     $actionArgs = '-NoProfile -ExecutionPolicy Bypass -File "{0}" -Root "{1}" -PythonCommand "{2}"' -f $runner, $Root, $PythonCommand
+    if ($CollectOnly.IsPresent) { $actionArgs += ' -CollectOnly' }
     $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument $actionArgs
     $trigger = New-ScheduledTaskTrigger -Daily -At $taskTime
     $settings = New-ScheduledTaskSettingsSet `
@@ -45,6 +49,12 @@ try {
 
     $userId = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
     $principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel Limited
+    $description = if ($CollectOnly.IsPresent) {
+        "Collect and audit official-web rankings without backend sync."
+    }
+    else {
+        "Collect official-web rankings, audit them, and sync complete targets to the monitor."
+    }
 
     Register-ScheduledTask `
         -TaskName $TaskName `
@@ -52,7 +62,7 @@ try {
         -Trigger $trigger `
         -Settings $settings `
         -Principal $principal `
-        -Description "Collect official-web short-drama rankings, audit them, and sync complete targets to the monitor." `
+        -Description $description `
         -Force | Out-Null
 
     Write-Host ""
@@ -61,6 +71,7 @@ try {
     Write-Host ("Daily time: " + $DailyTime)
     Write-Host ("Data root: " + $Root)
     Write-Host ("Logs: " + (Join-Path $Root "logs"))
+    Write-Host ("Mode: " + $(if ($CollectOnly.IsPresent) { "COLLECT_ONLY" } else { "COLLECT_AND_SYNC" }))
     Write-Host ""
     Write-Host "The task runs under the current Windows user while that user is logged in." -ForegroundColor Yellow
     Write-Host "To test immediately: Start-ScheduledTask -TaskName '$TaskName'" -ForegroundColor Cyan

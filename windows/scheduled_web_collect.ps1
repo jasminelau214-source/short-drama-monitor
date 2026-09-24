@@ -3,6 +3,7 @@ param(
     [string]$Root = "D:\ShortDramaCollector",
     [string]$PythonCommand = "python",
     [string]$BaseUrl = "http://127.0.0.1:4173",
+    [switch]$CollectOnly,
     [switch]$AllowProductionWrite,
     [int]$MaxAttempts = 3,
     [int]$RetryDelaySeconds = 300
@@ -63,39 +64,68 @@ try {
     $runner = Join-Path $PSScriptRoot "run_web_collect_and_sync.ps1"
     if (-not (Test-Path $runner)) { throw "RUNNER_NOT_FOUND: $runner" }
 
-    $plainPassword = Load-AdminPassword
-    $env:SHORT_DRAMA_ADMIN_PASSWORD = $plainPassword
-    $plainPassword = $null
+    if (-not $CollectOnly.IsPresent) {
+        $plainPassword = Load-AdminPassword
+        $env:SHORT_DRAMA_ADMIN_PASSWORD = $plainPassword
+        $plainPassword = $null
+    }
 
-    Write-RunLog "Scheduled collection started. date=$CollectionDate root=$Root maxAttempts=$MaxAttempts"
+    $runMode = if ($CollectOnly.IsPresent) { "COLLECT_ONLY" } else { "COLLECT_AND_SYNC" }
+    Write-RunLog "Scheduled collection started. mode=$runMode date=$CollectionDate root=$Root maxAttempts=$MaxAttempts"
 
     $lastExit = 1
     for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
         Write-RunLog "Attempt $attempt/$MaxAttempts started."
-        if ($AllowProductionWrite.IsPresent) {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
-                -CollectionDate $CollectionDate `
-                -Root $Root `
-                -PythonCommand $PythonCommand `
-                -BaseUrl $BaseUrl `
-                -AllowProductionWrite 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+        $savedErrorActionPreference = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        try {
+            if ($CollectOnly.IsPresent) {
+                & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
+                    -CollectionDate $CollectionDate `
+                    -Root $Root `
+                    -PythonCommand $PythonCommand `
+                    -BaseUrl $BaseUrl `
+                    -CollectOnly 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+            }
+            elseif ($AllowProductionWrite.IsPresent) {
+                & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
+                    -CollectionDate $CollectionDate `
+                    -Root $Root `
+                    -PythonCommand $PythonCommand `
+                    -BaseUrl $BaseUrl `
+                    -AllowProductionWrite 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+            }
+            else {
+                & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
+                    -CollectionDate $CollectionDate `
+                    -Root $Root `
+                    -PythonCommand $PythonCommand `
+                    -BaseUrl $BaseUrl 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+            }
+            $attemptExit = $LASTEXITCODE
         }
-        else {
-            & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $runner `
-                -CollectionDate $CollectionDate `
-                -Root $Root `
-                -PythonCommand $PythonCommand `
-                -BaseUrl $BaseUrl 2>&1 | ForEach-Object { Write-RunLog ([string]$_) }
+        finally {
+            $ErrorActionPreference = $savedErrorActionPreference
         }
-        $lastExit = $LASTEXITCODE
+        $lastExit = $attemptExit
 
         if ($lastExit -eq 0) {
-            Write-RunLog "SUCCESS: all configured targets collected and synced."
+            if ($CollectOnly.IsPresent) {
+                Write-RunLog "SUCCESS: all configured targets collected; backend sync was skipped."
+            }
+            else {
+                Write-RunLog "SUCCESS: all configured targets collected and synced."
+            }
             exit 0
         }
 
         if ($lastExit -eq 2) {
-            Write-RunLog "PARTIAL: successful targets were synced; failed web targets remain for retry."
+            if ($CollectOnly.IsPresent) {
+                Write-RunLog "PARTIAL: successful targets were preserved; failed web targets remain for retry."
+            }
+            else {
+                Write-RunLog "PARTIAL: successful targets were synced; failed web targets remain for retry."
+            }
         }
         else {
             Write-RunLog "FAILURE: runner exit=$lastExit"
@@ -107,6 +137,10 @@ try {
         }
     }
 
+    if ($lastExit -eq 2) {
+        Write-RunLog "PARTIAL_EXHAUSTED: one or more targets failed after $MaxAttempts attempts."
+        exit 2
+    }
     throw "SCHEDULED_COLLECTION_EXHAUSTED: finalExit=$lastExit attempts=$MaxAttempts"
 }
 catch {
