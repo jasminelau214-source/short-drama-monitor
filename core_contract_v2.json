@@ -1,0 +1,136 @@
+{
+  "contractVersion": "2.0",
+  "status": "LOCKED_NOT_IMPLEMENTED",
+  "lockedAt": "2026-10-08",
+  "baseMainSha": "a206bc9c21138a9559aecf5a7a34069167268cfc",
+  "sourceSemantics": {
+    "productionPrimary": "OFFICIAL_WEB",
+    "appRole": "VALIDATION_EVIDENCE",
+    "verifiedSourceFirstSeenTriggersResearch": true,
+    "activeOfficialWebPlatforms": [
+      "DramaBox",
+      "FlexTV",
+      "GoodShort",
+      "MoboReels",
+      "NetShort",
+      "ReelShort"
+    ],
+    "pausedPlatforms": {
+      "DramaWave": "PRIMARY_RANKING_NOT_STABLY_VERIFIED",
+      "ShortMax": "PRIMARY_RANKING_CONTRACT_UNRESOLVED"
+    },
+    "collectionProfile": {
+      "language": "English",
+      "locale": "en-US",
+      "region": "US",
+      "regionRule": "US_WHEN_FILTER_AVAILABLE"
+    }
+  },
+  "identityAndNewness": {
+    "identityKey": "canonical_drama_identity",
+    "firstSeenTrigger": "first_seen_any_verified_source",
+    "researchSubjectScope": "GLOBAL_CANONICAL_DRAMA",
+    "dedupeAcrossPlatformsAndSources": true,
+    "preservePerSourceObservations": true,
+    "publicationIdentitySeparateFromContentIdentity": true
+  },
+  "platformFailureIsolation": {
+    "independentPlatformCommit": true,
+    "successfulPlatformsProceedImmediately": true,
+    "failedPlatformCurrentDateState": "MISSING_OR_FAILED",
+    "copyPriorDayIntoCurrentDate": false,
+    "priorAuthoritativeRunMayRemainDisplayable": true,
+    "staleDisplayRequiresActualSourceDate": true,
+    "crossPlatformCompositeMustExposeCoverage": true
+  },
+  "researchEligibility": {
+    "enqueueIsCandidateOnly": true,
+    "workerMustRevalidateBeforeExternalSpend": true,
+    "authoritativeObservationRequired": true,
+    "globalResearchReuseAllowed": true,
+    "platformWritebackReuseDoesNotPermitCrossPlatformRecordFallback": true
+  },
+  "researchComplete": {
+    "deterministicSchemaValidationRequired": true,
+    "coreFieldsRequired": true,
+    "evidenceUrlRequired": true,
+    "minimumConfidence": "medium",
+    "unresolvedIdentityOrSourceConflictBlocksComplete": true,
+    "optionalOpeningPaywallFieldsMayBeMissingIfDeclared": true
+  },
+  "writeback": {
+    "samePlatformRecordRequired": true,
+    "canonicalIdentityMatchRequired": true,
+    "completeRequired": true,
+    "finalDeterministicValidationRequired": true,
+    "crossPlatformFallbackForbidden": true
+  },
+  "authoritativeRun": {
+    "scope": [
+      "collection_date",
+      "platform",
+      "source_type",
+      "target_key"
+    ],
+    "latestCompleteStructuralRunWins": true,
+    "incompleteOrFailedRunCannotOverride": true,
+    "supersededTitleCannotExecuteOldResearchTask": true
+  },
+  "batchValidity": {
+    "batchCompleteRequired": true,
+    "rowCountEqualsTopN": true,
+    "rankSetExactlyOneToTopN": true,
+    "duplicateRankForbidden": true,
+    "duplicateTitleForbidden": true,
+    "identityMustResolve": true,
+    "sourceAndRankingSemanticsMustMatchEvidence": true,
+    "partialFailsClosed": true
+  },
+  "researchBudget": {
+    "mode": "FREE_ONLY",
+    "paidBudgetUsd": 0,
+    "automaticPaidFallback": false,
+    "maxQueuedResearchTasks": null,
+    "defaultConcurrency": 2,
+    "throttleConcurrencyFloor": 1,
+    "technicalRetriesAfterInitialAttempt": 2,
+    "maxProviderAttemptsPerStage": 3,
+    "wholeTaskMechanicalRetryForbiddenAfterProviderSpend": true,
+    "maxExternalSearchRoundsPerDrama": 3,
+    "taskTimeoutSeconds": 300,
+    "quotaExhaustedStatus": "DEFERRED_FREE_QUOTA",
+    "quotaExhaustionIsFailure": false,
+    "providerMustBeVerifiedFreeAtRuntime": true
+  },
+  "stabilityAndPromotion": {
+    "preProductionFormalWindows": 3,
+    "postProductionObservationDays": 7,
+    "stabilityObservationBlocksDailyProcessing": false,
+    "requiredGates": [
+      "execution",
+      "structure",
+      "truth",
+      "semantic",
+      "fault",
+      "identity",
+      "stability",
+      "path_optimization",
+      "e2e",
+      "integration"
+    ],
+    "ciGreenAloneIsProductionReady": false
+  },
+  "stateSemantics": {
+    "collectionAnalysisResearchStatesRemainIndependent": true,
+    "successPropagationForbidden": true,
+    "newResearchDeferredState": "DEFERRED_FREE_QUOTA"
+  },
+  "productionSafety": {
+    "wholeLegacyBranchMergeForbidden": true,
+    "productionWriteAuthorized": false,
+    "productionDbMigrationAuthorized": false,
+    "renderProductionChangeAuthorized": false,
+    "schedulerProductionChangeAuthorized": false,
+    "researchQueueRestartAuthorized": false
+  }
+}

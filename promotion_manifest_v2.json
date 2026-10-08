@@ -1,0 +1,89 @@
+{
+  "manifestVersion": 2,
+  "stage": "STEP_A_CONTRACT_SCAFFOLD",
+  "generatedAt": "2026-10-08",
+  "base": {
+    "branch": "main",
+    "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
+  },
+  "integration": {
+    "branch": "integration/core-contract-v2-2026-10-08",
+    "wholeBranchPromotionAllowed": false
+  },
+  "legacyEvidence": {
+    "integration/core-contract-v1-2026-09-20": {
+      "role": "EVIDENCE_AND_CANDIDATE_PATCH_SOURCE_ONLY",
+      "wholeBranchMergeAllowed": false
+    },
+    "pilot/audit/shadow branches": {
+      "role": "EVIDENCE_AND_CANDIDATE_PATCH_SOURCE_ONLY",
+      "wholeBranchMergeAllowed": false
+    }
+  },
+  "authorization": {
+    "mainWriteAuthorized": false,
+    "productionWriteAuthorized": false,
+    "productionDbMigrationAuthorized": false,
+    "productionRlsChangeAuthorized": false,
+    "productionRenderChangeAuthorized": false,
+    "productionSchedulerChangeAuthorized": false,
+    "productionResearchQueueChangeAuthorized": false
+  },
+  "stepA": {
+    "allowedPaths": [
+      "core_contract_v2.json",
+      "docs/CORE_CONTRACT_V2.md",
+      "promotion_manifest_v2.json",
+      "test_core_contract_v2.py"
+    ],
+    "runtimeCodeChangeAllowed": false,
+    "schemaChangeAllowed": false,
+    "schedulerChangeAllowed": false,
+    "deploymentChangeAllowed": false
+  },
+  "futurePromotionUnits": [
+    {
+      "name": "identity-runtime",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "source-newness-runtime",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "research-runtime",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "collector-runtime",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "persistence-migration",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "scheduler-runtime",
+      "status": "NOT_STARTED"
+    },
+    {
+      "name": "api-frontend-runtime",
+      "status": "NOT_STARTED"
+    }
+  ],
+  "promotionGate": {
+    "required": [
+      "execution",
+      "structure",
+      "truth",
+      "semantic",
+      "fault",
+      "identity",
+      "stability",
+      "path_optimization",
+      "e2e",
+      "integration"
+    ],
+    "currentStatus": "BLOCK_PROMOTION"
+  }
+}
