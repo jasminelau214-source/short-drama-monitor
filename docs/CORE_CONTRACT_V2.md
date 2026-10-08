@@ -1,7 +1,9 @@
 # JSM Core Contract V2
 
-**状态：LOCKED_NOT_IMPLEMENTED**  
-**锁定日期：2026-10-08**  
+**状态：LOCKED_NOT_IMPLEMENTED**
+
+**锁定日期：2026-10-08**
+
 **基线 main：`a206bc9c21138a9559aecf5a7a34069167268cfc`**
 
 本文件是 V2 Integration 的业务合同，不表示实现已完成，更不表示可以晋升生产。V2 与旧 Core Contract v1 的关键冲突是 **Source Semantics / Newness / Research Eligibility**：旧 v1 仅允许 App 权威榜自动触发深研；V2 改为 **任一已验证来源第一次发现 canonical drama 即可触发一次全局深研**。因此不得把 v1 分支整分支合入 V2。
