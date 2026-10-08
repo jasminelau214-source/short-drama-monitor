@@ -3,9 +3,24 @@
   "status": "LOCKED_NOT_IMPLEMENTED",
   "lockedAt": "2026-10-08",
   "baseMainSha": "a206bc9c21138a9559aecf5a7a34069167268cfc",
+  "activation": {
+    "scope": "INTEGRATION_CONTRACT_ONLY",
+    "currentBaselineRemainsProductionAuthority": true,
+    "runtimeImplemented": false,
+    "productionPromotionRequiresSeparateApproval": true
+  },
+  "scheduleContract": {
+    "timezone": "Asia/Shanghai",
+    "collectAt": "16:00",
+    "checkAt": "16:25",
+    "notifyOnlyOnException": true,
+    "schedulerInstallationAuthorized": false
+  },
   "sourceSemantics": {
     "productionPrimary": "OFFICIAL_WEB",
     "appRole": "VALIDATION_EVIDENCE",
+    "unregisteredOrUnverifiedSourceFailsClosed": true,
+    "additionalPlatformsRequireContractChange": true,
     "verifiedSourceFirstSeenTriggersResearch": true,
     "activeOfficialWebPlatforms": [
       "DramaBox",
@@ -32,7 +47,12 @@
     "researchSubjectScope": "GLOBAL_CANONICAL_DRAMA",
     "dedupeAcrossPlatformsAndSources": true,
     "preservePerSourceObservations": true,
-    "publicationIdentitySeparateFromContentIdentity": true
+    "publicationIdentitySeparateFromContentIdentity": true,
+    "titleMatchAloneProvesContentIdentity": false,
+    "dubLabelsOnlyRemovedWhenAnchoredAndProven": true,
+    "unresolvedIdentityStatus": "REVIEW_REQUIRED",
+    "concurrentFirstSeenRequiresAtomicUniqueness": true,
+    "researchRefreshRequiresExplicitVersionedAuthorization": true
   },
   "platformFailureIsolation": {
     "independentPlatformCommit": true,
@@ -48,7 +68,9 @@
     "workerMustRevalidateBeforeExternalSpend": true,
     "authoritativeObservationRequired": true,
     "globalResearchReuseAllowed": true,
-    "platformWritebackReuseDoesNotPermitCrossPlatformRecordFallback": true
+    "platformWritebackReuseDoesNotPermitCrossPlatformRecordFallback": true,
+    "legacy115PendingMayAutoExecute": false,
+    "deferredResumeMustRevalidateEligibility": true
   },
   "researchComplete": {
     "deterministicSchemaValidationRequired": true,
@@ -56,14 +78,40 @@
     "evidenceUrlRequired": true,
     "minimumConfidence": "medium",
     "unresolvedIdentityOrSourceConflictBlocksComplete": true,
-    "optionalOpeningPaywallFieldsMayBeMissingIfDeclared": true
+    "optionalOpeningPaywallFieldsMayBeMissingIfDeclared": true,
+    "coreFields": [
+      "synopsis",
+      "genre",
+      "lane",
+      "audience",
+      "storyCore",
+      "storySkin",
+      "conflict",
+      "payoff",
+      "localizationLevel",
+      "localizationJudgment",
+      "mismatch"
+    ],
+    "optionalFields": [
+      "openingSummary",
+      "openingType",
+      "payEpisode",
+      "paywallSummary",
+      "paywallType"
+    ],
+    "placeholderTextCountsAsReliableContent": false,
+    "evidenceMustSupportResolvedIdentity": true,
+    "insufficientEvidenceStatus": "NEEDS_GPT",
+    "identityOrSourceConflictStatus": "REVIEW_REQUIRED"
   },
   "writeback": {
     "samePlatformRecordRequired": true,
     "canonicalIdentityMatchRequired": true,
     "completeRequired": true,
     "finalDeterministicValidationRequired": true,
-    "crossPlatformFallbackForbidden": true
+    "crossPlatformFallbackForbidden": true,
+    "authoritativeRunRecheckAtWriteRequired": true,
+    "idempotentConditionalWriteRequired": true
   },
   "authoritativeRun": {
     "scope": [
@@ -77,6 +125,7 @@
     "supersededTitleCannotExecuteOldResearchTask": true
   },
   "batchValidity": {
+    "topN": 10,
     "batchCompleteRequired": true,
     "rowCountEqualsTopN": true,
     "rankSetExactlyOneToTopN": true,
@@ -94,13 +143,27 @@
     "defaultConcurrency": 2,
     "throttleConcurrencyFloor": 1,
     "technicalRetriesAfterInitialAttempt": 2,
-    "maxProviderAttemptsPerStage": 3,
     "wholeTaskMechanicalRetryForbiddenAfterProviderSpend": true,
     "maxExternalSearchRoundsPerDrama": 3,
     "taskTimeoutSeconds": 300,
     "quotaExhaustedStatus": "DEFERRED_FREE_QUOTA",
     "quotaExhaustionIsFailure": false,
-    "providerMustBeVerifiedFreeAtRuntime": true
+    "providerMustBeVerifiedFreeAtRuntime": true,
+    "retryAuthority": "PER_EXTERNAL_API_CALL",
+    "maxAttemptsPerExternalApiCall": 3,
+    "nestedRetriesForbidden": true,
+    "businessErrorMechanicalRetryForbidden": true,
+    "backoffRequired": true,
+    "quotaResumeFromCheckpoint": true,
+    "quotaWaitConsumesActiveTimeout": false,
+    "resumeResetsConsumedActiveTimeout": false,
+    "providerVerificationUnknownFailsClosed": true,
+    "stages": [
+      "SEARCH",
+      "ANALYZE",
+      "VALIDATE",
+      "WRITEBACK"
+    ]
   },
   "stabilityAndPromotion": {
     "preProductionFormalWindows": 3,
@@ -118,12 +181,39 @@
       "e2e",
       "integration"
     ],
-    "ciGreenAloneIsProductionReady": false
+    "ciGreenAloneIsProductionReady": false,
+    "nonPassGateBlocksPromotion": true,
+    "exactHeadEvidenceRequired": true
   },
   "stateSemantics": {
     "collectionAnalysisResearchStatesRemainIndependent": true,
     "successPropagationForbidden": true,
-    "newResearchDeferredState": "DEFERRED_FREE_QUOTA"
+    "newResearchDeferredState": "DEFERRED_FREE_QUOTA",
+    "researchTransitions": {
+      "PENDING": {
+        "RESEARCHING": "ELIGIBILITY_AND_FREE_PROVIDER_VERIFIED",
+        "DEFERRED_FREE_QUOTA": "FREE_QUOTA_UNAVAILABLE",
+        "REVIEW_REQUIRED": "IDENTITY_SOURCE_OR_AUTHORITY_CONFLICT"
+      },
+      "RESEARCHING": {
+        "COMPLETE": "ALL_COMPLETE_GATES_PASS",
+        "DEFERRED_FREE_QUOTA": "FREE_QUOTA_UNAVAILABLE",
+        "NEEDS_GPT": "INSUFFICIENT_EVIDENCE",
+        "REVIEW_REQUIRED": "IDENTITY_SOURCE_SCHEMA_OR_AUTHORITY_CONFLICT",
+        "FAILED": "TECHNICAL_ATTEMPTS_OR_ACTIVE_TIMEOUT_EXHAUSTED"
+      },
+      "DEFERRED_FREE_QUOTA": {
+        "RESEARCHING": "QUOTA_RESTORED_AND_ELIGIBILITY_REVALIDATED_AT_CHECKPOINT",
+        "REVIEW_REQUIRED": "IDENTITY_SOURCE_OR_AUTHORITY_CONFLICT"
+      },
+      "COMPLETE": {},
+      "NEEDS_GPT": {},
+      "REVIEW_REQUIRED": {},
+      "FAILED": {}
+    },
+    "terminalStateReentryRequiresExplicitDecision": true,
+    "collectionSuccessDoesNotImplyResearchComplete": true,
+    "researchCompleteDoesNotImplyPublished": true
   },
   "productionSafety": {
     "wholeLegacyBranchMergeForbidden": true,
@@ -131,6 +221,9 @@
     "productionDbMigrationAuthorized": false,
     "renderProductionChangeAuthorized": false,
     "schedulerProductionChangeAuthorized": false,
-    "researchQueueRestartAuthorized": false
+    "researchQueueRestartAuthorized": false,
+    "mainWriteAuthorized": false,
+    "productionRlsChangeAuthorized": false,
+    "secretsChangeAuthorized": false
   }
 }

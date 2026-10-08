@@ -27,7 +27,8 @@
     "productionRlsChangeAuthorized": false,
     "productionRenderChangeAuthorized": false,
     "productionSchedulerChangeAuthorized": false,
-    "productionResearchQueueChangeAuthorized": false
+    "productionResearchQueueChangeAuthorized": false,
+    "secretsChangeAuthorized": false
   },
   "stepA": {
     "allowedPaths": [
@@ -84,6 +85,171 @@
       "e2e",
       "integration"
     ],
-    "currentStatus": "BLOCK_PROMOTION"
-  }
+    "currentStatus": "BLOCK_PROMOTION",
+    "results": {
+      "execution": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "structure": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "truth": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "semantic": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "fault": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "identity": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "stability": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "path_optimization": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "e2e": {
+        "status": "NOT_RUN",
+        "evidence": null
+      },
+      "integration": {
+        "status": "NOT_RUN",
+        "evidence": null
+      }
+    }
+  },
+  "baselineReferences": [
+    {
+      "name": "JSM_系统审计与集成基线_Current",
+      "updatedAt": "2026-09-20",
+      "sha256": "a99e61f4ccfac7448899173ab97f260f7f8a8472730d78aa5d325136c5b8b93a"
+    },
+    {
+      "name": "JSM_核心业务契约审计_Current",
+      "updatedAt": "2026-09-20",
+      "sha256": "07e68bb1ef66b5babdee0e23cf3d0e650dd06236f19f407a38f866c25360087c"
+    }
+  ],
+  "baselineConflict": {
+    "dimensions": [
+      "Source Semantics",
+      "Newness",
+      "Research Eligibility"
+    ],
+    "resolution": "V2_CANDIDATE_ONLY_CURRENT_REMAINS_PRODUCTION_AUTHORITY",
+    "activationRequiresIntegrationGateAndSeparateApproval": true
+  },
+  "evidenceBinding": {
+    "requiredFields": [
+      "commitSha",
+      "environment",
+      "executedAt",
+      "dataScope",
+      "artifactSha256",
+      "result"
+    ],
+    "scope": "EXACT_CANDIDATE_HEAD",
+    "stepATestPassIsRuntimeEvidence": false
+  },
+  "incidentReplays": [
+    {
+      "id": "legacy_115_official_web_pending",
+      "requiredOutcome": "ISOLATED_SNAPSHOT_CLASSIFICATION_NO_PRODUCTION_EXECUTION",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "dub_anchored_labels",
+      "requiredOutcome": "PROVEN_EDGE_LABEL_EQUIVALENCE_PRESERVE_REAL_TITLE_WORDS",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "cross_platform_same_title",
+      "requiredOutcome": "NO_TITLE_ONLY_IDENTITY_MERGE_NO_CROSS_PLATFORM_WRITEBACK",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "incomplete_success_state",
+      "requiredOutcome": "REJECT_SUCCESS_FOR_INCOMPLETE_BATCH",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "duplicate_missing_extra_rank_or_title",
+      "requiredOutcome": "REJECT_INVALID_TOP10",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "stale_and_superseded_run",
+      "requiredOutcome": "LATEST_VALID_SAME_SCOPE_RECHECK_BEFORE_CALL_AND_WRITE",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "partial_5_of_6_mobo_failure",
+      "requiredOutcome": "FIVE_CONTINUE_FAILED_PLATFORM_MISSING_COVERAGE_VISIBLE",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "retry_and_quota",
+      "requiredOutcome": "THREE_ATTEMPTS_PER_CALL_NO_MULTIPLICATION_DEFER_WITH_CHECKPOINT",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "concurrent_first_seen_and_duplicate_write",
+      "requiredOutcome": "ONE_GLOBAL_SUBJECT_IDEMPOTENT_SAME_PLATFORM_WRITE",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "false_complete",
+      "requiredOutcome": "REJECT_BAD_SCHEMA_MISSING_CORE_LOW_CONFIDENCE_BAD_EVIDENCE_CONFLICT",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "silent_failure",
+      "requiredOutcome": "VISIBLE_FAILURE_NO_FALSE_SUCCESS",
+      "status": "NOT_RUN",
+      "evidence": null
+    },
+    {
+      "id": "official_web_golden_e2e",
+      "requiredOutcome": "WEB_TOP10_TO_API_FRONTEND_WITH_VALIDATED_RESEARCH_AND_WRITEBACK",
+      "status": "NOT_RUN",
+      "evidence": null
+    }
+  ],
+  "stagingEvidence": {
+    "status": "NOT_RUN",
+    "exactHeadDeployment": null,
+    "formalWindows": [],
+    "requiredConsecutiveWindows": 3,
+    "windowsTimezone": "Asia/Shanghai"
+  },
+  "rollback": {
+    "status": "NOT_RUN",
+    "applicationSnapshot": null,
+    "databaseSnapshot": null,
+    "schedulerSnapshot": null,
+    "restoreEvidence": null,
+    "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"
+  },
+  "legacy115Disposition": "FROZEN_REQUIRES_SEPARATE_APPROVAL"
 }
