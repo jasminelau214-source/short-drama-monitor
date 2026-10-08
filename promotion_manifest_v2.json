@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_A_CONTRACT_SCAFFOLD",
+  "stage": "STEP_B1_IDENTITY_PRIMITIVES",
   "generatedAt": "2026-10-08",
   "base": {
     "branch": "main",
@@ -45,7 +45,7 @@
   "futurePromotionUnits": [
     {
       "name": "identity-runtime",
-      "status": "NOT_STARTED"
+      "status": "ISOLATED_PRIMITIVES_ONLY"
     },
     {
       "name": "source-newness-runtime",
@@ -251,5 +251,32 @@
     "restoreEvidence": null,
     "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"
   },
-  "legacy115Disposition": "FROZEN_REQUIRES_SEPARATE_APPROVAL"
+  "legacy115Disposition": "FROZEN_REQUIRES_SEPARATE_APPROVAL",
+  "stepB1": {
+    "baseStepASha": "aca65184a360d5b765f06858ef3fea3cd7533fad",
+    "allowedChanges": {
+      "drama_identity_v2.py": "A",
+      "test_drama_identity_v2.py": "A",
+      "docs/INTEGRATION_STEP_B1.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "databaseChangeAllowed": false,
+    "productionActionsAllowed": false,
+    "titleKeyIsContentIdentity": false,
+    "externalEvidenceVerifiedByThisModule": false,
+    "validationScope": "SYNTHETIC_OFFLINE_IDENTITY_PRIMITIVES_ONLY",
+    "remainingIdentityWork": [
+      "trusted-evidence-adapter",
+      "global-content-resolution",
+      "atomic-first-seen-uniqueness",
+      "python-database-equivalence",
+      "collector-worker-publication-wiring"
+    ],
+    "referenceBranches": {
+      "integration/core-contract-v1-2026-09-20": "4558142808468fb3f64ec0b56e31a698a32bdc21",
+      "test/e2e-shadow-7platform-2026-09-18": "f74798feb8941e663192e903c0b03b3b4543c093"
+    }
+  }
 }

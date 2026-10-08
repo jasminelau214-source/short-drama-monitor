@@ -15,6 +15,12 @@ ALLOWED_PATHS = {
     "core_contract_v2.json", "docs/CORE_CONTRACT_V2.md",
     "promotion_manifest_v2.json", "test_core_contract_v2.py",
 }
+STEP_B1_BASE = "aca65184a360d5b765f06858ef3fea3cd7533fad"
+STEP_B1_CHANGES = {
+    "drama_identity_v2.py": "A", "test_drama_identity_v2.py": "A",
+    "docs/INTEGRATION_STEP_B1.md": "A", "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -200,7 +206,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_A_CONTRACT_SCAFFOLD", "stage")
+    require(manifest["stage"] == "STEP_B1_IDENTITY_PRIMITIVES", "stage")
+    step_b = manifest["stepB1"]
+    require(step_b["baseStepASha"] == STEP_B1_BASE, "Step B1 base")
+    require(step_b["allowedChanges"] == STEP_B1_CHANGES, "Step B1 changes")
+    for key in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "titleKeyIsContentIdentity", "externalEvidenceVerifiedByThisModule"):
+        require(step_b[key] is False, key)
+    require(step_b["validationScope"] == "SYNTHETIC_OFFLINE_IDENTITY_PRIMITIVES_ONLY", "B1 evidence scope")
+    require(set(step_b["remainingIdentityWork"]) == {"trusted-evidence-adapter", "global-content-resolution", "atomic-first-seen-uniqueness", "python-database-equivalence", "collector-worker-publication-wiring"}, "identity gaps hidden")
     require(manifest["base"] == {"branch": "main", "sha": BASE_SHA}, "base")
     require(manifest["integration"]["branch"] == "integration/core-contract-v2-2026-10-08", "unique branch")
     require(manifest["integration"]["wholeBranchPromotionAllowed"] is False, "whole branch promotion")
@@ -234,14 +247,14 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    require(all(unit["status"] == "NOT_STARTED" for unit in units), "future implementation")
+    require(all(unit["status"] == ("ISOLATED_PRIMITIVES_ONLY" if unit["name"] == "identity-runtime" else "NOT_STARTED") for unit in units), "future implementation")
 
 
 def git(root, *args):
     return subprocess.check_output(["git", "-C", str(root), *args], text=True, encoding="utf-8", stderr=subprocess.PIPE).strip()
 
 
-def validate_changed_surface(root, base):
+def validate_changed_surface(root, base, allowed_paths=ALLOWED_PATHS):
     # Compare the actual working tree to the base, including committed/staged
     # edits; no self-reported manifest can hide an extra runtime change.
     raw = git(root, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", base, "--")
@@ -252,7 +265,7 @@ def validate_changed_surface(root, base):
     changes = dict(zip(parts[1::2], parts[0::2]))
     for path in filter(None, git(root, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
         changes[path] = "A"
-    require(set(changes) == ALLOWED_PATHS, "actual changed paths: " + repr(changes))
+    require(set(changes) == allowed_paths, "actual changed paths: " + repr(changes))
     require(all(status == "A" for status in changes.values()), "Step A must only add contract files")
 
 
@@ -350,7 +363,20 @@ class AdversarialStepATests(unittest.TestCase):
         self.assertEqual(git(ROOT, "merge-base", "HEAD", BASE_SHA), BASE_SHA)
         self.assertEqual(git(ROOT, "branch", "--show-current"), self.manifest["integration"]["branch"])
         self.assertEqual(git(ROOT, "rev-list", "--merges", BASE_SHA + "..HEAD"), "")
-        validate_changed_surface(ROOT, BASE_SHA)
+        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES))
+
+    def test_b1_delta_and_unwired_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B1_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_B1_CHANGES)
+        for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "titleKeyIsContentIdentity", "externalEvidenceVerifiedByThisModule"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB1"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
 
     def test_surface_guard_rejects_untracked_staged_and_committed_runtime(self):
         with tempfile.TemporaryDirectory(prefix="jsm-step-a-") as temp:
