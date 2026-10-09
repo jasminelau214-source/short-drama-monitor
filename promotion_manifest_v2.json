@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B3_BATCH_AUTHORITY",
+  "stage": "STEP_B4_RESEARCH_ELIGIBILITY_PREFLIGHT",
   "generatedAt": "2026-10-09",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "NOT_STARTED"
+      "status": "ISOLATED_ELIGIBILITY_PREFLIGHT_ONLY"
     },
     {
       "name": "collector-runtime",
@@ -328,6 +328,30 @@
       "incident-115-isolated-snapshot-replay",
       "collector-worker-api-frontend-wiring",
       "staging-e2e-and-three-windows"
+    ]
+  },
+  "stepB4": {
+    "baseStepB3Sha": "e8563b18090dfca11edc3c86c40148545ac37ef7",
+    "allowedChanges": {
+      "research_eligibility_v2.py": "A",
+      "test_research_eligibility_v2.py": "A",
+      "docs/INTEGRATION_STEP_B4.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "databaseChangeAllowed": false,
+    "productionActionsAllowed": false,
+    "externalCallAllowed": false,
+    "queueTransitionAllowed": false,
+    "writebackAllowed": false,
+    "validationScope": "SYNTHETIC_OFFLINE_ELIGIBILITY_PREFLIGHT_ONLY",
+    "remainingWork": [
+      "protected-provider-verification-boundary",
+      "worker-call-and-retry-checkpoint-wiring",
+      "conditional-database-cas-before-spend-and-write",
+      "quota-resume-and-concurrency-runtime",
+      "incident-replays-and-staging-e2e"
     ]
   }
 }

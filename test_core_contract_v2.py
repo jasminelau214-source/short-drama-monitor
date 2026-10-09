@@ -34,6 +34,13 @@ STEP_B3_CHANGES = {
     "docs/INTEGRATION_STEP_B3.md": "A", "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
+STEP_B3_HEAD = "e8563b18090dfca11edc3c86c40148545ac37ef7"
+STEP_B4_BASE = STEP_B3_HEAD
+STEP_B4_CHANGES = {
+    "research_eligibility_v2.py": "A", "test_research_eligibility_v2.py": "A",
+    "docs/INTEGRATION_STEP_B4.md": "A", "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -219,7 +226,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B3_BATCH_AUTHORITY", "stage")
+    require(manifest["stage"] == "STEP_B4_RESEARCH_ELIGIBILITY_PREFLIGHT", "stage")
+    step_b4 = manifest["stepB4"]
+    require(step_b4["baseStepB3Sha"] == STEP_B4_BASE, "Step B4 base")
+    require(step_b4["allowedChanges"] == STEP_B4_CHANGES, "Step B4 changes")
+    for key in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+        require(step_b4[key] is False, key)
+    require(step_b4["validationScope"] == "SYNTHETIC_OFFLINE_ELIGIBILITY_PREFLIGHT_ONLY", "B4 evidence scope")
+    require(set(step_b4["remainingWork"]) == {"protected-provider-verification-boundary", "worker-call-and-retry-checkpoint-wiring", "conditional-database-cas-before-spend-and-write", "quota-resume-and-concurrency-runtime", "incident-replays-and-staging-e2e"}, "B4 gaps hidden")
     step_b3 = manifest["stepB3"]
     require(step_b3["baseStepB2Sha"] == STEP_B3_BASE, "Step B3 base")
     require(step_b3["allowedChanges"] == STEP_B3_CHANGES, "Step B3 changes")
@@ -274,7 +288,7 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY"}
+    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_ELIGIBILITY_PREFLIGHT_ONLY"}
     require(all(unit["status"] == statuses.get(unit["name"], "NOT_STARTED") for unit in units), "future implementation")
 
 
@@ -391,7 +405,15 @@ class AdversarialStepATests(unittest.TestCase):
         self.assertEqual(git(ROOT, "merge-base", "HEAD", BASE_SHA), BASE_SHA)
         self.assertEqual(git(ROOT, "branch", "--show-current"), self.manifest["integration"]["branch"])
         self.assertEqual(git(ROOT, "rev-list", "--merges", BASE_SHA + "..HEAD"), "")
-        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES))
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", BASE_SHA, "--")
+        parts = raw.split("\0") if raw else []
+        if parts and parts[-1] == "":
+            parts.pop()
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES)}
+        self.assertEqual(changes, expected)
 
     def test_b1_delta_and_unwired_boundary(self):
         # B1's historical boundary remains pinned to its accepted commit.
@@ -417,15 +439,27 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b3_delta_and_fail_closed_promotion_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B3_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B3_BASE, STEP_B3_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            changes[path] = "A"
         self.assertEqual(changes, STEP_B3_CHANGES)
         for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "researchEnqueueAllowed", "writebackAllowed", "legacy115ReadAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB3"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b4_delta_and_no_external_side_effect_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B4_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            if path in STEP_B4_CHANGES:
+                changes[path] = "A"
+        self.assertEqual(changes, STEP_B4_CHANGES)
+        for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB4"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 
