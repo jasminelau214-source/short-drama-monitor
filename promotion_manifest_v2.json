@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B5_RESEARCH_CALL_POLICY",
+  "stage": "STEP_B6_PROVIDER_POLICY_EVIDENCE",
   "generatedAt": "2026-10-09",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "ISOLATED_CALL_POLICY_ONLY"
+      "status": "ISOLATED_REVIEWED_PROVIDER_POLICY"
     },
     {
       "name": "collector-runtime",
@@ -376,6 +376,33 @@
       "worker-call-and-retry-checkpoint-wiring",
       "conditional-database-cas-before-spend-and-write",
       "quota-runtime-and-concurrency-integration",
+      "incident-replays-and-staging-e2e"
+    ]
+  },
+  "stepB6": {
+    "baseStepB5Sha": "335a6773a29da37516704c075746504dd31997bf",
+    "allowedChanges": {
+      "provider_policy_evidence_v2.py": "A",
+      "test_provider_policy_evidence_v2.py": "A",
+      "docs/INTEGRATION_STEP_B6.md": "A",
+      "research_eligibility_v2.py": "M",
+      "test_research_eligibility_v2.py": "M",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "workerWiringAllowed": false,
+    "databaseChangeAllowed": false,
+    "productionActionsAllowed": false,
+    "externalCallAllowed": false,
+    "queueTransitionAllowed": false,
+    "writebackAllowed": false,
+    "validationScope": "SYNTHETIC_OFFLINE_PROVIDER_POLICY_EVIDENCE_ONLY",
+    "remainingWork": [
+      "protected-approval-ledger-and-host-registry-injection",
+      "current-provider-terms-online-review-and-expiry-operations",
+      "worker-call-and-retry-checkpoint-wiring",
+      "conditional-database-cas-before-spend-and-write",
       "incident-replays-and-staging-e2e"
     ]
   }

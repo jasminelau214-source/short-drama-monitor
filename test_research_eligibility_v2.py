@@ -1,5 +1,6 @@
 """Synthetic-only tests for the external-research eligibility preflight."""
 from datetime import datetime, timedelta, timezone
+from dataclasses import replace
 import importlib.util
 from pathlib import Path
 import sys
@@ -24,7 +25,8 @@ NOW = datetime(2026, 10, 9, 8, 25, tzinfo=timezone.utc)
 class ResearchEligibilityTests(unittest.TestCase):
     def setUp(self):
         self.scope = object()
-        self.approval = gate.FreeProviderApproval("provider-free", NOW - timedelta(minutes=1), NOW + timedelta(minutes=1), True, False)
+        self.approval = gate.FreeProviderApproval("provider-free", NOW - timedelta(minutes=1), NOW + timedelta(minutes=1), True, False, False,
+                                                  "review:1", "https://provider.example/pricing", "a" * 64, "approval:1")
         self.kwargs = dict(scope=self.scope, origin_run_id="run", source_entity_id="entity", record_id="record",
                            canonical_drama_id="content", runs=(), task_state="PENDING", provider_approvals=(self.approval,),
                            existing_complete=False, now=NOW)
@@ -58,10 +60,11 @@ class ResearchEligibilityTests(unittest.TestCase):
 
     def test_provider_must_be_current_free_and_have_no_paid_fallback(self):
         bad = (
-            gate.FreeProviderApproval("paid", NOW, NOW + timedelta(minutes=1), True, True),
-            gate.FreeProviderApproval("unknown", NOW, NOW + timedelta(minutes=1), False, False),
-            gate.FreeProviderApproval("expired", NOW - timedelta(minutes=2), NOW - timedelta(seconds=1), True, False),
-            gate.FreeProviderApproval("revoked", NOW, NOW + timedelta(minutes=1), True, False, True),
+            replace(self.approval, provider_id="paid", paid_fallback=True),
+            replace(self.approval, provider_id="unknown", free_tier_verified=False),
+            replace(self.approval, provider_id="expired", valid_until=NOW - timedelta(seconds=1)),
+            replace(self.approval, provider_id="revoked", revoked=True),
+            replace(self.approval, provider_id="no-proof", review_ref=None),
         )
         decision = self.authorize(provider_approvals=bad)
         self.assertFalse(decision.authorized)

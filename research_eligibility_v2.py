@@ -6,9 +6,12 @@ this isolated step does not implement.
 """
 from dataclasses import dataclass
 from datetime import datetime
+import re
 
 from batch_authority_v2 import ObservationDecision, assess_current_observation
 from drama_identity_v2 import IdentityReviewRequired
+
+_SHA256 = re.compile(r"[0-9a-f]{64}")
 
 @dataclass(frozen=True)
 class FreeProviderApproval:
@@ -18,6 +21,10 @@ class FreeProviderApproval:
     free_tier_verified: bool
     paid_fallback: bool
     revoked: bool = False
+    review_ref: str | None = None
+    source_url: str | None = None
+    artifact_sha256: str | None = None
+    approval_id: str | None = None
 
 
 @dataclass(frozen=True)
@@ -70,6 +77,10 @@ def authorize_research_preflight(
                 or type(approval.free_tier_verified) is not bool or not approval.free_tier_verified
                 or type(approval.paid_fallback) is not bool or approval.paid_fallback
                 or type(approval.revoked) is not bool or approval.revoked
+                or not isinstance(approval.review_ref, str) or not approval.review_ref.strip()
+                or not isinstance(approval.approval_id, str) or not approval.approval_id.strip()
+                or not isinstance(approval.source_url, str) or not approval.source_url.startswith("https://")
+                or not isinstance(approval.artifact_sha256, str) or not _SHA256.fullmatch(approval.artifact_sha256)
                 or not isinstance(approval.checked_at, datetime) or approval.checked_at.utcoffset() is None
                 or not isinstance(approval.valid_until, datetime) or approval.valid_until.utcoffset() is None
                 or not (approval.checked_at <= now < approval.valid_until)):

@@ -48,6 +48,14 @@ STEP_B5_CHANGES = {
     "docs/INTEGRATION_STEP_B5.md": "A", "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
+STEP_B5_HEAD = "335a6773a29da37516704c075746504dd31997bf"
+STEP_B6_BASE = STEP_B5_HEAD
+STEP_B6_CHANGES = {
+    "provider_policy_evidence_v2.py": "A", "test_provider_policy_evidence_v2.py": "A",
+    "docs/INTEGRATION_STEP_B6.md": "A", "research_eligibility_v2.py": "M",
+    "test_research_eligibility_v2.py": "M", "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -233,7 +241,15 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B5_RESEARCH_CALL_POLICY", "stage")
+    require(manifest["stage"] == "STEP_B6_PROVIDER_POLICY_EVIDENCE", "stage")
+    step_b6 = manifest["stepB6"]
+    require(step_b6["baseStepB5Sha"] == STEP_B6_BASE, "Step B6 base")
+    require(step_b6["allowedChanges"] == STEP_B6_CHANGES, "Step B6 changes")
+    for key in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+        require(step_b6[key] is False, key)
+    require(step_b6["validationScope"] == "SYNTHETIC_OFFLINE_PROVIDER_POLICY_EVIDENCE_ONLY", "B6 evidence scope")
+    require(set(step_b6["remainingWork"]) == {"protected-approval-ledger-and-host-registry-injection", "current-provider-terms-online-review-and-expiry-operations", "worker-call-and-retry-checkpoint-wiring", "conditional-database-cas-before-spend-and-write", "incident-replays-and-staging-e2e"}, "B6 gaps hidden")
+    require(manifest["stage"] == "STEP_B6_PROVIDER_POLICY_EVIDENCE", "stage")
     step_b5 = manifest["stepB5"]
     require(step_b5["baseStepB4Sha"] == STEP_B5_BASE, "Step B5 base")
     require(step_b5["allowedChanges"] == STEP_B5_CHANGES, "Step B5 changes")
@@ -302,7 +318,7 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_CALL_POLICY_ONLY"}
+    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_REVIEWED_PROVIDER_POLICY"}
     require(all(unit["status"] == statuses.get(unit["name"], "NOT_STARTED") for unit in units), "future implementation")
 
 
@@ -426,7 +442,7 @@ class AdversarialStepATests(unittest.TestCase):
         changes = dict(zip(parts[1::2], parts[0::2]))
         for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
             changes[path] = "A"
-        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES)}
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES)}
         self.assertEqual(changes, expected)
 
     def test_b1_delta_and_unwired_boundary(self):
@@ -475,16 +491,27 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b5_delta_and_offline_call_policy_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B5_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B5_BASE, STEP_B5_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            if path in STEP_B5_CHANGES:
-                changes[path] = "A"
         self.assertEqual(changes, STEP_B5_CHANGES)
         for flag in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB5"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b6_delta_and_no_runtime_provider_access_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B6_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            if path in STEP_B6_CHANGES:
+                changes[path] = "A"
+        self.assertEqual(changes, STEP_B6_CHANGES)
+        for flag in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB6"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 
