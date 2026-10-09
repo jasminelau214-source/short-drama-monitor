@@ -11,10 +11,13 @@ if "drama_identity_v2" not in sys.modules:
     module = importlib.util.module_from_spec(spec)
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
-spec = importlib.util.spec_from_file_location("research_attempt_policy_v2", ROOT / "research_attempt_policy_v2.py")
-policy = importlib.util.module_from_spec(spec)
-sys.modules[spec.name] = policy
-spec.loader.exec_module(policy)
+if "research_attempt_policy_v2" not in sys.modules:
+    spec = importlib.util.spec_from_file_location("research_attempt_policy_v2", ROOT / "research_attempt_policy_v2.py")
+    policy = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = policy
+    spec.loader.exec_module(policy)
+else:
+    policy = sys.modules["research_attempt_policy_v2"]
 
 NOW = datetime(2026, 10, 9, 8, 25, tzinfo=timezone.utc)
 

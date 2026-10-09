@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import unittest
 from unittest.mock import patch
+import research_attempt_policy_v2 as attempts
 
 ROOT = Path(__file__).resolve().parent
 for name in ("drama_identity_v2", "identity_evidence_v2", "batch_authority_v2"):
@@ -55,7 +56,7 @@ class ResearchEligibilityTests(unittest.TestCase):
     def test_existing_complete_and_nonpending_states_cannot_spend_again(self):
         for changes in ({"existing_complete": True}, {"task_state": "DEFERRED_FREE_QUOTA"}, {"task_state": "REVIEW_REQUIRED"}, {"task_state": "COMPLETE"}):
             with self.subTest(changes=changes):
-                decision = self.authorize(expect_assessment=False, **changes)
+                decision = self.authorize(expect_assessment=changes.get("task_state") == "DEFERRED_FREE_QUOTA", **changes)
                 self.assertFalse(decision.authorized)
 
     def test_provider_must_be_current_free_and_have_no_paid_fallback(self):
@@ -79,6 +80,22 @@ class ResearchEligibilityTests(unittest.TestCase):
     def test_unknown_complete_lookup_type_is_rejected(self):
         with self.assertRaises(gate.IdentityReviewRequired):
             self.authorize(existing_complete=None)
+
+    def test_researching_requires_ready_bounded_retry_checkpoint(self):
+        for checkpoint in (None, attempts.CallCheckpoint("SEARCH"), attempts.CallCheckpoint("SEARCH", 1, 0, "RETRY_WAIT"), attempts.CallCheckpoint("SEARCH", 3, 0, "READY")):
+            with self.subTest(checkpoint=checkpoint):
+                decision = self.authorize(expect_assessment=False, task_state="RESEARCHING", retry_checkpoint=checkpoint)
+                self.assertFalse(decision.authorized)
+        ready = attempts.CallCheckpoint("SEARCH", 1, 12, "READY")
+        decision = self.authorize(task_state="RESEARCHING", retry_checkpoint=ready)
+        self.assertTrue(decision.authorized)
+        self.assertTrue(decision.eligibility_revalidated)
+
+    def test_quota_deferred_candidate_can_be_revalidated_but_not_called(self):
+        decision = self.authorize(task_state="DEFERRED_FREE_QUOTA")
+        self.assertFalse(decision.authorized)
+        self.assertTrue(decision.eligibility_revalidated)
+        self.assertEqual(decision.reason, "QUOTA_RESUME_ELIGIBILITY_REVALIDATED")
 
 
 if __name__ == "__main__":

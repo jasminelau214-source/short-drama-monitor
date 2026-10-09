@@ -25,7 +25,7 @@ class ResearchPreflightIntegrationTests(unittest.TestCase):
             now=NOW,
         )
 
-    def preflight(self, *, runs=None, origin=None, provider=None, now=NOW):
+    def preflight(self, *, runs=None, origin=None, provider=None, now=NOW, task_state="PENDING", retry_checkpoint=None):
         row = self.batch.run.rows[0]
         context = dict(self.batch.context)
         context["now"] = now
@@ -36,9 +36,10 @@ class ResearchPreflightIntegrationTests(unittest.TestCase):
             record_id=row.record_id,
             canonical_drama_id="content:1",
             runs=tuple(runs or (self.batch.run,)),
-            task_state="PENDING",
+            task_state=task_state,
             provider_approvals=(provider or self.reviewed_provider,),
             existing_complete=False,
+            retry_checkpoint=retry_checkpoint,
             **context,
         )
 
@@ -52,20 +53,21 @@ class ResearchPreflightIntegrationTests(unittest.TestCase):
         # Simulated transient provider response; this code performs no call.
         checkpoint = attempt_policy.record_call_result(checkpoint, outcome="transient", now=NOW, attempt_active_seconds=4).checkpoint
         ready = attempt_policy.prepare_due_retry(checkpoint, now=checkpoint.retry_at).checkpoint
-        self.assertTrue(self.preflight().authorized)  # Fresh B3 authority and B6-reviewed provider before retry.
+        self.assertTrue(self.preflight(task_state="RESEARCHING", retry_checkpoint=ready).authorized)  # Fresh authority/provider before retry.
         checkpoint = attempt_policy.record_call_result(ready, outcome="quota", now=checkpoint.retry_at, attempt_active_seconds=2).checkpoint
         self.assertEqual(checkpoint.status, "DEFERRED_FREE_QUOTA")
 
         # Restoring quota alone is insufficient; first re-run current eligibility.
         resume_time = NOW + timedelta(minutes=10)
-        before_resume = self.preflight(now=resume_time)
-        self.assertTrue(before_resume.authorized)
+        before_resume = self.preflight(now=resume_time, task_state="DEFERRED_FREE_QUOTA")
+        self.assertFalse(before_resume.authorized)
+        self.assertTrue(before_resume.eligibility_revalidated)
         resumed = attempt_policy.resume_quota_checkpoint(
             checkpoint, now=resume_time, quota_restored=True,
-            eligibility_revalidated=before_resume.authorized,
+            eligibility_revalidated=before_resume.eligibility_revalidated,
         )
         self.assertEqual((resumed.checkpoint.status, resumed.checkpoint.attempt_count), ("READY", 2))
-        final_preflight = self.preflight(now=resume_time)
+        final_preflight = self.preflight(now=resume_time, task_state="RESEARCHING", retry_checkpoint=resumed.checkpoint)
         self.assertTrue(final_preflight.authorized)
         self.assertFalse(final_preflight.external_call_performed)
         self.assertFalse(final_preflight.spend_incurred)

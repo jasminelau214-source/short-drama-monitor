@@ -10,6 +10,7 @@ import re
 
 from batch_authority_v2 import ObservationDecision, assess_current_observation
 from drama_identity_v2 import IdentityReviewRequired
+from research_attempt_policy_v2 import retry_checkpoint_ready
 
 _SHA256 = re.compile(r"[0-9a-f]{64}")
 
@@ -36,25 +37,32 @@ class ResearchPreflightDecision:
     authority_snapshot_sha256: str | None = None
     external_call_performed: bool = False
     spend_incurred: bool = False
+    eligibility_revalidated: bool = False
 
 
 def authorize_research_preflight(
     *, scope, origin_run_id, source_entity_id, record_id, canonical_drama_id,
-    runs, task_state, provider_approvals, existing_complete, now, **authority_context
+    runs, task_state, provider_approvals, existing_complete, now,
+    retry_checkpoint=None, **authority_context
 ):
     """Return a synthetic preflight decision; never call a provider.
 
-    Every execution must have a current authoritative observation and a
-    separately approved, unexpired free-only provider. Only PENDING tasks can
-    enter this path. DEFERRED tasks need quota restoration and a fresh call to
-    this function; all other states fail closed.
+    PENDING authorizes an initial call. RESEARCHING authorizes a retry only
+    with a ready B5 checkpoint. DEFERRED_FREE_QUOTA can be revalidated but is
+    never authorized to call until B5 resumes it. Other states fail closed.
     """
     if type(existing_complete) is not bool:
         raise IdentityReviewRequired("exact COMPLETE lookup result required")
     if existing_complete:
         return ResearchPreflightDecision(False, "GLOBAL_RESEARCH_ALREADY_COMPLETE")
-    if task_state != "PENDING":
+    if task_state not in {"PENDING", "RESEARCHING", "DEFERRED_FREE_QUOTA"}:
         return ResearchPreflightDecision(False, "TASK_STATE_NOT_CALLABLE")
+    if task_state == "PENDING" and retry_checkpoint is not None:
+        return ResearchPreflightDecision(False, "UNEXPECTED_RETRY_CHECKPOINT")
+    if task_state == "RESEARCHING" and not retry_checkpoint_ready(retry_checkpoint, now=now):
+        return ResearchPreflightDecision(False, "RETRY_CHECKPOINT_NOT_READY")
+    if task_state == "DEFERRED_FREE_QUOTA" and retry_checkpoint is not None:
+        return ResearchPreflightDecision(False, "UNEXPECTED_RETRY_CHECKPOINT")
     if not isinstance(provider_approvals, (tuple, list)) or not provider_approvals:
         return ResearchPreflightDecision(False, "NO_VERIFIED_FREE_PROVIDER")
     if not isinstance(now, datetime) or now.utcoffset() is None:
@@ -89,8 +97,14 @@ def authorize_research_preflight(
     if not candidates:
         return ResearchPreflightDecision(False, "NO_VERIFIED_FREE_PROVIDER", authoritative_run_id=authority.authoritative_run_id,
                                          authority_snapshot_sha256=authority.snapshot_sha256)
+    if task_state == "DEFERRED_FREE_QUOTA":
+        return ResearchPreflightDecision(False, "QUOTA_RESUME_ELIGIBILITY_REVALIDATED", provider_id=sorted(candidates)[0],
+                                         authoritative_run_id=authority.authoritative_run_id,
+                                         authority_snapshot_sha256=authority.snapshot_sha256,
+                                         eligibility_revalidated=True)
     return ResearchPreflightDecision(
         True, "PREFLIGHT_AUTHORIZED_ONLY", provider_id=sorted(candidates)[0],
         authoritative_run_id=authority.authoritative_run_id,
         authority_snapshot_sha256=authority.snapshot_sha256,
+        eligibility_revalidated=True,
     )

@@ -64,6 +64,20 @@ STEP_B7_CHANGES = {
     "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
+STEP_B7_HEAD = "2172a85b7d0bbb88f978f5765543fc1cb3b08927"
+STEP_B8_BASE = STEP_B7_HEAD
+STEP_B8_CHANGES = {
+    "research_attempt_policy_v2.py": "M",
+    "test_research_attempt_policy_v2.py": "M",
+    "research_eligibility_v2.py": "M",
+    "test_research_eligibility_v2.py": "M",
+    "test_research_preflight_integration_v2.py": "M",
+    "docs/INTEGRATION_STEP_B4.md": "M",
+    "docs/INTEGRATION_STEP_B7.md": "M",
+    "docs/INTEGRATION_STEP_B8.md": "A",
+    "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -249,7 +263,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B7_RESEARCH_PREFLIGHT_CHAIN", "stage")
+    require(manifest["stage"] == "STEP_B8_RETRY_STATE_REAUTHORIZATION", "stage")
+    step_b8 = manifest["stepB8"]
+    require(step_b8["baseStepB7Sha"] == STEP_B8_BASE, "Step B8 base")
+    require(step_b8["allowedChanges"] == STEP_B8_CHANGES, "Step B8 changes")
+    for key in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+        require(step_b8[key] is False, key)
+    require(step_b8["validationScope"] == "SYNTHETIC_OFFLINE_RETRY_STATE_REAUTHORIZATION_ONLY", "B8 evidence scope")
+    require(set(step_b8["remainingWork"]) == {"durable-task-and-checkpoint-atomic-cas", "protected-provider-ledger-and-live-term-verification", "worker-call-reservation-and-crash-recovery", "incident-replays-and-full-staging-e2e", "truth-fault-identity-writeback-and-stability-gates"}, "B8 gaps hidden")
     step_b7 = manifest["stepB7"]
     require(step_b7["baseStepB6Sha"] == STEP_B7_BASE, "Step B7 base")
     require(step_b7["allowedChanges"] == STEP_B7_CHANGES, "Step B7 changes")
@@ -332,7 +353,7 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_PREFLIGHT_CHAIN_E2E_ONLY"}
+    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_RETRY_STATE_GATED_PREFLIGHT"}
     require(all(unit["status"] == statuses.get(unit["name"], "NOT_STARTED") for unit in units), "future implementation")
 
 
@@ -456,7 +477,7 @@ class AdversarialStepATests(unittest.TestCase):
         changes = dict(zip(parts[1::2], parts[0::2]))
         for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
             changes[path] = "A"
-        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES)}
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES)}
         self.assertEqual(changes, expected)
 
     def test_b1_delta_and_unwired_boundary(self):
@@ -527,16 +548,27 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b7_delta_and_offline_integration_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B7_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B7_BASE, STEP_B7_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            if path in STEP_B7_CHANGES:
-                changes[path] = "A"
         self.assertEqual(changes, STEP_B7_CHANGES)
         for flag in ("runtimeCodeChangeAllowed", "applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB7"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b8_delta_and_retry_state_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B8_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            if path in STEP_B8_CHANGES:
+                changes[path] = "A"
+        self.assertEqual(changes, STEP_B8_CHANGES)
+        for flag in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB8"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 

@@ -15,10 +15,11 @@ caller inputs; this step does not implement or authenticate their protected
 runtime boundary. The returned run ID and snapshot digest are evidence for a
 future transactional check, not a lock against a concurrent update.
 
-Only `PENDING` can be considered. `DEFERRED_FREE_QUOTA`, `REVIEW_REQUIRED`,
-`NEEDS_GPT`, terminal states, and an already completed global research subject
-are denied. A deferred task can only be reconsidered after quota restoration
-and a fresh eligibility check. Invalid or superseded observations fail closed.
+`PENDING` can authorize the initial call. `RESEARCHING` can authorize a retry
+only with a ready B5 checkpoint, and `DEFERRED_FREE_QUOTA` can be revalidated
+for resumption without authorizing a call. `REVIEW_REQUIRED`, `NEEDS_GPT`,
+terminal states, and an already completed global research subject are denied.
+Invalid or superseded observations fail closed.
 Unknown, expired, revoked, non-free, or paid-fallback provider approvals do not
 authorize a provider. No provider-name fallback is inferred.
 

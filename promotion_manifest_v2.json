@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B7_RESEARCH_PREFLIGHT_CHAIN",
+  "stage": "STEP_B8_RETRY_STATE_REAUTHORIZATION",
   "generatedAt": "2026-10-09",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "ISOLATED_PREFLIGHT_CHAIN_E2E_ONLY"
+      "status": "ISOLATED_RETRY_STATE_GATED_PREFLIGHT"
     },
     {
       "name": "collector-runtime",
@@ -428,6 +428,36 @@
       "durable-queue-and-checkpoint-adapters",
       "worker-transactional-cas-before-spend-and-write",
       "incident-sample-replays-and-full-staging-e2e",
+      "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepB8": {
+    "baseStepB7Sha": "2172a85b7d0bbb88f978f5765543fc1cb3b08927",
+    "allowedChanges": {
+      "research_attempt_policy_v2.py": "M",
+      "test_research_attempt_policy_v2.py": "M",
+      "research_eligibility_v2.py": "M",
+      "test_research_eligibility_v2.py": "M",
+      "test_research_preflight_integration_v2.py": "M",
+      "docs/INTEGRATION_STEP_B4.md": "M",
+      "docs/INTEGRATION_STEP_B7.md": "M",
+      "docs/INTEGRATION_STEP_B8.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "workerWiringAllowed": false,
+    "databaseChangeAllowed": false,
+    "productionActionsAllowed": false,
+    "externalCallAllowed": false,
+    "queueTransitionAllowed": false,
+    "writebackAllowed": false,
+    "validationScope": "SYNTHETIC_OFFLINE_RETRY_STATE_REAUTHORIZATION_ONLY",
+    "remainingWork": [
+      "durable-task-and-checkpoint-atomic-cas",
+      "protected-provider-ledger-and-live-term-verification",
+      "worker-call-reservation-and-crash-recovery",
+      "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
   }

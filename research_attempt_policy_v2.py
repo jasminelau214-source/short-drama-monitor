@@ -86,6 +86,15 @@ def prepare_due_retry(checkpoint, *, now):
     return CallTransition(CallCheckpoint(checkpoint.stage, checkpoint.attempt_count, checkpoint.active_seconds, "READY", checkpoint_id=checkpoint.checkpoint_id), "RETRY_READY")
 
 
+def retry_checkpoint_ready(checkpoint, *, now):
+    """Validate a checkpoint for a reauthorized attempt while RESEARCHING."""
+    try:
+        _valid(checkpoint, now)
+    except IdentityReviewRequired:
+        return False
+    return checkpoint.status == "READY" and 1 <= checkpoint.attempt_count < MAX_ATTEMPTS and checkpoint.retry_at is None
+
+
 def resume_quota_checkpoint(checkpoint, *, now, quota_restored, eligibility_revalidated):
     """Resume only after both quota restoration and fresh eligibility checks."""
     _valid(checkpoint, now)

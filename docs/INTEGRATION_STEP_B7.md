@@ -9,7 +9,9 @@ B7 exercises the research safety decisions together using synthetic fixtures:
    independent approval record, and a trusted host fixture.
 3. B4 permits only the current observation and carries its authority snapshot.
 4. B5 models transient retry, quota deferral, and fresh eligibility checks
-   before resumption and the next attempt.
+   before resumption and the next attempt. Retries are reauthorized as
+   `RESEARCHING` with a ready call checkpoint; quota-deferred tasks are
+   revalidated without granting call permission.
 
 Adversarial cases include a later valid run superseding the queued origin and a
 revoked provider approval. Both fail closed before a simulated provider call.
