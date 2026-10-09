@@ -21,6 +21,12 @@ STEP_B1_CHANGES = {
     "docs/INTEGRATION_STEP_B1.md": "A", "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
+STEP_B2_BASE = "8225a47359d07d6bd1b57d1950c623a76402c23b"
+STEP_B2_CHANGES = {
+    "identity_evidence_v2.py": "A", "test_identity_evidence_v2.py": "A",
+    "docs/INTEGRATION_STEP_B2.md": "A", "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -206,7 +212,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B1_IDENTITY_PRIMITIVES", "stage")
+    require(manifest["stage"] == "STEP_B2_REVIEWED_IDENTITY_BINDINGS", "stage")
+    step_b2 = manifest["stepB2"]
+    require(step_b2["baseStepB1Sha"] == STEP_B2_BASE, "Step B2 base")
+    require(step_b2["allowedChanges"] == STEP_B2_CHANGES, "Step B2 changes")
+    for key in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "onlineEvidenceVerificationImplemented", "globalIdentityMintingAllowed", "titleOnlyMergeAllowed", "researchEnqueueAllowed"):
+        require(step_b2[key] is False, key)
+    require(step_b2["validationScope"] == "SYNTHETIC_OFFLINE_PREAPPROVED_BINDINGS_ONLY", "B2 evidence scope")
+    require(set(step_b2["remainingIdentityWork"]) == {"protected-ledger-and-source-registry-boundary", "live-entity-evidence-adapters", "atomic-first-seen-uniqueness", "python-database-equivalence", "collector-worker-publication-wiring", "batch-authoritative-run-integration"}, "B2 gaps hidden")
     step_b = manifest["stepB1"]
     require(step_b["baseStepASha"] == STEP_B1_BASE, "Step B1 base")
     require(step_b["allowedChanges"] == STEP_B1_CHANGES, "Step B1 changes")
@@ -247,7 +260,7 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    require(all(unit["status"] == ("ISOLATED_PRIMITIVES_ONLY" if unit["name"] == "identity-runtime" else "NOT_STARTED") for unit in units), "future implementation")
+    require(all(unit["status"] == ("ISOLATED_REVIEWED_BINDINGS_ONLY" if unit["name"] == "identity-runtime" else "NOT_STARTED") for unit in units), "future implementation")
 
 
 def git(root, *args):
@@ -363,18 +376,30 @@ class AdversarialStepATests(unittest.TestCase):
         self.assertEqual(git(ROOT, "merge-base", "HEAD", BASE_SHA), BASE_SHA)
         self.assertEqual(git(ROOT, "branch", "--show-current"), self.manifest["integration"]["branch"])
         self.assertEqual(git(ROOT, "rev-list", "--merges", BASE_SHA + "..HEAD"), "")
-        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES))
+        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES))
 
     def test_b1_delta_and_unwired_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B1_BASE, "--")
+        # B1's historical boundary remains pinned to its accepted commit.
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B1_BASE, STEP_B2_BASE, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            changes[path] = "A"
         self.assertEqual(changes, STEP_B1_CHANGES)
         for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "titleKeyIsContentIdentity", "externalEvidenceVerifiedByThisModule"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB1"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b2_delta_and_evidence_authority_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B2_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_B2_CHANGES)
+        for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "onlineEvidenceVerificationImplemented", "globalIdentityMintingAllowed", "titleOnlyMergeAllowed", "researchEnqueueAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB2"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 
