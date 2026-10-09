@@ -1,4 +1,4 @@
-"""Offline Step A policy checks; NOT a runtime implementation or E2E test."""
+"""Offline V2 stage-policy checks; NOT a production runtime or E2E test."""
 
 import copy
 import json
@@ -25,6 +25,13 @@ STEP_B2_BASE = "8225a47359d07d6bd1b57d1950c623a76402c23b"
 STEP_B2_CHANGES = {
     "identity_evidence_v2.py": "A", "test_identity_evidence_v2.py": "A",
     "docs/INTEGRATION_STEP_B2.md": "A", "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
+STEP_B2_HEAD = "df0e4166296e13a54e49325149ea14e580c9df85"
+STEP_B3_BASE = STEP_B2_HEAD
+STEP_B3_CHANGES = {
+    "batch_authority_v2.py": "A", "test_batch_authority_v2.py": "A",
+    "docs/INTEGRATION_STEP_B3.md": "A", "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
 GATES = {
@@ -212,7 +219,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B2_REVIEWED_IDENTITY_BINDINGS", "stage")
+    require(manifest["stage"] == "STEP_B3_BATCH_AUTHORITY", "stage")
+    step_b3 = manifest["stepB3"]
+    require(step_b3["baseStepB2Sha"] == STEP_B3_BASE, "Step B3 base")
+    require(step_b3["allowedChanges"] == STEP_B3_CHANGES, "Step B3 changes")
+    for key in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "researchEnqueueAllowed", "writebackAllowed", "legacy115ReadAllowed"):
+        require(step_b3[key] is False, key)
+    require(step_b3["validationScope"] == "SYNTHETIC_OFFLINE_BATCH_AND_AUTHORITY_ONLY", "B3 evidence scope")
+    require(set(step_b3["remainingWork"]) == {"current-external-run-window-adapter", "production-target-registry-adapter", "conditional-database-cas-before-spend-and-write", "incident-115-isolated-snapshot-replay", "collector-worker-api-frontend-wiring", "staging-e2e-and-three-windows"}, "B3 gaps hidden")
     step_b2 = manifest["stepB2"]
     require(step_b2["baseStepB1Sha"] == STEP_B2_BASE, "Step B2 base")
     require(step_b2["allowedChanges"] == STEP_B2_CHANGES, "Step B2 changes")
@@ -260,7 +274,8 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    require(all(unit["status"] == ("ISOLATED_REVIEWED_BINDINGS_ONLY" if unit["name"] == "identity-runtime" else "NOT_STARTED") for unit in units), "future implementation")
+    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY"}
+    require(all(unit["status"] == statuses.get(unit["name"], "NOT_STARTED") for unit in units), "future implementation")
 
 
 def git(root, *args):
@@ -376,7 +391,7 @@ class AdversarialStepATests(unittest.TestCase):
         self.assertEqual(git(ROOT, "merge-base", "HEAD", BASE_SHA), BASE_SHA)
         self.assertEqual(git(ROOT, "branch", "--show-current"), self.manifest["integration"]["branch"])
         self.assertEqual(git(ROOT, "rev-list", "--merges", BASE_SHA + "..HEAD"), "")
-        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES))
+        validate_changed_surface(ROOT, BASE_SHA, ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES))
 
     def test_b1_delta_and_unwired_boundary(self):
         # B1's historical boundary remains pinned to its accepted commit.
@@ -391,15 +406,26 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b2_delta_and_evidence_authority_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B2_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B2_BASE, STEP_B2_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            changes[path] = "A"
         self.assertEqual(changes, STEP_B2_CHANGES)
         for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "onlineEvidenceVerificationImplemented", "globalIdentityMintingAllowed", "titleOnlyMergeAllowed", "researchEnqueueAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB2"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b3_delta_and_fail_closed_promotion_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B3_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_B3_CHANGES)
+        for flag in ("applicationWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "researchEnqueueAllowed", "writebackAllowed", "legacy115ReadAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB3"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 

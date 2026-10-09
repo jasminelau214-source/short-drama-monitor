@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B2_REVIEWED_IDENTITY_BINDINGS",
+  "stage": "STEP_B3_BATCH_AUTHORITY",
   "generatedAt": "2026-10-09",
   "base": {
     "branch": "main",
@@ -57,7 +57,7 @@
     },
     {
       "name": "collector-runtime",
-      "status": "NOT_STARTED"
+      "status": "ISOLATED_BATCH_AUTHORITY_ONLY"
     },
     {
       "name": "persistence-migration",
@@ -303,6 +303,31 @@
       "python-database-equivalence",
       "collector-worker-publication-wiring",
       "batch-authoritative-run-integration"
+    ]
+  },
+  "stepB3": {
+    "baseStepB2Sha": "df0e4166296e13a54e49325149ea14e580c9df85",
+    "allowedChanges": {
+      "batch_authority_v2.py": "A",
+      "test_batch_authority_v2.py": "A",
+      "docs/INTEGRATION_STEP_B3.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "databaseChangeAllowed": false,
+    "productionActionsAllowed": false,
+    "researchEnqueueAllowed": false,
+    "writebackAllowed": false,
+    "legacy115ReadAllowed": false,
+    "validationScope": "SYNTHETIC_OFFLINE_BATCH_AND_AUTHORITY_ONLY",
+    "remainingWork": [
+      "current-external-run-window-adapter",
+      "production-target-registry-adapter",
+      "conditional-database-cas-before-spend-and-write",
+      "incident-115-isolated-snapshot-replay",
+      "collector-worker-api-frontend-wiring",
+      "staging-e2e-and-three-windows"
     ]
   }
 }
