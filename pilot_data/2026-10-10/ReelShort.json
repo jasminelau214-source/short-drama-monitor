@@ -1,0 +1,81 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-10-10",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Just One Kiss"
+    },
+    {
+      "rank": 2,
+      "title": "I Don't Need No Alpha Brothers"
+    },
+    {
+      "rank": 3,
+      "title": "Bound by Hatred"
+    },
+    {
+      "rank": 4,
+      "title": "The School for Bad Boys"
+    },
+    {
+      "rank": 5,
+      "title": "My Sunset Love Affair with the Billionaire CEO"
+    },
+    {
+      "rank": 6,
+      "title": "Miss You After Goodbye"
+    },
+    {
+      "rank": 7,
+      "title": "Taming a Fussy Billionaire: My Chef Bride"
+    },
+    {
+      "rank": 8,
+      "title": "Not the Bride He Wanted"
+    },
+    {
+      "rank": 9,
+      "title": "Married a Gardener, Got a Prince"
+    },
+    {
+      "rank": 10,
+      "title": "Mistaken as His Mate: The Luna’s Regret"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "2b177c4a34d0b5b19571483f2f0df707614ce6220be986cb3227952296a60b4d",
+    "rawHtmlFile": "pilot_evidence/2026-10-10/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-10/ReelShort.png",
+    "screenshotSha256": "a30749c767e5176260252e72a687cce7c9f3d4e064bc2c7afaf2393d7bc4cbc9"
+  },
+  "error": "",
+  "production_write": false
+}

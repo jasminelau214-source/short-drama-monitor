@@ -1,0 +1,80 @@
+{
+  "platform": "MoboReels",
+  "collection_date": "2026-10-10",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_popular_series_top10",
+  "ranking_type": "Popular Series",
+  "source_url": "https://www.moboreels.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Married To My Ex-Fiancé's Silent Uncle"
+    },
+    {
+      "rank": 2,
+      "title": "Miss Urologist And Her CEO Patient"
+    },
+    {
+      "rank": 3,
+      "title": "Back With The Prince's Twins"
+    },
+    {
+      "rank": 4,
+      "title": "My Alien Life"
+    },
+    {
+      "rank": 5,
+      "title": "The Abandoned God Of Olympus"
+    },
+    {
+      "rank": 6,
+      "title": "Married My Bestie's Dad"
+    },
+    {
+      "rank": 7,
+      "title": "BILLIONAIRE'S PLUS-SIZE OBSESSION"
+    },
+    {
+      "rank": 8,
+      "title": "One Night With Three Alphas Changed Everything"
+    },
+    {
+      "rank": 9,
+      "title": "The Prince Is A Girl: The Beast King's Captive Mate"
+    },
+    {
+      "rank": 10,
+      "title": "Married My Ex's Dad, Now I'm Mafia Queen"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "MoboReels - Free Short Dramas and Movies Watch Online",
+    "pageUrl": "https://www.moboreels.com/",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "MoboReels Popular Series DOM",
+    "visibleTitles": 24,
+    "rawHtmlSha256": "024efaa782544853cb842f732356d54eb5fd337cb43571ccfbf7caa3b0ea4662",
+    "rawHtmlFile": "pilot_evidence/2026-10-10/MoboReels.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-10/MoboReels.png",
+    "screenshotSha256": "2004cba5685c346e93a1b0efec76014995fe685a764a1dd0639677c4ec0e845d"
+  },
+  "error": "",
+  "production_write": false
+}

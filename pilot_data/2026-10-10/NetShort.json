@@ -1,0 +1,90 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-10-10",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Horror Game: She’s a Monster, I See a Hottie",
+      "source_url": "https://netshort.com/full-episodes/horror-game-shes-a-monster-i-see-a-hottie-2103784897595645954"
+    },
+    {
+      "rank": 2,
+      "title": "The Don's Hired Muscle Stepmom",
+      "source_url": "https://netshort.com/full-episodes/the-dons-hired-muscle-stepmom-2102973763153952769"
+    },
+    {
+      "rank": 3,
+      "title": "From Doomed Baby to Pack’s Darling",
+      "source_url": "https://netshort.com/full-episodes/from-doomed-baby-to-packs-darling-2101610850399936514"
+    },
+    {
+      "rank": 4,
+      "title": "Racing Back to Your Heart",
+      "source_url": "https://netshort.com/full-episodes/racing-back-to-your-heart-2098290708771815426"
+    },
+    {
+      "rank": 5,
+      "title": "Don't touch the legendary lawyer's grandson",
+      "source_url": "https://netshort.com/full-episodes/dont-touch-the-legendary-lawyers-grandson-2097995633059737602"
+    },
+    {
+      "rank": 6,
+      "title": "Don't Let The Blind Heiress's Dog Die",
+      "source_url": "https://netshort.com/full-episodes/dont-let-the-blind-heiresss-dog-die-2104831753931599874"
+    },
+    {
+      "rank": 7,
+      "title": "Galactic Myth Arena",
+      "source_url": "https://netshort.com/full-episodes/galactic-myth-arena-2102224479725932546"
+    },
+    {
+      "rank": 8,
+      "title": "The Day I Got Divorced, My Billionaire Mom Found Me",
+      "source_url": "https://netshort.com/full-episodes/the-day-i-got-divorced-my-billionaire-mom-found-me-2104779750324973569"
+    },
+    {
+      "rank": 9,
+      "title": "The Hidden Plus-Sized Luna Queen",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-plus-sized-luna-queen-2104824229023064066"
+    },
+    {
+      "rank": 10,
+      "title": "You've Messed with the Wrong Mage",
+      "source_url": "https://netshort.com/full-episodes/youve-messed-with-the-wrong-mage-2100421714782785537"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "2d195d97ffb78194322ab123a9cf4ced8c19c069076e900c1e2e0bbc2eb97729",
+    "rawHtmlFile": "pilot_evidence/2026-10-10/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-10/NetShort.png",
+    "screenshotSha256": "5450478cf62feeb439e284675a6a93e876ff8ae1458dbbbdfb99609761f1d4b4"
+  },
+  "error": "",
+  "production_write": false
+}

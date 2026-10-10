@@ -1,0 +1,55 @@
+{
+  "collectionDate": "2026-10-10",
+  "generatedAt": "2026-10-10T15:22:31.326008+08:00",
+  "sourceType": "OFFICIAL_WEB",
+  "language": "English",
+  "locale": "en-US",
+  "region": "US",
+  "expectedPlatforms": 6,
+  "capturedPlatforms": 6,
+  "coverage": "6/6",
+  "productionWrite": false,
+  "researchAutoTrigger": false,
+  "promotionState": "BLOCK_PROMOTION",
+  "businessAcceptance": "NOT_RUN",
+  "platforms": {
+    "DramaBox": {
+      "status": "OBSERVATION_CAPTURED_TRUTH_PENDING",
+      "errors": [],
+      "rowCount": 10,
+      "sha256": "415052d66195c314fd370aee51ca9420e322e49fa16845a54dad7800de52bf74"
+    },
+    "FlexTV": {
+      "status": "STRUCTURE_PASS_TRUTH_PENDING",
+      "errors": [
+        "FLEXTV_UNNAMED_ITEMLIST_REQUIRES_TRUTH_REVIEW"
+      ],
+      "rowCount": 10,
+      "sha256": "763e9112c4a53fd36ca5db18edd467a51a9b5b6c522c8edf579ba0b22b6ed6eb"
+    },
+    "GoodShort": {
+      "status": "OBSERVATION_CAPTURED_TRUTH_PENDING",
+      "errors": [],
+      "rowCount": 10,
+      "sha256": "ac77623258079ee36c062bb32c5a0f1f4da56fd9fed3a6141faaf7f411adc7a7"
+    },
+    "MoboReels": {
+      "status": "OBSERVATION_CAPTURED_TRUTH_PENDING",
+      "errors": [],
+      "rowCount": 10,
+      "sha256": "21d4d8b4980f04c6f2880d20556bd5bbb406fa64099adf0eeb8eac1eb4f292b8"
+    },
+    "NetShort": {
+      "status": "OBSERVATION_CAPTURED_TRUTH_PENDING",
+      "errors": [],
+      "rowCount": 10,
+      "sha256": "2c4f044cbbebdc76bde2cb7d4753f966fcb6d2e4cbf127f8860e334255bd8d44"
+    },
+    "ReelShort": {
+      "status": "OBSERVATION_CAPTURED_TRUTH_PENDING",
+      "errors": [],
+      "rowCount": 10,
+      "sha256": "dcae9d67b3d083697fd3a4badd43fe6fcfa36ddb359c4b04052de253d80ffa3b"
+    }
+  }
+}

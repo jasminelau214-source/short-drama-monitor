@@ -1,0 +1,144 @@
+{
+  "pilot": "web-continuity-v2-six-platform",
+  "collection_date": "2026-10-10",
+  "generated_at": "2026-10-10T15:22:31.324348+08:00",
+  "top_n": 10,
+  "scope_count": 6,
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "promotion_state": "PILOT_RUNNING",
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_VERIFIED"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "FlexTV",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "GoodShort",
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_VERIFIED"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "MoboReels",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "NetShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    },
+    {
+      "platform": "ReelShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 1,
+        "pathStable": false
+      },
+      "error": ""
+    }
+  ]
+}
