@@ -16,6 +16,12 @@ from research_safety import (
     sanitize_untrusted_evidence,
     validate_search_identity,
 )
+from research_completion_v2 import (
+    CORE_FIELDS, OPTIONAL_FIELDS, GENRE_VALUES, AUDIENCE_VALUES,
+    assess_research_completion, parse_research_response, research_schema, validate_completion_context,
+)
+from drama_identity_v2 import IdentityReviewRequired
+from datetime import datetime, timezone
 
 TAVILY_SEARCH_URL = 'https://api.tavily.com/search'
 
@@ -25,17 +31,6 @@ PLATFORM_DOMAINS = {
     'NetShort': ['netshort.com'],
     'DramaWave': ['mydramawave.com', 'dramawave.tech'],
 }
-
-GENRE_VALUES = [
-    '现代都市','校园青春','悬疑惊悚','犯罪黑帮','科幻','奇幻超自然','西幻','历史古装','动作冒险','家庭伦理','其他'
-]
-AUDIENCE_VALUES = ['男频','女频','泛受众','待确认']
-CORE_FIELDS = [
-    'synopsis','genre','lane','audience','storyCore','storySkin','conflict','payoff',
-    'localizationLevel','localizationJudgment','mismatch',
-]
-OPTIONAL_FIELDS = ['openingSummary','openingType','payEpisode','paywallSummary','paywallType']
-
 
 def configured() -> bool:
     return bool(os.environ.get('TAVILY_API_KEY', '').strip() and os.environ.get('GEMINI_API_KEY', '').strip())
@@ -159,24 +154,7 @@ def discover_sources(title: str, platform: str) -> tuple[list[dict], dict]:
 
 
 def _schema() -> dict:
-    props = {name: {'type': 'string'} for name in CORE_FIELDS + OPTIONAL_FIELDS}
-    props['genre'] = {'type': 'string', 'enum': GENRE_VALUES}
-    props['audience'] = {'type': 'string', 'enum': AUDIENCE_VALUES}
-    props.update({
-        'canonicalTitle': {'type': 'string'},
-        'newnessResolution': {'type': 'string', 'enum': ['new','old','uncertain']},
-        'confidence': {'type': 'string', 'enum': ['high','medium','low']},
-        'missingFields': {'type': 'array', 'items': {'type': 'string'}},
-        'auditNotes': {'type': 'array', 'items': {'type': 'string'}},
-        'sourceUrls': {'type': 'array', 'items': {'type': 'string'}},
-        'needsGPT': {'type': 'boolean'},
-    })
-    return {
-        'type': 'object',
-        'properties': props,
-        'required': list(props.keys()),
-        'additionalProperties': False,
-    }
+    return research_schema()
 
 
 def _safe_context(task: dict) -> dict:
@@ -243,18 +221,19 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
     }
     payload = gemini_request(body, api_key)
     text = gemini_response_text(payload)
-    try:
-        result = json.loads(text)
-    except json.JSONDecodeError as exc:
-        raise RuntimeError(f'GEMINI_RESEARCH_INVALID_JSON: {text[:2000]}') from exc
-    allowed_urls = {s['url'] for s in sources}
-    result['sourceUrls'] = [u for u in (result.get('sourceUrls') or []) if u in allowed_urls]
-    if not result['sourceUrls']:
-        result['sourceUrls'] = [s['url'] for s in sources]
+    result = parse_research_response(text)
+    # Preserve the actual model claim. The shared gate rejects missing,
+    # unreviewed or foreign citations instead of fabricating source support.
     return result
 
 
-def research_task(task: dict) -> dict:
+def research_task(task: dict, *, validation_context=None, now=None) -> dict:
+    decision_time = lambda: now if now is not None else datetime.now(timezone.utc)
+    try:
+        validate_completion_context(task, validation_context, now=decision_time())
+    except (IdentityReviewRequired,ValueError,TypeError,KeyError,StopIteration) as exc:
+        return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':{}}
     title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''))
     sources, search_meta = discover_sources(title, platform)
     if not sources:
@@ -267,27 +246,31 @@ def research_task(task: dict) -> dict:
             'error': 'Tavily 未找到通过安全校验的公开来源。',
             'searchMeta': search_meta,
         }
-    result = analyze_sources(task=task, sources=sources)
-    missing = [str(x) for x in (result.get('missingFields') or []) if str(x)]
-    confidence = str(result.get('confidence') or 'low')
-    needs_gpt = bool(result.get('needsGPT'))
-    core_missing = [x for x in CORE_FIELDS if not str(result.get(x) or '').strip()]
-    if len(core_missing) >= 6 or search_meta.get('sanitizedSources', 0) >= 2:
-        needs_gpt = True
-    status = 'NEEDS_GPT' if needs_gpt or confidence == 'low' else 'COMPLETE'
+    if search_meta.get('sanitizedSources', 0) >= 2:
+        return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':'RESEARCH_SOURCE_SANITIZATION_REQUIRES_REVIEW','searchMeta':search_meta}
+    try:
+        result = analyze_sources(task=task, sources=sources)
+    except IdentityReviewRequired as exc:
+        return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':search_meta}
+    decision = assess_research_completion(result, task=task, sources=sources,
+                                          context=validation_context, now=decision_time())
+    if type(result) is not dict:
+        result = {}
+    result = dict(result)
+    confidence = result.get('confidence') if result.get('confidence') in ('high','medium','low') else 'low'
     source_rows = [
         {'url': s['url'], 'title': s['title'], 'official': s['official'], 'score': s['score'], 'safetyNotes': s.get('safetyNotes') or []}
         for s in sources
     ]
     result['searchMeta'] = search_meta
-    if search_meta.get('safetyNotes'):
-        result.setdefault('auditNotes', []).append('网页证据已经过安全清洗：' + ', '.join(search_meta['safetyNotes']))
     return {
-        'status': status,
+        'status': decision.status,
         'research': result,
         'sources': source_rows,
         'confidence': confidence,
-        'missingFields': sorted(set(missing + core_missing)),
-        'error': '',
+        'missingFields': list(decision.missing_fields),
+        'error': '' if decision.status == 'COMPLETE' else decision.reason,
         'searchMeta': search_meta,
     }

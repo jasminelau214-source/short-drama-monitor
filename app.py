@@ -15,6 +15,7 @@ import urllib.request
 import uuid
 import webbrowser
 from collections import Counter
+from contextlib import closing
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -25,6 +26,10 @@ from live_observations import merge_analysis_records, build_live_summary
 from research_worker import schedule as schedule_research_worker, configured as research_configured, running as research_running
 from collector_import import CollectorImportError, validate_and_normalize
 import persistence
+from research_completion_v2 import (
+    CORE_FIELDS, OPTIONAL_FIELDS, ResearchWritebackRejected,
+    assess_research_completion, select_same_platform_record,
+)
 
 ROOT = Path(__file__).resolve().parent
 DATA_DIR = Path(os.environ.get('DATA_DIR', ROOT))
@@ -253,22 +258,50 @@ def known_titles(before_date=''):
     return sorted(titles)
 
 
-def apply_research_result(task, research):
-    title=clean(task.get('title'),500); platform=clean(task.get('platform'),40); norm=normalize_title(title)
-    data=public_data(); candidates=[r for r in data['records'] if normalize_title(r.get('title'))==norm]
-    record=next((r for r in candidates if clean(r.get('app'),40)==platform), None) or (candidates[0] if candidates else None)
-    if not record or not record.get('id'):
-        raise RuntimeError(f'RESEARCH_RECORD_NOT_FOUND: {platform} {title}')
-    fields={k:clean(research.get(k),6000) for k in EDITABLE_FIELDS if clean(research.get(k),6000)}
-    fields['researchStatus']='已研究'
-    fields['researchConfidence']=clean(research.get('confidence'),30)
-    fields['researchSources']=[clean(x,1000) for x in (research.get('sourceUrls') or []) if clean(x,1000)]
-    drama_id=record['id']
-    with connect() as c:
-        old=c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone()
-        merged=json.loads(old['fields_json']) if old else {}; merged.update(fields); now=datetime.now(timezone.utc).isoformat()
-        c.execute('INSERT INTO drama_overrides VALUES(?,?,?) ON CONFLICT(drama_id) DO UPDATE SET fields_json=excluded.fields_json,updated_at=excluded.updated_at',(drama_id,json.dumps(merged,ensure_ascii=False),now)); c.commit()
-    if persistence.configured(): persistence.save_override(drama_id, merged)
+def apply_research_result(task, research, *, validation_context=None, now=None):
+    decision_time = lambda: now if now is not None else datetime.now(timezone.utc)
+    sources = getattr(validation_context, 'captured_sources', ())
+    decision = assess_research_completion(research, task=task, sources=sources,
+                                          context=validation_context, now=decision_time())
+    if decision.status != 'COMPLETE':
+        raise ResearchWritebackRejected(decision.reason)
+    # The conditional remote adapter is not implemented. Do not commit the
+    # local cache and then issue an unguarded production save_override call.
+    if persistence.configured():
+        raise ResearchWritebackRejected('RESEARCH_REMOTE_WRITE_ADAPTER_NOT_IMPLEMENTED')
+    with closing(connect()) as c:
+        try:
+            c.execute('BEGIN IMMEDIATE')
+            decision = assess_research_completion(research, task=task, sources=sources,
+                                                  context=validation_context, now=decision_time())
+            if decision.status != 'COMPLETE':
+                raise ResearchWritebackRejected(decision.reason)
+            record = select_same_platform_record(public_data()['records'], context=validation_context)
+            fields = {key:research[key] for key in CORE_FIELDS + OPTIONAL_FIELDS}
+            fields.update(researchStatus='已研究',researchConfidence=research['confidence'],
+                          researchSources=list(research['sourceUrls']),researchMissingFields=list(decision.missing_fields),
+                          researchCanonicalDramaId=validation_context.canonical_drama_id,
+                          researchValidatedRunId=decision.authoritative_run_id,
+                          researchAuthoritySnapshotSha256=decision.authority_snapshot_sha256,
+                          researchResultSha256=decision.result_sha256)
+            drama_id = record['id']
+            old = c.execute('SELECT fields_json FROM drama_overrides WHERE drama_id=?',(drama_id,)).fetchone()
+            previous = json.loads(old['fields_json']) if old else {}
+            merged = dict(previous); merged.update(fields)
+            if merged == previous:
+                c.rollback()
+                return {'saved':False,'reason':'RESEARCH_ALREADY_APPLIED','dramaId':drama_id}
+            timestamp = decision_time().isoformat()
+            c.execute('INSERT INTO drama_overrides VALUES(?,?,?) ON CONFLICT(drama_id) DO UPDATE SET fields_json=excluded.fields_json,updated_at=excluded.updated_at',
+                      (drama_id,json.dumps(merged,ensure_ascii=False),timestamp))
+            c.commit()
+            return {'saved':True,'reason':'RESEARCH_APPLIED_LOCAL_ONLY','dramaId':drama_id}
+        except ValueError as exc:
+            c.rollback()
+            raise ResearchWritebackRejected(str(exc)) from exc
+        except Exception:
+            c.rollback()
+            raise
 
 
 def run_analysis_batch(collection_date, platform):

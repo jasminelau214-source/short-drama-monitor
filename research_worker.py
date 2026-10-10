@@ -6,6 +6,7 @@ from typing import Callable
 
 import persistence
 from research_pipeline import configured as research_configured, research_task
+from research_completion_v2 import ResearchWritebackRejected
 
 _WORKER_LOCK = threading.Lock()
 _WORKER_RUNNING = False
@@ -45,6 +46,12 @@ def _run(*, apply_research: Callable[[dict, dict], None], max_tasks: int = 20) -
                     error=error,
                 )
                 print(f"[research] {status} {task.get('platform')} #{task.get('rank')} {task.get('title')}")
+            except ResearchWritebackRejected as exc:
+                try:
+                    persistence.update_research_task(task_id, status='REVIEW_REQUIRED', error=str(exc)[:4000])
+                except Exception as inner:
+                    print(f'[research] failed to persist review refusal: {inner}')
+                print(f"[research] REVIEW_REQUIRED {task.get('platform')} {task.get('title')}: {exc}")
             except Exception as exc:
                 error = str(exc)[:4000]
                 try:

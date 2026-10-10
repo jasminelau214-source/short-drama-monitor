@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B10_DURABLE_RESERVATION_FIXTURE",
+  "stage": "STEP_C1_COMPLETION_AND_LOCAL_WRITEBACK",
   "generatedAt": "2026-10-10",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "ISOLATED_DURABLE_RESERVATION_FIXTURE"
+      "status": "CANDIDATE_COMPLETION_LOCAL_WRITEBACK_ONLY"
     },
     {
       "name": "collector-runtime",
@@ -482,6 +482,37 @@
       "durable-database-cas-and-unique-idempotency-constraint",
       "worker-crash-recovery-and-reservation-handoff",
       "protected-provider-ledger-and-live-term-verification",
+      "incident-replays-and-full-staging-e2e",
+      "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepC1": {
+    "baseStepB10Sha": "9e968165aeedd0ced9349c23c7175df7daf5cfcf",
+    "allowedChanges": {
+      "research_completion_v2.py": "A",
+      "test_research_completion_v2.py": "A",
+      "research_pipeline.py": "M",
+      "app.py": "M",
+      "research_worker.py": "M",
+      "docs/INTEGRATION_STEP_C1.md": "A",
+      "promotion_manifest_v2.json": "M",
+      "test_core_contract_v2.py": "M"
+    },
+    "candidateRuntimeSafetyChangesAllowed": true,
+    "localSyntheticWritebackAllowed": true,
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "deploymentAllowed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalCallAllowed": false,
+    "remoteWritebackAllowed": false,
+    "protectedLiveAdaptersImplemented": false,
+    "validationScope": "SYNTHETIC_COMPLETION_AND_TEMP_LOCAL_APP_WRITEBACK_ONLY",
+    "remainingWork": [
+      "protected-context-and-field-review-runtime-adapters",
+      "postgres-global-first-seen-and-conditional-remote-commit",
+      "worker-provider-free-policy-and-durable-retry-wiring",
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
