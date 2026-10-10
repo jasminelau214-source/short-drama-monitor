@@ -71,10 +71,10 @@
     "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
     "shelfName": "TOP",
     "total": 200,
-    "rawHtmlSha256": "2b177c4a34d0b5b19571483f2f0df707614ce6220be986cb3227952296a60b4d",
+    "rawHtmlSha256": "50b2860b17e05929e2d13f4e418f2481b364fa2f09457ec4a26c939a89131026",
     "rawHtmlFile": "pilot_evidence/2026-10-10/ReelShort.html.gz",
     "screenshotFile": "pilot_evidence/2026-10-10/ReelShort.png",
-    "screenshotSha256": "a30749c767e5176260252e72a687cce7c9f3d4e064bc2c7afaf2393d7bc4cbc9"
+    "screenshotSha256": "ba2aaedd800999e6e3b8194037f3c729045d7695544b2422dfdaba7ba64ebd25"
   },
   "error": "",
   "production_write": false
