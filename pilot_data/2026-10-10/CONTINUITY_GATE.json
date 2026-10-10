@@ -12,7 +12,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_VERIFIED",
-      "sha256": "8f81e020572a96a2649b60eb13e5e88917c2085bdcc5818f84a918288cec6790",
+      "sha256": "1bf50e3c8071d652b9b29fd4a36fc8d46ee0a85b281a9181c6abdd3a4bbefcf7",
       "state": "ISOLATED_OBSERVATION_ONLY"
     },
     {
@@ -20,7 +20,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_CANDIDATE",
-      "sha256": "8b294a3ac4165175cbc02a5492d0a1b1ae5eceb9a1cde2ac78092360a7d41ed9",
+      "sha256": "6d9fbfb6a201808f5b365558e75a1873eb2a72f6a2204a29b45c3024c506b464",
       "state": "ISOLATED_OBSERVATION_ONLY"
     },
     {
@@ -28,7 +28,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_VERIFIED",
-      "sha256": "fa137244a8e71592d273c8f772da468bdcea774f7c765d99a194f69e325b94e2",
+      "sha256": "d6f124f999e5ab3dad81d8ec58fb57f3e131dc03a860b5dc3f35a8036ed39e94",
       "state": "ISOLATED_OBSERVATION_ONLY"
     },
     {
@@ -36,7 +36,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_CANDIDATE",
-      "sha256": "e71db68fb095c7717d0e33b497d58f5a84feaaa6c1b0603123a407cac16f397a",
+      "sha256": "3df872e0e29a0a1a57e8607cd87be13d7db7f81991341d248ee1c9189d046950",
       "state": "ISOLATED_OBSERVATION_ONLY"
     },
     {
@@ -44,7 +44,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_CANDIDATE",
-      "sha256": "d4b73c27f96f09a60193dd083f89366680f346247d6d7921d0ea22ef11c43ebd",
+      "sha256": "2ff510e7a053932cae4a6e58e72c4f65c88028c126ad30d56b6fad89488e94e4",
       "state": "ISOLATED_OBSERVATION_ONLY"
     },
     {
@@ -52,7 +52,7 @@
       "sourceDate": "2026-10-10",
       "rows": 10,
       "collectorStatus": "PASS_CANDIDATE",
-      "sha256": "9e9734470a3fc3d59a087a2c90d706943b5866091c039c2e390c9ce6b9f2107e",
+      "sha256": "985a85deaed8b75ee48eec71e80319bb9a307a3609695dbd5879b86e8ded19e5",
       "state": "ISOLATED_OBSERVATION_ONLY"
     }
   ],
