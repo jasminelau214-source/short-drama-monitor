@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C1_COMPLETION_AND_LOCAL_WRITEBACK",
+  "stage": "STEP_C2_ISOLATED_POSTGRES_SUBJECT_AND_WRITEBACK",
   "generatedAt": "2026-10-10",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "CANDIDATE_COMPLETION_LOCAL_WRITEBACK_ONLY"
+      "status": "ISOLATED_POSTGRES_SUBJECT_AND_WRITEBACK"
     },
     {
       "name": "collector-runtime",
@@ -483,6 +483,36 @@
       "worker-crash-recovery-and-reservation-handoff",
       "protected-provider-ledger-and-live-term-verification",
       "incident-replays-and-full-staging-e2e",
+      "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepC2": {
+    "baseStepC1Sha": "bdc05bcbc4c29568494969375c8029c24a54e3bf",
+    "allowedChanges": {
+      "postgres_test_harness_v2.py": "A",
+      "test_postgres_integration_v2.py": "A",
+      "tests/fixtures/postgres_v2.sql": "A",
+      "docs/INTEGRATION_STEP_C2.md": "A",
+      "promotion_manifest_v2.json": "M",
+      "test_core_contract_v2.py": "M"
+    },
+    "temporaryLocalPostgresAllowed": true,
+    "syntheticFixtureSchemaAllowed": true,
+    "applicationWiringAllowed": false,
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "deploymentAllowed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallAllowed": false,
+    "cloudDatabaseAllowed": false,
+    "protectedLiveAdaptersImplemented": false,
+    "validationScope": "SYNTHETIC_LOCAL_POSTGRES_SUBJECT_UNIQUENESS_AND_CONDITIONAL_WRITE_ONLY",
+    "remainingWork": [
+      "protected-live-context-field-review-and-provider-adapters",
+      "production-compatible-schema-rls-and-postgrest-parity",
+      "durable-worker-claim-retry-and-global-state-transitions",
+      "real-incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
   },
