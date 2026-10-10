@@ -62,6 +62,29 @@ def attempt_reservation_key(task_id, stage, attempt_number):
     return hashlib.sha256(payload).hexdigest()
 
 
+def reservation_context_reason(current, preflight, provider, now):
+    """Shared offline context gate for reservation and durable handoff."""
+    if (not isinstance(preflight, ResearchPreflightDecision)
+            or preflight.authorized is not True or preflight.eligibility_revalidated is not True
+            or preflight.external_call_performed is not False or preflight.spend_incurred is not False
+            or preflight.authoritative_run_id != current.authoritative_run_id
+            or preflight.authority_snapshot_sha256 != current.authority_snapshot_sha256):
+        return "PREFLIGHT_AUTHORITY_CHANGED"
+    if (not isinstance(provider, FreeProviderApproval)
+            or preflight.provider_id != provider.provider_id
+            or provider.free_tier_verified is not True or provider.paid_fallback is not False
+            or provider.revoked is not False or provider.review_ref != current.provider_review_ref
+            or not isinstance(provider.approval_id, str) or not provider.approval_id.strip()
+            or not isinstance(provider.source_url, str) or not provider.source_url.startswith("https://")
+            or not isinstance(provider.checked_at, datetime) or provider.checked_at.utcoffset() is None
+            or not isinstance(provider.valid_until, datetime) or provider.valid_until.utcoffset() is None
+            or not (provider.checked_at <= now < provider.valid_until)
+            or not isinstance(provider.artifact_sha256, str) or len(provider.artifact_sha256) != 64
+            or not set(provider.artifact_sha256) <= _SHA):
+        return "PROVIDER_APPROVAL_CHANGED"
+    return None
+
+
 class OfflineSpendReservationLedger:
     """Process-local CAS fixture for testing reserve-before-call invariants.
 
@@ -110,21 +133,9 @@ class OfflineSpendReservationLedger:
                 return ReservationDecision(False, "ATTEMPT_ALREADY_RESERVED", key, current.revision)
             if type(candidate.expected_revision) is not int or candidate.expected_revision != current.revision:
                 return ReservationDecision(False, "TASK_REVISION_CHANGED", key, current.revision)
-            if (candidate.preflight.authorized is not True
-                    or candidate.preflight.authoritative_run_id != current.authoritative_run_id
-                    or candidate.preflight.authority_snapshot_sha256 != current.authority_snapshot_sha256):
-                return ReservationDecision(False, "PREFLIGHT_AUTHORITY_CHANGED", key, current.revision)
-            provider = candidate.provider_approval
-            if (not isinstance(provider, FreeProviderApproval)
-                    or not candidate.preflight.provider_id == provider.provider_id
-                    or provider.free_tier_verified is not True or provider.paid_fallback is not False
-                    or provider.revoked is not False or provider.review_ref != current.provider_review_ref
-                    or not isinstance(provider.checked_at, datetime)
-                    or not isinstance(provider.valid_until, datetime)
-                    or not (provider.checked_at <= candidate.now < provider.valid_until)
-                    or not isinstance(provider.artifact_sha256, str) or len(provider.artifact_sha256) != 64
-                    or not set(provider.artifact_sha256) <= _SHA):
-                return ReservationDecision(False, "PROVIDER_APPROVAL_CHANGED", key, current.revision)
+            reason = reservation_context_reason(current, candidate.preflight, candidate.provider_approval, candidate.now)
+            if reason:
+                return ReservationDecision(False, reason, key, current.revision)
 
             if current.state == "PENDING":
                 if candidate.attempt_number != 1 or candidate.retry_checkpoint is not None:

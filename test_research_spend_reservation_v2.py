@@ -23,7 +23,7 @@ class SpendReservationTests(unittest.TestCase):
             self.preflight.authority_snapshot_sha256, self.provider.review_ref,
         )
 
-    def candidate(self, *, snapshot=None, task_state=None, attempt_number=1, checkpoint=None, decision=None, provider=None, now=NOW):
+    def candidate(self, *, snapshot=None, attempt_number=1, checkpoint=None, decision=None, provider=None, now=NOW):
         current = snapshot or self.initial
         return reservation.SpendAttemptCandidate(
             current.task_id, current.revision, "SEARCH", attempt_number,
@@ -89,6 +89,18 @@ class SpendReservationTests(unittest.TestCase):
         self.assertTrue(result.authorized)
         self.assertEqual(result.current_revision, 5)
         self.assertEqual(len(ledger.snapshot(current.task_id).reserved_attempt_keys), 1)
+
+    def test_malformed_or_unrevalidated_context_fails_closed(self):
+        for decision in (object(), replace(self.preflight, eligibility_revalidated=False),
+                         replace(self.preflight, spend_incurred=True)):
+            with self.subTest(decision=decision):
+                ledger = reservation.OfflineSpendReservationLedger([self.initial])
+                self.assertFalse(ledger.reserve(self.candidate(decision=decision)).authorized)
+        for provider in (replace(self.provider, checked_at=NOW.replace(tzinfo=None)),
+                         replace(self.provider, approval_id=None)):
+            with self.subTest(provider=provider):
+                ledger = reservation.OfflineSpendReservationLedger([self.initial])
+                self.assertEqual(ledger.reserve(self.candidate(provider=provider)).reason, "PROVIDER_APPROVAL_CHANGED")
 
 
 if __name__ == "__main__":

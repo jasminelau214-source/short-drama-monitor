@@ -80,10 +80,21 @@ STEP_B8_CHANGES = {
     "promotion_manifest_v2.json": "M",
 }
 STEP_B9_BASE = "56ff2a234256efce342ff5fd11d39ea26e365615"
+STEP_B9_HEAD = "06a8e6849c143304a6325c41255fe8975393d798"
 STEP_B9_CHANGES = {
     "research_spend_reservation_v2.py": "A",
     "test_research_spend_reservation_v2.py": "A",
     "docs/INTEGRATION_STEP_B9.md": "A",
+    "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M",
+}
+STEP_B10_BASE = STEP_B9_HEAD
+STEP_B10_CHANGES = {
+    "research_reservation_store_v2.py": "A",
+    "test_research_reservation_store_v2.py": "A",
+    "research_spend_reservation_v2.py": "M",
+    "test_research_spend_reservation_v2.py": "M",
+    "docs/INTEGRATION_STEP_B10.md": "A",
     "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
@@ -272,7 +283,15 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_B9_ATTEMPT_RESERVATION_MODEL", "stage")
+    require(manifest["stage"] == "STEP_B10_DURABLE_RESERVATION_FIXTURE", "stage")
+    step_b10 = manifest["stepB10"]
+    require(step_b10["baseStepB9Sha"] == STEP_B10_BASE, "Step B10 base")
+    require(step_b10["allowedChanges"] == STEP_B10_CHANGES, "Step B10 changes")
+    for key in ("applicationWiringAllowed", "productionDatabaseChangeAllowed", "workerWiringAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+        require(step_b10[key] is False, key)
+    require(step_b10["temporaryFixtureDatabaseAllowed"] is True, "B10 temporary fixture")
+    require(step_b10["validationScope"] == "SYNTHETIC_TEMP_SQLITE_PROCESS_CRASH_AND_RETRY_ONLY", "B10 evidence scope")
+    require(set(step_b10["remainingWork"]) == {"postgres-equivalence-and-protected-live-revalidation", "real-worker-and-provider-idempotency-reconciliation", "cross-stage-and-durable-quota-resume-adapters", "incident-replays-and-full-staging-e2e", "truth-fault-identity-writeback-and-stability-gates"}, "B10 gaps hidden")
     step_b9 = manifest["stepB9"]
     require(step_b9["baseStepB8Sha"] == STEP_B9_BASE, "Step B9 base")
     require(step_b9["allowedChanges"] == STEP_B9_CHANGES, "Step B9 changes")
@@ -369,7 +388,7 @@ def validate_manifest(manifest):
     require(manifest["rollback"] == {"status": "NOT_RUN", "applicationSnapshot": None, "databaseSnapshot": None, "schedulerSnapshot": None, "restoreEvidence": None, "stepARollback": "ABANDON_CONTRACT_CANDIDATE_NO_RUNTIME_OR_DATA_ROLLBACK_NEEDED"}, "rollback evidence")
     units = manifest["futurePromotionUnits"]
     require({u["name"] for u in units} == {"identity-runtime", "source-newness-runtime", "research-runtime", "collector-runtime", "persistence-migration", "scheduler-runtime", "api-frontend-runtime"} and len(units) == 7, "future units missing")
-    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_SPEND_RESERVATION_MODEL"}
+    statuses = {"identity-runtime": "ISOLATED_REVIEWED_BINDINGS_ONLY", "collector-runtime": "ISOLATED_BATCH_AUTHORITY_ONLY", "research-runtime": "ISOLATED_DURABLE_RESERVATION_FIXTURE"}
     require(all(unit["status"] == statuses.get(unit["name"], "NOT_STARTED") for unit in units), "future implementation")
 
 
@@ -493,7 +512,7 @@ class AdversarialStepATests(unittest.TestCase):
         changes = dict(zip(parts[1::2], parts[0::2]))
         for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
             changes[path] = "A"
-        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES)}
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES) | set(STEP_B10_CHANGES)}
         self.assertEqual(changes, expected)
 
     def test_b1_delta_and_unwired_boundary(self):
@@ -586,18 +605,28 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b9_delta_and_no_external_call_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B9_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B9_BASE, STEP_B9_HEAD, "--")
         parts = raw.split("\0") if raw else []
         if parts and parts[-1] == "":
             parts.pop()
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            if path in STEP_B9_CHANGES:
-                changes[path] = "A"
         self.assertEqual(changes, STEP_B9_CHANGES)
         for flag in ("runtimeCodeChangeAllowed", "databaseChangeAllowed", "workerWiringAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepB9"][flag] = True
+            with self.assertRaises(ValueError):
+                validate_manifest(changed)
+
+    def test_b10_delta_and_temporary_database_boundary(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B10_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_B10_CHANGES)
+        for flag in ("applicationWiringAllowed", "productionDatabaseChangeAllowed", "workerWiringAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepB10"][flag] = True
             with self.assertRaises(ValueError):
                 validate_manifest(changed)
 

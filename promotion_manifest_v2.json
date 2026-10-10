@@ -1,7 +1,7 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B9_ATTEMPT_RESERVATION_MODEL",
-  "generatedAt": "2026-10-09",
+  "stage": "STEP_B10_DURABLE_RESERVATION_FIXTURE",
+  "generatedAt": "2026-10-10",
   "base": {
     "branch": "main",
     "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "ISOLATED_SPEND_RESERVATION_MODEL"
+      "status": "ISOLATED_DURABLE_RESERVATION_FIXTURE"
     },
     {
       "name": "collector-runtime",
@@ -482,6 +482,34 @@
       "durable-database-cas-and-unique-idempotency-constraint",
       "worker-crash-recovery-and-reservation-handoff",
       "protected-provider-ledger-and-live-term-verification",
+      "incident-replays-and-full-staging-e2e",
+      "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepB10": {
+    "baseStepB9Sha": "06a8e6849c143304a6325c41255fe8975393d798",
+    "allowedChanges": {
+      "research_reservation_store_v2.py": "A",
+      "test_research_reservation_store_v2.py": "A",
+      "research_spend_reservation_v2.py": "M",
+      "test_research_spend_reservation_v2.py": "M",
+      "docs/INTEGRATION_STEP_B10.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "applicationWiringAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "workerWiringAllowed": false,
+    "productionActionsAllowed": false,
+    "externalCallAllowed": false,
+    "queueTransitionAllowed": false,
+    "writebackAllowed": false,
+    "temporaryFixtureDatabaseAllowed": true,
+    "validationScope": "SYNTHETIC_TEMP_SQLITE_PROCESS_CRASH_AND_RETRY_ONLY",
+    "remainingWork": [
+      "postgres-equivalence-and-protected-live-revalidation",
+      "real-worker-and-provider-idempotency-reconciliation",
+      "cross-stage-and-durable-quota-resume-adapters",
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
