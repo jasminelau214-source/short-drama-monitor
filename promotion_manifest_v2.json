@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_B8_RETRY_STATE_REAUTHORIZATION",
+  "stage": "STEP_B9_ATTEMPT_RESERVATION_MODEL",
   "generatedAt": "2026-10-09",
   "base": {
     "branch": "main",
@@ -53,7 +53,7 @@
     },
     {
       "name": "research-runtime",
-      "status": "ISOLATED_RETRY_STATE_GATED_PREFLIGHT"
+      "status": "ISOLATED_SPEND_RESERVATION_MODEL"
     },
     {
       "name": "collector-runtime",
@@ -457,6 +457,31 @@
       "durable-task-and-checkpoint-atomic-cas",
       "protected-provider-ledger-and-live-term-verification",
       "worker-call-reservation-and-crash-recovery",
+      "incident-replays-and-full-staging-e2e",
+      "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepB9": {
+    "baseStepB8Sha": "56ff2a234256efce342ff5fd11d39ea26e365615",
+    "allowedChanges": {
+      "research_spend_reservation_v2.py": "A",
+      "test_research_spend_reservation_v2.py": "A",
+      "docs/INTEGRATION_STEP_B9.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "runtimeCodeChangeAllowed": false,
+    "databaseChangeAllowed": false,
+    "workerWiringAllowed": false,
+    "productionActionsAllowed": false,
+    "externalCallAllowed": false,
+    "queueTransitionAllowed": false,
+    "writebackAllowed": false,
+    "validationScope": "SYNTHETIC_OFFLINE_ATOMIC_RESERVATION_AND_REPLAY_ONLY",
+    "remainingWork": [
+      "durable-database-cas-and-unique-idempotency-constraint",
+      "worker-crash-recovery-and-reservation-handoff",
+      "protected-provider-ledger-and-live-term-verification",
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
