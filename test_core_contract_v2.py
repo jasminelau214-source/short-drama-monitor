@@ -66,6 +66,7 @@ STEP_B7_CHANGES = {
 }
 STEP_B7_HEAD = "2172a85b7d0bbb88f978f5765543fc1cb3b08927"
 STEP_B8_BASE = STEP_B7_HEAD
+STEP_B8_HEAD = "56ff2a234256efce342ff5fd11d39ea26e365615"
 STEP_B8_CHANGES = {
     "research_attempt_policy_v2.py": "M",
     "test_research_attempt_policy_v2.py": "M",
@@ -574,12 +575,9 @@ class AdversarialStepATests(unittest.TestCase):
                 validate_manifest(changed)
 
     def test_b8_delta_and_retry_state_boundary(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B8_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_B8_BASE, STEP_B8_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            if path in STEP_B8_CHANGES:
-                changes[path] = "A"
         self.assertEqual(changes, STEP_B8_CHANGES)
         for flag in ("applicationWiringAllowed", "workerWiringAllowed", "databaseChangeAllowed", "productionActionsAllowed", "externalCallAllowed", "queueTransitionAllowed", "writebackAllowed"):
             changed = copy.deepcopy(self.manifest)
