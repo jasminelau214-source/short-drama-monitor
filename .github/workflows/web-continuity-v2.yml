@@ -1,0 +1,105 @@
+name: JSM V2 Web Continuity (isolated evidence)
+
+# Branch-only: push executes a test/capture; this is NOT a recurring timer.
+# GitHub schedule requires default-branch workflow; intentionally not added to main.
+on:
+  push:
+    branches: [test/web-continuity-v2-20261010]
+    paths:
+      - 'web_continuity_gate.py'
+      - 'test_web_continuity_gate.py'
+      - 'pilot_web_top10.py'
+      - 'pilot_web_top10_v3.py'
+      - 'pilot_exact_web_adapters.py'
+      - 'pilot_scope.json'
+      - '.github/workflows/web-continuity-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jsm-v2-web-continuity-isolated
+  cancel-in-progress: false
+
+jobs:
+  six-platform-capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: test/web-continuity-v2-20261010
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Offline red-blue fail-closed regression
+        run: python -m unittest -v test_web_continuity_gate.py
+
+      - name: Install isolated Web runtime
+        run: |
+          python -m pip install playwright pycryptodome
+          python -m playwright install --with-deps chromium
+
+      - name: Capture six official Web surfaces without production/Research access
+        id: capture
+        shell: bash
+        run: |
+          set +e
+          python web_continuity_gate.py
+          rc=$?
+          echo "capture_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upload raw source HTML/screenshots and gate report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsm-v2-web-capture-${{ github.run_id }}
+          path: |
+            pilot_evidence/
+            pilot_data/
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Commit isolated JSON snapshots even if one platform failed
+        if: always()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- pilot_data/
+          if git diff --cached --quiet; then
+            echo "No snapshot data to commit"
+            exit 0
+          fi
+          original_head="$GITHUB_SHA"
+          git fetch origin test/web-continuity-v2-20261010
+          remote_head="$(git rev-parse origin/test/web-continuity-v2-20261010)"
+          if [[ "$remote_head" != "$original_head" ]]; then
+            echo "::error::Branch changed during collection; do not overwrite newer evidence"
+            exit 1
+          fi
+          git commit -m "evidence(web-continuity-v2): six-platform isolated snapshot $(date -u +%F)"
+          git push origin HEAD:test/web-continuity-v2-20261010
+
+      - name: Fail visibly on incomplete coverage
+        if: always()
+        shell: bash
+        env:
+          CAPTURE_RC: ${{ steps.capture.outputs.capture_rc }}
+        run: |
+          if [[ -z "$CAPTURE_RC" ]]; then
+            echo "::error::Capture never ran: no result"
+            exit 1
+          fi
+          if [[ "$CAPTURE_RC" != "0" ]]; then
+            echo "::error::One or more platforms failed capture gate. See per-platform JSON."
+            exit "$CAPTURE_RC"
+          fi
