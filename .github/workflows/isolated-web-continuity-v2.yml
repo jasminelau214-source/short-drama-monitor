@@ -11,6 +11,8 @@ on:
       - 'pilot_exact_web_adapters.py'
       - 'pilot_scope.json'
       - 'continuity_gate_v2.py'
+      - 'isolated_web_semantic_audit_v2.py'
+      - 'test_isolated_web_semantic_audit_v2.py'
       - '.github/workflows/isolated-web-continuity-v2.yml'
 permissions:
   contents: write
@@ -39,6 +41,12 @@ jobs:
         id: gate
         continue-on-error: true
         run: python continuity_gate_v2.py
+      - name: Validate four Web source semantics and fault injections (not App Truth)
+        id: web_semantics
+        continue-on-error: true
+        run: |
+          python isolated_web_semantic_audit_v2.py
+          python -m unittest -v test_isolated_web_semantic_audit_v2.py
       - name: Upload raw evidence even on partial platform failure
         if: always()
         uses: actions/upload-artifact@v4
@@ -63,4 +71,5 @@ jobs:
         if: always()
         env:
           GATE_OUTCOME: ${{ steps.gate.outcome }}
-        run: test "$GATE_OUTCOME" = success
+          SEMANTIC_OUTCOME: ${{ steps.web_semantics.outcome }}
+        run: test "$GATE_OUTCOME" = success && test "$SEMANTIC_OUTCOME" = success
