@@ -1,0 +1,90 @@
+{
+  "platform": "FlexTV",
+  "collection_date": "2026-10-11",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_top_in_flextv_top10",
+  "ranking_type": "Top in FlexTV",
+  "source_url": "https://www.flextv.cc/drama/Top-in-FlexTV",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "My Freeze.Their Tears.No Forgiveness",
+      "source_url": "https://www.flextv.cc/movie/my-freeze-their-tears-no-forgiveness-BxZ0XB7ZQ7"
+    },
+    {
+      "rank": 2,
+      "title": "Mr. Right on Purpose",
+      "source_url": "https://www.flextv.cc/movie/mr-right-on-purpose-MPOx3RyZqX"
+    },
+    {
+      "rank": 3,
+      "title": "The Veteran’s Promise",
+      "source_url": "https://www.flextv.cc/movie/the-veteran’s-promise-jyzRWK2nVB"
+    },
+    {
+      "rank": 4,
+      "title": "When the Wolf Fell in Love",
+      "source_url": "https://www.flextv.cc/movie/when-the-wolf-fell-in-love-wvOGpk9zPB"
+    },
+    {
+      "rank": 5,
+      "title": "Mr. Williams! Madame Is Dying",
+      "source_url": "https://www.flextv.cc/movie/mr-williams-madame-is-dying-lmEZqy6Z8Q"
+    },
+    {
+      "rank": 6,
+      "title": "Betrayed at the Alter, She Married a CEO Instead",
+      "source_url": "https://www.flextv.cc/movie/betrayed-at-the-alter-she-married-a-ceo-instead-qjzb05DZ7W"
+    },
+    {
+      "rank": 7,
+      "title": "Revenge of the Forsaken Elf Queen",
+      "source_url": "https://www.flextv.cc/movie/revenge-of-the-forsaken-elf-queen-03nV9kYz86"
+    },
+    {
+      "rank": 8,
+      "title": "Awakening of the Shadow King",
+      "source_url": "https://www.flextv.cc/movie/awakening-of-the-shadow-king-r0OBpkAnXA"
+    },
+    {
+      "rank": 9,
+      "title": "(DUBBED)The Tiny Tyrant of Go",
+      "source_url": "https://www.flextv.cc/movie/the-tiny-tyrant-of-go-dubbed-WKzLolDOr0"
+    },
+    {
+      "rank": 10,
+      "title": "Loving You in My Final Days",
+      "source_url": "https://www.flextv.cc/movie/loving-you-in-my-final-days-DAON2V8OPR"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Loading https://www.flextv.cc/drama/Top-in-FlexTV",
+    "pageUrl": "https://www.flextv.cc/drama/Top-in-FlexTV",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "",
+    "rawHtmlSha256": "5b3f8a0cbb706c78da439a1ca231efae0e73bbf636455541850149df07148640",
+    "rawHtmlFile": "pilot_evidence/2026-10-11/FlexTV.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-11/FlexTV.png",
+    "screenshotSha256": "9a3dcf430e6eee843a82a78b9eb4d915c949338c0521ccf4370fd96f941033c3"
+  },
+  "error": "",
+  "production_write": false
+}

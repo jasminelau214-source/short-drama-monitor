@@ -1,0 +1,90 @@
+{
+  "platform": "NetShort",
+  "collection_date": "2026-10-11",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_trending_now_top10",
+  "ranking_type": "Trending Now",
+  "source_url": "https://netshort.com/",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "The Don's Hired Muscle Stepmom",
+      "source_url": "https://netshort.com/full-episodes/the-dons-hired-muscle-stepmom-2102973763153952769"
+    },
+    {
+      "rank": 2,
+      "title": "Horror Game: She’s a Monster, I See a Hottie",
+      "source_url": "https://netshort.com/full-episodes/horror-game-shes-a-monster-i-see-a-hottie-2103784897595645954"
+    },
+    {
+      "rank": 3,
+      "title": "Racing Back to Your Heart",
+      "source_url": "https://netshort.com/full-episodes/racing-back-to-your-heart-2098290708771815426"
+    },
+    {
+      "rank": 4,
+      "title": "Don't Let The Blind Heiress's Dog Die",
+      "source_url": "https://netshort.com/full-episodes/dont-let-the-blind-heiresss-dog-die-2104831753931599874"
+    },
+    {
+      "rank": 5,
+      "title": "Don't touch the legendary lawyer's grandson",
+      "source_url": "https://netshort.com/full-episodes/dont-touch-the-legendary-lawyers-grandson-2097995633059737602"
+    },
+    {
+      "rank": 6,
+      "title": "From Doomed Baby to Pack’s Darling",
+      "source_url": "https://netshort.com/full-episodes/from-doomed-baby-to-packs-darling-2101610850399936514"
+    },
+    {
+      "rank": 7,
+      "title": "The Day I Got Divorced, My Billionaire Mom Found Me",
+      "source_url": "https://netshort.com/full-episodes/the-day-i-got-divorced-my-billionaire-mom-found-me-2104779750324973569"
+    },
+    {
+      "rank": 8,
+      "title": "Double-marked: Luna's Revenge",
+      "source_url": "https://netshort.com/full-episodes/double-marked-lunas-revenge-2097996304681058306"
+    },
+    {
+      "rank": 9,
+      "title": "Galactic Myth Arena",
+      "source_url": "https://netshort.com/full-episodes/galactic-myth-arena-2102224479725932546"
+    },
+    {
+      "rank": 10,
+      "title": "The Hidden Queen: My Husband's Mistress Ruined My Empire",
+      "source_url": "https://netshort.com/full-episodes/the-hidden-queen-my-husbands-mistress-ruined-my-empire-2064230228554887169"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "Watch Short Dramas, Reel Shows & Movies Online for Free in 2026 | NetShort",
+    "pageUrl": "https://netshort.com/",
+    "documentLang": "en-US",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "JSON-LD ItemList",
+    "itemListName": "Trending Now",
+    "rawHtmlSha256": "438c2a5745c8e5db432e998b4725ef633fab32b4bd4bf853d1a266fa2a79bb47",
+    "rawHtmlFile": "pilot_evidence/2026-10-11/NetShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-11/NetShort.png",
+    "screenshotSha256": "a5ea5632d3ba5ffbe459b5fcc7400cde2dbce47b3b18e7b90f2f674719b79cdc"
+  },
+  "error": "",
+  "production_write": false
+}

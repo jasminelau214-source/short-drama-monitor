@@ -1,0 +1,81 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-10-11",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "Just One Kiss"
+    },
+    {
+      "rank": 2,
+      "title": "Bound by Hatred"
+    },
+    {
+      "rank": 3,
+      "title": "I Don't Need No Alpha Brothers"
+    },
+    {
+      "rank": 4,
+      "title": "The School for Bad Boys"
+    },
+    {
+      "rank": 5,
+      "title": "The Return of the Lost Striker"
+    },
+    {
+      "rank": 6,
+      "title": "My Sunset Love Affair with the Billionaire CEO"
+    },
+    {
+      "rank": 7,
+      "title": "The Hacker Heiress Strikes Back"
+    },
+    {
+      "rank": 8,
+      "title": "Taming a Fussy Billionaire: My Chef Bride"
+    },
+    {
+      "rank": 9,
+      "title": "Campaigning For Love"
+    },
+    {
+      "rank": 10,
+      "title": "Reborn to Find I Am the Mogul's Lost Love"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "d11570008250fcf56a16df67e4181df078e6d064d179b7ce284b5f3f9e9f5f57",
+    "rawHtmlFile": "pilot_evidence/2026-10-11/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-11/ReelShort.png",
+    "screenshotSha256": "3ff7fb1e69435cccd2573f7083fb1cf83a8fdf7f1e85e75db1513b53919380af"
+  },
+  "error": "",
+  "production_write": false
+}
