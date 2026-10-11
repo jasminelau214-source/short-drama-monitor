@@ -1,0 +1,8 @@
+JSM V2 OFFICIAL WEB TOP10 ISOLATED CAPTURE TRIGGER
+Trigger date (Asia/Shanghai): 2026-10-11
+Type: TRIGGER_SIGNAL_ONLY
+This file is a workflow trigger signal, NOT ranking data, NOT a captured snapshot, and NOT evidence of collection success.
+Scope: DramaBox, FlexTV, GoodShort, MoboReels, NetShort, ReelShort.
+Locale: English / en-US. Region: US where selectable.
+Restrictions: isolated branch only; no production database/Render/Scheduler/Secrets, research queue, deep research, production writeback or promotion.
+DramaWave and ShortMax remain paused.
