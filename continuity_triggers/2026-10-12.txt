@@ -1,0 +1,6 @@
+JSM V2 ISOLATED WEB CONTINUITY TRIGGER
+Date (Asia/Shanghai): 2026-10-12
+Purpose: Push trigger signal for isolated-web-continuity-v2.yml only.
+This file is a trigger signal, NOT ranking data, NOT a Top10 result, and NOT evidence of successful collection.
+Scope: DramaBox, FlexTV, GoodShort, MoboReels, NetShort, ReelShort; official Web Top10, English/en-US, US where selectable.
+Safety: isolated branch only; no production write, no research queue, no deep research, no promotion. DramaWave and ShortMax paused.
