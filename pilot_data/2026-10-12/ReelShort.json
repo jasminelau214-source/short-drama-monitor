@@ -1,0 +1,81 @@
+{
+  "platform": "ReelShort",
+  "collection_date": "2026-10-12",
+  "source_type": "OFFICIAL_WEB",
+  "target_key": "web_pilot_top_shelf_top10",
+  "ranking_type": "TOP",
+  "source_url": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+  "strategy": "browser_probe",
+  "top_n": 10,
+  "rows": [
+    {
+      "rank": 1,
+      "title": "My Vampire Bodyguard"
+    },
+    {
+      "rank": 2,
+      "title": "Just One Kiss"
+    },
+    {
+      "rank": 3,
+      "title": "Bound by Hatred"
+    },
+    {
+      "rank": 4,
+      "title": "W・KING"
+    },
+    {
+      "rank": 5,
+      "title": "Dream On"
+    },
+    {
+      "rank": 6,
+      "title": "Found A Homeless Billionaire Husband for Christmas"
+    },
+    {
+      "rank": 7,
+      "title": "The Heiress Blacklisted Her Husband"
+    },
+    {
+      "rank": 8,
+      "title": "Beg for My Return After Kicking Me Out"
+    },
+    {
+      "rank": 9,
+      "title": "I Don't Need No Alpha Brothers"
+    },
+    {
+      "rank": 10,
+      "title": "Mistaken as His Mate: The Luna’s Regret"
+    }
+  ],
+  "row_count": 10,
+  "status": "PASS_CANDIDATE",
+  "audit": {
+    "batchComplete": true,
+    "expectedRows": 10,
+    "actualRows": 10,
+    "missingRanks": [],
+    "duplicateRanks": [],
+    "duplicateTitles": [],
+    "emptyTitles": 0
+  },
+  "evidence": {
+    "parserFallbackError": "",
+    "pageTitle": "TOP Short Dramas / TV Series | ReelShort",
+    "pageUrl": "https://www.reelshort.com/shelf/top-short-movies-dramas-51001122",
+    "documentLang": "en",
+    "httpStatus": 200,
+    "browserAttempt": 1,
+    "mobileProfile": false,
+    "structuredData": "Next.js __NEXT_DATA__ pageProps.list",
+    "shelfName": "TOP",
+    "total": 200,
+    "rawHtmlSha256": "c1a9018c16d6347d7d179c91b602549ff5943a9b107e6a737b61a280704c7797",
+    "rawHtmlFile": "pilot_evidence/2026-10-12/ReelShort.html.gz",
+    "screenshotFile": "pilot_evidence/2026-10-12/ReelShort.png",
+    "screenshotSha256": "87b582385f9613b28eae7ded87c98d579db2bfc9eb439c763ca6cd59a62fa9c2"
+  },
+  "error": "",
+  "production_write": false
+}

@@ -1,12 +1,12 @@
 {
   "pilot": "web-continuity-v2-six-platform",
-  "collection_date": "2026-10-11",
-  "generated_at": "2026-10-11T16:06:26.829425+08:00",
+  "collection_date": "2026-10-12",
+  "generated_at": "2026-10-12T16:02:16.982043+08:00",
   "top_n": 10,
   "scope_count": 6,
   "production_write": false,
   "promotion_requires_user_confirmation": true,
-  "promotion_state": "PILOT_RUNNING",
+  "promotion_state": "AWAITING_USER_CONFIRMATION",
   "platforms": [
     {
       "platform": "DramaBox",
@@ -24,10 +24,11 @@
       "stability": {
         "lastThree": [
           "PASS_VERIFIED",
+          "PASS_VERIFIED",
           "PASS_VERIFIED"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     },
@@ -47,10 +48,11 @@
       "stability": {
         "lastThree": [
           "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
           "PASS_CANDIDATE"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     },
@@ -70,10 +72,11 @@
       "stability": {
         "lastThree": [
           "PASS_VERIFIED",
+          "PASS_VERIFIED",
           "PASS_VERIFIED"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     },
@@ -93,10 +96,11 @@
       "stability": {
         "lastThree": [
           "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
           "PASS_CANDIDATE"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     },
@@ -116,10 +120,11 @@
       "stability": {
         "lastThree": [
           "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
           "PASS_CANDIDATE"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     },
@@ -139,10 +144,11 @@
       "stability": {
         "lastThree": [
           "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
           "PASS_CANDIDATE"
         ],
-        "consecutiveValidRuns": 2,
-        "pathStable": false
+        "consecutiveValidRuns": 3,
+        "pathStable": true
       },
       "error": ""
     }

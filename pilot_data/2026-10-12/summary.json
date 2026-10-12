@@ -1,0 +1,156 @@
+{
+  "pilot": "web-continuity-v2-six-platform",
+  "collection_date": "2026-10-12",
+  "generated_at": "2026-10-12T16:02:16.982043+08:00",
+  "top_n": 10,
+  "scope_count": 6,
+  "production_write": false,
+  "promotion_requires_user_confirmation": true,
+  "promotion_state": "AWAITING_USER_CONFIRMATION",
+  "platforms": [
+    {
+      "platform": "DramaBox",
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_VERIFIED",
+          "PASS_VERIFIED",
+          "PASS_VERIFIED"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    },
+    {
+      "platform": "FlexTV",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    },
+    {
+      "platform": "GoodShort",
+      "status": "PASS_VERIFIED",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_VERIFIED",
+          "PASS_VERIFIED",
+          "PASS_VERIFIED"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    },
+    {
+      "platform": "MoboReels",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    },
+    {
+      "platform": "NetShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    },
+    {
+      "platform": "ReelShort",
+      "status": "PASS_CANDIDATE",
+      "row_count": 10,
+      "audit": {
+        "batchComplete": true,
+        "expectedRows": 10,
+        "actualRows": 10,
+        "missingRanks": [],
+        "duplicateRanks": [],
+        "duplicateTitles": [],
+        "emptyTitles": 0
+      },
+      "stability": {
+        "lastThree": [
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE",
+          "PASS_CANDIDATE"
+        ],
+        "consecutiveValidRuns": 3,
+        "pathStable": true
+      },
+      "error": ""
+    }
+  ]
+}
