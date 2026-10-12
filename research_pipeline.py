@@ -227,7 +227,7 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
     return result
 
 
-def research_task(task: dict, *, validation_context=None, now=None) -> dict:
+def research_task(task: dict, *, validation_context=None, review_context_provider=None, now=None) -> dict:
     decision_time = lambda: now if now is not None else datetime.now(timezone.utc)
     try:
         validate_completion_context(task, validation_context, now=decision_time())
@@ -254,8 +254,15 @@ def research_task(task: dict, *, validation_context=None, now=None) -> dict:
     except IdentityReviewRequired as exc:
         return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
                 'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':search_meta}
-    decision = assess_research_completion(result, task=task, sources=sources,
-                                          context=validation_context, now=decision_time())
+    # A protected adapter may review the actual result/source bytes after
+    # research. Model/task JSON cannot provide its own review context.
+    try:
+        completion_context = review_context_provider(result, sources) if review_context_provider is not None else validation_context
+        decision = assess_research_completion(result, task=task, sources=sources,
+                                              context=completion_context, now=decision_time())
+    except IdentityReviewRequired as exc:
+        return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':search_meta}
     if type(result) is not dict:
         result = {}
     result = dict(result)
@@ -264,7 +271,6 @@ def research_task(task: dict, *, validation_context=None, now=None) -> dict:
         {'url': s['url'], 'title': s['title'], 'official': s['official'], 'score': s['score'], 'safetyNotes': s.get('safetyNotes') or []}
         for s in sources
     ]
-    result['searchMeta'] = search_meta
     return {
         'status': decision.status,
         'research': result,

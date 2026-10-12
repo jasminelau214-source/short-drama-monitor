@@ -227,7 +227,7 @@ def build_summary(records):
 
 
 def public_data():
-    with connect() as c:
+    with closing(connect()) as c:
         rows=c.execute('SELECT drama_id,fields_json FROM drama_overrides').fetchall()
     overrides={}
     for row in rows:
@@ -238,7 +238,7 @@ def public_data():
         r=dict(base); r.update(overrides.get(r.get('id'),{})); r['laneTerms']=split_lane(r.get('lane')); records.append(r)
     # Fact publication is independent from deep research: every latest complete
     # screenshot analysis becomes a live ranking observation immediately.
-    records=merge_analysis_records(records, connect, normalize_title, split_lane)
+    records=merge_analysis_records(records, lambda: closing(connect()), normalize_title, split_lane)
     # Dynamic records are created after the first override pass, so apply overrides
     # again to make completed research visible without requiring a restart.
     for r in records:

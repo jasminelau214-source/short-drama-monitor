@@ -1,7 +1,7 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C2_ISOLATED_POSTGRES_SUBJECT_AND_WRITEBACK",
-  "generatedAt": "2026-10-10",
+  "stage": "STEP_C3_RESEARCH_HANDOFF_AND_INCIDENT_REVIEW",
+  "generatedAt": "2026-10-12",
   "base": {
     "branch": "main",
     "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
@@ -574,5 +574,35 @@
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
     ]
+  },
+  "stepC3": {
+    "baseStepC2Sha": "ed5b2e1e4a66c84480272e64e1ffad506a232f40",
+    "allowedChanges": {
+      "app.py": "M",
+      "research_pipeline.py": "M",
+      "research_worker.py": "M",
+      "test_research_completion_v2.py": "M",
+      "docs/INTEGRATION_STEP_C3.md": "A",
+      "promotion_manifest_v2.json": "M",
+      "test_core_contract_v2.py": "M"
+    },
+    "validationScope": "ISOLATED_CONNECTED_RESEARCH_WRITEBACK_AND_PUBLIC_DATA_ROUTE",
+    "historicalReplayStatus": "PARTIAL_LOCAL_READ_ONLY_NO_FORMAL_GATE_PASS",
+    "remainingWork": [
+      "free-isolated-cloud-environment",
+      "protected-live-identity-review-provider-and-queue-adapters",
+      "six-platform-current-truth-and-fault-verification",
+      "full-staging-e2e-and-three-formal-windows",
+      "rollback-and-separate-production-approval"
+    ],
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "deploymentAllowed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallAllowed": false,
+    "protectedLiveAdaptersImplemented": false,
+    "fullStagingE2EPassed": false,
+    "legacyQueueDefaultClaimAllowed": false
   }
 }

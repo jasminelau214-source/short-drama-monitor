@@ -65,6 +65,7 @@ class ResearchCompletionTests(unittest.TestCase):
         self.record = dict(id=row.record_id, app='NetShort', title=row.title, canonicalDramaId='content:1',
                            sourceEntityId=row.source_entity_id, sourceType='OFFICIAL_WEB')
         self.records = [self.record]
+        self.actual_public_data = self.app.public_data
         patch.object(self.app, 'public_data', side_effect=lambda:{'records':self.records}).start()
 
     def bind_fields(self, *, fields=None, identity=None, source=None):
@@ -276,10 +277,101 @@ class ResearchCompletionTests(unittest.TestCase):
 
     def test_worker_business_refusal_goes_to_review_without_complete(self):
         output = dict(status='COMPLETE',research=self.result,sources=[],confidence='medium',missingFields=[],error='')
-        with patch.object(worker.persistence,'claim_research_tasks',return_value=[self.task]), patch.object(worker.persistence,'update_research_task') as update, patch.object(worker,'research_task',return_value=output), patch.object(worker.time,'sleep'), patch('builtins.print'):
-            worker._run(apply_research=Mock(side_effect=completion.ResearchWritebackRejected('synthetic refusal')),max_tasks=1)
+        update = Mock()
+        handoff = worker.ResearchHandoff(Mock(return_value=[self.task]),Mock(return_value=self.context),update)
+        with patch.object(worker,'research_task',return_value=output), patch.object(worker.time,'sleep'), patch('builtins.print'):
+            worker._run(apply_research=Mock(side_effect=completion.ResearchWritebackRejected('synthetic refusal')),max_tasks=1,handoff=handoff)
         self.assertEqual(update.call_count,1)
         self.assertEqual(update.call_args.kwargs['status'],'REVIEW_REQUIRED')
+
+    def test_pipeline_payload_can_pass_real_writer_without_metadata_leak(self):
+        meta={'searches':1,'selectedCount':1}
+        with patch.object(pipeline,'discover_sources',return_value=([self.source],meta)), patch.object(pipeline,'analyze_sources',return_value=self.result):
+            output=pipeline.research_task(self.task,validation_context=self.context,now=NOW)
+        self.assertEqual(output['status'],'COMPLETE')
+        self.assertEqual(set(output['research']),completion.RESULT_FIELDS)
+        self.assertEqual(output['searchMeta'],meta)
+        self.assertTrue(self.app.apply_research_result(self.task,output['research'],validation_context=self.context,now=NOW)['saved'])
+        self.assertEqual([r['drama_id'] for r in self.rows()],['record:1'])
+
+    def test_post_research_reviews_apply_to_actual_result_and_sources(self):
+        initial=replace(self.context,field_evidence=(),field_approvals={})
+        review=Mock(return_value=self.context)
+        with patch.object(pipeline,'discover_sources',return_value=([self.source],{})), patch.object(pipeline,'analyze_sources',return_value=self.result):
+            output=pipeline.research_task(self.task,validation_context=initial,review_context_provider=review,now=NOW)
+        self.assertEqual(output['status'],'COMPLETE')
+        review.assert_called_once_with(self.result,[self.source])
+
+    def test_post_research_context_cannot_be_supplied_by_model(self):
+        result=dict(self.result,reviewContext={'approved':True})
+        with patch.object(pipeline,'discover_sources',return_value=([self.source],{})), patch.object(pipeline,'analyze_sources',return_value=result):
+            output=pipeline.research_task(self.task,validation_context=self.context,now=NOW)
+        self.assertEqual(output['status'],'REVIEW_REQUIRED')
+        self.assertEqual(output['error'],'RESEARCH_RESULT_SCHEMA_INVALID')
+
+    def test_missing_review_after_research_never_completes(self):
+        with patch.object(pipeline,'discover_sources',return_value=([self.source],{})), patch.object(pipeline,'analyze_sources',return_value=self.result):
+            output=pipeline.research_task(self.task,validation_context=self.context,review_context_provider=Mock(return_value=None),now=NOW)
+        self.assertEqual(output['status'],'REVIEW_REQUIRED')
+        self.assertEqual(output['error'],'PROTECTED_COMPLETION_CONTEXT_REQUIRED')
+
+    def test_unconfigured_worker_never_claims_legacy_queue(self):
+        with patch.object(worker.persistence,'claim_research_tasks') as claim, patch.object(worker.persistence,'update_research_task') as update, patch.object(worker,'research_task') as research:
+            self.assertFalse(worker.configured())
+            self.assertFalse(worker.schedule(apply_research=Mock()))
+            worker._run(apply_research=Mock())
+        claim.assert_not_called(); update.assert_not_called(); research.assert_not_called()
+
+    def run_handoff(self,context_provider=None,claims=None):
+        update=Mock()
+        handoff=worker.ResearchHandoff(Mock(side_effect=claims or [[self.task],[]]),context_provider or Mock(return_value=self.context),update)
+        original=pipeline.research_task
+        with patch.object(worker,'research_task',side_effect=lambda *a,**kw:original(*a,**kw,now=NOW)), patch.object(pipeline,'discover_sources',return_value=([self.source],{})), patch.object(pipeline,'analyze_sources',return_value=self.result), patch.object(worker.time,'sleep'), patch('builtins.print'):
+            worker._run(apply_research=lambda *a,**kw:self.app.apply_research_result(*a,**kw,now=NOW),handoff=handoff)
+        return handoff,update
+
+    def test_worker_pipeline_and_writer_exchange_actual_context_and_payload(self):
+        handoff,update=self.run_handoff()
+        self.assertEqual([call.args[1] for call in handoff.context.call_args_list],['BEFORE_RESEARCH','AFTER_RESEARCH','BEFORE_WRITEBACK'])
+        self.assertEqual(update.call_args.kwargs['status'],'COMPLETE')
+        self.assertEqual([r['drama_id'] for r in self.rows()],['record:1'])
+
+    def test_write_time_revocation_in_connected_path_prevents_complete(self):
+        def context(task,stage,outcome):
+            if stage=='BEFORE_WRITEBACK':
+                ledger=dict(self.context.field_approvals)
+                ledger['field-review:synthetic']=replace(ledger['field-review:synthetic'],revoked=True)
+                return replace(self.context,field_approvals=ledger)
+            return self.context
+        _,update=self.run_handoff(context)
+        self.assertEqual(update.call_args.kwargs['status'],'REVIEW_REQUIRED')
+        self.assertEqual(self.rows(),[])
+
+    def test_protected_context_failure_is_review_not_technical_retry(self):
+        context=Mock(side_effect=completion.IdentityReviewRequired('review unavailable'))
+        handoff,update=self.run_handoff(context)
+        self.assertEqual(update.call_args.kwargs['status'],'REVIEW_REQUIRED')
+        context.assert_called_once()
+        self.assertEqual(self.rows(),[])
+
+    def test_queue_drains_past_old_twenty_task_limit_with_idempotent_write(self):
+        handoff,update=self.run_handoff(claims=[[self.task] for _ in range(21)]+[[]])
+        self.assertEqual(update.call_count,21)
+        self.assertEqual(handoff.claim.call_count,22)
+        self.assertEqual(len(self.rows()),1)
+
+    def test_written_research_is_visible_through_actual_public_data_route(self):
+        with patch.object(self.app,'BASE_DATA',{'records':[self.record]}), patch.object(self.app,'public_data',self.actual_public_data):
+            self.run_handoff()
+            handler=object.__new__(self.app.Handler)
+            handler.path='/api/data'
+            handler.send_json=Mock()
+            handler.do_GET()
+            published=handler.send_json.call_args.args[0]['records']
+        self.assertEqual(len(published),1)
+        self.assertEqual(published[0]['id'],'record:1')
+        self.assertEqual(published[0]['synopsis'],self.result['synopsis'])
+        self.assertEqual(published[0]['researchStatus'],'已研究')
 
 
 if __name__ == '__main__':
