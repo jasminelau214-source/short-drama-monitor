@@ -95,6 +95,13 @@ STEP_C1_HEAD = "bdc05bcbc4c29568494969375c8029c24a54e3bf"
 STEP_C2_BASE = STEP_C1_HEAD
 STEP_C2_HEAD = "ed5b2e1e4a66c84480272e64e1ffad506a232f40"
 STEP_C3_BASE = STEP_C2_HEAD
+STEP_C3_HEAD = "d169a063118733ecb41c8cfeb57db6c2d2c9558f"
+STEP_C4_BASE = STEP_C3_HEAD
+STEP_C4_CHANGES = {
+    "research_execution_v2.py":"A", "test_research_execution_v2.py":"A",
+    "research_pipeline.py":"M", "research_safety.py":"M", "research_worker.py":"M",
+    "docs/INTEGRATION_STEP_C4.md":"A", "test_core_contract_v2.py":"M", "promotion_manifest_v2.json":"M",
+}
 STEP_C3_CHANGES = {
     "app.py": "M", "research_pipeline.py": "M", "research_worker.py": "M",
     "test_research_completion_v2.py": "M", "docs/INTEGRATION_STEP_C3.md": "A",
@@ -305,7 +312,14 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_C3_RESEARCH_HANDOFF_AND_INCIDENT_REVIEW", "stage")
+    require(manifest["stage"] == "STEP_C4_BOUNDED_PROVIDER_EXECUTION", "stage")
+    step_c4 = manifest["stepC4"]
+    require(step_c4["baseStepC3Sha"] == STEP_C4_BASE, "C4 base")
+    require(step_c4["allowedChanges"] == STEP_C4_CHANGES, "C4 changes")
+    require(step_c4["validationScope"] == "ISOLATED_REAL_WORKER_PIPELINE_LOCAL_JOURNAL_WITH_SYNTHETIC_PROVIDERS", "C4 scope")
+    for key in ("productionActionsAllowed", "productionDatabaseChangeAllowed", "deploymentAllowed", "schedulerChangeAllowed", "liveQueueExecutionAllowed", "externalProviderCallPerformed", "protectedLiveAdaptersImplemented", "fullStagingE2EPassed", "cloudDurabilityProven", "hardWallClockTimeoutProven"):
+        require(step_c4[key] is False, key)
+    require(set(step_c4["remainingWork"]) == {"protected-live-identity-review-account-and-queue-adapters", "cloud-atomic-reservation-and-completion", "whole-task-deadline-and-provider-outcome-reconciliation", "six-platform-truth-fault-and-publication-integration", "free-isolated-staging-e2e-three-windows-and-rollback", "separate-production-approval"}, "C4 gaps hidden")
     step_c3 = manifest["stepC3"]
     require(step_c3["baseStepC2Sha"] == STEP_C3_BASE, "Step C3 base")
     require(step_c3["allowedChanges"] == STEP_C3_CHANGES, "Step C3 changes")
@@ -561,8 +575,8 @@ class AdversarialStepATests(unittest.TestCase):
         changes = dict(zip(parts[1::2], parts[0::2]))
         for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
             changes[path] = "A"
-        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES) | set(STEP_B10_CHANGES) | set(STEP_C1_CHANGES) | set(STEP_C2_CHANGES) | set(STEP_C3_CHANGES)}
-        expected.update({path:"M" for path in ("app.py", "research_pipeline.py", "research_worker.py")})
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES) | set(STEP_B10_CHANGES) | set(STEP_C1_CHANGES) | set(STEP_C2_CHANGES) | set(STEP_C3_CHANGES) | set(STEP_C4_CHANGES)}
+        expected.update({path:"M" for path in ("app.py", "research_pipeline.py", "research_worker.py", "research_safety.py")})
         self.assertEqual(changes, expected)
 
     def test_b1_delta_and_unwired_boundary(self):
@@ -699,15 +713,25 @@ class AdversarialStepATests(unittest.TestCase):
             with self.assertRaises(ValueError): validate_manifest(changed)
 
     def test_c3_delta_and_no_unconfigured_queue_execution(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C3_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C3_BASE, STEP_C3_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            changes[path] = "A"
         self.assertEqual(changes, STEP_C3_CHANGES)
         for flag in ("productionActionsAllowed", "productionDatabaseChangeAllowed", "deploymentAllowed", "schedulerChangeAllowed", "liveQueueExecutionAllowed", "externalProviderCallAllowed", "protectedLiveAdaptersImplemented", "fullStagingE2EPassed", "legacyQueueDefaultClaimAllowed"):
             changed = copy.deepcopy(self.manifest)
             changed["stepC3"][flag] = True
+            with self.assertRaises(ValueError): validate_manifest(changed)
+
+    def test_c4_delta_and_no_automatic_cloud_activation(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C4_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_C4_CHANGES)
+        for flag in ("productionActionsAllowed", "productionDatabaseChangeAllowed", "deploymentAllowed", "schedulerChangeAllowed", "liveQueueExecutionAllowed", "externalProviderCallPerformed", "protectedLiveAdaptersImplemented", "fullStagingE2EPassed", "cloudDurabilityProven", "hardWallClockTimeoutProven"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepC4"][flag] = True
             with self.assertRaises(ValueError): validate_manifest(changed)
 
     def test_surface_guard_rejects_untracked_staged_and_committed_runtime(self):

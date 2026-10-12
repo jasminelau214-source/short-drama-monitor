@@ -3,15 +3,12 @@ from __future__ import annotations
 import json
 import os
 import re
-import time
-import urllib.error
 import urllib.parse
 import urllib.request
 
-from analysis_pipeline import _request as gemini_request, _response_text as gemini_response_text
+from analysis_pipeline import _response_text as gemini_response_text
 from research_safety import (
     build_search_query,
-    reserve_search_credit,
     safe_public_url,
     sanitize_untrusted_evidence,
     validate_search_identity,
@@ -22,6 +19,7 @@ from research_completion_v2 import (
 )
 from drama_identity_v2 import IdentityReviewRequired
 from datetime import datetime, timezone
+from research_execution_v2 import ResearchExecutionSession, ResearchExecutionStopped, V2_PLATFORMS
 
 TAVILY_SEARCH_URL = 'https://api.tavily.com/search'
 
@@ -32,44 +30,24 @@ PLATFORM_DOMAINS = {
     'DramaWave': ['mydramawave.com', 'dramawave.tech'],
 }
 
-def configured() -> bool:
-    return bool(os.environ.get('TAVILY_API_KEY', '').strip() and os.environ.get('GEMINI_API_KEY', '').strip())
+def configured(*, provider_session=None) -> bool:
+    return isinstance(provider_session, ResearchExecutionSession)
+
+
+def gemini_request(body, api_key):
+    # Retained as an injectable seam for offline compatibility tests only.
+    # Never use analysis_pipeline's four-attempt legacy client for V2 research.
+    raise IdentityReviewRequired('PROTECTED_V2_PROVIDER_SESSION_REQUIRED')
 
 
 def _json_post(url: str, body: dict, *, auth: str = '', timeout: int = 60) -> dict:
-    headers = {'Content-Type': 'application/json'}
-    if auth:
-        headers['Authorization'] = f'Bearer {auth}'
-    request = urllib.request.Request(
-        url,
-        data=json.dumps(body, ensure_ascii=False).encode('utf-8'),
-        headers=headers,
-        method='POST',
-    )
-    waits = [2, 5, 10]
-    for attempt in range(4):
-        try:
-            with urllib.request.urlopen(request, timeout=timeout) as response:
-                return json.loads(response.read().decode('utf-8'))
-        except urllib.error.HTTPError as exc:
-            detail = exc.read().decode('utf-8', errors='replace')[:2500]
-            if (exc.code == 429 or 500 <= exc.code <= 599) and attempt < 3:
-                time.sleep(waits[attempt])
-                continue
-            raise RuntimeError(f'TAVILY_HTTP_{exc.code}: {detail}') from exc
-        except urllib.error.URLError as exc:
-            if attempt < 3:
-                time.sleep(waits[attempt])
-                continue
-            raise RuntimeError(f'TAVILY_NETWORK_ERROR: {exc}') from exc
-    raise RuntimeError('TAVILY_REQUEST_FAILED')
+    raise IdentityReviewRequired('PROTECTED_V2_PROVIDER_SESSION_REQUIRED')
 
 
-def _search_once(query: str, *, include_domains: list[str] | None = None, max_results: int = 5) -> dict:
+def _search_once(query: str, *, include_domains: list[str] | None = None, max_results: int = 5, provider_session=None, call_id='search:1') -> dict:
     key = os.environ.get('TAVILY_API_KEY', '').strip()
-    if not key:
+    if provider_session is None and not key:
         raise RuntimeError('TAVILY_API_KEY_NOT_CONFIGURED')
-    reserve_search_credit()
     body = {
         'query': query,
         'topic': 'general',
@@ -81,6 +59,8 @@ def _search_once(query: str, *, include_domains: list[str] | None = None, max_re
     }
     if include_domains:
         body['include_domains'] = include_domains[:8]
+    if provider_session is not None:
+        return provider_session.call('SEARCH', call_id, body)
     return _json_post(TAVILY_SEARCH_URL, body, auth=key, timeout=75)
 
 
@@ -112,10 +92,12 @@ def _clean_result(item: dict, platform: str) -> dict:
     }
 
 
-def discover_sources(title: str, platform: str) -> tuple[list[dict], dict]:
+def discover_sources(title: str, platform: str, *, provider_session=None) -> tuple[list[dict], dict]:
     """Search only public title/platform terms. Never forward task context, URLs, tokens or internal notes to Tavily."""
-    title, platform = validate_search_identity(title, platform)
-    first = _search_once(build_search_query(title, platform), max_results=6)
+    allowed = V2_PLATFORMS if provider_session is not None else None
+    title, platform = validate_search_identity(title, platform, allowed_platforms=allowed)
+    first = _search_once(build_search_query(title, platform, allowed_platforms=allowed), max_results=6,
+                         provider_session=provider_session, call_id='search:1')
     results = [_clean_result(x, platform) for x in (first.get('results') or []) if isinstance(x, dict)]
     results = [x for x in results if x['url'] and x['content']]
 
@@ -128,7 +110,8 @@ def discover_sources(title: str, platform: str) -> tuple[list[dict], dict]:
     useful = [x for x in results if relevant(x)]
     searches = 1
     if not useful:
-        second = _search_once(build_search_query(title, platform, broad=True), max_results=6)
+        second = _search_once(build_search_query(title, platform, broad=True, allowed_platforms=allowed), max_results=6,
+                              provider_session=provider_session, call_id='search:2')
         searches += 1
         seen = {x['url'] for x in results}
         for raw in second.get('results') or []:
@@ -167,11 +150,12 @@ def _safe_context(task: dict) -> dict:
     return safe
 
 
-def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
+def analyze_sources(*, task: dict, sources: list[dict], provider_session=None) -> dict:
     api_key = os.environ.get('GEMINI_API_KEY', '').strip()
-    if not api_key:
+    if provider_session is None and not api_key:
         raise RuntimeError('GEMINI_API_KEY_NOT_CONFIGURED')
-    title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''))
+    title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''),
+        allowed_platforms=V2_PLATFORMS if provider_session is not None else None)
     context = _safe_context(task)
     source_blocks = []
     for idx, src in enumerate(sources, 1):
@@ -219,7 +203,8 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
             'responseJsonSchema': _schema(),
         },
     }
-    payload = gemini_request(body, api_key)
+    payload = (provider_session.call('ANALYZE', 'analyze:1', body) if provider_session is not None
+               else gemini_request(body, api_key))
     text = gemini_response_text(payload)
     result = parse_research_response(text)
     # Preserve the actual model claim. The shared gate rejects missing,
@@ -227,15 +212,32 @@ def analyze_sources(*, task: dict, sources: list[dict]) -> dict:
     return result
 
 
-def research_task(task: dict, *, validation_context=None, review_context_provider=None, now=None) -> dict:
+def research_task(task: dict, *, validation_context=None, review_context_provider=None, now=None, provider_session=None) -> dict:
+    try:
+        if provider_session is not None and (not isinstance(provider_session, ResearchExecutionSession)
+                or provider_session.task_id != str(task.get('id') or '')):
+            raise IdentityReviewRequired('EXECUTION_SESSION_TASK_MISMATCH')
+        return _research_task(task, validation_context=validation_context,
+            review_context_provider=review_context_provider, now=now, provider_session=provider_session)
+    except ResearchExecutionStopped as exc:
+        return {'status':exc.status,'research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':{}}
+    except IdentityReviewRequired as exc:
+        return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
+                'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':{}}
+
+
+def _research_task(task: dict, *, validation_context=None, review_context_provider=None, now=None, provider_session=None) -> dict:
     decision_time = lambda: now if now is not None else datetime.now(timezone.utc)
     try:
         validate_completion_context(task, validation_context, now=decision_time())
     except (IdentityReviewRequired,ValueError,TypeError,KeyError,StopIteration) as exc:
         return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
                 'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':{}}
-    title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''))
-    sources, search_meta = discover_sources(title, platform)
+    title, platform = validate_search_identity(str(task.get('title') or ''), str(task.get('platform') or ''),
+        allowed_platforms=V2_PLATFORMS if provider_session is not None else None)
+    session_kw = {'provider_session':provider_session} if provider_session is not None else {}
+    sources, search_meta = discover_sources(title, platform, **session_kw)
     if not sources:
         return {
             'status': 'NEEDS_GPT',
@@ -250,7 +252,7 @@ def research_task(task: dict, *, validation_context=None, review_context_provide
         return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
                 'missingFields':list(CORE_FIELDS),'error':'RESEARCH_SOURCE_SANITIZATION_REQUIRES_REVIEW','searchMeta':search_meta}
     try:
-        result = analyze_sources(task=task, sources=sources)
+        result = analyze_sources(task=task, sources=sources, **session_kw)
     except IdentityReviewRequired as exc:
         return {'status':'REVIEW_REQUIRED','research':{},'sources':[], 'confidence':'low',
                 'missingFields':list(CORE_FIELDS),'error':str(exc),'searchMeta':search_meta}

@@ -60,10 +60,10 @@ def _contains_sensitive(value: str) -> bool:
     return any(p.search(value or '') for p in SENSITIVE_TEXT_PATTERNS)
 
 
-def validate_search_identity(title: str, platform: str) -> tuple[str, str]:
+def validate_search_identity(title: str, platform: str, *, allowed_platforms=None) -> tuple[str, str]:
     title = str(title or '').strip()
     platform = str(platform or '').strip()
-    if platform not in ALLOWED_PLATFORMS:
+    if platform not in (ALLOWED_PLATFORMS if allowed_platforms is None else allowed_platforms):
         raise RuntimeError('RESEARCH_PLATFORM_NOT_ALLOWED')
     if not title or len(title) > 240:
         raise RuntimeError('RESEARCH_TITLE_INVALID')
@@ -131,8 +131,8 @@ def sanitize_untrusted_evidence(text: str, *, max_chars: int = 12000) -> tuple[s
     return value, notes
 
 
-def build_search_query(title: str, platform: str, *, broad: bool = False) -> str:
-    title, platform = validate_search_identity(title, platform)
+def build_search_query(title: str, platform: str, *, broad: bool = False, allowed_platforms=None) -> str:
+    title, platform = validate_search_identity(title, platform, allowed_platforms=allowed_platforms)
     if broad:
         return f'"{title}" short drama'
     return f'"{title}" {platform} short drama synopsis episodes'

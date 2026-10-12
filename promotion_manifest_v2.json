@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C3_RESEARCH_HANDOFF_AND_INCIDENT_REVIEW",
+  "stage": "STEP_C4_BOUNDED_PROVIDER_EXECUTION",
   "generatedAt": "2026-10-12",
   "base": {
     "branch": "main",
@@ -573,6 +573,38 @@
       "cross-stage-and-durable-quota-resume-adapters",
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepC4": {
+    "baseStepC3Sha": "d169a063118733ecb41c8cfeb57db6c2d2c9558f",
+    "allowedChanges": {
+      "research_execution_v2.py": "A",
+      "test_research_execution_v2.py": "A",
+      "research_pipeline.py": "M",
+      "research_safety.py": "M",
+      "research_worker.py": "M",
+      "docs/INTEGRATION_STEP_C4.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "validationScope": "ISOLATED_REAL_WORKER_PIPELINE_LOCAL_JOURNAL_WITH_SYNTHETIC_PROVIDERS",
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "deploymentAllowed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallPerformed": false,
+    "protectedLiveAdaptersImplemented": false,
+    "fullStagingE2EPassed": false,
+    "cloudDurabilityProven": false,
+    "hardWallClockTimeoutProven": false,
+    "remainingWork": [
+      "protected-live-identity-review-account-and-queue-adapters",
+      "cloud-atomic-reservation-and-completion",
+      "whole-task-deadline-and-provider-outcome-reconciliation",
+      "six-platform-truth-fault-and-publication-integration",
+      "free-isolated-staging-e2e-three-windows-and-rollback",
+      "separate-production-approval"
     ]
   },
   "stepC3": {
