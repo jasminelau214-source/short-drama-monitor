@@ -1,0 +1,64 @@
+{
+  "collectionDate": "2026-10-13",
+  "sourceType": "OFFICIAL_WEB",
+  "locale": "en-US",
+  "region": "US",
+  "expected": 6,
+  "accepted": 6,
+  "coverage": "6/6",
+  "acceptedPlatforms": [
+    {
+      "platform": "DramaBox",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_VERIFIED",
+      "sha256": "a93dff3eb6e3275777a6ed15b1d07313e0564f262c06f847f8cd2f76956d6bb0",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    },
+    {
+      "platform": "FlexTV",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_CANDIDATE",
+      "sha256": "8463055fbf3f26fcdbf55cfcd6fccbb7848667dd456774f218ec5f8a489435df",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    },
+    {
+      "platform": "GoodShort",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_VERIFIED",
+      "sha256": "3fbe019b70281f59b7227402c4d9bf971d0ed935e89c07fe5002ca4120286d07",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    },
+    {
+      "platform": "MoboReels",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_CANDIDATE",
+      "sha256": "f999d73fd3a718f6302be533da5cc9d525707723a6a36150ffbc3efb0a05276e",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    },
+    {
+      "platform": "NetShort",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_CANDIDATE",
+      "sha256": "956ddd233f0f39c017a75893c76e95ae6b4f2943898185dee3ec32fe2b31843e",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    },
+    {
+      "platform": "ReelShort",
+      "sourceDate": "2026-10-13",
+      "rows": 10,
+      "collectorStatus": "PASS_CANDIDATE",
+      "sha256": "cd945b88cdf7f7d184f38e585a3a3bb0a032dda5d00fbdecadfd084460e9e710",
+      "state": "ISOLATED_OBSERVATION_ONLY"
+    }
+  ],
+  "missingOrRejected": [],
+  "productionWrite": false,
+  "researchTriggered": false,
+  "promotionState": "BLOCK_PROMOTION",
+  "provenance": "legacy verified collector paths reused minimally from pilot; not current truth/fault certified"
+}

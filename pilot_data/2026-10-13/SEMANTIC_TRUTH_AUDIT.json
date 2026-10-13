@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-13",
+  "scope": "FOUR_CANDIDATE_OFFICIAL_WEB_SURFACES",
+  "matched": 3,
+  "expected": 4,
+  "classification": "WEB_SHELF_ORDER_ONLY_NOT_APP_TRUTH",
+  "independentTruthGate": "NOT_PASSED",
+  "faultGate": "NOT_PASSED",
+  "productionPromotion": "BLOCK_PROMOTION",
+  "productionWrite": false,
+  "researchAutoTrigger": false,
+  "platforms": {
+    "FlexTV": {
+      "platform": "FlexTV",
+      "status": "SEMANTIC_WITNESS_MISSING",
+      "errors": [
+        "FileNotFoundError"
+      ]
+    },
+    "MoboReels": {
+      "platform": "MoboReels",
+      "collectionDate": "2026-10-13",
+      "sourceType": "OFFICIAL_WEB",
+      "rankOrigin": "DISPLAY_ORDER_ONLY",
+      "semanticTarget": "Popular Series",
+      "htmlSha256": "d6b60b03ba0dddf639edc3f90b760fd30a749304c847ee352bfc8bc2f9452bf6",
+      "screenshotSha256": "bc377984fb9cc3b033479965b53c4da6523e63a70014512c260a0fc7a1fb3096",
+      "witness": {
+        "sectionHeading": "Popular Series",
+        "visibleCards": 24,
+        "explicitNumericRanks": false
+      },
+      "errors": [],
+      "status": "WEB_SHELF_ORDER_EVIDENCE_MATCHED",
+      "businessLimit": "Official Web shelf display order, NOT an explicit numeric popularity ranking"
+    },
+    "NetShort": {
+      "platform": "NetShort",
+      "collectionDate": "2026-10-13",
+      "sourceType": "OFFICIAL_WEB",
+      "rankOrigin": "JSON_LD_POSITION",
+      "semanticTarget": "Trending Now",
+      "htmlSha256": "d368cb006ef813ba07ecee9e8e9191db45a6d3866eeaf94130a4a6478fbb832f",
+      "screenshotSha256": "059c9ba127121c99f64054949bb425139b204652e6684f3726ed79f8a9d47c00",
+      "witness": {
+        "itemListName": "Trending Now",
+        "explicitPositions": true,
+        "visibleSectionAnchors": 48
+      },
+      "errors": [],
+      "status": "WEB_SHELF_ORDER_EVIDENCE_MATCHED",
+      "businessLimit": "Official Web item-list positions; independent Truth/Fault Gates NOT passed"
+    },
+    "ReelShort": {
+      "platform": "ReelShort",
+      "collectionDate": "2026-10-13",
+      "sourceType": "OFFICIAL_WEB",
+      "rankOrigin": "DISPLAY_ORDER_ONLY",
+      "semanticTarget": "TOP",
+      "htmlSha256": "dbcc535e1cfe9e1a2fe6269f48c32d7fa880cd9e786416196ad839d2ce3ef2b3",
+      "screenshotSha256": "1c2e1efccdc863435c6a5127b2161a8c44e708645a34b67f2459e5aa4a8d27ac",
+      "witness": {
+        "shelfId": "51001122",
+        "shelfName": "TOP",
+        "page": 1,
+        "total": 200,
+        "domAnchorsMatched": 10
+      },
+      "errors": [],
+      "status": "WEB_SHELF_ORDER_EVIDENCE_MATCHED",
+      "businessLimit": "Official Web shelf display order, NOT an explicit numeric popularity ranking"
+    }
+  }
+}
