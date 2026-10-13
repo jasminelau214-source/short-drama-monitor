@@ -4,6 +4,7 @@ The journal is durable on an explicitly selected local disk. Cloud queue/CAS,
 protected approval loaders and deployment are separate integration work.
 """
 from contextlib import contextmanager
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from datetime import datetime, timezone
 import hashlib
@@ -127,7 +128,21 @@ class AdaptiveCallLimiter:
             self._condition.notify_all()
 
 
-class CandidateCallJournal:
+class ResearchCallJournal(ABC):
+    """Trusted code adapter contract; request/model JSON cannot implement it."""
+    @abstractmethod
+    def inspect(self, task_id, call_id): pass
+    @abstractmethod
+    def start(self, task_id, call_id, stage, binding, now): pass
+    @abstractmethod
+    def finish(self, task_id, call_id, owner, *, elapsed, kind, now, response=None, delay=0): pass
+    @abstractmethod
+    def charge_wait(self, task_id, seconds): pass
+    @abstractmethod
+    def resume(self, task_id, call_id, binding): pass
+
+
+class CandidateCallJournal(ResearchCallJournal):
     """Candidate local disk journal with exclusive per-task dispatch and replay.
 
     Reopening an INFLIGHT record never reissues an ambiguous external request.
@@ -272,7 +287,7 @@ class HttpsJsonTransport:
 class ResearchExecutionSession:
     def __init__(self, *, task_id, journal, authorize, credentials, model, limiter,
                  transport=None, now=None, monotonic=None, sleep=None):
-        if (not isinstance(task_id, str) or not task_id.strip() or not isinstance(journal, CandidateCallJournal)
+        if (not isinstance(task_id, str) or not task_id.strip() or not isinstance(journal, ResearchCallJournal)
                 or not callable(authorize) or not isinstance(limiter, AdaptiveCallLimiter)
                 or not isinstance(model, str) or not re.fullmatch('gemini-[a-z0-9.-]+', model)):
             raise IdentityReviewRequired('EXPLICIT_CANDIDATE_EXECUTION_SESSION_REQUIRED')

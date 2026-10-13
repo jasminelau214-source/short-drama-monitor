@@ -1,7 +1,7 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C4_BOUNDED_PROVIDER_EXECUTION",
-  "generatedAt": "2026-10-12",
+  "stage": "STEP_C5_SUPABASE_CALL_JOURNAL_PREPARATION",
+  "generatedAt": "2026-10-13",
   "base": {
     "branch": "main",
     "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
@@ -61,7 +61,7 @@
     },
     {
       "name": "persistence-migration",
-      "status": "NOT_STARTED"
+      "status": "ISOLATED_STAGING_CALL_JOURNAL_MIGRATION_PREPARED"
     },
     {
       "name": "scheduler-runtime",
@@ -573,6 +573,41 @@
       "cross-stage-and-durable-quota-resume-adapters",
       "incident-replays-and-full-staging-e2e",
       "truth-fault-identity-writeback-and-stability-gates"
+    ]
+  },
+  "stepC5": {
+    "baseStepC4Sha": "b78ba2a33f65ab4444b2c1a93cb9688b4eb6abce",
+    "allowedChanges": {
+      "research_execution_v2.py": "M",
+      "supabase_journal_v2.py": "A",
+      "supabase/migrations/20261013060354_v2_isolated_call_journal.sql": "A",
+      "test_supabase_journal_v2.py": "A",
+      "test_postgres_supabase_journal_v2.py": "A",
+      "docs/INTEGRATION_STEP_C5.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "validationScope": "REAL_POSTGRES_MIGRATION_AND_RPC_ADAPTER_WITH_SYNTHETIC_AUTH_AND_PROVIDERS",
+    "approvedStagingCostCeilingUsd": 0,
+    "cloudTargetRequiresSeparateNonproductionProject": true,
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "deploymentPerformed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallPerformed": false,
+    "cloudMigrationPerformed": false,
+    "liveAuthPostgrestParityProven": false,
+    "fullStagingE2EPassed": false,
+    "atomicResearchCompleteImplemented": false,
+    "remainingWork": [
+      "verified-free-staging-project-and-protected-worker-setup",
+      "live-auth-postgrest-and-capacity-verification",
+      "protected-identity-ranking-field-and-account-ledgers",
+      "global-queue-atomic-completion-publication-and-scheduler",
+      "whole-task-deadline-and-provider-reconciliation",
+      "six-platform-truth-fault-staging-e2e-rollback-and-three-windows",
+      "separate-production-approval"
     ]
   },
   "stepC4": {
