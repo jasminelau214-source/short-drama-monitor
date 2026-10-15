@@ -23,6 +23,7 @@ BIN_DIR=None
 ADVISOR_OUTPUT=None
 ROOT=Path(__file__).resolve().parent
 MIGRATION=ROOT/'supabase'/'migrations'/'20261013060354_v2_isolated_call_journal.sql'
+HELPER_MIGRATION=ROOT/'supabase'/'migrations'/'20261014100219_v2_staging_default_helper_permissions.sql'
 WORKER='33333333-3333-4333-8333-333333333333'
 OTHER='44444444-4444-4444-8444-444444444444'
 
@@ -236,6 +237,46 @@ class PostgresSupabaseJournalTests(unittest.TestCase):
                         dict(task_id='',call_id='c',stage='SEARCH',binding='a'*64)):
             self.assertFalse(self.rpc('start',payload)['ok'])
         self.assertEqual(self.pg.sql('SELECT count(*) FROM jsm_v2_runtime.calls;'),'0')
+
+    def test_platform_helper_permissions_closed_without_disabling_automatic_rls(self):
+        self.pg.sql('''CREATE FUNCTION public.rls_auto_enable() RETURNS event_trigger
+          LANGUAGE plpgsql SECURITY DEFINER SET search_path=pg_catalog AS $$
+          DECLARE cmd record;
+          BEGIN
+            FOR cmd IN SELECT * FROM pg_event_trigger_ddl_commands() LOOP
+              IF cmd.schema_name='public' AND cmd.object_type='table' THEN
+                EXECUTE format('ALTER TABLE %s ENABLE ROW LEVEL SECURITY',cmd.object_identity);
+              END IF;
+            END LOOP;
+          END $$;
+          GRANT EXECUTE ON FUNCTION public.rls_auto_enable() TO anon,authenticated,service_role;
+          CREATE EVENT TRIGGER ensure_rls ON ddl_command_end WHEN TAG IN ('CREATE TABLE')
+            EXECUTE FUNCTION public.rls_auto_enable();''')
+        try:
+            before=self.pg.sql("SELECT pg_get_functiondef('public.rls_auto_enable()'::regprocedure);")
+            self.pg.sql(HELPER_MIGRATION.read_text(encoding='utf-8'))
+            self.assertEqual(self.pg.sql("SELECT pg_get_functiondef('public.rls_auto_enable()'::regprocedure);"),before)
+            for role in ('anon','authenticated','service_role'):
+                self.assertEqual(self.pg.sql("SELECT has_function_privilege('"+role+"','public.rls_auto_enable()','execute');"),'f')
+            self.pg.sql('CREATE TABLE public.c6_rls_probe(id integer);')
+            self.assertEqual(self.pg.sql("SELECT relrowsecurity FROM pg_class WHERE oid='public.c6_rls_probe'::regclass;"),'t')
+        finally:
+            self.pg.sql('DROP EVENT TRIGGER ensure_rls; DROP FUNCTION public.rls_auto_enable(); DROP TABLE IF EXISTS public.c6_rls_probe;')
+
+    def test_helper_migration_refuses_missing_marker_and_nonplatform_helper(self):
+        self.pg.sql('DELETE FROM jsm_v2_runtime.meta;')
+        try:
+            result=self.pg.sql(HELPER_MIGRATION.read_text(encoding='utf-8'),check=False)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('JSM_V2_STAGING_MARKER_REQUIRED',result.stderr)
+        finally:self.pg.sql("INSERT INTO jsm_v2_runtime.meta VALUES (true,'JSM_V2_ISOLATED_STAGING_V1',"+literal(self.instance)+"::uuid);")
+        self.pg.sql("CREATE FUNCTION public.rls_auto_enable() RETURNS integer LANGUAGE sql AS $$ SELECT 1 $$;")
+        try:
+            result=self.pg.sql(HELPER_MIGRATION.read_text(encoding='utf-8'),check=False)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn('JSM_V2_UNEXPECTED_PLATFORM_HELPER',result.stderr)
+            self.assertEqual(self.pg.sql("SELECT has_function_privilege('anon','public.rls_auto_enable()','execute');"),'t')
+        finally:self.pg.sql('DROP FUNCTION public.rls_auto_enable();')
 
     @classmethod
     def run_advisors(cls):

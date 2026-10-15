@@ -1,7 +1,7 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C5_SUPABASE_CALL_JOURNAL_PREPARATION",
-  "generatedAt": "2026-10-13",
+  "stage": "STEP_C6_LIVE_STAGING_JOURNAL_VERIFICATION",
+  "generatedAt": "2026-10-15",
   "base": {
     "branch": "main",
     "sha": "a206bc9c21138a9559aecf5a7a34069167268cfc"
@@ -61,7 +61,7 @@
     },
     {
       "name": "persistence-migration",
-      "status": "ISOLATED_STAGING_CALL_JOURNAL_MIGRATION_PREPARED"
+      "status": "LIVE_STAGING_CALL_JOURNAL_VERIFIED"
     },
     {
       "name": "scheduler-runtime",
@@ -671,5 +671,45 @@
     "protectedLiveAdaptersImplemented": false,
     "fullStagingE2EPassed": false,
     "legacyQueueDefaultClaimAllowed": false
+  },
+  "stepC6": {
+    "baseStepC5Sha": "6df41fd64e0d6e8b1a3edb0a98b534a0b1c21f98",
+    "allowedChanges": {
+      "supabase/migrations/20261014100219_v2_staging_default_helper_permissions.sql": "A",
+      "tools/staging/auth_probe.mjs": "A",
+      "tools/staging/auth_probe.test.mjs": "A",
+      "tools/staging/journal_cloud_probe.py": "A",
+      "test_postgres_supabase_journal_v2.py": "M",
+      "docs/INTEGRATION_STEP_C6.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "validationScope": "LIVE_STAGING_AUTH_POSTGREST_JOURNAL_ONLY",
+    "projectRef": "adxlwjpqifejdcfozpuo",
+    "instanceId": "6ccc4bc4-b802-4f89-9e3a-af6af0658d9f",
+    "region": "ap-northeast-1",
+    "plan": "free",
+    "approvedStagingCostCeilingUsd": 0,
+    "cloudMigrationPerformed": true,
+    "liveAuthPostgrestJournalVerified": true,
+    "temporaryAuthProbeDisabled": true,
+    "temporaryAuthUsersRemoved": true,
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "renderDeploymentPerformed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallPerformed": false,
+    "fullStagingE2EPassed": false,
+    "atomicResearchCompleteImplemented": false,
+    "wholeTaskDeadlineProven": false,
+    "remainingWork": [
+      "protected-identity-ranking-field-and-account-ledgers",
+      "global-queue-atomic-completion-publication-and-scheduler",
+      "whole-task-deadline-and-provider-reconciliation",
+      "render-restart-and-real-provider-frontend-integration",
+      "six-platform-truth-fault-staging-e2e-rollback-and-three-windows",
+      "separate-production-approval"
+    ]
   }
 }
