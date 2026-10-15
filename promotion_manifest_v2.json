@@ -1,6 +1,6 @@
 {
   "manifestVersion": 2,
-  "stage": "STEP_C6_LIVE_STAGING_JOURNAL_VERIFICATION",
+  "stage": "STEP_C7_LOCAL_PROTECTED_SUBJECT_QUEUE",
   "generatedAt": "2026-10-15",
   "base": {
     "branch": "main",
@@ -710,6 +710,42 @@
       "render-restart-and-real-provider-frontend-integration",
       "six-platform-truth-fault-staging-e2e-rollback-and-three-windows",
       "separate-production-approval"
+    ]
+  },
+  "stepC7": {
+    "baseStepC6Sha": "e3314fdaf99334a0b8daa0c0cc7c555e516b06e8",
+    "allowedChanges": {
+      "protected_context_codec_v2.py": "A",
+      "supabase_subjects_v2.py": "A",
+      "supabase/migrations/20261015054817_v2_isolated_subject_queue.sql": "A",
+      "supabase_journal_v2.py": "M",
+      "test_supabase_subjects_v2.py": "A",
+      "test_postgres_subjects_v2.py": "A",
+      "docs/INTEGRATION_STEP_C7.md": "A",
+      "test_core_contract_v2.py": "M",
+      "promotion_manifest_v2.json": "M"
+    },
+    "validationScope": "REAL_LOCAL_POSTGRES_PROTECTED_SUBJECT_QUEUE_AND_ATOMIC_PUBLICATION",
+    "candidateQueueImplemented": true,
+    "candidateAtomicPublicationImplemented": true,
+    "productionActionsAllowed": false,
+    "productionDatabaseChangeAllowed": false,
+    "cloudMigrationPerformed": false,
+    "renderDeploymentPerformed": false,
+    "schedulerChangeAllowed": false,
+    "liveQueueExecutionAllowed": false,
+    "externalProviderCallPerformed": false,
+    "protectedLiveLedgersImplemented": false,
+    "automaticQuotaResumeImplemented": false,
+    "hardWholeTaskTimeoutProven": false,
+    "fullStagingE2EPassed": false,
+    "approvedStagingCostCeilingUsd": 0,
+    "remainingWork": [
+      "protected-live-ledger-ingestion-and-review",
+      "quota-resume-and-unknown-outcome-reconciliation",
+      "free-provider-runtime-and-render-isolation",
+      "api-frontend-publication-reader",
+      "staging-e2e-formal-windows-and-production-approval"
     ]
   }
 }

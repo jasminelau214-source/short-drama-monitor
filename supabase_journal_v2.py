@@ -46,9 +46,13 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
 
 
 class SupabaseRpcTransport:
+    rpc_name = 'jsm_v2_journal'
+
     def post(self, config, operation, payload):
         _config(config)
-        url = f'https://{config.project_ref}.supabase.co/rest/v1/rpc/jsm_v2_journal'
+        if self.rpc_name not in {'jsm_v2_journal','jsm_v2_subjects'}:
+            raise IdentityReviewRequired('FIXED_STAGING_RPC_REQUIRED')
+        url = f'https://{config.project_ref}.supabase.co/rest/v1/rpc/{self.rpc_name}'
         raw = _json({'p_operation':operation,'p_payload':payload}).encode()
         if len(raw) > 9*1024*1024:
             raise ResearchExecutionStopped('REVIEW_REQUIRED','SUPABASE_REQUEST_TOO_LARGE')

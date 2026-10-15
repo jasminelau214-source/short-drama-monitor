@@ -143,6 +143,19 @@ STEP_B10_CHANGES = {
     "test_core_contract_v2.py": "M",
     "promotion_manifest_v2.json": "M",
 }
+STEP_C6_HEAD = "e3314fdaf99334a0b8daa0c0cc7c555e516b06e8"
+STEP_C7_BASE = STEP_C6_HEAD
+STEP_C7_CHANGES = {
+    "protected_context_codec_v2.py": "A",
+    "supabase_subjects_v2.py": "A",
+    "supabase/migrations/20261015054817_v2_isolated_subject_queue.sql": "A",
+    "supabase_journal_v2.py": "M",
+    "test_supabase_subjects_v2.py": "A",
+    "test_postgres_subjects_v2.py": "A",
+    "docs/INTEGRATION_STEP_C7.md": "A",
+    "test_core_contract_v2.py": "M",
+    "promotion_manifest_v2.json": "M"
+}
 GATES = {
     "execution", "structure", "truth", "semantic", "fault", "identity",
     "stability", "path_optimization", "e2e", "integration",
@@ -328,7 +341,15 @@ def validate_contract(contract):
 
 def validate_manifest(manifest):
     require(type(manifest["manifestVersion"]) is int and manifest["manifestVersion"] == 2, "manifest version")
-    require(manifest["stage"] == "STEP_C6_LIVE_STAGING_JOURNAL_VERIFICATION", "stage")
+    require(manifest["stage"] == "STEP_C7_LOCAL_PROTECTED_SUBJECT_QUEUE", "stage")
+    c7 = manifest["stepC7"]
+    require(c7["baseStepC6Sha"] == STEP_C7_BASE and c7["allowedChanges"] == STEP_C7_CHANGES, "C7 scope")
+    require(c7["validationScope"] == "REAL_LOCAL_POSTGRES_PROTECTED_SUBJECT_QUEUE_AND_ATOMIC_PUBLICATION", "C7 evidence scope")
+    require(c7["candidateQueueImplemented"] is True and c7["candidateAtomicPublicationImplemented"] is True, "C7 candidate implementation")
+    for flag in ("productionActionsAllowed","productionDatabaseChangeAllowed","cloudMigrationPerformed","renderDeploymentPerformed","schedulerChangeAllowed","liveQueueExecutionAllowed","externalProviderCallPerformed","protectedLiveLedgersImplemented","automaticQuotaResumeImplemented","hardWholeTaskTimeoutProven","fullStagingE2EPassed"):
+        require(c7[flag] is False, flag)
+    require(type(c7["approvedStagingCostCeilingUsd"]) is int and c7["approvedStagingCostCeilingUsd"] == 0, "C7 cost")
+    require(set(c7["remainingWork"]) == {"protected-live-ledger-ingestion-and-review","quota-resume-and-unknown-outcome-reconciliation","free-provider-runtime-and-render-isolation","api-frontend-publication-reader","staging-e2e-formal-windows-and-production-approval"}, "C7 gaps")
     step_c6 = manifest["stepC6"]
     require(step_c6["baseStepC5Sha"] == STEP_C6_BASE, "C6 base")
     require(step_c6["allowedChanges"] == STEP_C6_CHANGES, "C6 changes")
@@ -612,7 +633,7 @@ class AdversarialStepATests(unittest.TestCase):
         changes = dict(zip(parts[1::2], parts[0::2]))
         for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
             changes[path] = "A"
-        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES) | set(STEP_B10_CHANGES) | set(STEP_C1_CHANGES) | set(STEP_C2_CHANGES) | set(STEP_C3_CHANGES) | set(STEP_C4_CHANGES) | set(STEP_C5_CHANGES) | set(STEP_C6_CHANGES)}
+        expected = {path: "A" for path in ALLOWED_PATHS | set(STEP_B1_CHANGES) | set(STEP_B2_CHANGES) | set(STEP_B3_CHANGES) | set(STEP_B4_CHANGES) | set(STEP_B5_CHANGES) | set(STEP_B6_CHANGES) | set(STEP_B7_CHANGES) | set(STEP_B8_CHANGES) | set(STEP_B9_CHANGES) | set(STEP_B10_CHANGES) | set(STEP_C1_CHANGES) | set(STEP_C2_CHANGES) | set(STEP_C3_CHANGES) | set(STEP_C4_CHANGES) | set(STEP_C5_CHANGES) | set(STEP_C6_CHANGES) | set(STEP_C7_CHANGES)}
         expected.update({path:"M" for path in ("app.py", "research_pipeline.py", "research_worker.py", "research_safety.py")})
         self.assertEqual(changes, expected)
 
@@ -780,15 +801,26 @@ class AdversarialStepATests(unittest.TestCase):
             with self.assertRaises(ValueError): validate_manifest(changed)
 
     def test_c6_delta_live_journal_does_not_claim_complete_v2_or_production(self):
-        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C6_BASE, "--")
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C6_BASE, STEP_C6_HEAD, "--")
         parts = raw.rstrip("\0").split("\0") if raw else []
         changes = dict(zip(parts[1::2], parts[0::2]))
-        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
-            changes[path] = "A"
         self.assertEqual(changes, STEP_C6_CHANGES)
         for flag in ("productionActionsAllowed", "productionDatabaseChangeAllowed", "renderDeploymentPerformed", "schedulerChangeAllowed", "liveQueueExecutionAllowed", "externalProviderCallPerformed", "fullStagingE2EPassed", "atomicResearchCompleteImplemented", "wholeTaskDeadlineProven"):
             changed = copy.deepcopy(self.manifest)
             changed["stepC6"][flag] = True
+            with self.assertRaises(ValueError): validate_manifest(changed)
+
+
+    def test_c7_delta_keeps_live_execution_and_production_blocked(self):
+        raw = git(ROOT, "diff", "--no-ext-diff", "--no-renames", "--name-status", "-z", STEP_C7_BASE, "--")
+        parts = raw.rstrip("\0").split("\0") if raw else []
+        changes = dict(zip(parts[1::2], parts[0::2]))
+        for path in filter(None, git(ROOT, "ls-files", "--others", "--exclude-standard", "-z").split("\0")):
+            changes[path] = "A"
+        self.assertEqual(changes, STEP_C7_CHANGES)
+        for flag in ("productionActionsAllowed","cloudMigrationPerformed","renderDeploymentPerformed","liveQueueExecutionAllowed","fullStagingE2EPassed","hardWholeTaskTimeoutProven"):
+            changed = copy.deepcopy(self.manifest)
+            changed["stepC7"][flag] = True
             with self.assertRaises(ValueError): validate_manifest(changed)
 
     def test_surface_guard_rejects_untracked_staged_and_committed_runtime(self):
